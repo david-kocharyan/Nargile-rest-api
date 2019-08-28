@@ -122,12 +122,43 @@ class Users_API extends REST_Controller
 				"password" => $password,
 				"reference_code" => $reference_code,
 			);
-			$this->User->register($data);
+
+			$auth_id = $this->User->register($data);
+
+			$token = $this->generateToken();
+			$data['refresh_token'] = $this->generateToken();
 			$status = self::HTTP_OK;
+
+			$user_data = array(
+				"user" => array(
+					"first_name" => $first_name,
+					"last_name" => $last_name,
+					"date_of_birth" => $date_of_birth,
+					"mobile_number" => $mobile_number,
+					"email" => $email,
+					"reference_code" => $reference_code == null ? "" : $reference_code,
+				),
+				"tokens" => array(
+					"token" => $token,
+					"refresh_token" => $data['refresh_token']
+				),
+			);
+
+			$data = array(
+				"token" => $token,
+				"time" => time() + 86400,
+				"user_id" => $auth_id,
+				'refresh_token' => $data['refresh_token']
+			);
+
+			$this->db->insert('tokens', $data);
+			unset($data['user_id']);
+			unset($data['time']);
+
 			$response = array(
-				'success' => true,
-				'data' => array(),
-				'msg' => '',
+				"msg" => '',
+				"data" => $user_data,
+				"success" => true
 			);
 			$this->response($response, $status);
 		}
@@ -181,16 +212,49 @@ class Users_API extends REST_Controller
 				"user_id" => $auth->id,
 				'refresh_token' => $data['refresh_token']
 			);
+
+			$user_data = array(
+				"user" => array(
+					"first_name" => $auth->first_name,
+					"last_name" => $auth->last_name,
+					"date_of_birth" => $auth->date_of_birth,
+					"mobile_number" => $auth->mobile_number,
+					"email" => $auth->email,
+					"reference_code" => $auth->reference_code == null ? "" : $auth->reference_code,
+				),
+				"tokens" => array(
+					"token" => $token,
+					"refresh_token" => $data['refresh_token']
+				),
+			);
+
 			$this->db->insert('tokens', $data);
 			unset($data['user_id']);
 			unset($data['time']);
 			$response = array(
 				"msg" => '',
-				"data" => $data,
+				"data" => $user_data,
 				"success" => true
 			);
 			$this->response($response, $status);
 		}
+	}
+
+	public function f_post()
+	{
+		$res = $this->verify_get_request();
+		if (gettype($res) != 'string') {
+			$data = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => $res['msg']
+			);
+			$this->response($data, $res['status']);
+			return;
+		} else {
+			$this->response($res);
+		}
+
 	}
 
 

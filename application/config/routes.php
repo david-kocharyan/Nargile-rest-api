@@ -51,11 +51,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $route['default_controller'] = 'welcome';
 $route['404_override'] = '';
+$route['translate_uri_dashes'] = FALSE;
 
 //users
+$route['api/users/register'] = 'api/Users_Api/register';
+$route['api/users/login'] = 'api/Users_Api/login';
+$route['api/users/f'] = 'api/Users_Api/f';
 
-$route['api/users/register'] = 'api/Users_API/register';
-$route['api/users/login'] = 'api/Users_API/login';
-
-
-$route['translate_uri_dashes'] = FALSE;
+//admin panel
+$route['admin/dashboard'] = 'Admin/index';
+$route['admin/register'] = 'Admin/register';
+$route['admin/login'] = 'Login';
+$route['admin/logout'] = 'Login/logout';

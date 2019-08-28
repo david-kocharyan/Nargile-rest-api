@@ -15,6 +15,9 @@ class User extends CI_Model
 	public function register($data)
 	{
 		$this->db->insert($this->table, $data);
+		$insert_id = $this->db->insert_id();
+
+		return  $insert_id;
 	}
 
 //	check username for unique
