@@ -33,7 +33,6 @@
 <script src="<?= base_url('public/') ?>plugins/bower_components/calendar/dist/cal-init.js"></script>
 <!-- Custom Theme JavaScript -->
 <script src="<?= base_url('public/') ?>js/custom.min.js"></script>
-<script src="<?= base_url('public/') ?>js/dashboard1.js"></script>
 <!-- Custom tab JavaScript -->
 <script src="<?= base_url('public/') ?>js/cbpFWTabs.js"></script>
 <script type="text/javascript">
@@ -46,6 +45,22 @@
 <script src="<?= base_url('public/') ?>plugins/bower_components/toast-master/js/jquery.toast.js"></script>
 <!--Style Switcher -->
 <script src="<?= base_url('public/') ?>plugins/bower_components/styleswitcher/jQuery.style.switcher.js"></script>
+
+<script src="<?= base_url('public/') ?>js/custom.min.js"></script>
+<script src="<?= base_url('public/') ?>plugins/bower_components/datatables/datatables.min.js"></script>
+<script src="<?= base_url('public/') ?>plugins/bower_components/dropify/dist/js/dropify.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+		// data table
+        $('#myTable').DataTable();
+
+        // Basic
+        $('.dropify').dropify();
+    })
+</script>
+
+
 </body>
 
 </html>

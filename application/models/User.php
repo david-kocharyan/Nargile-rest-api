@@ -21,16 +21,22 @@ class User extends CI_Model
 	}
 
 //	check username for unique
-	public function check_username($username)
+	public function check_unique($username, $mobile_number, $email)
 	{
-		$this->db->select("*");
-		$this->db->from($this->table);
-		$this->db->where("username", $username);
-		$checkUsername = $this->db->get()->row();
+		$checkUsername = $this->db->get_where($this->table, ["username" => $username])->row();
+		$checkMobile = $this->db->get_where($this->table, ["mobile_number" =>  $mobile_number])->row();
+		$checkEmail = $this->db->get_where($this->table, ["email" => $email])->row();
+
 		if ($checkUsername != NULL) {
-			return false;
+			return 'username';
 		}
-		return true;
+		elseif ($checkMobile != NULL){
+			return 'mobile number';
+		}
+		elseif ($checkEmail != NULL){
+			return "email";
+		}
+		return 2;
 	}
 
 //	selectAll data from users table

@@ -27,7 +27,7 @@ class Users_API extends REST_Controller
 		$password = $this->input->post('password');
 		$reference_code = $this->input->post('reference_code');
 
-		$checkUsername = $this->User->check_username($username);
+		$check = $this->User->check_unique($username, $mobile_number, $email);
 
 		if (null == $this->input->post('username')) {
 			$status = self::HTTP_UNPROCESSABLE_ENTITY;
@@ -35,15 +35,6 @@ class Users_API extends REST_Controller
 				'success' => false,
 				'data' => array(),
 				'msg' => 'Please, provide username',
-			);
-			$this->response($response, $status);
-			return;
-		} elseif ($checkUsername == false) {
-			$status = self::HTTP_UNPROCESSABLE_ENTITY;
-			$response = array(
-				'success' => false,
-				'data' => array(),
-				'msg' => 'The username must be unique',
 			);
 			$this->response($response, $status);
 			return;
@@ -89,6 +80,15 @@ class Users_API extends REST_Controller
 				'success' => false,
 				'data' => array(),
 				'msg' => 'Please, provide email',
+			);
+			$this->response($response, $status);
+			return;
+		} elseif ($check != 2) {
+			$status = self::HTTP_UNPROCESSABLE_ENTITY;
+			$response = array(
+				'success' => false,
+				'data' => array(),
+				'msg' => 'Please provide unique '.$check,
 			);
 			$this->response($response, $status);
 			return;
@@ -254,6 +254,45 @@ class Users_API extends REST_Controller
 		} else {
 			$this->response($res);
 		}
+
+	}
+
+	public function refresh_token_post()
+	{
+		if (null == $this->input->post("refresh_token")) {
+			$status = self::HTTP_UNPROCESSABLE_ENTITY;
+			$response = array(
+				'success' => false,
+				'data' => array(),
+				'msg' => 'Please, provide refresh token',
+			);
+			$this->response($response, $status);
+			return;
+		}
+
+		$tokens = $this->db->get_where("tokens", ['refresh_token' => $this->input->post("refresh_token")])->row_array();
+		if (null == $tokens) {
+			$status = self::HTTP_UNPROCESSABLE_ENTITY;
+			$response = array(
+				'success' => false,
+				'data' => array(),
+				'msg' => 'Provided refresh token is incorrect',
+			);
+			$this->response($response, $status);
+			return;
+		}
+
+		$response_tokens = array(
+			"token" => $this->generateToken(),
+			"refresh_token" => $this->generateToken()
+		);
+		$this->db->update('tokens', ['token' => $response_tokens['token'], 'refresh_token' => $response_tokens['refresh_token'], 'time' => time() + 86400], ['id' => $tokens['id']]);
+		$data = array(
+			'success' => true,
+			'data' => $response_tokens,
+			'msg' => ""
+		);
+		$this->response($data, REST_Controller::HTTP_OK);
 
 	}
 

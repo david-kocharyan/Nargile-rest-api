@@ -33,6 +33,8 @@ class Login extends CI_Controller {
 				'full_name' => $check->full_name,
 				'email' => $check->email,
 				'role' => $check->role,
+				'active' => $check->active,
+				'logo' => $check->logo,
 			);
 			$this->session->set_userdata("user",$user);
 			redirect( 'admin/dashboard' );
