@@ -56,19 +56,48 @@ $route['translate_uri_dashes'] = FALSE;
 //users
 $route['api/users/register'] = 'api/Users_Api/register';
 $route['api/users/login'] = 'api/Users_Api/login';
-$route['api/users/f'] = 'api/Users_Api/f';
+$route['api/users/refresh-token'] = 'api/Users_Api/refresh_token';
+//$route['api/users/f'] = 'c/f';
+
+//restaurants
+$route['api/restaurants'] = 'api/Restaurants_Api';
+
 
 //admin panel
-//$route['admin'] = 'Admins';
+$route['admin'] = 'Admins';
 $route['admin/dashboard'] = 'Admins';
 $route['admin/register'] = 'Admins/register';
 $route['admin/login'] = 'Login';
 $route['admin/logout'] = 'Login/logout';
 //Client
-$route['admin/clients'] = 'Client';
-$route['admin/clients/create'] = 'Client/create';
-$route['admin/clients/store'] = 'Client/store';
-$route['admin/clients/edit/(:any)'] = 'Client/edit/$1';
-$route['admin/clients/update/(:any)'] = 'Client/update/$1';
-$route['admin/clients/change_status/(:any)'] = 'Client/change_status/$1';
+$route['admin/clients'] = 'Clients';
+$route['admin/clients/create'] = 'Clients/create';
+$route['admin/clients/store'] = 'Clients/store';
+$route['admin/clients/edit/(:any)'] = 'Clients/edit/$1';
+$route['admin/clients/update/(:any)'] = 'Clients/update/$1';
+$route['admin/clients/change-status/(:any)'] = 'Clients/change_status/$1';
+
+//Country
+$route['admin/countries'] = 'Countries';
+$route["admin/countries/create"] = 'Countries/create';
+$route["admin/countries/store"] = 'Countries/store';
+$route["admin/countries/edit/(:any)"] = 'Countries/edit/$1';
+$route["admin/countries/update/(:any)"] = 'Countries/update/$1';
+$route["admin/countries/change-status/(:any)"] = 'Countries/change_status/$1';
+
+//Area
+$route['admin/area'] = 'Areas';
+$route["admin/area/create"] = 'Areas/create';
+$route["admin/area/store"] = 'Areas/store';
+$route["admin/area/edit/(:any)"] = 'Areas/edit/$1';
+$route["admin/area/update/(:any)"] = 'Areas/update/$1';
+$route["admin/area/change-status/(:any)"] = 'Areas/change_status/$1';
+
+//Restaurants
+$route['admin/restaurants'] = 'Restaurants';
+$route["admin/restaurants/create"] = 'Restaurants/create';
+$route["admin/restaurants/store"] = 'Restaurants/store';
+$route["admin/restaurants/edit/(:any)"] = 'Restaurants/edit/$1';
+$route["admin/restaurants/update/(:any)"] = 'Restaurants/update/$1';
+$route["admin/restaurants/change-status/(:any)"] = 'Restaurants/change_status/$1';
 

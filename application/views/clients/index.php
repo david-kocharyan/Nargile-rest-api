@@ -33,11 +33,11 @@
 								   data-placement="top" title="Edit" class="btn btn-info btn-circle tooltip-info"> <i
 										class="fas fa-pencil-alt"></i> </a>
 								<?php if ($value->active == 1) { ?>
-									<a href="<?= base_url("admin/clients/change_status/$value->id") ?>" data-toggle="tooltip"
+									<a href="<?= base_url("admin/clients/change-status/$value->id") ?>" data-toggle="tooltip"
 									   data-placement="top" title="Deactivate"
 									   class="btn btn-danger btn-circle tooltip-danger"><i class="fa fa-power-off"></i></a>
 								<?php } else { ?>
-									<a href="<?= base_url("admin/clients/change_status/$value->id") ?>" data-toggle="tooltip"
+									<a href="<?= base_url("admin/clients/change-status/$value->id") ?>" data-toggle="tooltip"
 									   data-placement="top" title="Activate"
 									   class="btn btn-success btn-circle tooltip-success"><i
 											class="fa fa-power-off"></i></a>

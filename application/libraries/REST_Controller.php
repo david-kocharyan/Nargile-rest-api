@@ -2312,4 +2312,5 @@ abstract class REST_Controller extends \CI_Controller {
 		$token = AUTHORIZATION::generateToken($tokenData);
 		return $token;
 	}
+
 }
