@@ -207,6 +207,12 @@
 							class="mdi mdi-account-plus fa-fw"></i> <span class="hide-menu">Restaurants</span></a>
 				</li>
 
+                <li> <a href="javascript:void(0)" class="waves-effect"><i data-icon="&#xe008;" class="linea-icon linea-basic fa-fw"></i><span class="hide-menu">Offers</span><span class="fa arrow"></span></a>
+                    <ul class="nav nav-third-level">
+                        <li> <a href="<?= base_url('admin/offers')?>"><i class=" fa-fw">F</i><span class="hide-menu">Featured Offers</span></a> </li>
+                    </ul>
+                </li>
+
 				<li><a href="javascript:void(0)" class="waves-effect"><i class="mdi mdi-evernote fa-fw"></i> <span
 							class="hide-menu">Acounting</span></a></li>
 				<li><a href="javascript:void(0)" class="waves-effect"><i class="mdi mdi-settings fa-fw"></i> <span
