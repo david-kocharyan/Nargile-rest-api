@@ -16,16 +16,16 @@ class Restaurants_Api extends REST_Controller
      */
     public function index_get()
     {
-//		$res = $this->verify_get_request();
-//		if (gettype($res) != 'string') {
-//			$data = array(
-//				"success" => false,
-//				"data" => array(),
-//				"msg" => $res['msg']
-//			);
-//			$this->response($data, $res['status']);
-//			return;
-//		}
+		$res = $this->verify_get_request();
+		if (gettype($res) != 'string') {
+			$data = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => $res['msg']
+			);
+			$this->response($data, $res['status']);
+			return;
+		}
 
         $limit = (null !== $this->input->get('limit') && is_numeric($this->input->get("limit"))) ? $this->input->get('limit') : 5;
         $offset = (null !== $this->input->get('offset') && is_numeric($this->input->get("offset"))) ? $this->input->get('offset') * $limit : 0;
