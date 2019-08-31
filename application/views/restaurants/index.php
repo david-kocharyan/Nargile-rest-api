@@ -26,7 +26,7 @@
 							<td><?= $value->name; ?></td>
 							<td><?= $value->area_name; ?></td>
 							<td><?= $value->country_name; ?></td>
-							<td><?= $value->logo; ?></td>
+							<td><img src="<?= base_url("plugins/images/Restaurants/".$value->logo); ?>"  width="200" height="200" alt=""></td>
 							<td><?= $value->status; ?></td>
 							<td>
 								<a href="<?= base_url("admin/restaurants/edit/$value->id") ?>" data-toggle="tooltip"

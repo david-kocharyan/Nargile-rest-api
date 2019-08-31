@@ -17,6 +17,8 @@
 	<!-- Menu CSS -->
 	<link href="<?= base_url('public/') ?>plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css"
 		  rel="stylesheet">
+	<!--Select 2-->
+	<link href="<?= base_url('public/') ?>plugins/bower_components/select2/dist/css/select2.min.css" rel="stylesheet" />
 	<!--dropify-->
 	<link rel="stylesheet" href="<?= base_url('public/') ?>plugins/bower_components/dropify/dist/css/dropify.min.css">
 	<!-- toast CSS -->

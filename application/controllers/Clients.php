@@ -35,6 +35,9 @@ class Clients extends CI_Controller
 		$data['user'] = $this->session->userdata('user');
 		$data['title'] = "Add New Clients";
 
+		$this->load->model("Restaurant");
+		$data["restaurants"] = $this->Restaurant->selectAll();
+
 		$this->load->view('layouts/header.php', $data);
 		$this->load->view('clients/create.php');
 		$this->load->view('layouts/footer.php');
@@ -49,10 +52,12 @@ class Clients extends CI_Controller
 		$full_name = $this->input->post('full_name');
 		$email = $this->input->post('email');
 		$password = $this->input->post('password');
+		$restaurant = $this->input->post('restaurant');
 
 		$this->form_validation->set_rules('username', 'Username', 'required|trim|max_length[30]|is_unique[admins.username]');
 		$this->form_validation->set_rules('full_name', 'Full name', 'required|trim|regex_match[/^([a-z ])+$/i]');
 		$this->form_validation->set_rules('email', 'Email', 'required|trim|is_unique[admins.email]');
+		$this->form_validation->set_rules('restaurant', 'Restaurant', 'required|trim|is_unique[admins.restaurant_id]');
 		$this->form_validation->set_rules('password', 'Password', 'required|min_length[8]');
 
 		if ($this->form_validation->run() == FALSE){
@@ -79,10 +84,11 @@ class Clients extends CI_Controller
 				'username' => $username,
 				'full_name' => $full_name,
 				'email' => $email,
-				'role' => 'restaurant',
+				'role' => 'admin',
 				'password' => $password,
 				'active' => 1,
-				'logo' => $logo
+				'logo' => $logo,
+				'restaurant_id' => $restaurant
 			);
 
 			$this->Admin->create($user);
@@ -99,8 +105,11 @@ class Clients extends CI_Controller
 	public function edit($id)
 	{
 		$data['user'] = $this->session->userdata('user');
-		$data["title"] = "Edit Client";
 		$data["client"] = $this->Admin->getClientById($id);
+		$data["title"] = "Edit Client";
+
+		$this->load->model("Restaurant");
+		$data["restaurants"] = $this->Restaurant->selectAll();
 
 		$this->load->view('layouts/header.php', $data);
 		$this->load->view('clients/edit.php');
@@ -120,14 +129,19 @@ class Clients extends CI_Controller
 		$full_name = $this->input->post('full_name');
 		$email = $this->input->post('email');
 		$password = $this->input->post('password');
+		$restaurant = $this->input->post('restaurant');
 
 		$def_username = $user->username;
 		$def_email = $user->email;
 		$def_logo = $user->logo;
+		$def_restaurant_id = $user->restaurant_id;
 		$def_password = $user->password;
 
 		if ($def_username != $username){
 			$this->form_validation->set_rules('username', 'Username', 'required|trim|max_length[30]|is_unique[admins.username]');
+		}
+		if ($def_restaurant_id != $restaurant){
+			$this->form_validation->set_rules('restaurant', 'Restaurant', 'required|trim|is_unique[admins.username]');
 		}
 		if ($def_email != $email){
 			$this->form_validation->set_rules('email', 'Email', 'required|trim|is_unique[admins.email]');
@@ -153,7 +167,7 @@ class Clients extends CI_Controller
 					$this->edit($id);
 					return;
 				}
-				$logo = isset($image['data']['file_name']) ? "images/Logo/".$image['data']['file_name'] : $def_logo;
+				$logo = isset($image['data']['file_name']) ? $image['data']['file_name'] : $def_logo;
 			}
 			else{
 				$logo = $def_logo;
@@ -164,7 +178,8 @@ class Clients extends CI_Controller
 				'full_name' => $full_name,
 				'email' => $email,
 				'password' => $password,
-				'logo' => $logo
+				'logo' => $logo,
+				"restaurant_id" => $restaurant
 			);
 
 			$this->Admin->update($id, $client);

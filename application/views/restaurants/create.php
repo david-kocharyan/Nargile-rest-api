@@ -33,7 +33,7 @@
 						</div>
 					<?php } ?>
 					<div class="input-group col-md-12">
-						<select class="form-control" id="country" name="area">
+						<select class="form-control select_2_example" id="country" name="area">
 							<option value="" selected>Choose Here</option>
 							<?php foreach ($area as $key) { ?>
 								<option value="<?= $key->id ?>">

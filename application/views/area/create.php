@@ -30,7 +30,7 @@
 					<div class="form-group">
 						<label for="country">Country</label>
 						<div class="input-group">
-							<select class="form-control" id="country" name="country">
+							<select class="form-control select_2_example" id="country" name="country">
 								<?php foreach ($countries as $key) { ?>
 									<option value="<?= $key->id ?>">
 										<?= $key->name ?>

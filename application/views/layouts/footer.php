@@ -19,6 +19,13 @@
 <script src="<?= base_url('public/') ?>plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js"></script>
 <!--slimscroll JavaScript -->
 <script src="<?= base_url('public/') ?>js/jquery.slimscroll.js"></script>
+<!--Select 2 -->
+<script src="<?= base_url('public/') ?>plugins/bower_components/select2/dist/js/select2.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('.select_2_example').select2();
+});
+</script>
 <!--Wave Effects -->
 <script src="<?= base_url('public/') ?>js/waves.js"></script>
 <!--Morris JavaScript -->

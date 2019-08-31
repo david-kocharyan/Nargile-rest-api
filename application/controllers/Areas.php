@@ -50,6 +50,7 @@ class Areas extends CI_Controller
 			$data = array(
 				"name" => $area,
 				"country_id" => $country_id,
+				"status" => 1,
 			);
 			$this->Area->insert($data);
 			$this->session->set_flashdata('success', 'You have stored the area successfully');

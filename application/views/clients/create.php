@@ -58,6 +58,19 @@
 				</div>
 
 				<div class="form-group">
+						<label for="restaurant">Restaurant</label>
+						<div class="input-group col-md-12">
+							<select class="form-control select_2_example" id="restaurant" name="restaurant">
+								<?php foreach ($restaurants as $key) { ?>
+									<option value="<?= $key->id ?>">
+										<?= $key->name ?>
+									</option>
+								<?php } ?>
+							</select>
+						</div>
+					</div>
+
+				<div class="form-group">
 					<label for="input-file-now">Clients Logo</label>
 					<input type="file" id="input-file-now" name="logo" class="dropify" data-max-file-size="15M"/>
 					<?php if (!empty($this->session->flashdata('error'))) { ?>

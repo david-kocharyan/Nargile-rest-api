@@ -14,6 +14,7 @@
 						<th>Email</th>
 						<th>Role</th>
 						<th>Logo</th>
+						<th>Restaurants Name</th>
 						<th>Active</th>
 						<th>Options</th>
 					</tr>
@@ -26,7 +27,8 @@
 							<td><?= $value->full_name; ?></td>
 							<td><?= $value->email; ?></td>
 							<td><?= $value->role; ?></td>
-							<td><?= $value->logo; ?></td>
+							<td><img src="<?= base_url("plugins/images/Logo/".$value->logo); ?>"  width="200" height="200" alt=""></td>
+							<td><?= $value->restaurant_name; ?></td>
 							<td><?= $value->active; ?></td>
 							<td>
 								<a href="<?= base_url("admin/clients/edit/$value->id") ?>" data-toggle="tooltip"

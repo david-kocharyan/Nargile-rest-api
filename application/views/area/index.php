@@ -14,6 +14,7 @@
 						<th>ID</th>
 						<th>Area name</th>
 						<th>Country name</th>
+						<th>Status </th>
 						<th>Options</th>
 					</tr>
 					</thead>
@@ -23,6 +24,7 @@
 							<td><?= $key + 1 ?></td>
 							<td><?= $value->area_name; ?></td>
 							<td><?= $value->country_name; ?></td>
+							<td><?= $value->area_status; ?></td>
 							<td>
 								<a href="<?= base_url("admin/area/edit/$value->id") ?>" data-toggle="tooltip"
 								   data-placement="top" title="Edit" class="btn btn-info btn-circle tooltip-info"> <i

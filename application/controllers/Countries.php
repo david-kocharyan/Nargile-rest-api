@@ -43,7 +43,10 @@ class Countries extends CI_Controller
 		if ($this->form_validation->run() == FALSE) {
 			$this->create();
 		} else {
-			$data = array("name" => $country);
+			$data = array(
+				"name" => $country,
+				"status" => 1
+			);
 			$this->Country->insert($data);
 			$this->session->set_flashdata('success', 'You have stored the country successfully');
 			redirect("admin/countries/create");
