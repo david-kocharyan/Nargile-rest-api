@@ -61,6 +61,7 @@ $route['api/users/refresh-token'] = 'api/Users_Api/refresh_token';
 
 //restaurants
 $route['api/restaurants'] = 'api/Restaurants_Api';
+$route['api/restaurants/search'] = 'api/Restaurants_Api/search';
 
 
 //admin panel
@@ -100,4 +101,12 @@ $route["admin/restaurants/store"] = 'Restaurants/store';
 $route["admin/restaurants/edit/(:any)"] = 'Restaurants/edit/$1';
 $route["admin/restaurants/update/(:any)"] = 'Restaurants/update/$1';
 $route["admin/restaurants/change-status/(:any)"] = 'Restaurants/change_status/$1';
+
+//Featured Offers
+$route['admin/offers'] = 'Offers';
+$route["admin/offers/create"] = 'Offers/create';
+$route["admin/offers/store"] = 'Offers/store';
+$route["admin/offers/edit/(:any)"] = 'Offers/edit/$1';
+$route["admin/offers/update/(:any)"] = 'Offers/update/$1';
+$route["admin/offers/change-status/(:any)"] = 'Offers/change_status/$1';
 
