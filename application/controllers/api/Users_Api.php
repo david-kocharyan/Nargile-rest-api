@@ -137,6 +137,7 @@ class Users_API extends REST_Controller
 					"mobile_number" => $mobile_number,
 					"email" => $email,
 					"reference_code" => $reference_code == null ? "" : $reference_code,
+					"coins" => 0,
 				),
 				"tokens" => array(
 					"token" => $token,
@@ -221,6 +222,7 @@ class Users_API extends REST_Controller
 					"mobile_number" => $auth->mobile_number,
 					"email" => $auth->email,
 					"reference_code" => $auth->reference_code == null ? "" : $auth->reference_code,
+					"coins" => $auth->coins,
 				),
 				"tokens" => array(
 					"token" => $token,
@@ -279,73 +281,63 @@ class Users_API extends REST_Controller
 
 	}
 
-//	get user country
-//	public function ip_info($ip = NULL, $purpose = "location", $deep_detect = TRUE) {
-//		$output = NULL;
-//		if (filter_var($ip, FILTER_VALIDATE_IP) === FALSE) {
-//			$ip = $_SERVER["REMOTE_ADDR"];
-//			if ($deep_detect) {
-//				if (filter_var(@$_SERVER['HTTP_X_FORWARDED_FOR'], FILTER_VALIDATE_IP))
-//					$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-//				if (filter_var(@$_SERVER['HTTP_CLIENT_IP'], FILTER_VALIDATE_IP))
-//					$ip = $_SERVER['HTTP_CLIENT_IP'];
-//			}
-//		}
-//		$purpose    = str_replace(array("name", "\n", "\t", " ", "-", "_"), NULL, strtolower(trim($purpose)));
-//		$support    = array("country", "countrycode", "state", "region", "city", "location", "address");
-//		$continents = array(
-//			"AF" => "Africa",
-//			"AN" => "Antarctica",
-//			"AS" => "Asia",
-//			"EU" => "Europe",
-//			"OC" => "Australia (Oceania)",
-//			"NA" => "North America",
-//			"SA" => "South America"
-//		);
-//		if (filter_var($ip, FILTER_VALIDATE_IP) && in_array($purpose, $support)) {
-//			$ipdat = @json_decode(file_get_contents("http://www.geoplugin.net/json.gp?ip=" . $ip));
-//			if (@strlen(trim($ipdat->geoplugin_countryCode)) == 2) {
-//				switch ($purpose) {
-//					case "location":
-//						$output = array(
-//							"city"           => @$ipdat->geoplugin_city,
-//							"state"          => @$ipdat->geoplugin_regionName,
-//							"country"        => @$ipdat->geoplugin_countryName,
-//							"country_code"   => @$ipdat->geoplugin_countryCode,
-//							"continent"      => @$continents[strtoupper($ipdat->geoplugin_continentCode)],
-//							"continent_code" => @$ipdat->geoplugin_continentCode
-//						);
-//						break;
-//					case "address":
-//						$address = array($ipdat->geoplugin_countryName);
-//						if (@strlen($ipdat->geoplugin_regionName) >= 1)
-//							$address[] = $ipdat->geoplugin_regionName;
-//						if (@strlen($ipdat->geoplugin_city) >= 1)
-//							$address[] = $ipdat->geoplugin_city;
-//						$output = implode(", ", array_reverse($address));
-//						break;
-//					case "city":
-//						$output = @$ipdat->geoplugin_city;
-//						break;
-//					case "state":
-//						$output = @$ipdat->geoplugin_regionName;
-//						break;
-//					case "region":
-//						$output = @$ipdat->geoplugin_regionName;
-//						break;
-//					case "country":
-//						$output = @$ipdat->geoplugin_countryName;
-//						break;
-//					case "countrycode":
-//						$output = @$ipdat->geoplugin_countryCode;
-//						break;
-//				}
-//			}
-//		}
-////			return $output;
-//		var_dump($output);
-//	}
+//	get authorized user data 
+	public function getUser_get ()
+	{
+		$res = $this->verify_get_request();
+		if (gettype($res) != 'string') {
+			$data = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => $res['msg']
+			);
+			$this->response($data, $res['status']);
+			return;
+		}
 
+		if (null == $this->input->get('token')) {
+			$status = self::HTTP_UNPROCESSABLE_ENTITY;
+			$response = array(
+				'success' => false,
+				'data' => array(),
+				'msg' => 'Please, provide token',
+			);
+			$this->response($response, $status);
+			return;
+		}
+
+		$auth = $this->User->getUserByToken($this->input->get('token'));
+		if (!$auth) {
+			$status = self::HTTP_UNPROCESSABLE_ENTITY;
+			$response = array(
+				'success' => false,
+				'data' => array(),
+				'msg' => 'Wrong Credentials',
+			);
+			$this->response($response, $status);
+		} 
+
+		$response = array(
+			"msg" => '',
+			"data" => array(
+				"user" => array(
+					"first_name" => $auth->first_name,
+					"last_name" => $auth->last_name,
+					"date_of_birth" => $auth->date_of_birth,
+					"mobile_number" => $auth->mobile_number,
+					"email" => $auth->email,
+					"reference_code" => $auth->reference_code == null ? "" : $auth->reference_code,
+					"coins" => $auth->coins,
+				),
+				"tokens" => array(
+					"token" => $auth->token,
+					"refresh_token" => $auth->refresh_token,
+				),
+			),
+			"success" => true
+		);
+		$this->response($response, REST_Controller::HTTP_OK);
+	}
 
 }
 

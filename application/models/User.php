@@ -56,4 +56,16 @@ class User extends CI_Model
 		return false;
 	}
 
+// get user
+	public function getUserByToken($token)
+	{
+		$this->db->select('users.*', 'tokens.token', 'tokens.refresh_token');
+		$this->db->join('users', 'users.id = tokens.user_id');
+		$this->db->where("token",  $token);
+		$getUser = $this->db->get("tokens")->row();
+
+		if (!$getUser) return false;
+		return $getUser;
+	}
+
 }

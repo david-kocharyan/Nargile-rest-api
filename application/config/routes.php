@@ -62,6 +62,7 @@ $route['api/users/refresh-token'] = 'api/Users_Api/refresh_token';
 //restaurants
 $route['api/restaurants'] = 'api/Restaurants_Api';
 $route['api/restaurants/search'] = 'api/Restaurants_Api/search';
+$route['api/restaurants/slider'] = 'api/Restaurants_Api/slider';
 
 
 //admin panel

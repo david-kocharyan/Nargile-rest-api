@@ -249,5 +249,33 @@ class Restaurants_Api extends REST_Controller
         $data = $this->db->get("restaurants")->result();
         return $data != null ? $data : "";
     }
+    
+    public function slider_get()
+    {
+        $res = $this->verify_get_request();
+		if (gettype($res) != 'string') {
+			$data = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => $res['msg']
+			);
+			$this->response($data, $res['status']);
+			return;
+        }
+
+        $this->db->select("*");
+        $this->db->limit(5);
+        $data = $this->db->get("home_slider")->result();
+        
+        $response = array(
+            "success" => true,
+            "data" => array(
+                "list" => isset($data) ? $data : array(),
+            ),
+            "msg" => ""
+        );
+        $this->response($response, REST_Controller::HTTP_OK);
+
+    }
 }
 
