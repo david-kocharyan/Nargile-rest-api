@@ -47,7 +47,7 @@ class Sliders extends CI_Controller
 		redirect("admin/sliders");
 	}
 
-	//    uploading multiple images
+	//  uploading multiple images
 	private function upload_files($files, $id)
 	{
 		if (!is_dir(FCPATH . "/plugins/images/Slider")) {
@@ -80,6 +80,7 @@ class Sliders extends CI_Controller
 			$this->upload->initialize($config);
 
 			if ($this->upload->do_upload('images[]')) {
+				$this->resizeImage($fileName, $config['upload_path']);
 				$this->upload->data();
 			} else {
 				$data['err'] = $this->upload->display_errors() . $image;
@@ -89,5 +90,21 @@ class Sliders extends CI_Controller
 		return $images;
 	}
 
+	//resize image
+	private function resizeImage($filename, $path)
+	{
+		$config['image_library'] = 'GD2';
+		$config['source_image'] = $path."/".$filename;
+		$config['create_thumb'] = FALSE;
+		$config['maintain_ratio'] = true;
+		$config['quality'] = '50%';
+		$config['width'] = '400';
+		$config['height'] = '400';
+		$config['new_image'] = $path."/".$filename;
+		$this->load->library('image_lib');
+		$this->image_lib->clear();
+		$this->image_lib->initialize($config);
+		$this->image_lib->resize();
+	}
 
 }

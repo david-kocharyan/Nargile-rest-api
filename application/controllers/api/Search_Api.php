@@ -58,7 +58,12 @@ class Search_Api extends REST_Controller
         if($this->input->get("country") != null){
             $this->db->where('countries.id', $this->input->get("country"));
         }
-        if($this->input->get("area") != null) $this->db->where('restaurants.area_id', $this->input->get("area"));
+		if($this->input->get("area") != null) $this->db->where('restaurants.area_id', $this->input->get("area"));
+
+		//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		if($this->input->get("price_from") != null) $this->db->where('restaurants.price_from >=', $this->input->get("price_from"));
+		if($this->input->get("price_to") != null) $this->db->where('restaurants.price_to <=', $this->input->get("price_to"));
+		//////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
 
     private function join()

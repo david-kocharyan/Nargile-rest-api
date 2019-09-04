@@ -189,12 +189,8 @@
 				</li>
 
 				<li class="devider"></li>
-				<li><a href="javascript:void(0)" class="waves-effect"><i class="mdi mdi-file-document fa-fw"></i> <span
-							class="hide-menu">Commercial</span></a></li>
 				<li><a href="javascript:void(0)" class="waves-effect"><i class="mdi mdi-face-profile  fa-fw"></i> <span
 							class="hide-menu">Users</span></a></li>
-
-				<li class="devider"></li>
 				<li><a href="<?= base_url('admin/clients') ?>" class="waves-effect"><i
 							class="mdi mdi-account fa-fw"></i> <span class="hide-menu">Clients</span></a></li>
 				<li><a href="<?= base_url('admin/clients/create') ?>" class="waves-effect"><i
@@ -204,18 +200,28 @@
 				<!--restaurants, offers, slider-->
 				<li class="devider"></li>
 				<li><a href="<?= base_url('admin/restaurants') ?>" class="waves-effect"><i
-							class="mdi mdi-account-plus fa-fw"></i> <span class="hide-menu">Restaurants</span></a>
+							class="mdi mdi-apps fa-fw"></i> <span class="hide-menu">Restaurants</span></a>
+				</li>
+				<li><a href="<?= base_url('admin/sliders') ?>" class="waves-effect"><i
+							class="mdi mdi-google-photos fa-fw"></i> <span class="hide-menu">Sliders</span></a>
 				</li>
 				<li><a href="javascript:void(0)" class="waves-effect"><i data-icon="&#xe008;"
-																		 class="linea-icon linea-basic fa-fw"></i><span
+																		 class="mdi mdi-ghost fa-fw"></i><span
 							class="hide-menu">Offers</span><span class="fa arrow"></span></a>
 					<ul class="nav nav-third-level">
 						<li><a href="<?= base_url('admin/offers') ?>"><i class=" fa-fw">F</i><span class="hide-menu">Featured Offers</span></a>
 						</li>
 					</ul>
 				</li>
-				<li><a href="<?= base_url('admin/sliders') ?>" class="waves-effect"><i
-							class="mdi mdi-account-plus fa-fw"></i> <span class="hide-menu">Sliders</span></a>
+				<li><a href="javascript:void(0)" class="waves-effect"><i data-icon="&#xe008;"
+																		 class="mdi mdi-google-maps fa-fw"></i><span
+							class="hide-menu">Location</span><span class="fa arrow"></span></a>
+					<ul class="nav nav-third-level">
+						<li><a href="<?= base_url('admin/countries') ?>"><i class=" fa-fw">C</i><span class="hide-menu">Countries</span></a>
+						</li>
+						<li><a href="<?= base_url('admin/area') ?>"><i class=" fa-fw">A</i><span
+									class="hide-menu">Area</span></a></li>
+					</ul>
 				</li>
 				<li class="devider"></li>
 				<!-- END restaurants, offers, slider-->
@@ -225,18 +231,7 @@
 				<li><a href="javascript:void(0)" class="waves-effect"><i class="mdi mdi-settings fa-fw"></i> <span
 							class="hide-menu">Settings</span></a></li>
 
-				<li class="devider"></li>
 
-				<li><a href="javascript:void(0)" class="waves-effect"><i data-icon="&#xe008;"
-																		 class="linea-icon linea-basic fa-fw"></i><span
-							class="hide-menu">Location</span><span class="fa arrow"></span></a>
-					<ul class="nav nav-third-level">
-						<li><a href="<?= base_url('admin/countries') ?>"><i class=" fa-fw">T</i><span class="hide-menu">Countries</span></a>
-						</li>
-						<li><a href="<?= base_url('admin/area') ?>"><i class=" fa-fw">M</i><span
-									class="hide-menu">Area</span></a></li>
-					</ul>
-				</li>
 
 			</ul>
 			<div class="sidebar-head">

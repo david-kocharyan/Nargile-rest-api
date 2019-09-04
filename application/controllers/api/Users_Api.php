@@ -322,14 +322,16 @@ class Users_API extends REST_Controller
 
 		$response = array(
 			"msg" => '',
-			"user" => array(
-				"first_name" => $user->first_name,
-				"last_name" => $user->last_name,
-				"date_of_birth" => $user->date_of_birth,
-				"mobile_number" => $user->mobile_number,
-				"email" => $user->email,
-				"reference_code" => $user->reference_code == null ? "" : $user->reference_code,
-				"coins" => $user->coins,
+			"data" => array(
+				"user" => array(
+					"first_name" => $user->first_name,
+					"last_name" => $user->last_name,
+					"date_of_birth" => $user->date_of_birth,
+					"mobile_number" => $user->mobile_number,
+					"email" => $user->email,
+					"reference_code" => $user->reference_code == null ? "" : $user->reference_code,
+					"coins" => $user->coins,
+				),
 			),
 			"success" => true
 		);

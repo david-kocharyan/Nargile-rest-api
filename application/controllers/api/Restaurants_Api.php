@@ -249,7 +249,7 @@ class Restaurants_Api extends REST_Controller
         $data = $this->db->get("restaurants")->result();
         return $data != null ? $data : "";
     }
-    
+
     public function slider_get()
     {
         $res = $this->verify_get_request();
@@ -263,10 +263,10 @@ class Restaurants_Api extends REST_Controller
 			return;
         }
 
-        $this->db->select("*");
+        $this->db->select("sliders.id, concat('/plugins/images/Sliders/', sliders.image) as name");
         $this->db->limit(5);
-        $data = $this->db->get("home_slider")->result();
-        
+        $data = $this->db->get("sliders")->result();
+
         $response = array(
             "success" => true,
             "data" => array(

@@ -71,7 +71,7 @@ class Clients extends CI_Controller
 					$this->create();
 					return;
 				}
-				$logo = isset($image['data']['file_name']) ? "images/Logo/".$image['data']['file_name'] : "";
+				$logo = isset($image['data']['file_name']) ? $image['data']['file_name'] : "";
 			}
 			else{
 				$this->session->set_flashdata('error', 'Image was required');

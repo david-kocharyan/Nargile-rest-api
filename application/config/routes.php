@@ -53,18 +53,21 @@ $route['default_controller'] = 'Admin';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
-//users
+//users Api
 $route['api/users/register'] = 'api/Users_Api/register';
 $route['api/users/login'] = 'api/Users_Api/login';
 $route['api/users/refresh-token'] = 'api/Users_Api/refresh_token';
 $route['api/users/get-user'] = 'api/Users_Api/getUser';
 
-//restaurants
+//facebook login Api
+$route['api/facebook/login'] = 'api/Facebook_Api/login';
+
+//restaurants Api
 $route['api/restaurants'] = 'api/Restaurants_Api';
 $route['api/restaurants/search'] = 'api/Restaurants_Api/search';
 $route['api/restaurants/slider'] = 'api/Restaurants_Api/slider';
 
-//search
+//search Api
 $route['api/search-restaurant'] = 'api/Search_api';
 
 
