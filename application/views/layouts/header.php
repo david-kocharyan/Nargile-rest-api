@@ -18,7 +18,7 @@
 	<link href="<?= base_url('public/') ?>plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css"
 		  rel="stylesheet">
 	<!--Select 2-->
-	<link href="<?= base_url('public/') ?>plugins/bower_components/select2/dist/css/select2.min.css" rel="stylesheet" />
+	<link href="<?= base_url('public/') ?>plugins/bower_components/select2/dist/css/select2.min.css" rel="stylesheet"/>
 	<!--dropify-->
 	<link rel="stylesheet" href="<?= base_url('public/') ?>plugins/bower_components/dropify/dist/css/dropify.min.css">
 	<!-- toast CSS -->
@@ -168,9 +168,6 @@
 	<!-- ============================================================== -->
 	<div class="navbar-default sidebar" role="navigation">
 		<div class="sidebar-nav slimscrollsidebar">
-			<div class="sidebar-head">
-				<h3><span class="fa-fw open-close"><i class="ti-menu hidden-xs"></i><i class="ti-close visible-xs"></i></span>
-					<span class="hide-menu">Navigation</span></h3></div>
 			<ul class="nav" id="side-menu">
 				<li class="user-pro">
 					<a href="#" class="waves-effect"><img src="<?= base_url('public/') ?>plugins/images/users/varun.jpg"
@@ -204,16 +201,24 @@
 							class="mdi mdi-account-plus fa-fw"></i> <span class="hide-menu">Add New Clients</span></a>
 				</li>
 
+				<!--restaurants, offers, slider-->
 				<li class="devider"></li>
 				<li><a href="<?= base_url('admin/restaurants') ?>" class="waves-effect"><i
 							class="mdi mdi-account-plus fa-fw"></i> <span class="hide-menu">Restaurants</span></a>
 				</li>
-
-                <li> <a href="javascript:void(0)" class="waves-effect"><i data-icon="&#xe008;" class="linea-icon linea-basic fa-fw"></i><span class="hide-menu">Offers</span><span class="fa arrow"></span></a>
-                    <ul class="nav nav-third-level">
-                        <li> <a href="<?= base_url('admin/offers')?>"><i class=" fa-fw">F</i><span class="hide-menu">Featured Offers</span></a> </li>
-                    </ul>
-                </li>
+				<li><a href="javascript:void(0)" class="waves-effect"><i data-icon="&#xe008;"
+																		 class="linea-icon linea-basic fa-fw"></i><span
+							class="hide-menu">Offers</span><span class="fa arrow"></span></a>
+					<ul class="nav nav-third-level">
+						<li><a href="<?= base_url('admin/offers') ?>"><i class=" fa-fw">F</i><span class="hide-menu">Featured Offers</span></a>
+						</li>
+					</ul>
+				</li>
+				<li><a href="<?= base_url('admin/sliders') ?>" class="waves-effect"><i
+							class="mdi mdi-account-plus fa-fw"></i> <span class="hide-menu">Sliders</span></a>
+				</li>
+				<li class="devider"></li>
+				<!-- END restaurants, offers, slider-->
 
 				<li><a href="javascript:void(0)" class="waves-effect"><i class="mdi mdi-evernote fa-fw"></i> <span
 							class="hide-menu">Acounting</span></a></li>
@@ -222,14 +227,21 @@
 
 				<li class="devider"></li>
 
-				<li> <a href="javascript:void(0)" class="waves-effect"><i data-icon="&#xe008;" class="linea-icon linea-basic fa-fw"></i><span class="hide-menu">Location</span><span class="fa arrow"></span></a>
+				<li><a href="javascript:void(0)" class="waves-effect"><i data-icon="&#xe008;"
+																		 class="linea-icon linea-basic fa-fw"></i><span
+							class="hide-menu">Location</span><span class="fa arrow"></span></a>
 					<ul class="nav nav-third-level">
-						<li> <a href="<?= base_url('admin/countries')?>"><i class=" fa-fw">T</i><span class="hide-menu">Countries</span></a> </li>
-						<li> <a href="<?= base_url('admin/area')?>"><i class=" fa-fw">M</i><span class="hide-menu">Area</span></a> </li>
+						<li><a href="<?= base_url('admin/countries') ?>"><i class=" fa-fw">T</i><span class="hide-menu">Countries</span></a>
+						</li>
+						<li><a href="<?= base_url('admin/area') ?>"><i class=" fa-fw">M</i><span
+									class="hide-menu">Area</span></a></li>
 					</ul>
 				</li>
 
 			</ul>
+			<div class="sidebar-head">
+				<h3><span class="fa-fw open-close"><i class="ti-menu hidden-xs"></i><i class="ti-close visible-xs"></i></span>
+					<span class="hide-menu">Navigation</span></h3></div>
 		</div>
 	</div>
 	<!-- ============================================================== -->

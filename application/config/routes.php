@@ -104,9 +104,9 @@ $route["admin/restaurants/update/(:any)"] = 'Restaurants/update/$1';
 $route["admin/restaurants/change-status/(:any)"] = 'Restaurants/change_status/$1';
 
 //Slider
-$route['admin/restaurants'] = 'Restaurants';
-$route["admin/restaurants/create"] = 'Restaurants/create';
-$route["admin/restaurants/delete/(:any)"] = 'Restaurants/delete/$1';
+$route['admin/sliders'] = 'Sliders';
+$route["admin/sliders/store"] = 'Sliders/store';
+$route["admin/sliders/delete/(:any)"] = 'Sliders/delete/$1';
 
 //Featured Offers
 $route['admin/offers'] = 'Offers';
