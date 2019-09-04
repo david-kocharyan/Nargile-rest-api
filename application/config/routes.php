@@ -57,7 +57,7 @@ $route['translate_uri_dashes'] = FALSE;
 $route['api/users/register'] = 'api/Users_Api/register';
 $route['api/users/login'] = 'api/Users_Api/login';
 $route['api/users/refresh-token'] = 'api/Users_Api/refresh_token';
-//$route['api/users/f'] = 'c/f';
+$route['api/users/get-user'] = 'api/Users_Api/getUser';
 
 //restaurants
 $route['api/restaurants'] = 'api/Restaurants_Api';
@@ -102,6 +102,11 @@ $route["admin/restaurants/store"] = 'Restaurants/store';
 $route["admin/restaurants/edit/(:any)"] = 'Restaurants/edit/$1';
 $route["admin/restaurants/update/(:any)"] = 'Restaurants/update/$1';
 $route["admin/restaurants/change-status/(:any)"] = 'Restaurants/change_status/$1';
+
+//Slider
+$route['admin/restaurants'] = 'Restaurants';
+$route["admin/restaurants/create"] = 'Restaurants/create';
+$route["admin/restaurants/delete/(:any)"] = 'Restaurants/delete/$1';
 
 //Featured Offers
 $route['admin/offers'] = 'Offers';

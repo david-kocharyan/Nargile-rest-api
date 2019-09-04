@@ -88,7 +88,7 @@ class Users_API extends REST_Controller
 			$response = array(
 				'success' => false,
 				'data' => array(),
-				'msg' => 'Please provide unique '.$check,
+				'msg' => 'Please provide unique ' . $check,
 			);
 			$this->response($response, $status);
 			return;
@@ -244,6 +244,17 @@ class Users_API extends REST_Controller
 
 	public function refresh_token_post()
 	{
+		$res = $this->verify_get_request();
+		if (gettype($res) != 'string') {
+			$data = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => $res['msg']
+			);
+			$this->response($data, $res['status']);
+			return;
+		}
+
 		if (null == $this->input->post("refresh_token")) {
 			$status = self::HTTP_UNPROCESSABLE_ENTITY;
 			$response = array(
@@ -281,9 +292,10 @@ class Users_API extends REST_Controller
 
 	}
 
-//	get authorized user data 
-	public function getUser_get ()
+//	get authorized user data
+	public function getUser_get()
 	{
+		//        the function would return current user's id, if the token would be approved
 		$res = $this->verify_get_request();
 		if (gettype($res) != 'string') {
 			$data = array(
@@ -295,44 +307,29 @@ class Users_API extends REST_Controller
 			return;
 		}
 
-		if (null == $this->input->get('token')) {
-			$status = self::HTTP_UNPROCESSABLE_ENTITY;
-			$response = array(
-				'success' => false,
-				'data' => array(),
-				'msg' => 'Please, provide token',
+		$this->db->select('username, first_name, last_name, date_of_birth, mobile_number, email, coins, reference_code');
+		$user = $this->db->get_where("users", ['id' => $res])->row();
+
+		if (null == $user) {
+			$data = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => "User not found !"
 			);
-			$this->response($response, $status);
+			$this->response($data, REST_Controller::HTTP_BAD_REQUEST);
 			return;
 		}
 
-		$auth = $this->User->getUserByToken($this->input->get('token'));
-		if (!$auth) {
-			$status = self::HTTP_UNPROCESSABLE_ENTITY;
-			$response = array(
-				'success' => false,
-				'data' => array(),
-				'msg' => 'Wrong Credentials',
-			);
-			$this->response($response, $status);
-		} 
-
 		$response = array(
 			"msg" => '',
-			"data" => array(
-				"user" => array(
-					"first_name" => $auth->first_name,
-					"last_name" => $auth->last_name,
-					"date_of_birth" => $auth->date_of_birth,
-					"mobile_number" => $auth->mobile_number,
-					"email" => $auth->email,
-					"reference_code" => $auth->reference_code == null ? "" : $auth->reference_code,
-					"coins" => $auth->coins,
-				),
-				"tokens" => array(
-					"token" => $auth->token,
-					"refresh_token" => $auth->refresh_token,
-				),
+			"user" => array(
+				"first_name" => $user->first_name,
+				"last_name" => $user->last_name,
+				"date_of_birth" => $user->date_of_birth,
+				"mobile_number" => $user->mobile_number,
+				"email" => $user->email,
+				"reference_code" => $user->reference_code == null ? "" : $user->reference_code,
+				"coins" => $user->coins,
 			),
 			"success" => true
 		);
