@@ -263,7 +263,7 @@ class Restaurants_Api extends REST_Controller
 			return;
         }
 
-        $this->db->select("sliders.id, concat('/plugins/images/Sliders/', sliders.image) as name");
+        $this->db->select("sliders.id, concat('/plugins/images/Sliders/', sliders.image) as image");
         $this->db->limit(5);
         $data = $this->db->get("sliders")->result();
 
