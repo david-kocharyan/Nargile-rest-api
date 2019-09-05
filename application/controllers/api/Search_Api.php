@@ -43,12 +43,15 @@ class Search_Api extends REST_Controller
         $this->filters();
         $this->db->order_by("restaurants.name");
         $data = $this->db->get("restaurants")->result();
-        return $data != null ? $data : "";
+        return $data != null ? $data : array();
     }
 
     private function where()
     {
         $this->db->where(array('area.status' => 1, 'countries.status' => 1, 'restaurants.status' => 1));
+		if (empty($_GET)){
+			$this->db->limit(5);
+		}
     }
 
     private function filters()
