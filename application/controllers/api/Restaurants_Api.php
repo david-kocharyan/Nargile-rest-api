@@ -108,12 +108,13 @@ class Restaurants_Api extends REST_Controller
                     $data = $this->get_top_rated();
                     break;
             }
+            var_dump($data);
             $pages = ($limit != 0 || null !== $limit) ? ceil($count_data->pages / $limit) : 0;
             $response = array(
                 "success" => true,
                 "data" => array(
                     $this->input->get('action') => array(
-                        "list" => isset($data) ? $data : array(),
+                        "list" => $data,
                         "meta" => array(
                             "limit" => $limit,
                             "offset" => (null !== $this->input->get('offset') && is_numeric($this->input->get("offset"))) ? intval($this->input->get('offset')) : 0,
@@ -138,7 +139,7 @@ class Restaurants_Api extends REST_Controller
         //////////////////////////////////////////
         $this->where();
         $data = $this->db->get("restaurants")->result();
-        return $data != null ? $data : "";
+        return $data != null ? $data : array();
     }
 
     private function get_top_rated()
@@ -152,7 +153,7 @@ class Restaurants_Api extends REST_Controller
         $this->where();
 
         $data = $this->db->get("restaurants")->result();
-        return $data != null ? $data : "";
+        return $data != null ? $data : array();
     }
 
     private function get_featured_offers()
@@ -165,7 +166,7 @@ class Restaurants_Api extends REST_Controller
 
         $this->db->order_by("offers.id DESC");
         $data = $this->db->get_where("offers", array("offers.status" => 1, "type" => 1))->result();
-        return $data != null ? $data : "";
+        return $data != null ? $data : array();
     }
 
     private function get_hour_offers()
@@ -178,7 +179,7 @@ class Restaurants_Api extends REST_Controller
 
         $this->db->order_by("offers.id DESC");
         $data = $this->db->get_where("offers", array("offers.status" => 1, "type" => 2))->result();
-        return $data != null ? $data : "";
+        return $data != null ? $data : array();
     }
 
     private function get_pages($type = null)
