@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 require(APPPATH . '/libraries/REST_Controller.php');
-require_once FCPATH  . '/vendor/autoload.php'; // change path as needed
+require_once FCPATH . '/vendor/autoload.php'; // change path as needed
 
 
 class Facebook_Api extends REST_Controller
@@ -23,34 +23,43 @@ class Facebook_Api extends REST_Controller
 
 	public function login_post()
 	{
-		$accesToken = $this->input->post("accesToken");
-		$me = '/me?fields=id,name,first_name,last_name,birthday,picture,email';
+		$accessToken = $this->input->post("accessToken");
+		$me = '/me?fields=id,name,first_name,last_name,email,birthday';
 
 		try {
-			$response = $this->fb->get($me, $accesToken);
-		} catch(\Facebook\Exceptions\FacebookResponseException $e) {
+			$response = $this->fb->get($me, $accessToken);
+		} catch (\Facebook\Exceptions\FacebookResponseException $e) {
 			// When Graph returns an error
 			echo 'Graph returned an error: ' . $e->getMessage();
 			exit;
-		} catch(\Facebook\Exceptions\FacebookSDKException $e) {
+		} catch (\Facebook\Exceptions\FacebookSDKException $e) {
 			// When validation fails or other local issues
 			echo 'Facebook SDK returned an error: ' . $e->getMessage();
 			exit;
 		}
 
 		$user = $response->getGraphUser();
+		$user_data = $this->db->get_where('users', array('email' => $user['email']))->row();
+		$username = $user['first_name'] . $user['last_name'] . time() . rand();
 
-		$data = array(
-			"username" => $user['name'],
-			"first_name" => $user['first_name'],
-			"last_name" => $user['last_name'],
-			"date_of_birth" => "",
-			"mobile_number" => "",
-			"email" => $user['email'],
-			"reference_code" => '',
-			'coins' => 0,
-		);
-		var_dump($data);
+		if (NULL == $user_data) {
+			$data = array(
+				"username" => $username,
+				"first_name" => $user['first_name'],
+				"last_name" => $user['last_name'],
+				"date_of_birth" => '',
+				"mobile_number" => '',
+				"email" => $user['email'],
+				"password" => time() . '?' . rand(),
+				"reference_code" => "",
+				'coins' => 0,
+			);
+			$this->db->insert('users', $data);
+			var_dump(22);
+		}
+		else{
+			var_dump($user_data);
+		}
 	}
 
 }

@@ -68,7 +68,7 @@ $route['api/restaurants/search'] = 'api/Restaurants_Api/search';
 $route['api/restaurants/slider'] = 'api/Restaurants_Api/slider';
 
 //search Api
-$route['api/search-restaurant'] = 'api/Search_api';
+$route['api/restaurants/search'] = 'api/Search_api';
 
 //admin panel
 $route['admin'] = 'Admins';

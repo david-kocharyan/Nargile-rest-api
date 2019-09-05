@@ -224,33 +224,6 @@ class Restaurants_Api extends REST_Controller
         $this->db->join("countries", "countries.id = area.country_id");
     }
 
-    public function search_get()
-    {
-        if($this->input->get('name') != null) {
-            $data  = $this->find($this->input->get('name'));
-        }
-        $response = array(
-            "success" => true,
-            "data" => array(
-                "list" => isset($data) ? $data : array(),
-            ),
-            "msg" => ""
-        );
-        $this->response($response, REST_Controller::HTTP_OK);
-    }
-
-    private function find($name)
-    {
-        $this->db->select("restaurants.name as restaurant_name, restaurants.id as restaurant_id, area.name as area, concat('/plugins/images/Restaurants/', restaurants.logo) as logo, 'Nargile Price Range 10000-16000 LBP' as info, '3.6' as rate ");
-        $this->join();
-        $this->where();
-        $this->db->like('restaurants.name', $name, 'after');
-        $this->db->limit(10);
-        $this->db->order_by("restaurants.name");
-        $data = $this->db->get("restaurants")->result();
-        return $data != null ? $data : "";
-    }
-
     public function slider_get()
     {
         $res = $this->verify_get_request();
