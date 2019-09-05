@@ -27,8 +27,11 @@ class Restaurants_Api extends REST_Controller
 			return;
 		}
 
-        $limit = (null !== $this->input->get('limit') && is_numeric($this->input->get("limit"))) ? $this->input->get('limit') : 10;
-        $offset = (null !== $this->input->get('offset') && is_numeric($this->input->get("offset"))) ? $this->input->get('offset') * $limit : 0;
+		var_dump($this->input->get("limit"));
+		die;
+
+        $limit = (null !== $this->input->get('limit') && is_numeric($this->input->get("limit"))) ? $this->input->get('limit') : '10';
+        $offset = (null !== $this->input->get('offset') && is_numeric($this->input->get("offset"))) ? $this->input->get('offset') * $limit : '0';
 
         $featured_offers = $this->get_featured_offers();
         $hour_offers = $this->get_hour_offers();
@@ -57,8 +60,8 @@ class Restaurants_Api extends REST_Controller
                         "list" => $featured_offers,
                         "meta" => array(
                             "limit" => $limit,
-                            "offset" => (null !== $this->input->get('offset') && is_numeric($this->input->get("offset"))) ? $this->input->get('offset') : 0,
-                            "pages" => ($limit != 0 || null !== $limit) ? ceil($count_featured_offers->pages / $limit) : 1,
+                            "offset" => (null !== $this->input->get('offset') && is_numeric($this->input->get("offset"))) ? $this->input->get('offset') : '0',
+                            "pages" => ($limit != 0 || null !== $limit) ? ceil($count_featured_offers->pages / $limit) : '1',
                         ),
                         "action" => "featured_offers"
                     ),
@@ -66,8 +69,8 @@ class Restaurants_Api extends REST_Controller
                         "list" => $hour_offers,
                         "meta" => array(
                             "limit" => $limit,
-                            "offset" => (null !== $this->input->get('offset') && is_numeric($this->input->get("offset"))) ? $this->input->get('offset') : 0,
-                            "pages" => ($limit != 0 || null !== $limit) ? ceil($count_hour_offers->pages / $limit) : 1,
+                            "offset" => (null !== $this->input->get('offset') && is_numeric($this->input->get("offset"))) ? $this->input->get('offset') : '0',
+                            "pages" => ($limit != 0 || null !== $limit) ? ceil($count_hour_offers->pages / $limit) : '1',
                         ),
                         "action" => "hour_offers"
                     ),
@@ -75,8 +78,8 @@ class Restaurants_Api extends REST_Controller
                         "list" => $nearest,
                         "meta" => array(
                             "limit" => $limit,
-                            "offset" => (null !== $this->input->get('offset') && is_numeric($this->input->get("offset"))) ? $this->input->get('offset') : 0,
-                            "pages" => ($limit != 0 || null !== $limit) ? ceil($count_nearest->pages / $limit) : 1,
+                            "offset" => (null !== $this->input->get('offset') && is_numeric($this->input->get("offset"))) ? $this->input->get('offset') : '0',
+                            "pages" => ($limit != 0 || null !== $limit) ? ceil($count_nearest->pages / $limit) : '1',
                         ),
                         "action" => "nearest"
                     ),
@@ -84,8 +87,8 @@ class Restaurants_Api extends REST_Controller
                         "list" => $top_rated,
                         "meta" => array(
                             "limit" => $limit,
-                            "offset" => (null !== $this->input->get('offset') && is_numeric($this->input->get("offset"))) ? $this->input->get('offset') : 0,
-                            "pages" => ($limit != 0 || null !== $limit) ? ceil($count_top->pages / $limit) : 1,
+                            "offset" => (null !== $this->input->get('offset') && is_numeric($this->input->get("offset"))) ? $this->input->get('offset') : '0',
+                            "pages" => ($limit != 0 || null !== $limit) ? ceil($count_top->pages / $limit) : '1',
                         ),
                         "action" => "top"
                     ),
@@ -108,7 +111,7 @@ class Restaurants_Api extends REST_Controller
                     $data = $this->get_top_rated();
                     break;
             }
-            $pages = ($limit != 0 || null !== $limit) ? ceil($count_data->pages / $limit) : 1;
+            $pages = ($limit != 0 || null !== $limit) ? ceil($count_data->pages / $limit) : '1';
             $response = array(
                 "success" => true,
                 "data" => array(
@@ -116,7 +119,7 @@ class Restaurants_Api extends REST_Controller
                         "list" => isset($data) ? $data : array(),
                         "meta" => array(
                             "limit" => $limit,
-                            "offset" => (null !== $this->input->get('offset') && is_numeric($this->input->get("offset"))) ? $this->input->get('offset') : 0,
+                            "offset" => (null !== $this->input->get('offset') && is_numeric($this->input->get("offset"))) ? $this->input->get('offset') : '0',
                             "pages" => $pages,
                         ),
                     ),
@@ -207,8 +210,8 @@ class Restaurants_Api extends REST_Controller
 
     private function limits()
     {
-        $limit = (null !== $this->input->get('limit') && is_numeric($this->input->get("limit"))) ? $this->input->get('limit') : 10;
-        $offset = (null !== $this->input->get('offset') && is_numeric($this->input->get("offset"))) ? $this->input->get('offset') * $limit : 0;
+        $limit = (null !== $this->input->get('limit') && is_numeric($this->input->get("limit"))) ? $this->input->get('limit') : '10';
+        $offset = (null !== $this->input->get('offset') && is_numeric($this->input->get("offset"))) ? $this->input->get('offset') * $limit : '0';
         $this->db->limit($limit, $offset);
     }
 
