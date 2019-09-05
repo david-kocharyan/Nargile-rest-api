@@ -119,6 +119,7 @@ class Restaurants_Api extends REST_Controller
                             "offset" => (null !== $this->input->get('offset') && is_numeric($this->input->get("offset"))) ? intval($this->input->get('offset')) : 0,
                             "pages" => $pages,
                         ),
+						"action" => $this->input->get('action'),
                     ),
                 ),
                 "msg" => ""
