@@ -64,7 +64,6 @@ $route['api/facebook/login'] = 'api/Facebook_Api/login';
 
 //restaurants Api
 $route['api/restaurants'] = 'api/Restaurants_Api';
-$route['api/restaurants/search'] = 'api/Restaurants_Api/search';
 $route['api/restaurants/slider'] = 'api/Restaurants_Api/slider';
 
 //search Api
