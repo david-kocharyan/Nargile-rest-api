@@ -27,7 +27,7 @@ class Restaurants_Api extends REST_Controller
 			return;
 		}
 
-        $limit = (null !== $this->input->get('limit') && is_numeric($this->input->get("limit"))) ? $this->input->get('limit') : 5;
+        $limit = (null !== $this->input->get('limit') && is_numeric($this->input->get("limit"))) ? $this->input->get('limit') : 10;
         $offset = (null !== $this->input->get('offset') && is_numeric($this->input->get("offset"))) ? $this->input->get('offset') * $limit : 0;
 
         $featured_offers = $this->get_featured_offers();
@@ -207,7 +207,7 @@ class Restaurants_Api extends REST_Controller
 
     private function limits()
     {
-        $limit = (null !== $this->input->get('limit') && is_numeric($this->input->get("limit"))) ? $this->input->get('limit') : 5;
+        $limit = (null !== $this->input->get('limit') && is_numeric($this->input->get("limit"))) ? $this->input->get('limit') : 10;
         $offset = (null !== $this->input->get('offset') && is_numeric($this->input->get("offset"))) ? $this->input->get('offset') * $limit : 0;
         $this->db->limit($limit, $offset);
     }
@@ -264,7 +264,7 @@ class Restaurants_Api extends REST_Controller
         }
 
         $this->db->select("sliders.id, concat('/plugins/images/Slider/', sliders.image) as image");
-        $this->db->limit(5);
+        $this->db->where("status", 1);
         $data = $this->db->get("sliders")->result();
 
         $response = array(

@@ -34,6 +34,7 @@
 				<tr>
 					<th>ID</th>
 					<th>Image</th>
+					<th>Status</th>
 					<th>Options</th>
 				</tr>
 				</thead>
@@ -44,10 +45,20 @@
 						<td><img src="<?= base_url('plugins/images/Slider/') ?><?= $value->image; ?>" alt="" width="200"
 								 height="100" class="img-responsive">
 						</td>
+						<td><?= $value->status ?></td>
 						<td>
-							<a href="<?= base_url("admin/sliders/delete/$value->id") ?>" data-toggle="tooltip"
-							   data-placement="top" title="Delete" class="btn btn-danger btn-circle tooltip-danger"> <i
-									class="fa fa-trash"></i> </a>
+							<?php if ($value->status == 1) { ?>
+								<a href="<?= base_url("admin/sliders/change-status/$value->id") ?>"
+								   data-toggle="tooltip"
+								   data-placement="top" title="Deactivate"
+								   class="btn btn-danger btn-circle tooltip-danger"><i class="fa fa-power-off"></i></a>
+							<?php } else { ?>
+								<a href="<?= base_url("admin/sliders/change-status/$value->id") ?>"
+								   data-toggle="tooltip"
+								   data-placement="top" title="Activate"
+								   class="btn btn-success btn-circle tooltip-success"><i
+										class="fa fa-power-off"></i></a>
+							<?php } ?>
 						</td>
 					</tr>
 				<?php } ?>

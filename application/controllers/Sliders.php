@@ -39,11 +39,13 @@ class Sliders extends CI_Controller
 		redirect('sliders');
 	}
 
-	public function delete($id)
+	/**
+	 * Change the clients active status.
+	 * @param int $id
+	 */
+	public function change_status($id)
 	{
-		$image = $this->Slider->SelectById($id);
-		$this->Slider->delete($id);
-		unlink("plugins/images/Slider/".$image->image);
+		$this->Slider->changeStatus($id);
 		redirect("admin/sliders");
 	}
 
@@ -98,8 +100,8 @@ class Sliders extends CI_Controller
 		$config['create_thumb'] = FALSE;
 		$config['maintain_ratio'] = true;
 		$config['quality'] = '50%';
-		$config['width'] = '400';
-		$config['height'] = '400';
+		$config['width'] = '800';
+		$config['height'] = '800';
 		$config['new_image'] = $path."/".$filename;
 		$this->load->library('image_lib');
 		$this->image_lib->clear();

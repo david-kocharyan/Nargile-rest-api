@@ -44,20 +44,18 @@ class Restaurants extends CI_Controller
 		$this->form_validation->set_rules('name', 'Name', 'required');
 		$this->form_validation->set_rules('area', 'Area', 'required');
 
-		if ($this->form_validation->run() == FALSE){
+		if ($this->form_validation->run() == FALSE) {
 			$this->create();
-		}
-		else{
-			if(!empty($_FILES['logo']['name']) || null != $_FILES['logo']['name']){
+		} else {
+			if (!empty($_FILES['logo']['name']) || null != $_FILES['logo']['name']) {
 				$image = $this->uploadImage('logo');
-				if(isset($image['error'])) {
+				if (isset($image['error'])) {
 					$this->session->set_flashdata('error', $image['error']);
 					$this->create();
 					return;
 				}
 				$logo = isset($image['data']['file_name']) ? $image['data']['file_name'] : "";
-			}
-			else{
+			} else {
 				$this->session->set_flashdata('error', 'Image was required');
 				$this->create();
 				return;
@@ -102,13 +100,12 @@ class Restaurants extends CI_Controller
 		$this->form_validation->set_rules('name', 'Name', 'required');
 		$this->form_validation->set_rules('area', 'Area', 'required');
 
-		if ($this->form_validation->run() == FALSE){
+		if ($this->form_validation->run() == FALSE) {
 			$this->edit($id);
-		}
-		else{
-			if(!empty($_FILES['logo']['name']) || null != $_FILES['logo']['name'] ){
+		} else {
+			if (!empty($_FILES['logo']['name']) || null != $_FILES['logo']['name']) {
 				$image = $this->uploadImage('logo');
-				if(isset($image['error'])) {
+				if (isset($image['error'])) {
 					$this->session->set_flashdata('error', $image['error']);
 					$this->edit($id);
 					return;
@@ -120,7 +117,7 @@ class Restaurants extends CI_Controller
 				'name' => $name,
 				'area_id' => $area
 			);
-			if(isset($logo)) $restaurant['logo'] = $logo;
+			if (isset($logo)) $restaurant['logo'] = $logo;
 
 			$this->Restaurant->update($restaurant, $id);
 			$this->session->set_flashdata('success', 'You have change the clients successfully');
@@ -138,14 +135,10 @@ class Restaurants extends CI_Controller
 		redirect("admin/restaurants");
 	}
 
-	/**
-	 * simple image uploading
-	 * @param image
-	 * @return image name
-	 */
+
 	private function uploadImage($image)
 	{
-		if(!is_dir(FCPATH . "/plugins/images/Restaurants")) {
+		if (!is_dir(FCPATH . "/plugins/images/Restaurants")) {
 			mkdir(FCPATH . "/plugins/images/Restaurants", 0755, true);
 		}
 		$path = FCPATH . "/plugins/images/Restaurants";
@@ -153,18 +146,39 @@ class Restaurants extends CI_Controller
 		$config['file_name'] = 'Logo_' . time() . '_' . rand();
 		$config['allowed_types'] = 'jpg|png|jpeg';
 		$config['max_size'] = 100000;
-
 		$this->load->library('upload', $config);
+
 		if (!$this->upload->do_upload($image)) {
 			$errorStrings = strip_tags($this->upload->display_errors());
 			$error = array('error' => $errorStrings, 'image' => $image);
 			return $error;
 		} else {
-			$data = array('data' => $this->upload->data());
+			$uploadedImage = $this->upload->data();
+			$this->resizeImage($uploadedImage['file_name'], $path);
+
+			$data = array('data' => $uploadedImage);
 			return $data;
 		}
 	}
 
+	private function resizeImage($filename, $path)
+	{
+		$source_path = $path . "/" . $filename;
+		$target_path = $path . "/" . $filename;;
+		$config_manip = array(
+			'image_library' => 'gd2',
+			'source_image' => $source_path,
+			'new_image' => $target_path,
+			'maintain_ratio' => TRUE,
+			'width' => 400,
+			'height' => 400,
+		);
+		$this->load->library('image_lib', $config_manip);
+		if (!$this->image_lib->resize()) {
+			echo $this->image_lib->display_errors();
+		}
+		$this->image_lib->clear();
+	}
 
 
 }

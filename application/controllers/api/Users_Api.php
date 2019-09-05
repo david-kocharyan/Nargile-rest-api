@@ -137,7 +137,7 @@ class Users_API extends REST_Controller
 					"mobile_number" => $mobile_number,
 					"email" => $email,
 					"reference_code" => $reference_code == null ? "" : $reference_code,
-					"coins" => 0,
+					"coins" => "0",
 				),
 				"tokens" => array(
 					"token" => $token,

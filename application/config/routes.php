@@ -49,7 +49,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
 */
-$route['default_controller'] = 'Admin';
+$route['default_controller'] = 'Admins';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
@@ -70,13 +70,13 @@ $route['api/restaurants/slider'] = 'api/Restaurants_Api/slider';
 //search Api
 $route['api/search-restaurant'] = 'api/Search_api';
 
-
 //admin panel
 $route['admin'] = 'Admins';
 $route['admin/dashboard'] = 'Admins';
 $route['admin/register'] = 'Admins/register';
 $route['admin/login'] = 'Login';
 $route['admin/logout'] = 'Login/logout';
+
 //Client
 $route['admin/clients'] = 'Clients';
 $route['admin/clients/create'] = 'Clients/create';
@@ -112,7 +112,7 @@ $route["admin/restaurants/change-status/(:any)"] = 'Restaurants/change_status/$1
 //Slider
 $route['admin/sliders'] = 'Sliders';
 $route["admin/sliders/store"] = 'Sliders/store';
-$route["admin/sliders/delete/(:any)"] = 'Sliders/delete/$1';
+$route["admin/sliders/change-status/(:any)"] = 'Sliders/change_status/$1';
 
 //Featured Offers
 $route['admin/offers'] = 'Offers';

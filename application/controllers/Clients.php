@@ -60,20 +60,18 @@ class Clients extends CI_Controller
 		$this->form_validation->set_rules('restaurant', 'Restaurant', 'required|trim|is_unique[admins.restaurant_id]');
 		$this->form_validation->set_rules('password', 'Password', 'required|min_length[8]');
 
-		if ($this->form_validation->run() == FALSE){
+		if ($this->form_validation->run() == FALSE) {
 			$this->create();
-		}
-		else{
-			if(!empty($_FILES['logo']['name']) || null != $_FILES['logo']['name']){
+		} else {
+			if (!empty($_FILES['logo']['name']) || null != $_FILES['logo']['name']) {
 				$image = $this->uploadImage('logo');
-				if(isset($image['error'])) {
+				if (isset($image['error'])) {
 					$this->session->set_flashdata('error', $image['error']);
 					$this->create();
 					return;
 				}
 				$logo = isset($image['data']['file_name']) ? $image['data']['file_name'] : "";
-			}
-			else{
+			} else {
 				$this->session->set_flashdata('error', 'Image was required');
 				$this->create();
 				return;
@@ -137,39 +135,36 @@ class Clients extends CI_Controller
 		$def_restaurant_id = $user->restaurant_id;
 		$def_password = $user->password;
 
-		if ($def_username != $username){
+		if ($def_username != $username) {
 			$this->form_validation->set_rules('username', 'Username', 'required|trim|max_length[30]|is_unique[admins.username]');
 		}
-		if ($def_restaurant_id != $restaurant){
+		if ($def_restaurant_id != $restaurant) {
 			$this->form_validation->set_rules('restaurant', 'Restaurant', 'required|trim|is_unique[admins.username]');
 		}
-		if ($def_email != $email){
+		if ($def_email != $email) {
 			$this->form_validation->set_rules('email', 'Email', 'required|trim|is_unique[admins.email]');
 		}
-		if (empty($password)){
+		if (empty($password)) {
 			$password = $def_password;
-		}
-		else{
+		} else {
 			$this->form_validation->set_rules('password', 'Password', 'required|min_length[8]');
 			$password = hash("sha512", $password);
 		}
 		$this->form_validation->set_rules('full_name', 'Full name', 'required|trim|regex_match[/^([a-z ])+$/i]');
 
 
-		if ($this->form_validation->run() == FALSE){
+		if ($this->form_validation->run() == FALSE) {
 			$this->edit($id);
-		}
-		else{
-			if(!empty($_FILES['logo']['name']) || null != $_FILES['logo']['name'] ){
+		} else {
+			if (!empty($_FILES['logo']['name']) || null != $_FILES['logo']['name']) {
 				$image = $this->uploadImage('logo');
-				if(isset($image['error'])) {
+				if (isset($image['error'])) {
 					$this->session->set_flashdata('error', $image['error']);
 					$this->edit($id);
 					return;
 				}
 				$logo = isset($image['data']['file_name']) ? $image['data']['file_name'] : $def_logo;
-			}
-			else{
+			} else {
 				$logo = $def_logo;
 			}
 
@@ -199,14 +194,9 @@ class Clients extends CI_Controller
 		redirect("admin/clients");
 	}
 
-	/**
-	 * simple image uploading
-	 * @param image
-	 * @return image name
-	 */
 	private function uploadImage($image)
 	{
-		if(!is_dir(FCPATH . "/plugins/images/Logo")) {
+		if (!is_dir(FCPATH . "/plugins/images/Logo")) {
 			mkdir(FCPATH . "/plugins/images/Logo", 0755, true);
 		}
 		$path = FCPATH . "/plugins/images/Logo";
@@ -214,20 +204,38 @@ class Clients extends CI_Controller
 		$config['file_name'] = 'Logo_' . time() . '_' . rand();
 		$config['allowed_types'] = 'jpg|png|jpeg';
 		$config['max_size'] = 100000;
-
 		$this->load->library('upload', $config);
+
 		if (!$this->upload->do_upload($image)) {
 			$errorStrings = strip_tags($this->upload->display_errors());
 			$error = array('error' => $errorStrings, 'image' => $image);
 			return $error;
 		} else {
-			$data = array('data' => $this->upload->data());
+			$uploadedImage = $this->upload->data();
+			$this->resizeImage($uploadedImage['file_name'], $path);
+
+			$data = array('data' => $uploadedImage);
 			return $data;
 		}
 	}
 
-
-
-
+	private function resizeImage($filename, $path)
+	{
+		$source_path = $path . "/" . $filename;
+		$target_path = $path . "/" . $filename;;
+		$config_manip = array(
+			'image_library' => 'gd2',
+			'source_image' => $source_path,
+			'new_image' => $target_path,
+			'maintain_ratio' => TRUE,
+			'width' => 400,
+			'height' => 400,
+		);
+		$this->load->library('image_lib', $config_manip);
+		if (!$this->image_lib->resize()) {
+			echo $this->image_lib->display_errors();
+		}
+		$this->image_lib->clear();
+	}
 
 }

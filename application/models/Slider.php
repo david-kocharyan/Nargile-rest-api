@@ -25,9 +25,20 @@ class Slider extends CI_Model
 		$this->db->insert($this->table, $data);
 	}
 
+	///////////////////////////////////
 	public function delete($id)
 	{
 		$this->db->delete($this->table, array('id' => $id));
+	}
+
+	public function changeStatus($id)
+	{
+		$data = $this->db->get_where($this->table, ["id" => $id])->row();
+		if(null == $data) {
+			return;
+		}
+		$status = $data->status == 1 ? 0 : 1;
+		$this->db->update($this->table, array("status" => $status), ['id' => $id] );
 	}
 
 
