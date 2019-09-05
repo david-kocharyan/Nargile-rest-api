@@ -15,8 +15,8 @@ class Facebook_Api extends REST_Controller
 		$this->load->model("User");
 
 		$this->fb = new \Facebook\Facebook(array(
-			'app_id' => '1227713554075866',
-			'app_secret' => '07342b084004336eef551ce2afa98499',
+			'app_id' => '504140546796159',
+			'app_secret' => '69c62d7b28f4ca1710eeb33c57aa5a97',
 			'default_graph_version' => 'v2.10',
 		));
 	}

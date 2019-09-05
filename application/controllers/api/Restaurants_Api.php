@@ -108,7 +108,6 @@ class Restaurants_Api extends REST_Controller
                     $data = $this->get_top_rated();
                     break;
             }
-            var_dump($data);
             $pages = ($limit != 0 || null !== $limit) ? ceil($count_data->pages / $limit) : 0;
             $response = array(
                 "success" => true,
