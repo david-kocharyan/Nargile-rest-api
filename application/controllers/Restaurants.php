@@ -82,6 +82,7 @@ class Restaurants extends CI_Controller
 		$this->load->model("Area");
 		$data['area'] = $this->Area->selectAll();
 		$data['restaurant'] = $this->Restaurant->selectById($id);
+		$data['restaurant_images'] = $this->db->get_where('restaurants_images', array('restaurant_id' => $id))->result();
 		$data['title'] = "Edit Restaurant";
 
 		$this->load->view('layouts/header.php', $data);
@@ -118,6 +119,21 @@ class Restaurants extends CI_Controller
 				}
 				$logo = isset($image['data']['file_name']) ? $image['data']['file_name'] : "";
 			}
+			$this->db->trans_start();
+
+			if(!empty($_FILES['images']['name'][0]) || null != $_FILES['images']['name'][0]){
+				$images = $this->upload_files($_FILES['images'], $id);
+				if(isset($images['err'])) {
+					$this->errors = $images['err'];
+					$this->db->trans_rollback();
+					$this->edit($this->input->post('id'));
+					return;
+				}
+				else{
+					$this->db->insert_batch('restaurants_images', $images);
+				}
+			}
+			$this->db->trans_complete();
 
 			$restaurant = array(
 				'name' => $name,
@@ -141,6 +157,16 @@ class Restaurants extends CI_Controller
 		redirect("admin/restaurants");
 	}
 
+	public function change_status_image($id)
+	{
+		$data = $this->db->get_where('restaurants_images', ["id" => $id])->row();
+		if(null == $data) {
+			return;
+		}
+		$status = $data->status == 1 ? 0 : 1;
+		$this->db->update('restaurants_images', array("status" => $status), ['id' => $id] );
+		redirect("admin/restaurants/edit/$data->restaurant_id");
+	}
 
 	private function uploadImage($image)
 	{
@@ -205,6 +231,71 @@ class Restaurants extends CI_Controller
 		);
 
 		$this->image_lib->initialize($config_manip);
+		if (!$this->image_lib->resize()) {
+			echo $this->image_lib->display_errors();
+		}
+		$this->image_lib->clear();
+	}
+
+	private function upload_files($files, $id)
+	{
+		if(!is_dir(FCPATH . "/plugins/images/Restaurant_images")) {
+			mkdir(FCPATH . "/plugins/images/Restaurant_images", 0755, true);
+		}
+		$config = array(
+			'upload_path'   => FCPATH . "/plugins/images/Restaurant_images",
+			'allowed_types' => 'jpg|jpeg|png|jfif',
+			'max_size' => 100000000000,
+			'overwrite' => 1
+		);
+
+		$this->load->library('upload', $config);
+
+		$images = array();
+
+		foreach ($files['name'] as $key => $image) {
+			$_FILES['images[]']['name']= $files['name'][$key];
+			$_FILES['images[]']['type']= $files['type'][$key];
+			$_FILES['images[]']['tmp_name']= $files['tmp_name'][$key];
+			$_FILES['images[]']['error']= $files['error'][$key];
+			$_FILES['images[]']['size']= $files['size'][$key];
+			$ext = explode(".", $image)[1];
+			$fileName = 'Res_image_' . time() . '_' . uniqid().".".$ext;
+
+			$images[$key]['image'] = $fileName;
+			$images[$key]['restaurant_id'] = $id;
+
+			$config['file_name'] = $fileName;
+
+			$this->upload->initialize($config);
+
+			if ($this->upload->do_upload('images[]')) {
+				$this->upload->data();
+				$this->resizeResImage($fileName, $config['upload_path']);
+			} else {
+				$data['err'] = $this->upload->display_errors() . $image;
+				return $data;
+			}
+		}
+		return $images;
+	}
+
+	private function resizeResImage($filename, $path)
+	{
+		$source_path = $path . "/" . $filename;
+		$target_path = $path . "/" . $filename;
+		$config_manip = array(
+			'image_library' => 'gd2',
+			'source_image' => $source_path,
+			'new_image' => $target_path,
+			'maintain_ratio' => TRUE,
+			'create_thumb' => FALSE,
+			'width' => 1000,
+			'height' => 1000,
+		);
+		$this->load->library('image_lib');
+		$this->image_lib->initialize($config_manip);
+
 		if (!$this->image_lib->resize()) {
 			echo $this->image_lib->display_errors();
 		}

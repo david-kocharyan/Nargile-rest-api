@@ -18,7 +18,8 @@
 
 				<div class="form-group">
 					<label for="inputUsername" class="control-label">Name</label>
-					<input type="text" class="form-control" id="inputUsername" placeholder=Name name="name" value="<?= $restaurant->name ?>"
+					<input type="text" class="form-control" id="inputUsername" placeholder=Name name="name"
+						   value="<?= $restaurant->name ?>"
 						   required>
 					<?php if (!empty(form_error('name'))) { ?>
 						<div class="help-block with-errors text-danger">
@@ -52,19 +53,77 @@
 				<div class="form-group">
 					<label for="input-file-now">Clients Logo</label>
 					<input type="file" id="input-file-now" name="logo" class="dropify" data-max-file-size="15M">
-					<img src="<?= base_url('plugins/images/Restaurants/') ?><?= $restaurant->logo ?> " class="m-t-15" alt="logo" width="200" height="200">
+					<img src="<?= base_url('plugins/images/Restaurants/') ?><?= $restaurant->logo ?> " class="m-t-15"
+						 alt="logo" width="200" height="200">
 					<?php if (!empty($this->session->flashdata('error'))) { ?>
 						<div class=" help-block with-errors text-danger">
-					<?= $this->session->flashdata('error') ?>
+							<?= $this->session->flashdata('error') ?>
+						</div>
+					<?php } ?>
 				</div>
-				<?php } ?>
-		</div>
 
-		<div class="form-group">
-			<button type="submit" class="btn btn-primary">Submit</button>
+				<div class="form-group">
+					<?php if (isset($this->errors)) { ?>
+						<div class="alert-danger alert-dismissable">
+							<?= $this->errors; ?>
+						</div>
+					<?php } ?>
+					<label>Images (Choose Multiple) </label>
+					<br>
+					<input type="file" name="images[]" class="form-control" multiple>
+				</div>
+
+				<div class="form-group">
+					<button type="submit" class="btn btn-primary">Submit</button>
+				</div>
+			</form>
 		</div>
-		</form>
 	</div>
 </div>
+
+<div class="row">
+	<div class="col-sm-12">
+		<div class="white-box">
+
+			<div class="table-responsive">
+				<table id="myTable" class="table table-striped">
+					<thead>
+					<tr>
+						<th>ID</th>
+						<th>Image</th>
+						<th>Status</th>
+						<th>Options</th>
+					</tr>
+					</thead>
+					<tbody>
+					<?php foreach ($restaurant_images as $key => $value) { ?>
+						<tr>
+							<td><?= $key + 1 ?></td>
+							<td><img src="<?= base_url('plugins/images/Restaurant_images/') ?><?= $value->image; ?>" alt=""
+									 width="200"
+									 height="100" class="img-responsive">
+							</td>
+							<td><?= $value->status ?></td>
+							<td>
+								<?php if ($value->status == 1) { ?>
+									<a href="<?= base_url("admin/restaurants/change-status-image/$value->id") ?>"
+									   data-toggle="tooltip"
+									   data-placement="top" title="Deactivate"
+									   class="btn btn-danger btn-circle tooltip-danger"><i class="fa fa-power-off"></i></a>
+								<?php } else { ?>
+									<a href="<?= base_url("admin/restaurants/change-status-image/$value->id") ?>"
+									   data-toggle="tooltip"
+									   data-placement="top" title="Activate"
+									   class="btn btn-success btn-circle tooltip-success"><i
+											class="fa fa-power-off"></i></a>
+								<?php } ?>
+							</td>
+						</tr>
+					<?php } ?>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
 </div>
 

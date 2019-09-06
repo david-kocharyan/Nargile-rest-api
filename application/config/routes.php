@@ -67,8 +67,14 @@ $route['api/users/facebook/login'] = 'api/Facebook_Api/login';
 $route['api/restaurants'] = 'api/Restaurants_Api';
 $route['api/restaurants/slider'] = 'api/Restaurants_Api/slider';
 
+//restaurant profile Api
+$route['api/restaurant/profile'] = 'api/Restaurant_Profile_Api';
+
 //search Api
 $route['api/restaurants/search'] = 'api/Search_Api';
+
+//location api
+$route['api/locations'] = 'api/Location_Api';
 
 //admin panel
 $route['admin'] = 'Admins';
@@ -108,6 +114,7 @@ $route["admin/restaurants/store"] = 'Restaurants/store';
 $route["admin/restaurants/edit/(:any)"] = 'Restaurants/edit/$1';
 $route["admin/restaurants/update/(:any)"] = 'Restaurants/update/$1';
 $route["admin/restaurants/change-status/(:any)"] = 'Restaurants/change_status/$1';
+$route["admin/restaurants/change-status-image/(:any)"] = 'Restaurants/change_status_image/$1/$2';
 
 //Slider
 $route['admin/sliders'] = 'Sliders';

@@ -33,7 +33,7 @@ class Facebook_Api extends REST_Controller
 			$response = array(
 				'success' => false,
 				'data' => array(),
-				'msg' => 'Graph returned an error: ' . $e->getMessage(),
+				'msg' => 'Wrong Credentials',
 			);
 			$this->response($response, $status);
 			return;
@@ -42,7 +42,7 @@ class Facebook_Api extends REST_Controller
 			$response = array(
 				'success' => false,
 				'data' => array(),
-				'msg' => 'Facebook SDK returned an error: ' . $e->getMessage(),
+				'msg' => 'Wrong Credentials',
 			);
 			$this->response($response, $status);
 			return;

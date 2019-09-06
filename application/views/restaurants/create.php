@@ -6,7 +6,7 @@
 
 			<?php if (!empty($this->session->flashdata('success'))) { ?>
 				<p class="text-muted m-b-0">Register restaurant quickly and easily!</p>
-				<p class="text-mutedv text-success m-b-30">	<?= $this->session->flashdata('success'); ?> </p>
+				<p class="text-mutedv text-success m-b-30">    <?= $this->session->flashdata('success'); ?> </p>
 			<?php } else { ?>
 				<p class="text-muted m-b-30">Register restaurant quickly and easily!</p>
 			<?php } ?>
