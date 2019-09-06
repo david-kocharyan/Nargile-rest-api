@@ -337,7 +337,10 @@ class Users_API extends REST_Controller
 		);
 		$this->response($response, REST_Controller::HTTP_OK);
 	}
-	
+
+
+
+
 	public function logout_get()
 	{
 		$headers = $this->input->request_headers();

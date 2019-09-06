@@ -44,13 +44,6 @@ class Search_Api extends REST_Controller
 		$this->response($response, REST_Controller::HTTP_OK);
 	}
 
-//	private function limits()
-//	{
-//		$limit = (null !== $this->input->get('limit') && is_numeric($this->input->get("limit"))) ? $this->input->get('limit') : 10;
-//		$offset = (null !== $this->input->get('offset') && is_numeric($this->input->get("offset"))) ? $this->input->get('offset') * $limit : 0;
-//		$this->db->limit($limit, $offset);
-//	}
-
 	private function find()
 	{
 		$this->db->select("restaurants.name as restaurant_name, restaurants.id as restaurant_id, 
@@ -73,7 +66,7 @@ class Search_Api extends REST_Controller
 
 	private function filters()
 	{
-		if ($this->input->get("name") != null) $this->db->like('restaurants.name', $this->input->get("name"), 'after');
+		if ($this->input->get("name") != null) $this->db->like('restaurants.name', $this->input->get("name"), 'both');
 		if ($this->input->get("rate") != null) $this->db->where('restaurants.rate >=', $this->input->get("rate"));
 		if ($this->input->get("country") != null) {
 			$this->db->where('countries.id', $this->input->get("country"));

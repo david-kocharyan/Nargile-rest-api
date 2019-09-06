@@ -55,11 +55,64 @@ class Facebook_Api extends REST_Controller
 				'coins' => 0,
 			);
 			$this->db->insert('users', $data);
-			var_dump(22);
-		}
-		else{
-			var_dump($user_data);
+			$id = $this->db->insert_id();
+
+			$auth = $this->db->get_where("users", array("id" => $id))->row();
+			$this->Auth($auth);
+		} else {
+			$this->Auth($user_data);
 		}
 	}
+
+	private function Auth($auth)
+	{
+		if (!$auth) {
+			$status = self::HTTP_UNPROCESSABLE_ENTITY;
+			$response = array(
+				'success' => false,
+				'data' => array(),
+				'msg' => 'Wrong Credentials',
+			);
+			$this->response($response, $status);
+			return;
+		}
+
+		$token = $this->generateToken();
+		$data['refresh_token'] = $this->generateToken();
+		$status = self::HTTP_OK;
+		$data = array(
+			"token" => $token,
+			"time" => time() + 86400,
+			"user_id" => $auth->id,
+			'refresh_token' => $data['refresh_token']
+		);
+
+		$user_data = array(
+			"user" => array(
+				"first_name" => $auth->first_name,
+				"last_name" => $auth->last_name,
+				"date_of_birth" => $auth->date_of_birth,
+				"mobile_number" => $auth->mobile_number,
+				"email" => $auth->email,
+				"reference_code" => $auth->reference_code == null ? "" : $auth->reference_code,
+				"coins" => $auth->coins,
+			),
+			"tokens" => array(
+				"token" => $token,
+				"refresh_token" => $data['refresh_token']
+			),
+		);
+
+		$this->db->insert('tokens', $data);
+		unset($data['user_id']);
+		unset($data['time']);
+		$response = array(
+			"msg" => '',
+			"data" => $user_data,
+			"success" => true
+		);
+		$this->response($response, $status);
+	}
+
 
 }
