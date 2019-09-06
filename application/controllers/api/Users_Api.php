@@ -244,16 +244,6 @@ class Users_API extends REST_Controller
 
 	public function refresh_token_post()
 	{
-		$res = $this->verify_get_request();
-		if (gettype($res) != 'string') {
-			$data = array(
-				"success" => false,
-				"data" => array(),
-				"msg" => $res['msg']
-			);
-			$this->response($data, $res['status']);
-			return;
-		}
 
 		if (null == $this->input->post("refresh_token")) {
 			$status = self::HTTP_UNPROCESSABLE_ENTITY;
@@ -338,9 +328,6 @@ class Users_API extends REST_Controller
 		$this->response($response, REST_Controller::HTTP_OK);
 	}
 
-
-
-
 	public function logout_get()
 	{
 		$headers = $this->input->request_headers();
@@ -357,7 +344,13 @@ class Users_API extends REST_Controller
 				"status" => REST_Controller::HTTP_UNPROCESSABLE_ENTITY
 			);
 		} else {
-			$this->db->delete('tokens', array('id' => $res['id']));
+
+			$this->db->set('token', NULL);
+			$this->db->set('refresh_token', NULL);
+			$this->db->set('time', NULL);
+			$this->db->where('id', $res['id']);
+			$this->db->update('tokens');
+
 			$data = array(
 				"success" => true,
 				"data" => array(),
