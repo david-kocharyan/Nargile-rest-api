@@ -29,16 +29,37 @@ class Facebook_Api extends REST_Controller
 		try {
 			$response = $this->fb->get($me, $accessToken);
 		} catch (\Facebook\Exceptions\FacebookResponseException $e) {
-			// When Graph returns an error
-			echo 'Graph returned an error: ' . $e->getMessage();
-			exit;
+			$status = self::HTTP_UNPROCESSABLE_ENTITY;
+			$response = array(
+				'success' => false,
+				'data' => array(),
+				'msg' => 'Graph returned an error: ' . $e->getMessage(),
+			);
+			$this->response($response, $status);
+			return;
 		} catch (\Facebook\Exceptions\FacebookSDKException $e) {
-			// When validation fails or other local issues
-			echo 'Facebook SDK returned an error: ' . $e->getMessage();
-			exit;
+			$status = self::HTTP_UNPROCESSABLE_ENTITY;
+			$response = array(
+				'success' => false,
+				'data' => array(),
+				'msg' => 'Facebook SDK returned an error: ' . $e->getMessage(),
+			);
+			$this->response($response, $status);
+			return;
 		}
 
 		$user = $response->getGraphUser();
+		if (!$user["email"] || empty($user["email"]) || NULL == $user["email"] || $user["email"] == "") {
+			$status = self::HTTP_UNPROCESSABLE_ENTITY;
+			$response = array(
+				'success' => false,
+				'data' => array(),
+				'msg' => 'Wrong Credentials',
+			);
+			$this->response($response, $status);
+			return;
+		}
+
 		$user_data = $this->db->get_where('users', array('email' => $user['email']))->row();
 		$username = $user['first_name'] . $user['last_name'] . time() . rand();
 
