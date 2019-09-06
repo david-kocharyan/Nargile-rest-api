@@ -60,7 +60,7 @@ $route['api/users/refresh-token'] = 'api/Users_Api/refresh_token';
 $route['api/users/get-user'] = 'api/Users_Api/getUser';
 
 //facebook login Api
-$route['api/facebook/login'] = 'api/Facebook_Api/login';
+$route['api/users/facebook/login'] = 'api/Facebook_Api/login';
 
 //restaurants Api
 $route['api/restaurants'] = 'api/Restaurants_Api';

@@ -157,6 +157,9 @@ class Clients extends CI_Controller
 			$this->edit($id);
 		} else {
 			if (!empty($_FILES['logo']['name']) || null != $_FILES['logo']['name']) {
+				unlink(FCPATH . "/plugins/images/Logo/".$user->logo);
+				unlink(FCPATH . "/plugins/thumb_images/Logo/Thumb_".$user->logo);
+
 				$image = $this->uploadImage('logo');
 				if (isset($image['error'])) {
 					$this->session->set_flashdata('error', $image['error']);
@@ -199,6 +202,11 @@ class Clients extends CI_Controller
 		if (!is_dir(FCPATH . "/plugins/images/Logo")) {
 			mkdir(FCPATH . "/plugins/images/Logo", 0755, true);
 		}
+
+		if (!is_dir(FCPATH . "/plugins/thumb_images/Logo")) {
+			mkdir(FCPATH . "/plugins/thumb_images/Logo", 0755, true);
+		}
+
 		$path = FCPATH . "/plugins/images/Logo";
 		$config['upload_path'] = $path;
 		$config['file_name'] = 'Logo_' . time() . '_' . rand();
@@ -222,16 +230,37 @@ class Clients extends CI_Controller
 	private function resizeImage($filename, $path)
 	{
 		$source_path = $path . "/" . $filename;
-		$target_path = $path . "/" . $filename;;
+		$target_path = $path . "/" . $filename;
 		$config_manip = array(
 			'image_library' => 'gd2',
 			'source_image' => $source_path,
 			'new_image' => $target_path,
 			'maintain_ratio' => TRUE,
-			'width' => 400,
-			'height' => 400,
+			'create_thumb' => FALSE,
+			'width' => 800,
+			'height' => 800,
 		);
-		$this->load->library('image_lib', $config_manip);
+		$this->load->library('image_lib');
+		$this->image_lib->initialize($config_manip);
+
+		if (!$this->image_lib->resize()) {
+			echo $this->image_lib->display_errors();
+		}
+		$this->image_lib->clear();
+
+//		second thumb resize
+		$source_path = $path . "/" . $filename;
+		$config_manip = array(
+			'image_library' => 'gd2',
+			'source_image' => $source_path,
+			'new_image' => FCPATH . "/plugins/thumb_images/Logo/" . "Thumb_" . $filename,
+			'maintain_ratio' => TRUE,
+			'create_thumb' => FALSE,
+			'width' => 300,
+			'height' => 300,
+		);
+
+		$this->image_lib->initialize($config_manip);
 		if (!$this->image_lib->resize()) {
 			echo $this->image_lib->display_errors();
 		}

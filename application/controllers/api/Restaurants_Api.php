@@ -130,7 +130,7 @@ class Restaurants_Api extends REST_Controller
 
     private function get_nearest()
     {
-        $this->db->select("restaurants.name, area.name as area_name, countries.name as country_name, concat('/plugins/images/Restaurants/', restaurants.logo) as logo, restaurants.id as id");
+        $this->db->select("restaurants.name, area.name as area_name, countries.name as country_name, concat('/plugins/images/Restaurants/', restaurants.logo) as logo, restaurants.id as id, 'Nargile Price Range 10000-16000 LBP' as info, '3.6' as rate ");
         $this->limits();
         $this->join();
         ////////////////////////////////////////////
@@ -143,7 +143,7 @@ class Restaurants_Api extends REST_Controller
 
     private function get_top_rated()
     {
-        $this->db->select("restaurants.name, area.name as area_name, countries.name as country_name, concat('/plugins/images/Restaurants/', restaurants.logo) as logo, restaurants.id as id ");
+        $this->db->select("restaurants.name, area.name as area_name, countries.name as country_name, concat('/plugins/images/Restaurants/', restaurants.logo) as logo, restaurants.id as id, 'Nargile Price Range 10000-16000 LBP' as info, '3.6' as rate ");
         $this->limits();
         $this->join();
         ///////////////////////////////////////////

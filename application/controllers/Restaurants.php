@@ -49,6 +49,7 @@ class Restaurants extends CI_Controller
 		} else {
 			if (!empty($_FILES['logo']['name']) || null != $_FILES['logo']['name']) {
 				$image = $this->uploadImage('logo');
+				$this->thumbImage('logo');
 				if (isset($image['error'])) {
 					$this->session->set_flashdata('error', $image['error']);
 					$this->create();
@@ -100,10 +101,15 @@ class Restaurants extends CI_Controller
 		$this->form_validation->set_rules('name', 'Name', 'required');
 		$this->form_validation->set_rules('area', 'Area', 'required');
 
+		$user = $this->Restaurant->selectById($id);
+
 		if ($this->form_validation->run() == FALSE) {
 			$this->edit($id);
 		} else {
 			if (!empty($_FILES['logo']['name']) || null != $_FILES['logo']['name']) {
+				unlink(FCPATH . "/plugins/images/Restaurants/".$user->logo);
+				unlink(FCPATH . "/plugins/thumb_images/Restaurants/Thumb_".$user->logo);
+
 				$image = $this->uploadImage('logo');
 				if (isset($image['error'])) {
 					$this->session->set_flashdata('error', $image['error']);
@@ -141,6 +147,11 @@ class Restaurants extends CI_Controller
 		if (!is_dir(FCPATH . "/plugins/images/Restaurants")) {
 			mkdir(FCPATH . "/plugins/images/Restaurants", 0755, true);
 		}
+
+		if (!is_dir(FCPATH . "/plugins/thumb_images/Restaurants")) {
+			mkdir(FCPATH . "/plugins/thumb_images/Restaurants", 0755, true);
+		}
+
 		$path = FCPATH . "/plugins/images/Restaurants";
 		$config['upload_path'] = $path;
 		$config['file_name'] = 'Logo_' . time() . '_' . rand();
@@ -155,7 +166,6 @@ class Restaurants extends CI_Controller
 		} else {
 			$uploadedImage = $this->upload->data();
 			$this->resizeImage($uploadedImage['file_name'], $path);
-
 			$data = array('data' => $uploadedImage);
 			return $data;
 		}
@@ -164,21 +174,40 @@ class Restaurants extends CI_Controller
 	private function resizeImage($filename, $path)
 	{
 		$source_path = $path . "/" . $filename;
-		$target_path = $path . "/" . $filename;;
+		$target_path = $path . "/" . $filename;
 		$config_manip = array(
 			'image_library' => 'gd2',
 			'source_image' => $source_path,
 			'new_image' => $target_path,
 			'maintain_ratio' => TRUE,
-			'width' => 400,
-			'height' => 400,
+			'create_thumb' => FALSE,
+			'width' => 800,
+			'height' => 800,
 		);
-		$this->load->library('image_lib', $config_manip);
+		$this->load->library('image_lib');
+		$this->image_lib->initialize($config_manip);
+
+		if (!$this->image_lib->resize()) {
+			echo $this->image_lib->display_errors();
+		}
+		$this->image_lib->clear();
+
+//		second thumb resize
+		$source_path = $path . "/" . $filename;
+		$config_manip = array(
+			'image_library' => 'gd2',
+			'source_image' => $source_path,
+			'new_image' => FCPATH . "/plugins/thumb_images/Restaurants/" . "Thumb_" . $filename,
+			'maintain_ratio' => TRUE,
+			'create_thumb' => FALSE,
+			'width' => 300,
+			'height' => 300,
+		);
+
+		$this->image_lib->initialize($config_manip);
 		if (!$this->image_lib->resize()) {
 			echo $this->image_lib->display_errors();
 		}
 		$this->image_lib->clear();
 	}
-
-
 }
