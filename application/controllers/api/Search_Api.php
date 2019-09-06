@@ -24,16 +24,32 @@ class Search_Api extends REST_Controller
 			return;
 		}
 
+		$limit = (null !== $this->input->get('limit') && is_numeric($this->input->get("limit"))) ? intval($this->input->get('limit')) : 10;
+		$offset = (null !== $this->input->get('offset') && is_numeric($this->input->get("offset"))) ? $this->input->get('offset') * $limit : 0;
+		$pages = ($limit != 0 || null !== $limit) ? ceil($this->get_pages()->pages / $limit) : 0;
+
 		$data = $this->find();
 		$response = array(
 			"success" => true,
 			"data" => array(
 				"list" => isset($data) ? $data : array(),
+				"meta" => array(
+					"limit" => $limit,
+					"offset" => (null !== $this->input->get('offset') && is_numeric($this->input->get("offset"))) ? intval($this->input->get('offset')) : 0,
+					"pages" => ($limit != 0 || null !== $limit) ? $pages : 0,
+				),
 			),
 			"msg" => ""
 		);
 		$this->response($response, REST_Controller::HTTP_OK);
 	}
+
+//	private function limits()
+//	{
+//		$limit = (null !== $this->input->get('limit') && is_numeric($this->input->get("limit"))) ? $this->input->get('limit') : 10;
+//		$offset = (null !== $this->input->get('offset') && is_numeric($this->input->get("offset"))) ? $this->input->get('offset') * $limit : 0;
+//		$this->db->limit($limit, $offset);
+//	}
 
 	private function find()
 	{
@@ -43,6 +59,7 @@ class Search_Api extends REST_Controller
 		'Nargile Price Range 10000-16000 LBP' as info, '3.6' as rate ");
 		$this->join();
 		$this->where();
+		$this->limits();
 		$this->filters();
 		$this->db->order_by("restaurants.name");
 		$data = $this->db->get("restaurants")->result();
@@ -52,9 +69,6 @@ class Search_Api extends REST_Controller
 	private function where()
 	{
 		$this->db->where(array('area.status' => 1, 'countries.status' => 1, 'restaurants.status' => 1));
-		if (empty($_GET)) {
-			$this->db->limit(5);
-		}
 	}
 
 	private function filters()
@@ -77,4 +91,21 @@ class Search_Api extends REST_Controller
 		$this->db->join("area", "area.id = restaurants.area_id");
 		$this->db->join("countries", "countries.id = area.country_id");
 	}
+
+	private function get_pages($type = null)
+	{
+		$this->db->select("count(restaurants.id) as pages");
+		$this->join();
+		$this->where();
+		$data = $this->db->get("restaurants")->row();
+		return $data != null ? $data : 0;
+	}
+
+	private function limits()
+	{
+		$limit = (null !== $this->input->get('limit') && is_numeric($this->input->get("limit"))) ? $this->input->get('limit') : 10;
+		$offset = (null !== $this->input->get('offset') && is_numeric($this->input->get("offset"))) ? $this->input->get('offset') * $limit : 0;
+		$this->db->limit($limit, $offset);
+	}
+
 }

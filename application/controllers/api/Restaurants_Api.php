@@ -224,6 +224,7 @@ class Restaurants_Api extends REST_Controller
         $this->db->join("countries", "countries.id = area.country_id");
     }
 
+//    slider --------------------------------
     public function slider_get()
     {
         $res = $this->verify_get_request();
