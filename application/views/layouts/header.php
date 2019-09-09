@@ -70,14 +70,10 @@
 					<!-- Logo icon image, you can use font-icon also --><b>
 						<!--This is dark logo icon--><img src="<?= base_url('public/') ?>plugins/images/admin-logo.png"
 														  alt="home" class="dark-logo"/>
-						<!--This is light logo icon--><img src="../plugins/images/admin-logo-dark.png" alt="home"
-														   class="light-logo"/>
 					</b>
 					<!-- Logo text image you can use text also --><span class="hidden-xs">
                         <!--This is dark logo text--><img src="<?= base_url('public/') ?>plugins/images/admin-text.png"
 														  alt="home" class="dark-logo"/>
-						<!--This is light logo text--><img src="../plugins/images/admin-text-dark.png" alt="home"
-														   class="light-logo"/>
                      </span> </a>
 			</div>
 			<!-- /Logo -->
@@ -170,18 +166,15 @@
 		<div class="sidebar-nav slimscrollsidebar">
 			<ul class="nav" id="side-menu">
 				<li class="user-pro">
-					<a href="#" class="waves-effect"><img src="<?= base_url('public/') ?>plugins/images/users/varun.jpg"
+					<a href="#" class="waves-effect"><img src="<?= base_url('plugins/images/Logo/') ?><?= $admin->logo ?>"
 														  alt="user-img" class="img-circle">
 						<span class="hide-menu"><?= $user['full_name'] ?><span class="fa arrow"></span></span>
 					</a>
-					<ul class="nav nav-second-level collapse" aria-expanded="false" style="height: 0px;">
-						<li><a href="javascript:void(0)"><i class="ti-user"></i> <span
+
+					<ul class="nav nav-second-level collapse" aria-expanded="false" style="">
+						<li><a href="<?= base_url('admin/profile')?>"><i class="ti-user"></i> <span
 									class="hide-menu">My Profile</span></a></li>
-						<li><a href="javascript:void(0)"><i class="ti-wallet"></i> <span
-									class="hide-menu">My Balance</span></a></li>
-						<li><a href="javascript:void(0)"><i class="ti-email"></i> <span
-									class="hide-menu">Inbox</span></a></li>
-						<li><a href="javascript:void(0)"><i class="ti-settings"></i> <span class="hide-menu">Account Setting</span></a>
+						<li><a href="<?= base_url('admin/settings')?>"><i class="ti-settings"></i> <span class="hide-menu">Account Setting</span></a>
 						</li>
 						<li><a href="<?= base_url('admin/logout') ?>"><i class="fa fa-power-off"></i> <span
 									class="hide-menu">Logout</span></a></li>
@@ -230,7 +223,6 @@
 							class="hide-menu">Acounting</span></a></li>
 				<li><a href="javascript:void(0)" class="waves-effect"><i class="mdi mdi-settings fa-fw"></i> <span
 							class="hide-menu">Settings</span></a></li>
-
 
 
 			</ul>

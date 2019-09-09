@@ -83,6 +83,9 @@ $route['admin/dashboard'] = 'Admins';
 $route['admin/register'] = 'Admins/register';
 $route['admin/login'] = 'Login';
 $route['admin/logout'] = 'Login/logout';
+$route['admin/profile'] = 'Admins/profile';
+$route['admin/settings'] = 'Admins/settings';
+$route['admin/settings/update/(:any)'] = 'Admins/update/$1';
 
 //Client
 $route['admin/clients'] = 'Clients';
