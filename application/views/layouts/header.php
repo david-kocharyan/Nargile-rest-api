@@ -166,15 +166,15 @@
 		<div class="sidebar-nav slimscrollsidebar">
 			<ul class="nav" id="side-menu">
 				<li class="user-pro">
-					<a href="#" class="waves-effect"><img src="<?= base_url('plugins/images/Logo/') ?><?= $admin->logo ?>"
-														  alt="user-img" class="img-circle">
+					<a href="#" class="waves-effect"><i class="mdi mdi-account-circle"></i>
 						<span class="hide-menu"><?= $user['full_name'] ?><span class="fa arrow"></span></span>
 					</a>
 
 					<ul class="nav nav-second-level collapse" aria-expanded="false" style="">
-						<li><a href="<?= base_url('admin/profile')?>"><i class="ti-user"></i> <span
+						<li><a href="<?= base_url('admin/profile') ?>"><i class="ti-user"></i> <span
 									class="hide-menu">My Profile</span></a></li>
-						<li><a href="<?= base_url('admin/settings')?>"><i class="ti-settings"></i> <span class="hide-menu">Account Setting</span></a>
+						<li><a href="<?= base_url('admin/settings') ?>"><i class="ti-settings"></i> <span
+									class="hide-menu">Account Setting</span></a>
 						</li>
 						<li><a href="<?= base_url('admin/logout') ?>"><i class="fa fa-power-off"></i> <span
 									class="hide-menu">Logout</span></a></li>
