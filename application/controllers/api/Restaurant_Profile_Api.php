@@ -39,7 +39,7 @@ class Restaurant_Profile_Api extends REST_Controller
 				"restaurant_info" => array(
 					"restaurant" => $restaurant,
 					"images" => $images,
-					"mere_info" => $more_info,
+					"more_info" => $more_info,
 					"highlighted_reviews" => $highlighted_reviews,
 					"featured_offers" => $featured_offers,
 				)
@@ -81,7 +81,7 @@ class Restaurant_Profile_Api extends REST_Controller
 
 	private function getImages()
 	{
-		return $this->db->get_where("restaurants_images", array("restaurant_id" => $this->input->get("id")))->result();
+		return $this->db->get_where("restaurants_images", array("restaurant_id" => $this->input->get("id"), "restaurants_images.status" => 1))->result();
 	}
 
 }

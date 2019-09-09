@@ -45,6 +45,39 @@
 				</div>
 
 				<div class="form-group">
+					<label for="inputAdress" class="control-label">Name</label>
+					<input type="text" class="form-control" id="inputAdress" placeholder="Address" name="address"
+						   required>
+					<?php if (!empty(form_error('address'))) { ?>
+						<div class="help-block with-errors text-danger">
+							<?= form_error('address'); ?>
+						</div>
+					<?php } ?>
+				</div>
+
+				<div class="form-group col-md-6">
+					<label for="inputLat" class="control-label">Latitude</label>
+					<input type="text" class="form-control" id="inputLat" placeholder="Latitude" name="lat"
+						   required>
+					<?php if (!empty(form_error('lat'))) { ?>
+						<div class="help-block with-errors text-danger">
+							<?= form_error('lat'); ?>
+						</div>
+					<?php } ?>
+				</div>
+
+				<div class="form-group col-md-6">
+					<label for="inputLong" class="control-label">Longitude</label>
+					<input type="text" class="form-control" id="inputLong" placeholder="Longitude" name="long"
+						   required>
+					<?php if (!empty(form_error('long'))) { ?>
+						<div class="help-block with-errors text-danger">
+							<?= form_error('long'); ?>
+						</div>
+					<?php } ?>
+				</div>
+
+				<div class="form-group">
 					<label for="input-file-now">Clients Logo</label>
 					<input type="file" id="input-file-now" name="logo" class="dropify" data-max-file-size="15M"/>
 					<?php if (!empty($this->session->flashdata('error'))) { ?>
@@ -61,5 +94,4 @@
 		</div>
 	</div>
 </div>
-
 

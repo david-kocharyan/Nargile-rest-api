@@ -40,16 +40,21 @@ class Restaurants extends CI_Controller
 	{
 		$name = $this->input->post('name');
 		$area = $this->input->post('area');
+		$address = $this->input->post('address');
+		$lat = $this->input->post('lat');
+		$long = $this->input->post('long');
 
 		$this->form_validation->set_rules('name', 'Name', 'required');
 		$this->form_validation->set_rules('area', 'Area', 'required');
+		$this->form_validation->set_rules('address', 'Address', 'required');
+		$this->form_validation->set_rules('lat', 'Latitude', 'required');
+		$this->form_validation->set_rules('long', 'Longitude', 'required');
 
 		if ($this->form_validation->run() == FALSE) {
 			$this->create();
 		} else {
 			if (!empty($_FILES['logo']['name']) || null != $_FILES['logo']['name']) {
 				$image = $this->uploadImage('logo');
-				$this->thumbImage('logo');
 				if (isset($image['error'])) {
 					$this->session->set_flashdata('error', $image['error']);
 					$this->create();
@@ -62,10 +67,14 @@ class Restaurants extends CI_Controller
 				return;
 			}
 
+
 			$restaurant = array(
 				'name' => $name,
 				'area_id' => $area,
 				'logo' => $logo,
+				'address' => $address,
+				'lat' => $lat,
+				'long' => $long,
 				'status' => 1
 			);
 
@@ -98,9 +107,16 @@ class Restaurants extends CI_Controller
 	{
 		$name = $this->input->post('name');
 		$area = $this->input->post('area');
+		$address = $this->input->post('address');
+		$lat = $this->input->post('lat');
+		$long = $this->input->post('long');
+
 
 		$this->form_validation->set_rules('name', 'Name', 'required');
 		$this->form_validation->set_rules('area', 'Area', 'required');
+		$this->form_validation->set_rules('address', 'Address', 'required');
+		$this->form_validation->set_rules('lat', 'Latitude', 'required');
+		$this->form_validation->set_rules('long', 'Longitude', 'required');
 
 		$user = $this->Restaurant->selectById($id);
 
@@ -108,8 +124,8 @@ class Restaurants extends CI_Controller
 			$this->edit($id);
 		} else {
 			if (!empty($_FILES['logo']['name']) || null != $_FILES['logo']['name']) {
-				unlink(FCPATH . "/plugins/images/Restaurants/".$user->logo);
-				unlink(FCPATH . "/plugins/thumb_images/Restaurants/Thumb_".$user->logo);
+				unlink(FCPATH . "/plugins/images/Restaurants/" . $user->logo);
+				unlink(FCPATH . "/plugins/thumb_images/Restaurants/Thumb_" . $user->logo);
 
 				$image = $this->uploadImage('logo');
 				if (isset($image['error'])) {
@@ -121,15 +137,14 @@ class Restaurants extends CI_Controller
 			}
 			$this->db->trans_start();
 
-			if(!empty($_FILES['images']['name'][0]) || null != $_FILES['images']['name'][0]){
+			if (!empty($_FILES['images']['name'][0]) || null != $_FILES['images']['name'][0]) {
 				$images = $this->upload_files($_FILES['images'], $id);
-				if(isset($images['err'])) {
+				if (isset($images['err'])) {
 					$this->errors = $images['err'];
 					$this->db->trans_rollback();
 					$this->edit($this->input->post('id'));
 					return;
-				}
-				else{
+				} else {
 					$this->db->insert_batch('restaurants_images', $images);
 				}
 			}
@@ -137,7 +152,10 @@ class Restaurants extends CI_Controller
 
 			$restaurant = array(
 				'name' => $name,
-				'area_id' => $area
+				'area_id' => $area,
+				'address' => $address,
+				'lat' => $lat,
+				'long' => $long,
 			);
 			if (isset($logo)) $restaurant['logo'] = $logo;
 
@@ -160,11 +178,11 @@ class Restaurants extends CI_Controller
 	public function change_status_image($id)
 	{
 		$data = $this->db->get_where('restaurants_images', ["id" => $id])->row();
-		if(null == $data) {
+		if (null == $data) {
 			return;
 		}
 		$status = $data->status == 1 ? 0 : 1;
-		$this->db->update('restaurants_images', array("status" => $status), ['id' => $id] );
+		$this->db->update('restaurants_images', array("status" => $status), ['id' => $id]);
 		redirect("admin/restaurants/edit/$data->restaurant_id");
 	}
 
@@ -239,11 +257,11 @@ class Restaurants extends CI_Controller
 
 	private function upload_files($files, $id)
 	{
-		if(!is_dir(FCPATH . "/plugins/images/Restaurant_images")) {
+		if (!is_dir(FCPATH . "/plugins/images/Restaurant_images")) {
 			mkdir(FCPATH . "/plugins/images/Restaurant_images", 0755, true);
 		}
 		$config = array(
-			'upload_path'   => FCPATH . "/plugins/images/Restaurant_images",
+			'upload_path' => FCPATH . "/plugins/images/Restaurant_images",
 			'allowed_types' => 'jpg|jpeg|png|jfif',
 			'max_size' => 100000000000,
 			'overwrite' => 1
@@ -254,13 +272,13 @@ class Restaurants extends CI_Controller
 		$images = array();
 
 		foreach ($files['name'] as $key => $image) {
-			$_FILES['images[]']['name']= $files['name'][$key];
-			$_FILES['images[]']['type']= $files['type'][$key];
-			$_FILES['images[]']['tmp_name']= $files['tmp_name'][$key];
-			$_FILES['images[]']['error']= $files['error'][$key];
-			$_FILES['images[]']['size']= $files['size'][$key];
+			$_FILES['images[]']['name'] = $files['name'][$key];
+			$_FILES['images[]']['type'] = $files['type'][$key];
+			$_FILES['images[]']['tmp_name'] = $files['tmp_name'][$key];
+			$_FILES['images[]']['error'] = $files['error'][$key];
+			$_FILES['images[]']['size'] = $files['size'][$key];
 			$ext = explode(".", $image)[1];
-			$fileName = 'Res_image_' . time() . '_' . uniqid().".".$ext;
+			$fileName = 'Res_image_' . time() . '_' . uniqid() . "." . $ext;
 
 			$images[$key]['image'] = $fileName;
 			$images[$key]['restaurant_id'] = $id;

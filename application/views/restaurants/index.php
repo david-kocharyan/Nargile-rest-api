@@ -15,6 +15,9 @@
 						<th>Area name</th>
 						<th>Country name</th>
 						<th>Logo</th>
+						<th>Address</th>
+						<th>Lat</th>
+						<th>Long</th>
 						<th>Status</th>
 						<th>Options</th>
 					</tr>
@@ -27,6 +30,9 @@
 							<td><?= $value->area_name; ?></td>
 							<td><?= $value->country_name; ?></td>
 							<td><img src="<?= base_url("plugins/images/Restaurants/".$value->logo); ?>"  width="200" height="200" alt=""></td>
+							<td><?= $value->address; ?></td>
+							<td><?= $value->lat; ?></td>
+							<td><?= $value->long; ?></td>
 							<td><?= $value->status; ?></td>
 							<td>
 								<a href="<?= base_url("admin/restaurants/edit/$value->id") ?>" data-toggle="tooltip"

@@ -92,6 +92,7 @@ class Search_Api extends REST_Controller
 		$this->db->select("count(restaurants.id) as pages");
 		$this->join();
 		$this->where();
+		$this->filters();
 		$data = $this->db->get("restaurants")->row();
 		return $data != null ? $data : 0;
 	}
