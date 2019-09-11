@@ -48,7 +48,7 @@ class Search_Api extends REST_Controller
 	{
 		$this->db->select("restaurants.name as restaurant_name, restaurants.id as restaurant_id, 
 		area.name as area, concat('/plugins/images/Restaurants/', restaurants.logo) as logo, 
-		concat('/plugins/thumb_images/Restaurants/Thumb_', restaurants.logo) as thumb,
+		concat('/plugins/thumb_images/Restaurants/Thumb_', restaurants.logo) as thumb, lat, lng,
 		'Nargile Price Range 10000-16000 LBP' as info, '3.6' as rate ");
 		$this->join();
 		$this->where();

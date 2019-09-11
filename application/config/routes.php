@@ -77,6 +77,9 @@ $route['api/restaurants/search'] = 'api/Search_Api';
 $route['api/locations'] = 'api/Location_Api';
 $route['api/locations/geolocation'] = 'api/Location_Api/geolocation';
 
+//rate
+$route['api/rate'] = 'api/Rate_Api';
+
 //admin panel
 $route['admin'] = 'Admins';
 $route['admin/dashboard'] = 'Admins';

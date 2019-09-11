@@ -130,14 +130,19 @@ class Restaurants_Api extends REST_Controller
 
     private function get_nearest()
     {
-        $this->db->select("restaurants.name, area.name as area_name, countries.name as country_name, concat('/plugins/images/Restaurants/', restaurants.logo) as logo, restaurants.id as id, 'Nargile Price Range 10000-16000 LBP' as info, '3.6' as rate ");
+		$lat = $this->input->get("lat");
+		$lng = $this->input->get("lng");
+
+		$radius = $this->boundingBox($lat, $lng);
+		$filter = array('lat >' => $radius["latMin"], 'lng >' => $radius["lngMin"], 'lat <' => $radius["latMax"], 'lng <' => $radius["lngMax"]);
+
+		$this->db->select("restaurants.name, area.name as area_name, countries.name as country_name, concat('/plugins/images/Restaurants/', restaurants.logo) as logo, restaurants.id as id, 'Nargile Price Range 10000-16000 LBP' as info, '3.6' as rate ");
         $this->limits();
         $this->join();
-        ////////////////////////////////////////////
-        $this->db->where("restaurants.id <= 15");
-        //////////////////////////////////////////
-        $this->where();
-        $data = $this->db->get("restaurants")->result();
+        //
+		$this->db->where($filter);
+        //
+		$data = $this->db->get("restaurants")->result();
         return $data != null ? $data : array();
     }
 
@@ -252,5 +257,32 @@ class Restaurants_Api extends REST_Controller
         $this->response($response, REST_Controller::HTTP_OK);
 
     }
+
+	private function boundingBox($latitudeInDegrees, $longitudeInDegrees)
+	{
+		$lat = deg2rad($latitudeInDegrees);
+		$lon = deg2rad($longitudeInDegrees);
+		$halfSide = 1000 * 5;
+		# Radius of Earth at given latitude
+		$radius = $this->WGS84EarthRadius($lat);
+		# Radius of the parallel at given latitude
+		$pradius = $radius * cos($lat);
+		$latMin = $lat - $halfSide / $radius;
+		$latMax = $lat + $halfSide / $radius;
+		$lonMin = $lon - $halfSide / $pradius;
+		$lonMax = $lon + $halfSide / $pradius;
+		return array("latMin" => rad2deg($latMin), "lngMin" => rad2deg($lonMin), "latMax" => rad2deg($latMax), "lngMax" => rad2deg($lonMax));
+	}
+
+	private function WGS84EarthRadius($lat)
+	{
+		$WGS84_a = 6378137.0;
+		$WGS84_b = 6356752.3;
+		$an = $WGS84_a * $WGS84_a * cos($lat);
+		$bn = $WGS84_b * $WGS84_b * sin($lat);
+		$ad = $WGS84_a * cos($lat);
+		$bd = $WGS84_b * sin($lat);
+		return sqrt(($an * $an + $bn * $bn) / ($ad * $ad + $bd * $bd));
+	}
 }
 
