@@ -48,8 +48,8 @@ class Search_Api extends REST_Controller
 	{
 		$this->db->select("restaurants.name as restaurant_name, restaurants.id as restaurant_id, 
 		area.name as area, concat('/plugins/images/Restaurants/', restaurants.logo) as logo, 
-		concat('/plugins/thumb_images/Restaurants/Thumb_', restaurants.logo) as thumb, lat, lng,
-		'Nargile Price Range 10000-16000 LBP' as info, '3.6' as rate ");
+		concat('/plugins/thumb_images/Restaurants/Thumb_', restaurants.logo) as thumb, lat, lng, rate,
+		'Nargile Price Range 10000-16000 LBP' as info");
 		$this->join();
 		$this->where();
 		$this->limits();
@@ -102,6 +102,32 @@ class Search_Api extends REST_Controller
 		$limit = (null !== $this->input->get('limit') && is_numeric($this->input->get("limit"))) ? $this->input->get('limit') : 10;
 		$offset = (null !== $this->input->get('offset') && is_numeric($this->input->get("offset"))) ? $this->input->get('offset') * $limit : 0;
 		$this->db->limit($limit, $offset);
+	}
+
+	public function price_get()
+	{
+		$res = $this->verify_get_request();
+		if (gettype($res) != 'string') {
+			$data = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => $res['msg']
+			);
+			$this->response($data, $res['status']);
+			return;
+		}
+
+		$this->db->select("MIN(price) as min, MAX(price) as max");
+		$data = $this->db->get("menus")->row();
+
+		$response = array(
+			"success" => true,
+			"data" => array(
+				"price" => $data != null ? $data : array(),
+			),
+			"msg" => "",
+		);
+		$this->response($response, REST_Controller::HTTP_OK);
 	}
 
 }

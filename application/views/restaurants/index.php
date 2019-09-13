@@ -4,7 +4,8 @@
 		<div class="white-box">
 			<h3 class="box-title m-b-0">Restaurants Table</h3>
 			<p class="text-muted m-b-15">All clients in 1 place!!</p>
-			<p class="box-title m-b-30"><a href="<?= base_url("admin/restaurants/create")?>" class="text-success">Add new Restaurants</a></p>
+			<p class="box-title m-b-30"><a href="<?= base_url("admin/restaurants/create") ?>" class="text-success">Add
+					new Restaurants</a></p>
 
 			<div class="table-responsive">
 				<table id="myTable" class="table table-striped">
@@ -17,7 +18,7 @@
 						<th>Logo</th>
 						<th>Address</th>
 						<th>Lat</th>
-						<th>Long</th>
+						<th>Lng</th>
 						<th>Status</th>
 						<th>Options</th>
 					</tr>
@@ -29,26 +30,45 @@
 							<td><?= $value->name; ?></td>
 							<td><?= $value->area_name; ?></td>
 							<td><?= $value->country_name; ?></td>
-							<td><img src="<?= base_url("plugins/images/Restaurants/".$value->logo); ?>"  width="200" height="200" alt=""></td>
+							<td><img src="<?= base_url("plugins/images/Restaurants/" . $value->logo); ?>" width="200"
+									 height="200" alt=""></td>
 							<td><?= $value->address; ?></td>
 							<td><?= $value->lat; ?></td>
-							<td><?= $value->long; ?></td>
+							<td><?= $value->lng; ?></td>
 							<td><?= $value->status; ?></td>
 							<td>
 								<a href="<?= base_url("admin/restaurants/edit/$value->id") ?>" data-toggle="tooltip"
 								   data-placement="top" title="Edit" class="btn btn-info btn-circle tooltip-info"> <i
 										class="fas fa-pencil-alt"></i> </a>
 
+								<a href="<?= base_url("admin/restaurants/menu/$value->id") ?>" data-toggle="tooltip"
+								   data-placement="top" title="Add Menu"
+								   class="btn btn-success btn-circle tooltip-success"> <i
+										class="fas fas fa-book"></i> </a>
+
+								<a href="<?= base_url("admin/restaurants/info/$value->id") ?>" data-toggle="tooltip"
+								   data-placement="top" title="Add More Info"
+								   class="btn btn-primary btn-circle tooltip-primary"> <i
+										class="fas fa-info"></i> </a>
+
+								<a href="<?= base_url("admin/restaurants/offers/$value->id") ?>" data-toggle="tooltip"
+								   data-placement="top" title="Add offers"
+								   class="btn btn-warning btn-circle tooltip-warning"> <i
+										class="fas fa-tags"></i> </a>
+
 								<?php if ($value->status == 1) { ?>
-									<a href="<?= base_url("admin/restaurants/change-status/$value->id") ?>" data-toggle="tooltip"
+									<a href="<?= base_url("admin/restaurants/change-status/$value->id") ?>"
+									   data-toggle="tooltip"
 									   data-placement="top" title="Deactivate"
 									   class="btn btn-danger btn-circle tooltip-danger"><i class="fa fa-power-off"></i></a>
 								<?php } else { ?>
-									<a href="<?= base_url("admin/restaurants/change-status/$value->id") ?>" data-toggle="tooltip"
+									<a href="<?= base_url("admin/restaurants/change-status/$value->id") ?>"
+									   data-toggle="tooltip"
 									   data-placement="top" title="Activate"
 									   class="btn btn-success btn-circle tooltip-success"><i
 											class="fa fa-power-off"></i></a>
 								<?php } ?>
+
 							</td>
 						</tr>
 					<?php } ?>

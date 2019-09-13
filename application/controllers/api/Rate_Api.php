@@ -28,31 +28,43 @@ class Rate_Api extends REST_Controller
 		}
 
 		$rate = array(
-			"user_id" 			=> $this->input->post("user_id"),
-			"restaurant_id" 	=> $this->input->post("restaurant_id"),
-			"overall" 			=> $this->input->post("overall"),
-			"taste" 			=> $this->input->post("taste"),
-			"charcoal" 			=> $this->input->post("charcoal"),
-			"cleanliness" 		=> $this->input->post("cleanliness"),
-			"staff" 			=> $this->input->post("staff"),
-			"value_for_money"	=> $this->input->post("value_for_money"),
+			"user_id" => $this->input->post("user_id"),
+			"restaurant_id" => $this->input->post("restaurant_id"),
+			"overall" => $this->input->post("overall"),
+			"taste" => $this->input->post("taste"),
+			"charcoal" => $this->input->post("charcoal"),
+			"cleanliness" => $this->input->post("cleanliness"),
+			"staff" => $this->input->post("staff"),
+			"value_for_money" => $this->input->post("value_for_money"),
 		);
 
 		$review = $this->input->post("review");
-
 		$this->db->insert('rates', $rate);
-
 		if (NULL != $review){
 			$this->db->insert('reviews', array("user_id" => $this->input->post("user_id"), "restaurant_id" => $this->input->post("restaurant_id"), "review" => $review));
 		}
 
+//		calculate total rate
+		$this->db->select("overall");
+		$res_rate = $this->db->get_where("rates", array("restaurant_id" => $this->input->post("restaurant_id")))->result();
+		$counter = 0;
+		$total = 0;
+		foreach ($res_rate as $row) {
+			$counter++;
+			$total += $row->overall;
+		}
+		$total_rate = $total / $counter;
+
+		$this->db->set('rate', $total_rate);
+		$this->db->where('id', $this->input->post("restaurant_id"));
+		$this->db->update('restaurants');
+
+//		response
 		$data = array(
 			"success" => true,
 			"data" => array(),
 			"msg" => "Rate successfully saved",
 		);
 		$this->response($data, REST_Controller::HTTP_OK);
-
 	}
-
 }

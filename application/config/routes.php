@@ -72,6 +72,7 @@ $route['api/restaurant/profile'] = 'api/Restaurant_Profile_Api';
 
 //search Api
 $route['api/restaurants/search'] = 'api/Search_Api';
+$route['api/restaurants/price'] = 'api/Search_Api/price';
 
 //location api
 $route['api/locations'] = 'api/Location_Api';
@@ -122,6 +123,21 @@ $route["admin/restaurants/edit/(:any)"] = 'Restaurants/edit/$1';
 $route["admin/restaurants/update/(:any)"] = 'Restaurants/update/$1';
 $route["admin/restaurants/change-status/(:any)"] = 'Restaurants/change_status/$1';
 $route["admin/restaurants/change-status-image/(:any)"] = 'Restaurants/change_status_image/$1/$2';
+
+//Restaurant More Info
+$route["admin/restaurants/info/(:any)"] = 'MoreInfos/index/$1';
+$route["admin/restaurants/info/store/(:any)"] = 'MoreInfos/store/$1';
+$route["admin/restaurants/info/edit/(:any)"] = 'MoreInfos/edit/$1';
+$route["admin/restaurants/info/update/(:any)"] = 'MoreInfos/update/$1';
+$route["admin/restaurants/info/change-status/(:any)"] = 'MoreInfos/change_status/$1';
+
+//Restaurant More Info
+//$route["admin/restaurants/menu/(:any)"] = 'MoreInfos/index/$1';
+//$route["admin/restaurants/menu/create/(:any)"] = 'MoreInfos/index/$1';
+//$route["admin/restaurants/menu/store/(:any)"] = 'MoreInfos/store/$1';
+//$route["admin/restaurants/menu/edit/(:any)"] = 'MoreInfos/edit/$1';
+//$route["admin/restaurants/menu/update/(:any)"] = 'MoreInfos/update/$1';
+//$route["admin/restaurants/menu/change-status/(:any)"] = 'MoreInfos/change_status/$1';
 
 //Slider
 $route['admin/sliders'] = 'Sliders';

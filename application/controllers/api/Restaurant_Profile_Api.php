@@ -28,9 +28,16 @@ class Restaurant_Profile_Api extends REST_Controller
 		}
 
 		$restaurant = $this->find();
+		$my_rate = $this->get_current_user_rate($res);
+		$rate = $this->get_restaurant_rate();
+
 		$restaurant->reviews = $this->get_reviews_count($this->input->get('id'))->reviews;
+		$restaurant->rate = $rate;
+		$restaurant->my_rate = $my_rate;
+
 		$images = $this->getImages();
-		$more_info = array('WiFi','Parking', 'Indoor seating', 'Outdoor seating' );
+		$more_info = $this->get_info();
+
 		$highlighted_reviews = $this->get_reviews($this->input->get('id'));
 		$featured_offers = array("Nargile Price Range 10000-16000 LBP", "Nargile Price Range 10000-16000 LBP", "Nargile Price Range 10000-16000 LBP");
 
@@ -61,7 +68,6 @@ class Restaurant_Profile_Api extends REST_Controller
 		lat, lng, address,
 		'Nargile Price Range 10000-16000 LBP' as info,
 		");
-		$this->get_rate();
 		$this->join();
 		$this->where();
 		$data = $this->db->get("restaurants")->row();
@@ -78,23 +84,11 @@ class Restaurant_Profile_Api extends REST_Controller
 	{
 		$this->db->join("area", "area.id = restaurants.area_id");
 		$this->db->join("countries", "countries.id = area.country_id");
-		$this->db->join("rates", "restaurants.id = rates.restaurant_id");
 	}
 
 	private function getImages()
 	{
 		return $this->db->get_where("restaurants_images", array("restaurant_id" => $this->input->get("id"), "restaurants_images.status" => 1))->result();
-	}
-
-	private function get_rate()
-	{
-		$this->db->select("ROUND(AVG(overall),1) as overall, 
-		ROUND(AVG(taste),1) as taste,
-		ROUND(AVG(charcoal),1) as charcoal,
-		ROUND(AVG(cleanliness),1) as cleanliness,
-		ROUND(AVG(staff),1) as staff,
-		ROUND(AVG(value_for_money),1) as value_for_money,
-		");
 	}
 
 	private function get_reviews($id)
@@ -113,5 +107,40 @@ class Restaurant_Profile_Api extends REST_Controller
 		return	$this->db->get("reviews")->row();
 	}
 
+	private function get_current_user_rate($res)
+	{
+		$this->get_rate();
+		$this->db->where("user_id", $res);
+		$this->db->where("restaurant_id", $this->input->get('id'));
+		$data = $this->db->get("rates")->row();
+		return $data != null ? $data : NULL;
+	}
 
+	private function get_restaurant_rate()
+	{
+		$this->get_rate();
+		$this->db->where("restaurant_id", $this->input->get('id'));
+		$data = $this->db->get("rates")->row();
+		return $data != null ? $data : NULL;
+	}
+
+	private function get_rate()
+	{
+		$this->db->select("ROUND(AVG(overall),1) as overall, 
+		ROUND(AVG(taste),1) as taste,
+		ROUND(AVG(charcoal),1) as charcoal,
+		ROUND(AVG(cleanliness),1) as cleanliness,
+		ROUND(AVG(staff),1) as staff,
+		ROUND(AVG(value_for_money),1) as value_for_money,
+		");
+	}
+
+	private function get_info()
+	{
+		$this->db->select("id, restaurant_id, name");
+		$this->db->where("restaurant_id", $this->input->get('id'));
+		$this->db->where("status", 1);
+		$data = $this->db->get("more_infos")->result();
+		return $data != null ? $data : NULL;
+	}
 }
