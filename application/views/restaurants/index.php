@@ -51,10 +51,15 @@
 								   class="btn btn-primary btn-circle tooltip-primary"> <i
 										class="fas fa-info"></i> </a>
 
-								<a href="<?= base_url("admin/restaurants/offers/$value->id") ?>" data-toggle="tooltip"
-								   data-placement="top" title="Add offers"
+								<a href="<?= base_url("admin/restaurants/featured-offers/$value->id") ?>" data-toggle="tooltip"
+								   data-placement="top" title="Add featured offers"
 								   class="btn btn-warning btn-circle tooltip-warning"> <i
 										class="fas fa-tags"></i> </a>
+
+								<a href="<?= base_url("admin/restaurants/hour-offers/$value->id") ?>" data-toggle="tooltip"
+								   data-placement="top" title="Add hour offers"
+								   class="btn btn-outline btn-warning btn-circle tooltip-warning"> <i
+										class="fas fa-hourglass-half"></i> </a>
 
 								<?php if ($value->status == 1) { ?>
 									<a href="<?= base_url("admin/restaurants/change-status/$value->id") ?>"
@@ -68,7 +73,6 @@
 									   class="btn btn-success btn-circle tooltip-success"><i
 											class="fa fa-power-off"></i></a>
 								<?php } ?>
-
 							</td>
 						</tr>
 					<?php } ?>

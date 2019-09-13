@@ -70,6 +70,7 @@ $route['api/restaurants/slider'] = 'api/Restaurants_Api/slider';
 //restaurant profile Api
 $route['api/restaurant/profile'] = 'api/Restaurant_Profile_Api';
 
+
 //search Api
 $route['api/restaurants/search'] = 'api/Search_Api';
 $route['api/restaurants/price'] = 'api/Search_Api/price';
@@ -131,13 +132,19 @@ $route["admin/restaurants/info/edit/(:any)"] = 'MoreInfos/edit/$1';
 $route["admin/restaurants/info/update/(:any)"] = 'MoreInfos/update/$1';
 $route["admin/restaurants/info/change-status/(:any)"] = 'MoreInfos/change_status/$1';
 
-//Restaurant More Info
-//$route["admin/restaurants/menu/(:any)"] = 'MoreInfos/index/$1';
-//$route["admin/restaurants/menu/create/(:any)"] = 'MoreInfos/index/$1';
-//$route["admin/restaurants/menu/store/(:any)"] = 'MoreInfos/store/$1';
-//$route["admin/restaurants/menu/edit/(:any)"] = 'MoreInfos/edit/$1';
-//$route["admin/restaurants/menu/update/(:any)"] = 'MoreInfos/update/$1';
-//$route["admin/restaurants/menu/change-status/(:any)"] = 'MoreInfos/change_status/$1';
+//Restaurant featured Offers
+$route["admin/restaurants/featured-offers/(:any)"] = 'FeaturedOffers/index/$1';
+$route["admin/restaurants/featured-offers/store/(:any)"] = 'FeaturedOffers/store/$1';
+$route["admin/restaurants/featured-offers/edit/(:any)"] = 'FeaturedOffers/edit/$1';
+$route["admin/restaurants/featured-offers/update/(:any)"] = 'FeaturedOffers/update/$1';
+$route["admin/restaurants/featured-offers/change-status/(:any)"] = 'FeaturedOffers/change_status/$1';
+
+//Restaurant featured Offers
+$route["admin/restaurants/hour-offers/(:any)"] = 'HourOffers/index/$1';
+$route["admin/restaurants/hour-offers/store/(:any)"] = 'HourOffers/store/$1';
+$route["admin/restaurants/hour-offers/edit/(:any)"] = 'HourOffers/edit/$1';
+$route["admin/restaurants/hour-offers/update/(:any)"] = 'HourOffers/update/$1';
+$route["admin/restaurants/hour-offers/change-status/(:any)"] = 'HourOffers/change_status/$1';
 
 //Slider
 $route['admin/sliders'] = 'Sliders';
