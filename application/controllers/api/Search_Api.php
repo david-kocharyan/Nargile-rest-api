@@ -76,8 +76,8 @@ class Search_Api extends REST_Controller
 		}
 
 		//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		if ($this->input->get("price_from") != null) $this->db->where('restaurants.price_from >=', $this->input->get("price_from"));
-		if ($this->input->get("price_to") != null) $this->db->where('restaurants.price_to <=', $this->input->get("price_to"));
+		if ($this->input->get("price_from") != null) $this->db->where('menus.price >=', $this->input->get("price_from"));
+		if ($this->input->get("price_to") != null) $this->db->where('menus.price <=', $this->input->get("price_to"));
 		//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	}
 
@@ -85,6 +85,7 @@ class Search_Api extends REST_Controller
 	{
 		$this->db->join("area", "area.id = restaurants.area_id");
 		$this->db->join("countries", "countries.id = area.country_id");
+		$this->db->join("menus", "restaurants.id = menus.restaurant_id");
 	}
 
 	private function get_pages($type = null)
