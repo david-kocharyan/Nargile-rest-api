@@ -51,6 +51,39 @@
 				</div>
 
 				<div class="form-group">
+					<label for="inputAdress" class="control-label">Address</label>
+					<input type="text" class="form-control" id="inputAdress" placeholder="Address" name="address"
+						   required value="<?= $restaurant->address ?>">
+					<?php if (!empty(form_error('address'))) { ?>
+						<div class="help-block with-errors text-danger">
+							<?= form_error('address'); ?>
+						</div>
+					<?php } ?>
+				</div>
+
+				<div class="form-group col-md-6">
+					<label for="inputLat" class="control-label">Latitude</label>
+					<input type="text" class="form-control" id="inputLat" placeholder="Latitude" name="lat"
+						   required value="<?= $restaurant->lat ?>">
+					<?php if (!empty(form_error('lat'))) { ?>
+						<div class="help-block with-errors text-danger">
+							<?= form_error('lat'); ?>
+						</div>
+					<?php } ?>
+				</div>
+
+				<div class="form-group col-md-6">
+					<label for="inputLong" class="control-label">Longitude</label>
+					<input type="text" class="form-control" id="inputLong" placeholder="Longitude" name="lng"
+						   required value="<?= $restaurant->lng ?>">
+					<?php if (!empty(form_error('lng'))) { ?>
+						<div class="help-block with-errors text-danger">
+							<?= form_error('lng'); ?>
+						</div>
+					<?php } ?>
+				</div>
+
+				<div class="form-group">
 					<label for="input-file-now">Clients Logo</label>
 					<input type="file" id="input-file-now" name="logo" class="dropify" data-max-file-size="15M">
 					<img src="<?= base_url('plugins/images/Restaurants/') ?><?= $restaurant->logo ?> " class="m-t-15"

@@ -159,13 +159,23 @@ class Restaurant_Profile_Api extends REST_Controller
 			return;
 		}
 
+		if ($this->input->get('type') == null) {
+			$data = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => "Please provide reviews type",
+			);
+			$this->response($data, self::HTTP_UNPROCESSABLE_ENTITY);
+			return;
+		}
+
 		$limit = (null !== $this->input->get('limit') && is_numeric($this->input->get("limit"))) ? intval($this->input->get('limit')) : 10;
 		$offset = (null !== $this->input->get('offset') && is_numeric($this->input->get("offset"))) ? $this->input->get('offset') * $limit : 0;
 		$pages = ($limit != 0 || null !== $limit) ? ceil($this->reviews_page()->pages / $limit) : 0;
 
 		$this->db->select("reviews.review, users.id as user_id, users.image as user_image");
 		$this->db->join("users", 'users.id = reviews.user_id');
-		$this->were_reviews();
+		$this->reviews_were();
 		$this->db->limit($limit, $offset);
 		$this->db->order_by("reviews.id DESC");
 		$data = $this->db->get("reviews")->result();
@@ -186,7 +196,7 @@ class Restaurant_Profile_Api extends REST_Controller
 		$this->response($response, REST_Controller::HTTP_OK);
 	}
 
-	private function were_reviews()
+	private function reviews_were()
 	{
 		if ($this->input->get('type') == "my") 	$this->db->where(array("restaurant_id" => $this->input->get("restaurant"), "user_id" => $this->input->get("user")));
 		if ($this->input->get('type') == "all") $this->db->where(array("restaurant_id" => $this->input->get("restaurant"), "user_id  !=" => $this->input->get("user")));
@@ -195,7 +205,7 @@ class Restaurant_Profile_Api extends REST_Controller
 	private function reviews_page()
 	{
 		$this->db->select("count(id) as pages");
-		$this->were_reviews();
+		$this->reviews_were();
 		$data = $this->db->get("reviews")->row();
 		return $data != null ? $data : 0;
 	}

@@ -45,7 +45,7 @@
 				</div>
 
 				<div class="form-group">
-					<label for="inputAdress" class="control-label">Name</label>
+					<label for="inputAdress" class="control-label">Address</label>
 					<input type="text" class="form-control" id="inputAdress" placeholder="Address" name="address"
 						   required>
 					<?php if (!empty(form_error('address'))) { ?>

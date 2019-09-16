@@ -74,7 +74,7 @@ class Restaurants extends CI_Controller
 				'logo' => $logo,
 				'address' => $address,
 				'lat' => $lat,
-				'long' => $long,
+				'lng' => $long,
 				'status' => 1
 			);
 
@@ -109,14 +109,14 @@ class Restaurants extends CI_Controller
 		$area = $this->input->post('area');
 		$address = $this->input->post('address');
 		$lat = $this->input->post('lat');
-		$long = $this->input->post('long');
+		$lng = $this->input->post('lng');
 
 
 		$this->form_validation->set_rules('name', 'Name', 'required');
 		$this->form_validation->set_rules('area', 'Area', 'required');
 		$this->form_validation->set_rules('address', 'Address', 'required');
 		$this->form_validation->set_rules('lat', 'Latitude', 'required');
-		$this->form_validation->set_rules('long', 'Longitude', 'required');
+		$this->form_validation->set_rules('lng', 'Longitude', 'required');
 
 		$user = $this->Restaurant->selectById($id);
 
@@ -155,7 +155,7 @@ class Restaurants extends CI_Controller
 				'area_id' => $area,
 				'address' => $address,
 				'lat' => $lat,
-				'long' => $long,
+				'lng' => $lng,
 			);
 			if (isset($logo)) $restaurant['logo'] = $logo;
 

@@ -150,12 +150,3 @@ $route["admin/restaurants/hour-offers/change-status/(:any)"] = 'HourOffers/chang
 $route['admin/sliders'] = 'Sliders';
 $route["admin/sliders/store"] = 'Sliders/store';
 $route["admin/sliders/change-status/(:any)"] = 'Sliders/change_status/$1';
-
-//Featured Offers
-$route['admin/offers'] = 'Offers';
-$route["admin/offers/create"] = 'Offers/create';
-$route["admin/offers/store"] = 'Offers/store';
-$route["admin/offers/edit/(:any)"] = 'Offers/edit/$1';
-$route["admin/offers/update/(:any)"] = 'Offers/update/$1';
-$route["admin/offers/change-status/(:any)"] = 'Offers/change_status/$1';
-
