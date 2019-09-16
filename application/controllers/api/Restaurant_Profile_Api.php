@@ -143,4 +143,64 @@ class Restaurant_Profile_Api extends REST_Controller
 		$data = $this->db->get("more_infos")->result();
 		return $data != null ? $data : NULL;
 	}
+
+// restaurant reviews request
+
+	public function reviews_get()
+	{
+		$res = $this->verify_get_request();
+		if (gettype($res) != 'string') {
+			$data = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => $res['msg']
+			);
+			$this->response($data, $res['status']);
+			return;
+		}
+
+		$limit = (null !== $this->input->get('limit') && is_numeric($this->input->get("limit"))) ? intval($this->input->get('limit')) : 10;
+		$offset = (null !== $this->input->get('offset') && is_numeric($this->input->get("offset"))) ? $this->input->get('offset') * $limit : 0;
+		$pages = ($limit != 0 || null !== $limit) ? ceil($this->reviews_page()->pages / $limit) : 0;
+
+		$this->db->select("reviews.review, users.id as user_id, users.image as user_image");
+		$this->db->join("users", 'users.id = reviews.user_id');
+		$this->were_reviews();
+		$this->db->limit($limit, $offset);
+		$this->db->order_by("reviews.id DESC");
+		$data = $this->db->get("reviews")->result();
+
+		$response = array(
+			"success" => true,
+			"data" => array(
+				"reviews" => $data,
+				"meta" => array(
+					"limit" => $limit,
+					"offset" => $offset,
+					"pages" => $pages,
+				),
+				"type" => $this->input->get('type'),
+			),
+			"msg" => "",
+		);
+		$this->response($response, REST_Controller::HTTP_OK);
+	}
+
+	private function were_reviews()
+	{
+		if ($this->input->get('type') == "my") 	$this->db->where(array("restaurant_id" => $this->input->get("restaurant"), "user_id" => $this->input->get("user")));
+		if ($this->input->get('type') == "all") $this->db->where(array("restaurant_id" => $this->input->get("restaurant"), "user_id  !=" => $this->input->get("user")));
+	}
+
+	private function reviews_page()
+	{
+		$this->db->select("count(id) as pages");
+		$this->were_reviews();
+		$data = $this->db->get("reviews")->row();
+		return $data != null ? $data : 0;
+	}
+
+
+
+
 }

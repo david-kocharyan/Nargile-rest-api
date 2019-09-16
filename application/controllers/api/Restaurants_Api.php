@@ -136,81 +136,83 @@ class Restaurants_Api extends REST_Controller
 		$radius = $this->boundingBox($lat, $lng);
 		$filter = array('lat >' => $radius["latMin"], 'lng >' => $radius["lngMin"], 'lat <' => $radius["latMax"], 'lng <' => $radius["lngMax"]);
 
-		$this->db->select("restaurants.name, area.name as area_name, countries.name as country_name, concat('/plugins/images/Restaurants/', restaurants.logo) as logo, restaurants.id as id, 'Nargile Price Range 10000-16000 LBP' as info, '3.6' as rate ");
+		$this->db->select("restaurants.name, area.name as area_name, countries.name as country_name, 
+		concat('/plugins/images/Restaurants/', restaurants.logo) as logo, restaurants.id as id, rate,
+		 'Nargile Price Range 10000-16000 LBP' as info");
         $this->limits();
         $this->join();
-        //
 		$this->db->where($filter);
-        //
 		$data = $this->db->get("restaurants")->result();
         return $data != null ? $data : array();
     }
 
     private function get_top_rated()
     {
-        $this->db->select("restaurants.name, area.name as area_name, countries.name as country_name, concat('/plugins/images/Restaurants/', restaurants.logo) as logo, restaurants.id as id, 'Nargile Price Range 10000-16000 LBP' as info, '3.6' as rate ");
+        $this->db->select("restaurants.name, area.name as area_name, 
+        countries.name as country_name, concat('/plugins/images/Restaurants/', restaurants.logo) as logo, restaurants.id as id, rate,
+        'Nargile Price Range 10000-16000 LBP' as info");
         $this->limits();
         $this->join();
-        ///////////////////////////////////////////
-        $this->db->where("restaurants.id > 15");
-        ///////////////////////////////////////////
+        $this->db->where("restaurants.rate = 5");
         $this->where();
-
         $data = $this->db->get("restaurants")->result();
         return $data != null ? $data : array();
     }
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     private function get_featured_offers()
     {
-        $this->db->select("concat('/plugins/images/Restaurants/', restaurants.logo) as logo, restaurants.id as id, offers.text");
+        $this->db->select("concat('/plugins/images/Restaurants/', restaurants.logo) as logo,
+        restaurants.id as id, featured_offers.id as offer_id, featured_offers.text");
         $this->limits();
-        $this->db->join("restaurants", "restaurants.id = offers.restaurant_id");
+        $this->db->join("restaurants", "restaurants.id = featured_offers.restaurant_id");
         $this->join();
         $this->where();
 
-        $this->db->order_by("offers.id DESC");
-        $data = $this->db->get_where("offers", array("offers.status" => 1, "type" => 1))->result();
+        $this->db->order_by("featured_offers.id DESC");
+
+        $data = $this->db->get_where("featured_offers", array("featured_offers.status" => 1))->result();
         return $data != null ? $data : array();
     }
 
     private function get_hour_offers()
     {
-        $this->db->select("concat('/plugins/images/Restaurants/', restaurants.logo) as logo, restaurants.id as id, offers.text");
+        $this->db->select("concat('/plugins/images/Restaurants/', restaurants.logo) as logo,
+         restaurants.id as id, hour_offers.id as offer_id, hour_offers.text");
         $this->limits();
-        $this->db->join("restaurants", "restaurants.id = offers.restaurant_id");
+        $this->db->join("restaurants", "restaurants.id = hour_offers.restaurant_id");
         $this->join();
         $this->where();
 
-        $this->db->order_by("offers.id DESC");
-        $data = $this->db->get_where("offers", array("offers.status" => 1, "type" => 2))->result();
+        $this->db->order_by("hour_offers.id DESC");
+
+        $data = $this->db->get_where("hour_offers", array("hour_offers.status" => 1))->result();
         return $data != null ? $data : array();
     }
 
+	private function get_offers_pages($table)
+	{
+		$this->db->select("count(restaurant_id) as pages");
+		$this->where();
+		$this->db->join("restaurants", "restaurants.id = $table.restaurant_id");
+		$this->join();
+		$data = $this->db->get_where($table, array("$table.status" => 1))->row();
+		return $data != null ? $data : 0;
+	}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     private function get_pages($type = null)
     {
         $this->db->select("count(restaurants.id) as pages");
         $this->join();
         $this->where();
-        /////////////////////////////////////////////////////////////////
-        if($type == "top") $this->db->where("restaurants.id > 15");
-        if($type == "nearest") $this->db->where("restaurants.id <= 15");
-        ////////////////////////////////////////////////////////////////
+
+		$radius = $this->boundingBox($this->input->get("lat"), $this->input->get("lng"));
+		$filter = array('lat >' => $radius["latMin"], 'lng >' => $radius["lngMin"], 'lat <' => $radius["latMax"], 'lng <' => $radius["lngMax"]);
+        if($type == "top") $this->db->where("restaurants.rate = 5");
+        if($type == "nearest") $this->db->where($filter);
         $data = $this->db->get("restaurants")->row();
         return $data != null ? $data : 0;
     }
-
-    private function get_offers_pages($type)
-    {
-        $this->db->select("count(offers.id) as pages");
-        $this->db->join("restaurants", "restaurants.id = offers.restaurant_id");
-        $this->join();
-        $this->where();
-        if($type == "featured_offers") $this->db->where("offers.type = 1");
-        else if($type == "hour_offers") $this->db->where("offers.type = 2");
-        $data = $this->db->get_where("offers", array("offers.status" => 1))->row();
-        return $data != null ? $data : 0;
-    }
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     private function limits()
     {
         $limit = (null !== $this->input->get('limit') && is_numeric($this->input->get("limit"))) ? $this->input->get('limit') : 10;
@@ -229,7 +231,7 @@ class Restaurants_Api extends REST_Controller
         $this->db->join("countries", "countries.id = area.country_id");
     }
 
-//    slider --------------------------------
+// Slider -----------------------------------------------------------
     public function slider_get()
     {
         $res = $this->verify_get_request();
@@ -258,6 +260,7 @@ class Restaurants_Api extends REST_Controller
 
     }
 
+    // Calculate radius for location-------------------------------------------
 	private function boundingBox($latitudeInDegrees, $longitudeInDegrees)
 	{
 		$lat = deg2rad($latitudeInDegrees);
