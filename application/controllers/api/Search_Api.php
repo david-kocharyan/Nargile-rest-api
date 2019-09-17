@@ -68,7 +68,7 @@ class Search_Api extends REST_Controller
 	private function filters()
 	{
 		if ($this->input->get("name") != null) $this->db->like('restaurants.name', $this->input->get("name"), 'both');
-		if ($this->input->get("rate") != null) $this->db->where('restaurants.rate >=', $this->input->get("rate"));
+		if ($this->input->get("rate") != null) $this->db->where('restaurants.rate >=', floatval($this->input->get('rate')));
 		if ($this->input->get("country") != null) {
 			$this->db->where('countries.id', $this->input->get("country"));
 		}
