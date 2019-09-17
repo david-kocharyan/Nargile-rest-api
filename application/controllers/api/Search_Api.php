@@ -119,6 +119,14 @@ class Search_Api extends REST_Controller
 		$this->db->select("MIN(price) as min, MAX(price) as max");
 		$data = $this->db->get("menus")->row();
 
+		if ($data != null){
+			$data->min = floatval($data->min);
+			$data->max = floatval($data->max);
+		}
+		else{
+			$data = array();
+		}
+
 		$response = array(
 			"success" => true,
 			"data" => array(
