@@ -55,6 +55,7 @@ class Search_Api extends REST_Controller
 		$this->limits();
 		$this->filters();
 		$this->db->order_by("restaurants.name");
+		$this->db->group_by("menus.restaurant_id");
 		$data = $this->db->get("restaurants")->result();
 		return $data != null ? $data : array();
 	}
@@ -74,11 +75,8 @@ class Search_Api extends REST_Controller
 		if ($this->input->get("area") != null) {
 			$this->db->where('restaurants.area_id', $this->input->get("area"));
 		}
-
-		//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		if ($this->input->get("price_from") != null) $this->db->where('menus.price >=', $this->input->get("price_from"));
 		if ($this->input->get("price_to") != null) $this->db->where('menus.price <=', $this->input->get("price_to"));
-		//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	}
 
 	private function join()
