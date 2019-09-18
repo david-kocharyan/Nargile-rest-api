@@ -38,6 +38,9 @@
 	<link href="<?= base_url('public/') ?>css/style.css" rel="stylesheet">
 	<!-- color CSS -->
 	<link href="<?= base_url('public/') ?>css/colors/default.css" id="theme" rel="stylesheet">
+	<!-- carousel -->
+	<link href="<?= base_url('public/') ?>plugins/bower_components/owl.carousel/owl.carousel.min.css" rel="stylesheet" type="text/css" />
+	<link href="<?= base_url('public/') ?>plugins/bower_components/owl.carousel/owl.theme.default.css" rel="stylesheet" type="text/css" />
 
 	<!-- All Jquery -->
 	<!-- ============================================================== -->

@@ -64,6 +64,23 @@ $(document).ready(function() {
     })
 </script>
 
+<!-- jQuery for carousel -->
+<script src="<?= base_url('public/') ?>plugins/bower_components/owl.carousel/owl.carousel.min.js"></script>
+<script src="<?= base_url('public/') ?>plugins/bower_components/owl.carousel/owl.custom.js"></script>
+
+<!--slimscroll JavaScript -->
+<script src="<?= base_url('public/') ?>js/jquery.slimscroll.js"></script>
+<script type="text/javascript">
+    $('#reviews').slimScroll({
+        height: '500px'
+    });
+    $('#featured_offers').slimScroll({
+        height: '200px'
+    });
+    $('#hour_offers').slimScroll({
+        height: '200px'
+    });
+</script>
 
 </body>
 

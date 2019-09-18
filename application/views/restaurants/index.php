@@ -3,7 +3,7 @@
 	<div class="col-sm-12">
 		<div class="white-box">
 			<h3 class="box-title m-b-0">Restaurants Table</h3>
-			<p class="text-muted m-b-15">All clients in 1 place!!</p>
+			<p class="text-muted m-b-15">All restaurants in 1 place!!</p>
 			<p class="box-title m-b-30"><a href="<?= base_url("admin/restaurants/create") ?>" class="text-success">Add
 					new Restaurants</a></p>
 
@@ -73,6 +73,11 @@
 									   class="btn btn-success btn-circle tooltip-success"><i
 											class="fa fa-power-off"></i></a>
 								<?php } ?>
+
+								<a href="<?= base_url("admin/restaurants/show/$value->id") ?>" data-toggle="tooltip"
+								   data-placement="top" title="All info about current restaurant"
+								   class="btn btn-outline btn-primary btn-circle tooltip-primary"> <i
+										class="fas fa-database"></i> </a>
 							</td>
 						</tr>
 					<?php } ?>

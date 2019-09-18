@@ -24,6 +24,24 @@ class Restaurants extends CI_Controller
 		$this->load->view('layouts/footer.php');
 	}
 
+	public function show($id)
+	{
+		$data['user'] = $this->session->userdata('user');
+		$data['restaurant'] = $this->Restaurant->show($id);//+
+		$data['images'] = $this->Restaurant->show_images($id);//+
+		$data['more_info'] = $this->Restaurant->show_more_info($id);//+
+		$data['featured'] = $this->Restaurant->show_featured_offers($id);//+
+		$data['hour'] = $this->Restaurant->show_hour_offers($id);//+
+		$data['menus'] = $this->Restaurant->show_menus($id);
+		$data['reviews'] = $this->Restaurant->show_reviews($id);//+
+		$data['title'] = "Show Restaurant Data";
+
+		$this->load->view('layouts/header.php', $data);
+		$this->load->view('restaurants/show.php');
+		$this->load->view('layouts/footer.php');
+	}
+
+
 	public function create()
 	{
 		$data['user'] = $this->session->userdata('user');

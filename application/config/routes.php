@@ -120,6 +120,7 @@ $route["admin/area/change-status/(:any)"] = 'Areas/change_status/$1';
 $route['admin/restaurants'] = 'Restaurants';
 $route["admin/restaurants/create"] = 'Restaurants/create';
 $route["admin/restaurants/store"] = 'Restaurants/store';
+$route["admin/restaurants/show/(:any)"] = 'Restaurants/show/$1';
 $route["admin/restaurants/edit/(:any)"] = 'Restaurants/edit/$1';
 $route["admin/restaurants/update/(:any)"] = 'Restaurants/update/$1';
 $route["admin/restaurants/change-status/(:any)"] = 'Restaurants/change_status/$1';
