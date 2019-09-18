@@ -33,7 +33,7 @@
 
 <div class="row">
 	<div class="col-lg-6">
-		<div class="panel panel-default">
+		<div class="panel panel-default" style="height: 607px;">
 			<div class="panel-heading">Slide show with owl Carousel</div>
 			<div class="panel-wrapper p-b-10 collapse in">
 				<div id="owl-demo" class="owl-carousel owl-theme">
@@ -90,7 +90,7 @@
 <div class="row">
 	<div class="col-sm-12">
 		<div class="white-box">
-			<h3 class="box-title m-b-0">Restaurants Table</h3>
+			<h3 class="box-title m-b-0">Restaurant Menu Table</h3>
 			<div class="table-responsive">
 				<table id="myTable" class="table table-striped">
 					<thead>
