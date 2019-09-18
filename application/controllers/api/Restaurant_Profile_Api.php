@@ -88,6 +88,7 @@ class Restaurant_Profile_Api extends REST_Controller
 
 	private function getImages()
 	{
+		$this->db->select("concat('/plugins/images/Restaurant_images/', restaurants_images.image) as image");
 		return $this->db->get_where("restaurants_images", array("restaurant_id" => $this->input->get("id"), "restaurants_images.status" => 1))->result();
 	}
 
