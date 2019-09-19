@@ -68,7 +68,10 @@ class Location_Api extends REST_Controller
 		$response = array(
 			"success" => true,
 			"data" => array(
-				"geolocation" => $address
+				"geolocation" => array(
+					"city" => $address->city,
+					"country" => $address->country
+				),
 			),
 			"msg" => "",
 		);
