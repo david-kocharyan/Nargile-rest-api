@@ -117,26 +117,25 @@ class Restaurant_Profile_Api extends REST_Controller
 		$this->get_rate();
 		$this->db->where("user_id", $res);
 		$this->db->where("restaurant_id", $this->input->get('id'));
-		$data = $this->db->get("rates")->row();
-		return $data->overall != null ? $data : new stdClass();
+		return $this->db->get("rates")->row();
 	}
 
 	private function get_restaurant_rate()
 	{
 		$this->get_rate();
 		$this->db->where("restaurant_id", $this->input->get('id'));
-		$data = $this->db->get("rates")->row();
-		return $data->overall != null ? $data : new stdClass();
+		return $this->db->get("rates")->row();
 	}
 
 	private function get_rate()
 	{
-		$this->db->select("ROUND(AVG(overall),1) as overall, 
-		ROUND(AVG(taste),1) as taste,
-		ROUND(AVG(charcoal),1) as charcoal,
-		ROUND(AVG(cleanliness),1) as cleanliness,
-		ROUND(AVG(staff),1) as staff,
-		ROUND(AVG(value_for_money),1) as value_for_money,
+		$this->db->select("
+		CASE WHEN ROUND(AVG(overall),1) IS NULL THEN 0 ELSE ROUND(AVG(overall),1) END AS overall,
+		CASE WHEN ROUND(AVG(taste),1) IS NULL THEN 0 ELSE ROUND(AVG(taste),1) END AS taste,
+		CASE WHEN ROUND(AVG(charcoal),1) IS NULL THEN 0 ELSE ROUND(AVG(charcoal),1) END AS charcoal,
+		CASE WHEN ROUND(AVG(cleanliness),1) IS NULL THEN 0 ELSE ROUND(AVG(cleanliness),1) END AS cleanliness,
+		CASE WHEN ROUND(AVG(staff),1) IS NULL THEN 0 ELSE ROUND(AVG(staff),1) END AS staff,
+		CASE WHEN ROUND(AVG(value_for_money),1) IS NULL THEN 0 ELSE ROUND(AVG(value_for_money),1) END AS value_for_money,
 		");
 	}
 
