@@ -39,7 +39,7 @@ class Restaurant_Profile_Api extends REST_Controller
 		$more_info = $this->get_info();
 
 		$highlighted_reviews = $this->get_reviews($this->input->get('id'));
-		$featured_offers = array("Nargile Price Range 10000-16000 LBP", "Nargile Price Range 10000-16000 LBP", "Nargile Price Range 10000-16000 LBP");
+		$featured_offers = $this->get_featured_offers();
 
 		$response = array(
 			"success" => true,
@@ -145,6 +145,15 @@ class Restaurant_Profile_Api extends REST_Controller
 		$this->db->where("restaurant_id", $this->input->get('id'));
 		$this->db->where("status", 1);
 		$data = $this->db->get("more_infos")->result();
+		return $data != null ? $data : array();
+	}
+
+	private function get_featured_offers()
+	{
+		$this->db->select("text");
+		$this->db->where("restaurant_id", $this->input->get('id'));
+		$this->db->where("status", 1);
+		$data = $this->db->get("featured_offers")->result();
 		return $data != null ? $data : array();
 	}
 
