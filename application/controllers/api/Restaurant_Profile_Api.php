@@ -89,7 +89,8 @@ class Restaurant_Profile_Api extends REST_Controller
 	private function getImages()
 	{
 		$this->db->select("concat('/plugins/images/Restaurant_images/', restaurants_images.image) as image");
-		return $this->db->get_where("restaurants_images", array("restaurant_id" => $this->input->get("id"), "restaurants_images.status" => 1))->result();
+		$data = $this->db->get_where("restaurants_images", array("restaurant_id" => $this->input->get("id"), "restaurants_images.status" => 1))->result();
+		return $data != null ? $data : array();
 	}
 
 	private function get_reviews($id)
@@ -98,14 +99,17 @@ class Restaurant_Profile_Api extends REST_Controller
 		$this->db->join("users", 'users.id = reviews.user_id');
 		$this->db->where("restaurant_id", $id);
 		$this->db->limit(5);
-		return	$this->db->get("reviews")->result();
+		$data =	$this->db->get("reviews")->result();
+		return $data != null ? $data : array();
+
 	}
 
 	private function get_reviews_count($id)
 	{
 		$this->db->select("COUNT(restaurant_id) as reviews");
 		$this->db->where("restaurant_id", $id);
-		return	$this->db->get("reviews")->row();
+		$data = $this->db->get("reviews")->row();
+		return $data != null ? $data : 0;
 	}
 
 	private function get_current_user_rate($res)
@@ -114,7 +118,7 @@ class Restaurant_Profile_Api extends REST_Controller
 		$this->db->where("user_id", $res);
 		$this->db->where("restaurant_id", $this->input->get('id'));
 		$data = $this->db->get("rates")->row();
-		return $data != null ? $data : NULL;
+		return $data->overall != null ? $data : new stdClass();
 	}
 
 	private function get_restaurant_rate()
@@ -122,7 +126,7 @@ class Restaurant_Profile_Api extends REST_Controller
 		$this->get_rate();
 		$this->db->where("restaurant_id", $this->input->get('id'));
 		$data = $this->db->get("rates")->row();
-		return $data != null ? $data : NULL;
+		return $data->overall != null ? $data : new stdClass();
 	}
 
 	private function get_rate()
@@ -142,7 +146,7 @@ class Restaurant_Profile_Api extends REST_Controller
 		$this->db->where("restaurant_id", $this->input->get('id'));
 		$this->db->where("status", 1);
 		$data = $this->db->get("more_infos")->result();
-		return $data != null ? $data : NULL;
+		return $data != null ? $data : array();
 	}
 
 // restaurant reviews request
