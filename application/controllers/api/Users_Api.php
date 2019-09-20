@@ -300,7 +300,7 @@ class Users_API extends REST_Controller
 			return;
 		}
 
-		$this->db->select('username, first_name, last_name, date_of_birth, mobile_number, email, coins, reference_code');
+		$this->db->select('username, first_name, last_name, date_of_birth, mobile_number, email, coins, reference_code, image');
 		$user = $this->db->get_where("users", ['id' => $res])->row();
 
 		if (null == $user) {
