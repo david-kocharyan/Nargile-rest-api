@@ -70,6 +70,8 @@ $route['api/restaurants/slider'] = 'api/Restaurants_Api/slider';
 //restaurant profile Api
 $route['api/restaurant/profile'] = 'api/Restaurant_Profile_Api';
 $route['api/restaurant/reviews'] = 'api/Restaurant_Profile_Api/reviews';
+//favorites
+$route['api/restaurant/choose-favorite'] = 'api/Restaurant_Profile_Api/choose_favorite';
 
 //search Api
 $route['api/restaurants/search'] = 'api/Search_Api';

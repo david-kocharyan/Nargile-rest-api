@@ -28,12 +28,11 @@ class Restaurant_Profile_Api extends REST_Controller
 		}
 
 		$restaurant = $this->find();
-		$my_rate = $this->get_current_user_rate($res);
-		$rate = $this->get_restaurant_rate();
 
 		$restaurant->reviews = $this->get_reviews_count($this->input->get('id'))->reviews;
-		$restaurant->rate = $rate;
-		$restaurant->my_rate = $my_rate;
+		$restaurant->rate = $this->get_restaurant_rate();
+		$restaurant->my_rate = $this->get_current_user_rate($res);
+		$restaurant->favorite = $this->get_favorite($res);
 
 		$images = $this->getImages();
 		$more_info = $this->get_info();
@@ -77,7 +76,7 @@ class Restaurant_Profile_Api extends REST_Controller
 	private function where()
 	{
 		$this->db->where(array('area.status' => 1, 'countries.status' => 1, 'restaurants.status' => 1));
-		$this->db->where("restaurants.id",  $this->input->get('id'));
+		$this->db->where("restaurants.id", $this->input->get('id'));
 	}
 
 	private function join()
@@ -99,7 +98,7 @@ class Restaurant_Profile_Api extends REST_Controller
 		$this->db->join("users", 'users.id = reviews.user_id');
 		$this->db->where("restaurant_id", $id);
 		$this->db->limit(3);
-		$data =	$this->db->get("reviews")->result();
+		$data = $this->db->get("reviews")->result();
 		return $data != null ? $data : array();
 
 	}
@@ -158,8 +157,13 @@ class Restaurant_Profile_Api extends REST_Controller
 		return $data != null ? $data : array();
 	}
 
-// restaurant reviews request
+	private function get_favorite($res)
+	{
+		$data = $this->db->get_where("favorites", array('user_id' => $res, 'restaurant_id' => $this->input->get('id'), 'status' => 1))->result();
+		return $data != null ? '1' : '0';
+	}
 
+// restaurant reviews request
 	public function reviews_get()
 	{
 		$res = $this->verify_get_request();
@@ -212,7 +216,7 @@ class Restaurant_Profile_Api extends REST_Controller
 
 	private function reviews_were()
 	{
-		if ($this->input->get('type') == "my") 	$this->db->where(array("restaurant_id" => $this->input->get("restaurant"), "user_id" => $this->input->get("user")));
+		if ($this->input->get('type') == "my") $this->db->where(array("restaurant_id" => $this->input->get("restaurant"), "user_id" => $this->input->get("user")));
 		if ($this->input->get('type') == "all") $this->db->where(array("restaurant_id" => $this->input->get("restaurant"), "user_id  !=" => $this->input->get("user")));
 	}
 
@@ -225,6 +229,61 @@ class Restaurant_Profile_Api extends REST_Controller
 	}
 
 
+//	choose restautrant my favorite
+	public function choose_favorite_post()
+	{
+		$res = $this->verify_get_request();
+		if (gettype($res) != 'string') {
+			$data = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => $res['msg']
+			);
+			$this->response($data, $res['status']);
+			return;
+		}
+
+		$favorite = $this->db->get_where('favorites', array('user_id' => $res, 'restaurant_id' => $this->input->post('restaurant_id')))->row();
+
+		if ($favorite == NULL) {
+			$this->db->insert('favorites', array('user_id' => $res, 'restaurant_id' => $this->input->post('restaurant_id')));
+
+			$data = array(
+				"success" => true,
+				"data" => array(),
+				"msg" => "Favorite chosen and save successfully",
+			);
+			$this->response($data, REST_Controller::HTTP_OK);
+			return;
+		} elseif ($favorite->status == 1) {
+
+			$this->db->set('status', 0);
+			$this->db->where(array('user_id' => $res, 'restaurant_id' => $this->input->post('restaurant_id')));
+			$this->db->update('favorites');
+
+			$data = array(
+				"success" => true,
+				"data" => array(),
+				"msg" => "Favorite deleted successfully",
+			);
+			$this->response($data, REST_Controller::HTTP_OK);
+			return;
+		} elseif ($favorite->status == 0) {
+
+			$this->db->set('status', 1);
+			$this->db->where(array('user_id' => $res, 'restaurant_id' => $this->input->post('restaurant_id')));
+			$this->db->update('favorites');
+
+			$data = array(
+				"success" => true,
+				"data" => array(),
+				"msg" => "Favorite chosen and save successfully",
+			);
+			$this->response($data, REST_Controller::HTTP_OK);
+			return;
+		}
+
+	}
 
 
 }
