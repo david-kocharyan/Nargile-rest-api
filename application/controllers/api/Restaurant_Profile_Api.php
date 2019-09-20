@@ -65,7 +65,7 @@ class Restaurant_Profile_Api extends REST_Controller
 		area.name as area_name, 
 		concat('/plugins/images/Restaurants/', restaurants.logo) as logo,
 		concat('/plugins/thumb_images/Restaurants/Thumb_', restaurants.logo) as thumb, 
-		lat, lng, address,
+		lat, lng, address, phone_number,
 		'Nargile Price Range 10000-16000 LBP' as info,
 		");
 		$this->join();
@@ -95,10 +95,10 @@ class Restaurant_Profile_Api extends REST_Controller
 
 	private function get_reviews($id)
 	{
-		$this->db->select("reviews.review, users.id as user_id, users.image as user_image");
+		$this->db->select("reviews.review, users.id as user_id, concat('/plugins/default_images/', users.image) as user_image");
 		$this->db->join("users", 'users.id = reviews.user_id');
 		$this->db->where("restaurant_id", $id);
-		$this->db->limit(5);
+		$this->db->limit(3);
 		$data =	$this->db->get("reviews")->result();
 		return $data != null ? $data : array();
 
@@ -153,6 +153,7 @@ class Restaurant_Profile_Api extends REST_Controller
 		$this->db->select("text");
 		$this->db->where("restaurant_id", $this->input->get('id'));
 		$this->db->where("status", 1);
+		$this->db->limit(3);
 		$data = $this->db->get("featured_offers")->result();
 		return $data != null ? $data : array();
 	}

@@ -51,8 +51,19 @@
 				</div>
 
 				<div class="form-group">
-					<label for="inputAdress" class="control-label">Address</label>
-					<input type="text" class="form-control" id="inputAdress" placeholder="Address" name="address"
+					<label for="inputNumber" class="control-label">Phone Number</label>
+					<input type="text" class="form-control" id="inputNumber" placeholder="Phone number" name="phone_number"
+						   required value="<?= $restaurant->phone_number ?>">
+					<?php if (!empty(form_error('phone_number'))) { ?>
+						<div class="help-block with-errors text-danger">
+							<?= form_error('phone_number'); ?>
+						</div>
+					<?php } ?>
+				</div>
+
+				<div class="form-group">
+					<label for="inputAddress" class="control-label">Address</label>
+					<input type="text" class="form-control" id="inputAddress" placeholder="Address" name="address"
 						   required value="<?= $restaurant->address ?>">
 					<?php if (!empty(form_error('address'))) { ?>
 						<div class="help-block with-errors text-danger">

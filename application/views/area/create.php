@@ -1,12 +1,12 @@
 <div class="col-md-4 col-sm-12">
 	<div class="white-box">
-		<h3 class="box-title m-b-0">Sample Forms with Right icon</h3>
+		<h3 class="box-title m-b-0">Create Area</h3>
 
 		<?php if (!empty($this->session->flashdata('success'))) { ?>
-			<p class="text-muted m-b-30 font-13"> Bootstrap Elements </p>
+			<p class="text-muted m-b-30 font-13"> Create new area quickly and easily!</p>
 			<p class="text-mutedv text-success m-b-30">  <?= $this->session->flashdata('success'); ?> </p>
 		<?php } else { ?>
-			<p class="text-muted m-b-30 font-13"> Bootstrap Elements </p>
+			<p class="text-muted m-b-30 font-13"> Create new area quickly and easily! </p>
 		<?php } ?>
 
 		<div class="row">

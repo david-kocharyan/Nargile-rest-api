@@ -13,7 +13,8 @@
 					<h3 class="box-title m-t-0">Restaurant description</h3>
 					<ul class="list-icons">
 						<li><h4> Name - <?= $restaurant->restaurant_name ?>    </h4></li>
-						<li><h4> Adress - <?= $restaurant->address ?>            </h4></li>
+						<li><h4> Phone Number - <?= $restaurant->phone_number ?>  </h4></li>
+						<li><h4> Address - <?= $restaurant->address ?>            </h4></li>
 						<li><h4> Latitude - <?= $restaurant->lat ?>            </h4></li>
 						<li><h4> Longitude - <?= $restaurant->lng ?>            </h4></li>
 						<li><h4> Rate - <?= $restaurant->rate ?>                </h4></li>

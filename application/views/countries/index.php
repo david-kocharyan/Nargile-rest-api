@@ -3,7 +3,7 @@
 	<div class="col-sm-12">
 		<div class="white-box">
 			<h3 class="box-title m-b-0">Countries Table</h3>
-			<p class="text-muted m-b-15">All clients in 1 place!!</p>
+			<p class="text-muted m-b-15">All Countries in 1 place!!</p>
 			<p class="box-title m-b-30"><a href="<?= base_url("admin/countries/create") ?>" class="text-success">Add new
 					Countries</a></p>
 

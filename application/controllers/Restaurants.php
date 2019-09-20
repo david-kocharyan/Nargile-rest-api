@@ -58,12 +58,14 @@ class Restaurants extends CI_Controller
 	{
 		$name = $this->input->post('name');
 		$area = $this->input->post('area');
+		$phone_number = $this->input->post('phone_number');
 		$address = $this->input->post('address');
 		$lat = $this->input->post('lat');
 		$long = $this->input->post('long');
 
 		$this->form_validation->set_rules('name', 'Name', 'required');
 		$this->form_validation->set_rules('area', 'Area', 'required');
+		$this->form_validation->set_rules('phone_number', 'Phone Number', 'required');
 		$this->form_validation->set_rules('address', 'Address', 'required');
 		$this->form_validation->set_rules('lat', 'Latitude', 'required');
 		$this->form_validation->set_rules('long', 'Longitude', 'required');
@@ -90,6 +92,7 @@ class Restaurants extends CI_Controller
 				'name' => $name,
 				'area_id' => $area,
 				'logo' => $logo,
+				'phone_number' => $phone_number,
 				'address' => $address,
 				'lat' => $lat,
 				'lng' => $long,

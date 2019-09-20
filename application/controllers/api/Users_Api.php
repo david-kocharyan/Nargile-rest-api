@@ -121,6 +121,7 @@ class Users_API extends REST_Controller
 				"email" => $email,
 				"password" => $password,
 				"reference_code" => $reference_code,
+				'image' => 'User_default.png',
 			);
 
 			$auth_id = $this->User->register($data);
@@ -138,6 +139,7 @@ class Users_API extends REST_Controller
 					"email" => $email,
 					"reference_code" => $reference_code == null ? "" : $reference_code,
 					"coins" => "0",
+					"image" => '/plugins/default_images/User_default.png',
 				),
 				"tokens" => array(
 					"token" => $token,
@@ -223,6 +225,7 @@ class Users_API extends REST_Controller
 					"email" => $auth->email,
 					"reference_code" => $auth->reference_code == null ? "" : $auth->reference_code,
 					"coins" => $auth->coins,
+					"image" => '/plugins/default_images/' . $auth->image,
 				),
 				"tokens" => array(
 					"token" => $token,
@@ -321,6 +324,7 @@ class Users_API extends REST_Controller
 					"email" => $user->email,
 					"reference_code" => $user->reference_code == null ? "" : $user->reference_code,
 					"coins" => $user->coins,
+					"image" => '/plugins/default_images/' . $user->image,
 				),
 			),
 			"success" => true
