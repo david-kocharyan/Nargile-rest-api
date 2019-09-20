@@ -74,6 +74,8 @@ class Facebook_Api extends REST_Controller
 				"password" => time() . '?' . rand(),
 				"reference_code" => "",
 				'coins' => 0,
+				"image" => 'User_default.png',
+
 			);
 			$this->db->insert('users', $data);
 			$id = $this->db->insert_id();
@@ -117,6 +119,7 @@ class Facebook_Api extends REST_Controller
 				"email" => $auth->email,
 				"reference_code" => $auth->reference_code == null ? "" : $auth->reference_code,
 				"coins" => $auth->coins,
+				"image" => '/plugins/default_images/' . $auth->image,
 			),
 			"tokens" => array(
 				"token" => $token,
