@@ -33,6 +33,7 @@ class Restaurant_Profile_Api extends REST_Controller
 		$restaurant->rate = $this->get_restaurant_rate();
 		$restaurant->my_rate = $this->get_current_user_rate($res);
 		$restaurant->favorite = $this->get_favorite($res);
+		$restaurant->admin = $this->get_admin();
 
 		$images = $this->getImages();
 		$more_info = $this->get_info();
@@ -163,6 +164,12 @@ class Restaurant_Profile_Api extends REST_Controller
 		return $data != null ? '1' : '0';
 	}
 
+	private function get_admin()
+	{
+		$data = $this->db->get_where("admins", array('restaurant_id' => $this->input->get('id'), 'active' => 1))->result();
+		return $data != null ? '1' : '0';
+	}
+
 // restaurant reviews request
 	public function reviews_get()
 	{
@@ -193,7 +200,7 @@ class Restaurant_Profile_Api extends REST_Controller
 
 		$this->db->select("reviews.review, users.id as user_id, users.image as user_image");
 		$this->db->join("users", 'users.id = reviews.user_id');
-		$this->reviews_were();
+		$this->reviews_were($res);
 		$this->db->limit($limit, $offset);
 		$this->db->order_by("reviews.id DESC");
 		$data = $this->db->get("reviews")->result();
@@ -214,10 +221,10 @@ class Restaurant_Profile_Api extends REST_Controller
 		$this->response($response, REST_Controller::HTTP_OK);
 	}
 
-	private function reviews_were()
+	private function reviews_were($res)
 	{
-		if ($this->input->get('type') == "my") $this->db->where(array("restaurant_id" => $this->input->get("restaurant"), "user_id" => $this->input->get("user")));
-		if ($this->input->get('type') == "all") $this->db->where(array("restaurant_id" => $this->input->get("restaurant"), "user_id  !=" => $this->input->get("user")));
+		if ($this->input->get('type') == "my") $this->db->where(array("restaurant_id" => $this->input->get("restaurant"), "user_id" => $res));
+		if ($this->input->get('type') == "all") $this->db->where(array("restaurant_id" => $this->input->get("restaurant"), "user_id  !=" => $res));
 	}
 
 	private function reviews_page()
@@ -229,7 +236,7 @@ class Restaurant_Profile_Api extends REST_Controller
 	}
 
 
-//	choose restautrant my favorite
+//	choose restaurant my favorite
 	public function choose_favorite_post()
 	{
 		$res = $this->verify_get_request();
@@ -282,8 +289,46 @@ class Restaurant_Profile_Api extends REST_Controller
 			$this->response($data, REST_Controller::HTTP_OK);
 			return;
 		}
-
 	}
 
+//	claim your business part
+	public function claim_your_business_post()
+	{
+		$res = $this->verify_get_request();
+		if (gettype($res) != 'string') {
+			$data = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => $res['msg']
+			);
+			$this->response($data, $res['status']);
+			return;
+		}
 
+		$data = array(
+			"restaurant_id" => $this->input->post("id"),
+			"first_name" => $this->input->post("first_name"),
+			"last_name" => $this->input->post("last_name"),
+			"mobile_number" => $this->input->post("mobile_number"),
+			"email" => $this->input->post("email"),
+			"owner_first" => $this->input->post("owner_first"),
+			"owner_last" => $this->input->post("owner_last"),
+			"owner_mobile" => $this->input->post("owner_mobile"),
+			"owner_email" => $this->input->post("owner_email"),
+			"via_mobile" => $this->input->post("via_mobile"),
+			"via_whatsapp" => $this->input->post("via_whatsapp"),
+			"via_email" => $this->input->post("via_email"),
+			"report" => $this->input->post("report"),
+		);
+
+		$this->db->insert('claim_your_business', $data);
+
+		$data = array(
+			"success" => true,
+			"data" => array(),
+			"msg" => "Your request is accepted. Our manager will contact you.",
+		);
+		$this->response($data, REST_Controller::HTTP_OK);
+		return;
+	}
 }
