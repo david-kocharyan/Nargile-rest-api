@@ -89,7 +89,26 @@
 				</div>
 
 				<div class="form-group">
-					<label for="input-file-now">Clients Logo</label>
+					<label for="country">Owner</label>
+					<?php if (!empty(form_error('owner'))) { ?>
+						<div class="help-block with-errors text-danger">
+							<?= form_error('owner'); ?>
+						</div>
+					<?php } ?>
+					<div class="input-group col-md-12">
+						<select class="form-control select_2_example" id="country" name="owner">
+							<?php foreach ($owner as $key) { ?>
+								<option value="<?= $key->id ?>">
+									<?= $key->username ?>
+								</option>
+							<?php } ?>
+						</select>
+					</div>
+				</div>
+
+
+				<div class="form-group">
+					<label for="input-file-now">Restaurant Logo</label>
 					<input type="file" id="input-file-now" name="logo" class="dropify" data-max-file-size="15M"/>
 					<?php if (!empty($this->session->flashdata('error'))) { ?>
 						<div class="help-block with-errors text-danger">

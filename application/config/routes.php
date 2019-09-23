@@ -72,6 +72,8 @@ $route['api/restaurant/profile'] = 'api/Restaurant_Profile_Api';
 $route['api/restaurant/reviews'] = 'api/Restaurant_Profile_Api/reviews';
 //favorites
 $route['api/restaurant/choose-favorite'] = 'api/Restaurant_Profile_Api/choose_favorite';
+//claim your business
+$route['api/restaurant/claim-your-business'] = 'api/Restaurant_Profile_Api/claim_your_business';
 
 //search Api
 $route['api/restaurants/search'] = 'api/Search_Api';
@@ -93,6 +95,9 @@ $route['admin/logout'] = 'Login/logout';
 $route['admin/profile'] = 'Admins/profile';
 $route['admin/settings'] = 'Admins/settings';
 $route['admin/settings/update/(:any)'] = 'Admins/update/$1';
+$route['admin/owner/change-status/(:any)'] = 'Admins/change_status/$1';
+$route['admin/owner/create/(:any)'] = 'Admins/create_owner/$1';
+$route['admin/owner/store/(:any)'] = 'Admins/store_owner/$1';
 
 //Client
 $route['admin/clients'] = 'Clients';
@@ -148,6 +153,13 @@ $route["admin/restaurants/hour-offers/store/(:any)"] = 'HourOffers/store/$1';
 $route["admin/restaurants/hour-offers/edit/(:any)"] = 'HourOffers/edit/$1';
 $route["admin/restaurants/hour-offers/update/(:any)"] = 'HourOffers/update/$1';
 $route["admin/restaurants/hour-offers/change-status/(:any)"] = 'HourOffers/change_status/$1';
+
+//Restaurant Menu
+$route["admin/restaurants/menu/(:any)"] = 'Menus/index/$1';
+$route["admin/restaurants/menu/store/(:any)"] = 'Menus/store/$1';
+$route["admin/restaurants/menu/edit/(:any)"] = 'Menus/edit/$1';
+$route["admin/restaurants/menu/update/(:any)"] = 'Menus/update/$1';
+$route["admin/restaurants/menu/change-status/(:any)"] = 'Menus/change_status/$1';
 
 //Slider
 $route['admin/sliders'] = 'Sliders';

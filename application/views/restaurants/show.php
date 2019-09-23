@@ -9,7 +9,7 @@
 															class="img-responsive"/>
 					</div>
 				</div>
-				<div class="col-lg-9 col-md-9 col-sm-6">
+				<div class="col-lg-4 col-md-4 col-sm-6">
 					<h3 class="box-title m-t-0">Restaurant description</h3>
 					<ul class="list-icons">
 						<li><h4> Name - <?= $restaurant->restaurant_name ?>    </h4></li>
@@ -26,6 +26,40 @@
 							<li><h4> <?= $value->name ?> </h4></li>
 						<?php } ?>
 					</ul>
+				</div>
+
+				<div class="col-lg-5 col-md-5 col-sm-6">
+					<a href="<?= base_url("admin/restaurants/menu/$restaurant->restaurant_id") ?>"
+					   class="btn btn-success">
+						<span class="btn-label">
+							<i class="fas fas fa-book"></i>
+						</span>
+						Add Menu
+					</a>
+
+					<a href="<?= base_url("admin/restaurants/info/$restaurant->restaurant_id") ?>"
+					   class="btn btn-primary">
+						<span class="btn-label">
+							<i class="fas fa-info"></i>
+						</span>
+						Add More Info
+					</a>
+
+					<a href="<?= base_url("admin/restaurants/featured-offers/$restaurant->restaurant_id") ?>"
+					   class="btn btn-warning">
+						<span class="btn-label">
+							<i class="fas fa-tags"></i>
+						</span>
+						Add Featured Offers
+					</a>
+
+					<a href="<?= base_url("admin/restaurants/hour-offers/$restaurant->restaurant_id") ?>"
+					   class="btn btn-danger">
+						<span class="btn-label">
+							<i class="fas fa-hourglass-half"></i>
+						</span>
+						Add Hour Offers
+					</a>
 				</div>
 			</div>
 		</div>

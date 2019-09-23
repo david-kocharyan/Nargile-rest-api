@@ -47,6 +47,7 @@ class Restaurants extends CI_Controller
 		$data['user'] = $this->session->userdata('user');
 		$this->load->model("Area");
 		$data['area'] = $this->Area->selectAll();
+		$data['owner'] = $this->db->get_where('admins', array('role' => 'admin', 'active' => 1))->result();
 		$data['title'] = "Add Restaurant";
 
 		$this->load->view('layouts/header.php', $data);
@@ -62,6 +63,8 @@ class Restaurants extends CI_Controller
 		$address = $this->input->post('address');
 		$lat = $this->input->post('lat');
 		$long = $this->input->post('long');
+		$owner = $this->input->post('owner');
+
 
 		$this->form_validation->set_rules('name', 'Name', 'required');
 		$this->form_validation->set_rules('area', 'Area', 'required');
@@ -87,7 +90,6 @@ class Restaurants extends CI_Controller
 				return;
 			}
 
-
 			$restaurant = array(
 				'name' => $name,
 				'area_id' => $area,
@@ -98,6 +100,7 @@ class Restaurants extends CI_Controller
 				'lng' => $long,
 				'status' => 1
 			);
+			if (isset($owner)) $restaurant['admin_id'] = $owner;
 
 			$this->Restaurant->insert($restaurant);
 
@@ -114,6 +117,7 @@ class Restaurants extends CI_Controller
 		$data['restaurant'] = $this->Restaurant->selectById($id);
 		$data['restaurant_images'] = $this->db->get_where('restaurants_images', array('restaurant_id' => $id))->result();
 		$data['title'] = "Edit Restaurant";
+		$data['owner'] = $this->db->get_where('admins', array('role' => 'admin', 'active' => 1))->result();
 
 		$this->load->view('layouts/header.php', $data);
 		$this->load->view('restaurants/edit.php');
@@ -131,7 +135,7 @@ class Restaurants extends CI_Controller
 		$address = $this->input->post('address');
 		$lat = $this->input->post('lat');
 		$lng = $this->input->post('lng');
-
+		$owner = $this->input->post('owner');
 
 		$this->form_validation->set_rules('name', 'Name', 'required');
 		$this->form_validation->set_rules('area', 'Area', 'required');
@@ -179,6 +183,8 @@ class Restaurants extends CI_Controller
 				'lng' => $lng,
 			);
 			if (isset($logo)) $restaurant['logo'] = $logo;
+			if (isset($owner)) $restaurant['admin_id'] = $owner;
+
 
 			$this->Restaurant->update($restaurant, $id);
 			$this->session->set_flashdata('success', 'You have change the clients successfully');

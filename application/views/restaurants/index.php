@@ -4,7 +4,8 @@
 		<div class="white-box">
 			<h3 class="box-title m-b-0">Restaurants Table</h3>
 			<p class="text-muted m-b-15">All restaurants in 1 place!!</p>
-			<p class="box-title m-b-30"><a href="<?= base_url("admin/restaurants/create") ?>" class="text-success">Add
+			<p class="box-title m-b-30 btn btn-success btn-outline"><a
+					href="<?= base_url("admin/restaurants/create") ?>" class="text-success">Add
 					new Restaurants</a></p>
 
 			<div class="table-responsive">
@@ -43,26 +44,6 @@
 								   data-placement="top" title="Edit" class="btn btn-info btn-circle tooltip-info"> <i
 										class="fas fa-pencil-alt"></i> </a>
 
-								<a href="<?= base_url("admin/restaurants/menu/$value->id") ?>" data-toggle="tooltip"
-								   data-placement="top" title="Add Menu"
-								   class="btn btn-success btn-circle tooltip-success"> <i
-										class="fas fas fa-book"></i> </a>
-
-								<a href="<?= base_url("admin/restaurants/info/$value->id") ?>" data-toggle="tooltip"
-								   data-placement="top" title="Add More Info"
-								   class="btn btn-primary btn-circle tooltip-primary"> <i
-										class="fas fa-info"></i> </a>
-
-								<a href="<?= base_url("admin/restaurants/featured-offers/$value->id") ?>" data-toggle="tooltip"
-								   data-placement="top" title="Add featured offers"
-								   class="btn btn-warning btn-circle tooltip-warning"> <i
-										class="fas fa-tags"></i> </a>
-
-								<a href="<?= base_url("admin/restaurants/hour-offers/$value->id") ?>" data-toggle="tooltip"
-								   data-placement="top" title="Add hour offers"
-								   class="btn btn-outline btn-warning btn-circle tooltip-warning"> <i
-										class="fas fa-hourglass-half"></i> </a>
-
 								<?php if ($value->status == 1) { ?>
 									<a href="<?= base_url("admin/restaurants/change-status/$value->id") ?>"
 									   data-toggle="tooltip"
@@ -79,7 +60,7 @@
 								<a href="<?= base_url("admin/restaurants/show/$value->id") ?>" data-toggle="tooltip"
 								   data-placement="top" title="All info about current restaurant"
 								   class="btn btn-outline btn-primary btn-circle tooltip-primary"> <i
-										class="fas fa-database"></i> </a>
+										class="fas fa-eye"></i> </a>
 							</td>
 						</tr>
 					<?php } ?>

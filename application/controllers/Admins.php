@@ -20,12 +20,101 @@ class Admins extends CI_Controller
 	{
 		$data['user'] = $this->session->userdata('user');
 		$data['title'] = "Home";
-		$data['admin'] = $this->Admin->getClientById($data['user']["user_id"]);
+
+		$this->db->select("claim_your_business.*, restaurants.name as restaurant_name");
+		$this->db->order_by('id', 'DESC');
+		$this->db->join('restaurants', 'restaurants.id =  claim_your_business.restaurant_id');
+		$data['business'] = $this->db->get_where('claim_your_business', array('claim_your_business.status !=' => 2))->result();
 
 		$this->load->view('layouts/header.php', $data);
+		$this->load->view('admin/home.php');
 		$this->load->view('layouts/footer.php');
 	}
 
+	public function change_status($id)
+	{
+		$data = $this->db->get_where('claim_your_business', ["id" => $id])->row();
+		if (null == $data) {
+			return;
+		}
+		$status = $data->status == 1 ? 0 : 1;
+		$this->db->update('claim_your_business', array("status" => $status), ['id' => $id]);
+		redirect("admin/dashboard");
+	}
+
+	public function create_owner($id)
+	{
+		$data['user'] = $this->session->userdata('user');
+		$data['title'] = "Home";
+
+		$data['restaurants'] = $this->db->get('restaurants')->result();
+
+		$this->db->select("claim_your_business.*, restaurants.id as restaurant_id");
+		$this->db->join('restaurants', 'restaurants.id =  claim_your_business.restaurant_id');
+		$data['owner'] = $this->db->get_where('claim_your_business', ["claim_your_business.id" => $id])->row();
+
+		$this->load->view('layouts/header.php', $data);
+		$this->load->view('admin/owner/create.php');
+		$this->load->view('layouts/footer.php');
+	}
+
+	public function store_owner($id)
+	{
+		$username = $this->input->post('username');
+		$first_name = $this->input->post('first_name');
+		$last_name = $this->input->post('last_name');
+		$email = $this->input->post('email');
+		$mobile_number = $this->input->post('mobile_number');
+		$password = $this->input->post('password');
+		$restaurant = $this->input->post('restaurant');
+		$logo = 'User_default.png';
+
+		$this->form_validation->set_rules('username', 'Username', 'required|trim|max_length[30]|is_unique[admins.username]');
+		$this->form_validation->set_rules('first_name', 'First name', 'required|trim|regex_match[/^([a-z ])+$/i]');
+		$this->form_validation->set_rules('last_name', 'Last name', 'required|trim|regex_match[/^([a-z ])+$/i]');
+		$this->form_validation->set_rules('email', 'Email', 'required|trim|is_unique[admins.email]');
+		$this->form_validation->set_rules('mobile_number', 'Mobile Number', 'required|trim|is_unique[admins.mobile_number]');
+		$this->form_validation->set_rules('password', 'Password', 'required|min_length[8]');
+
+		if ($this->form_validation->run() == FALSE) {
+			$this->create_owner($id);
+		} else {
+			$password = hash("sha512", $password);
+			$user = array(
+				'username' => $username,
+				'first_name' => $first_name,
+				'last_name' => $last_name,
+				'email' => $email,
+				'mobile_number' => $mobile_number,
+				'role' => 'admin',
+				'password' => $password,
+				'active' => 1,
+				'logo' => $logo,
+			);
+
+
+			$this->db->trans_start();
+
+			$this->db->insert('admins', $user);
+			$last_id = $this->db->insert_id();
+
+			$this->db->set('admin_id', $last_id);
+			$this->db->where('restaurants.id', $restaurant);
+			$this->db->update('restaurants');
+
+			$this->db->set('status', 2);
+			$this->db->where('id', $id);
+			$this->db->update('claim_your_business');
+
+			$this->db->trans_complete();
+
+			$this->session->set_flashdata('success', 'You have stored the clients successfully');
+			redirect("admin/dashboard");
+		}
+	}
+
+
+//	super admin profile and settings
 	public function profile()
 	{
 		$data['user'] = $this->session->userdata('user');

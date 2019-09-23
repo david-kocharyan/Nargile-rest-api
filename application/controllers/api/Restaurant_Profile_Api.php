@@ -311,6 +311,7 @@ class Restaurant_Profile_Api extends REST_Controller
 			"last_name" => $this->input->post("last_name"),
 			"mobile_number" => $this->input->post("mobile_number"),
 			"email" => $this->input->post("email"),
+			"position" => $this->input->post("position"),
 			"owner_first" => $this->input->post("owner_first"),
 			"owner_last" => $this->input->post("owner_last"),
 			"owner_mobile" => $this->input->post("owner_mobile"),

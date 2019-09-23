@@ -26,8 +26,8 @@ class Admin extends CI_Model
 	public function selectAll()
 	{
 		$this->db->select("admins.*, restaurants.name as restaurant_name");
-		$this->db->join("restaurants", "restaurants.id = admins.restaurant_id", "left");
-		return $this->db->get_where($this->table, array('restaurants.status' => 1 ))->result();
+		$this->db->join("restaurants", "admins.id = restaurants.admin_id", "left");
+		return $this->db->get_where($this->table, array('role' => 'admin'))->result();
 	}
 
 //	create new restaurant

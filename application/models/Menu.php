@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Menu extends CI_Model
 {
-	private $table = 'more_infos';
+	private $table = 'menus';
 
 	function __construct()
 	{

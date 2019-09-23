@@ -39,8 +39,10 @@
 	<!-- color CSS -->
 	<link href="<?= base_url('public/') ?>css/colors/default.css" id="theme" rel="stylesheet">
 	<!-- carousel -->
-	<link href="<?= base_url('public/') ?>plugins/bower_components/owl.carousel/owl.carousel.min.css" rel="stylesheet" type="text/css" />
-	<link href="<?= base_url('public/') ?>plugins/bower_components/owl.carousel/owl.theme.default.css" rel="stylesheet" type="text/css" />
+	<link href="<?= base_url('public/') ?>plugins/bower_components/owl.carousel/owl.carousel.min.css" rel="stylesheet"
+		  type="text/css"/>
+	<link href="<?= base_url('public/') ?>plugins/bower_components/owl.carousel/owl.theme.default.css" rel="stylesheet"
+		  type="text/css"/>
 
 	<!-- All Jquery -->
 	<!-- ============================================================== -->
@@ -85,81 +87,6 @@
                      </span> </a>
 			</div>
 			<!-- /Logo -->
-
-			<!-- Search input and Toggle icon -->
-			<ul class="nav navbar-top-links navbar-left">
-				<li><a href="javascript:void(0)" class="open-close waves-effect waves-light visible-xs"><i
-							class="ti-close ti-menu"></i></a></li>
-				<li class="dropdown">
-					<a class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown" href="#"> <i
-							class="mdi mdi-gmail"></i>
-						<div class="notify"><span class="heartbit"></span> <span class="point"></span></div>
-					</a>
-					<ul class="dropdown-menu mailbox animated bounceInDown">
-						<li>
-							<div class="drop-title">You have 4 new messages</div>
-						</li>
-						<li>
-							<div class="message-center">
-								<a href="#">
-									<div class="user-img"><img
-											src="<?= base_url('public/') ?>plugins/images/users/pawandeep.jpg"
-											alt="user" class="img-circle"> <span
-											class="profile-status online pull-right"></span></div>
-									<div class="mail-contnet">
-										<h5>Pavan kumar</h5> <span class="mail-desc">Just see the my admin!</span> <span
-											class="time">9:30 AM</span></div>
-								</a>
-							</div>
-						</li>
-						<li>
-							<a class="text-center" href="javascript:void(0);"> <strong>See all notifications</strong> <i
-									class="fa fa-angle-right"></i> </a>
-						</li>
-					</ul>
-				</li>
-				<!-- /.dropdown-messages -->
-
-				<!-- .Task dropdown -->
-				<li class="dropdown">
-					<a class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown" href="#"> <i
-							class="mdi mdi-check-circle"></i>
-						<div class="notify"><span class="heartbit"></span><span class="point"></span></div>
-					</a>
-					<ul class="dropdown-menu dropdown-tasks animated slideInUp">
-						<li>
-							<a href="#">
-								<div>
-									<p><strong>Task 1</strong> <span class="pull-right text-muted">40% Complete</span>
-									</p>
-									<div class="progress progress-striped active">
-										<div class="progress-bar progress-bar-success" role="progressbar"
-											 aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"
-											 style="width: 40%"><span class="sr-only">40% Complete (success)</span>
-										</div>
-									</div>
-								</div>
-							</a>
-						</li>
-						<li class="divider"></li>
-						<li>
-							<a class="text-center" href="#"> <strong>See All Tasks</strong> <i
-									class="fa fa-angle-right"></i> </a>
-						</li>
-					</ul>
-				</li>
-			</ul>
-			<!--dropdown icon end-->
-
-			<!--search-->
-			<ul class="nav navbar-top-links navbar-right pull-right">
-				<li>
-					<form role="search" class="app-search hidden-sm hidden-xs m-r-10">
-						<input type="text" placeholder="Search..." class="form-control"> <a href=""><i
-								class="fa fa-search"></i></a></form>
-				</li>
-			</ul>
-			<!--search end-->
 		</div>
 		<!-- /.navbar-header -->
 		<!-- /.navbar-top-links -->
@@ -190,13 +117,12 @@
 				</li>
 
 				<li class="devider"></li>
+				<li><a href="<?= base_url('admin/dashboard') ?>" class="waves-effect"><i class="mdi mdi-home fa-fw"></i> <span
+							class="hide-menu">Home</span></a></li>
 				<li><a href="javascript:void(0)" class="waves-effect"><i class="mdi mdi-face-profile  fa-fw"></i> <span
 							class="hide-menu">Users</span></a></li>
 				<li><a href="<?= base_url('admin/clients') ?>" class="waves-effect"><i
 							class="mdi mdi-account fa-fw"></i> <span class="hide-menu">Clients</span></a></li>
-				<li><a href="<?= base_url('admin/clients/create') ?>" class="waves-effect"><i
-							class="mdi mdi-account-plus fa-fw"></i> <span class="hide-menu">Add New Clients</span></a>
-				</li>
 
 				<!--restaurants, offers, slider-->
 				<li class="devider"></li>

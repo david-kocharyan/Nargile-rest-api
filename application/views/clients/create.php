@@ -26,12 +26,23 @@
 				</div>
 
 				<div class="form-group">
-					<label for="inputFull_name" class="control-label">Full Name</label>
-					<input type="text" class="form-control" id="inputFull_name" placeholder="Full Name" name="full_name"
+					<label for="inputFirst_name" class="control-label">First Name</label>
+					<input type="text" class="form-control" id="inputFirst_name" placeholder="First Name" name="first_name"
 						   required>
-					<?php if (!empty(form_error('full_name'))) { ?>
+					<?php if (!empty(form_error('first_name'))) { ?>
 						<div class="help-block with-errors text-danger">
-							<?= form_error('full_name'); ?>
+							<?= form_error('first_name'); ?>
+						</div>
+					<?php } ?>
+				</div>
+
+				<div class="form-group">
+					<label for="inputLast_name" class="control-label">Last Name</label>
+					<input type="text" class="form-control" id="inputLast_name" placeholder="Last Name" name="last_name"
+						   required>
+					<?php if (!empty(form_error('last_name'))) { ?>
+						<div class="help-block with-errors text-danger">
+							<?= form_error('last_name'); ?>
 						</div>
 					<?php } ?>
 				</div>
@@ -47,35 +58,23 @@
 				</div>
 
 				<div class="form-group">
+					<label for="inputMobile" class="control-label">Mobile Number</label>
+					<input type="text" class="form-control" id="inputMobile" placeholder="Mobile Number" name="mobile_number"
+						   required>
+					<?php if (!empty(form_error('last_name'))) { ?>
+						<div class="help-block with-errors text-danger">
+							<?= form_error('last_name'); ?>
+						</div>
+					<?php } ?>
+				</div>
+
+				<div class="form-group">
 					<label for="inputPassword" class="control-label">Password</label>
 					<input type="text" class="form-control" id="inputPassword" placeholder="Password" name="password"
 						   required>
 					<?php if (!empty(form_error('password'))) { ?>
 						<div class="help-block with-errors text-danger">
 							<?= form_error('password'); ?>
-						</div>
-					<?php } ?>
-				</div>
-
-				<div class="form-group">
-						<label for="restaurant">Restaurant</label>
-						<div class="input-group col-md-12">
-							<select class="form-control select_2_example" id="restaurant" name="restaurant">
-								<?php foreach ($restaurants as $key) { ?>
-									<option value="<?= $key->id ?>">
-										<?= $key->name ?>
-									</option>
-								<?php } ?>
-							</select>
-						</div>
-					</div>
-
-				<div class="form-group">
-					<label for="input-file-now">Clients Logo</label>
-					<input type="file" id="input-file-now" name="logo" class="dropify" data-max-file-size="15M"/>
-					<?php if (!empty($this->session->flashdata('error'))) { ?>
-						<div class="help-block with-errors text-danger">
-							<?= $this->session->flashdata('error') ?>
 						</div>
 					<?php } ?>
 				</div>

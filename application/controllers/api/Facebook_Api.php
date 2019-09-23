@@ -119,7 +119,7 @@ class Facebook_Api extends REST_Controller
 				"email" => $auth->email,
 				"reference_code" => $auth->reference_code == null ? "" : $auth->reference_code,
 				"coins" => $auth->coins,
-				"image" => '/plugins/default_images/' . $auth->image,
+				"image" => '/plugins/images/Logo/' . $auth->image,
 			),
 			"tokens" => array(
 				"token" => $token,
