@@ -196,7 +196,7 @@ class Restaurant_Profile_Api extends REST_Controller
 
 		$limit = (null !== $this->input->get('limit') && is_numeric($this->input->get("limit"))) ? intval($this->input->get('limit')) : 10;
 		$offset = (null !== $this->input->get('offset') && is_numeric($this->input->get("offset"))) ? $this->input->get('offset') * $limit : 0;
-		$pages = ($limit != 0 || null !== $limit) ? ceil($this->reviews_page()->pages / $limit) : 0;
+		$pages = ($limit != 0 || null !== $limit) ? ceil($this->reviews_page($res)->pages / $limit) : 0;
 
 		$this->db->select("reviews.review, users.id as user_id, users.image as user_image");
 		$this->db->join("users", 'users.id = reviews.user_id');
@@ -227,10 +227,10 @@ class Restaurant_Profile_Api extends REST_Controller
 		if ($this->input->get('type') == "all") $this->db->where(array("restaurant_id" => $this->input->get("restaurant"), "user_id  !=" => $res));
 	}
 
-	private function reviews_page()
+	private function reviews_page($res)
 	{
 		$this->db->select("count(id) as pages");
-		$this->reviews_were();
+		$this->reviews_were($res);
 		$data = $this->db->get("reviews")->row();
 		return $data != null ? $data : 0;
 	}
