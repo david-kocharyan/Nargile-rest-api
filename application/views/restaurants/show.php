@@ -9,7 +9,7 @@
 															class="img-responsive"/>
 					</div>
 				</div>
-				<div class="col-lg-4 col-md-4 col-sm-6">
+				<div class="col-lg-3 col-md-3 col-sm-6">
 					<h3 class="box-title m-t-0">Restaurant description</h3>
 					<ul class="list-icons">
 						<li><h4> Name - <?= $restaurant->restaurant_name ?>    </h4></li>
@@ -28,7 +28,15 @@
 					</ul>
 				</div>
 
-				<div class="col-lg-5 col-md-5 col-sm-6">
+				<div class="col-lg-6 col-md-6 col-sm-6">
+
+					<a href="<?= base_url("admin/restaurants/edit/$restaurant->restaurant_id") ?>" class="btn btn-info">
+						<span class="btn-label">
+							<i class="fas fa-pencil-alt"></i>
+						</span>
+						Edit
+					</a>
+
 					<a href="<?= base_url("admin/restaurants/menu/$restaurant->restaurant_id") ?>"
 					   class="btn btn-success">
 						<span class="btn-label">

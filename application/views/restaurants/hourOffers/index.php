@@ -23,7 +23,7 @@
 							</tr>
 						</table>
 						<input type="submit" name="submit" id="submit" class="btn btn-info" value="Submit"/>
-						<a href="<?= base_url("admin/restaurants") ?>">
+						<a href="<?= base_url("admin/restaurants/show/") . $id ?>">
 							<button type="button" class="btn btn-basic">Return</button>
 						</a>
 					</div>
