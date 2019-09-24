@@ -142,7 +142,8 @@ class Admins extends CI_Controller
 		$user = $this->Admin->getClientById($id);
 
 		$username = $this->input->post('username');
-		$full_name = $this->input->post('full_name');
+		$first_name = $this->input->post('first_name');
+		$last_name = $this->input->post('last_name');
 		$email = $this->input->post('email');
 
 		$def_username = $user->username;
@@ -154,7 +155,8 @@ class Admins extends CI_Controller
 		if ($def_email != $email) {
 			$this->form_validation->set_rules('email', 'Email', 'required|trim|is_unique[admins.email]');
 		}
-		$this->form_validation->set_rules('full_name', 'Full Name', 'required|trim');
+		$this->form_validation->set_rules('first_name', 'Full Name', 'required|trim');
+		$this->form_validation->set_rules('last_name', 'Full Name', 'required|trim');
 
 
 		if ($this->form_validation->run() == FALSE) {
@@ -175,7 +177,8 @@ class Admins extends CI_Controller
 
 			$admin = array(
 				'username' => $username,
-				'full_name' => $full_name,
+				'first_name' => $first_name,
+				'last_name' => $last_name,
 				'email' => $email,
 			);
 			if (isset($logo)) $admin['logo'] = $logo;

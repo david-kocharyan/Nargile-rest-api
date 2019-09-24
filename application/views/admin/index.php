@@ -9,7 +9,8 @@
 
 			<p><?= $admin->username ?></p>
 
-			<p><?= $admin->full_name ?></p>
+			<p><?= $admin->first_name ?></p>
+			<p><?= $admin->last_name ?></p>
 
 			<p><?= $admin->email ?></p>
 

@@ -23,14 +23,30 @@ class Login extends CI_Controller {
 
 		if ($this->form_validation->run() == FALSE)  $this->load->view('login.php');
 		$check = $this->Admin->authenticate($username, $password);
+
 		if ($check === false){
 			$this->load->view('login.php');
 		}
-		else{
+		elseif ($check->role == 'admin'){
 			$user = array(
 				'user_id' => $check->id,
 				'username' => $check->username,
-				'full_name' => $check->full_name,
+				'first_name' => $check->first_name,
+				'last_name' => $check->last_name,
+				'email' => $check->email,
+				'role' => $check->role,
+				'active' => $check->active,
+				'logo' => $check->logo,
+			);
+			$this->session->set_userdata("user",$user);
+			redirect( 'owner/dashboard' );
+		}
+		elseif ($check->role == 'superAdmin'){
+			$user = array(
+				'user_id' => $check->id,
+				'username' => $check->username,
+				'first_name' => $check->first_name,
+				'last_name' => $check->last_name,
 				'email' => $check->email,
 				'role' => $check->role,
 				'active' => $check->active,

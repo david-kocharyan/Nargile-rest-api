@@ -102,7 +102,7 @@
 			<ul class="nav" id="side-menu">
 				<li class="user-pro">
 					<a href="#" class="waves-effect"><i class="mdi mdi-account-circle"></i>
-						<span class="hide-menu"><?= $user['full_name'] ?><span class="fa arrow"></span></span>
+						<span class="hide-menu"><?= $user['first_name'] ?> <?= $user['last_name'] ?><span class="fa arrow"></span></span>
 					</a>
 
 					<ul class="nav nav-second-level collapse" aria-expanded="false" style="">

@@ -332,4 +332,39 @@ class Restaurant_Profile_Api extends REST_Controller
 		$this->response($data, REST_Controller::HTTP_OK);
 		return;
 	}
+
+//	get menu request
+	public function getMenu_get()
+	{
+		$res = $this->verify_get_request();
+		if (gettype($res) != 'string') {
+			$data = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => $res['msg']
+			);
+			$this->response($data, $res['status']);
+			return;
+		}
+
+		$this->db->select('name, price');
+		$menu = $this->db->get_where('menus', array('restaurant_id' => $this->input->get('id'), 'status' => 1))->result();
+
+		$this->db->select('image');
+		$images = $this->db->get_where('menu_images', array('restaurant_id' => $this->input->get('id'), 'status' => 1))->result();
+
+		$data = array(
+			"success" => true,
+			"data" => array(
+				"restaurant_menu" => array(
+					"menu" => $menu != null ? $menu : array(),
+					"images" => $images != null ? $images : array(),
+				),
+			),
+			"msg" => "",
+		);
+		$this->response($data, REST_Controller::HTTP_OK);
+		return;
+	}
+
 }

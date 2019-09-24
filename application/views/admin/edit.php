@@ -24,14 +24,27 @@
 				</div>
 
 				<div class="form-group">
-					<label>Full Name</label>
+					<label>First Name</label>
 					<div>
-						<input type="text" value="<?= $admin->full_name ?>" name="full_name"
+						<input type="text" value="<?= $admin->first_name ?>" name="first_name"
 							   class="form-control form-control-line">
 					</div>
-					<?php if (!empty(form_error('full_name'))) { ?>
+					<?php if (!empty(form_error('first_name'))) { ?>
 						<div class="help-block with-errors text-danger">
-							<?= form_error('full_name'); ?>
+							<?= form_error('first_name'); ?>
+						</div>
+					<?php } ?>
+				</div>
+
+				<div class="form-group">
+					<label>Last Name</label>
+					<div>
+						<input type="text" value="<?= $admin->last_name ?>" name="last_name"
+							   class="form-control form-control-line">
+					</div>
+					<?php if (!empty(form_error('last_name'))) { ?>
+						<div class="help-block with-errors text-danger">
+							<?= form_error('last_name'); ?>
 						</div>
 					<?php } ?>
 				</div>
