@@ -15,6 +15,11 @@ class Menu extends CI_Model
 		return $this->db->get_where($this->table, array('restaurant_id' => $id))->result();
 	}
 
+	public function selectAllImages($id)
+	{
+		return $this->db->get_where('menu_images', array('restaurant_id' => $id))->result();
+	}
+
 	public function select($id)
 	{
 		return $this->db->get_where($this->table, array('id' => $id))->row();

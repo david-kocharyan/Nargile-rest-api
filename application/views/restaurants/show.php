@@ -2,6 +2,52 @@
 <div class="row">
 	<div class="col-sm-12">
 		<div class="white-box">
+			<a href="<?= base_url("admin/restaurants/edit/$restaurant->restaurant_id") ?>" class="btn btn-info">
+				<span class="btn-label">
+					<i class="fas fa-pencil-alt"></i>
+				</span>
+				Edit
+			</a>
+
+			<a href="<?= base_url("admin/restaurants/menu/$restaurant->restaurant_id") ?>"
+			   class="btn btn-success">
+				<span class="btn-label">
+					<i class="fas fas fa-book"></i>
+				</span>
+				Add Menu
+			</a>
+
+			<a href="<?= base_url("admin/restaurants/info/$restaurant->restaurant_id") ?>"
+			   class="btn btn-primary">
+				<span class="btn-label">
+					<i class="fas fa-info"></i>
+				</span>
+				Add More Info
+			</a>
+
+			<a href="<?= base_url("admin/restaurants/featured-offers/$restaurant->restaurant_id") ?>"
+			   class="btn btn-warning">
+				<span class="btn-label">
+					<i class="fas fa-tags"></i>
+				</span>
+				Add Featured Offers
+			</a>
+
+			<a href="<?= base_url("admin/restaurants/hour-offers/$restaurant->restaurant_id") ?>"
+			   class="btn btn-danger">
+				<span class="btn-label">
+					<i class="fas fa-hourglass-half"></i>
+				</span>
+				Add Hour Offers
+			</a>
+		</div>
+	</div>
+</div>
+
+<!--page content-->
+<div class="row">
+	<div class="col-sm-12">
+		<div class="white-box">
 			<h3 class="box-title m-b-30">Restaurant Data</h3>
 			<div class="row">
 				<div class="col-lg-3 col-md-3 col-sm-6">
@@ -9,7 +55,7 @@
 															class="img-responsive"/>
 					</div>
 				</div>
-				<div class="col-lg-3 col-md-3 col-sm-6">
+				<div class="col-lg-9 col-md-9 col-sm-6">
 					<h3 class="box-title m-t-0">Restaurant description</h3>
 					<ul class="list-icons">
 						<li><h4> Name - <?= $restaurant->restaurant_name ?>    </h4></li>
@@ -27,48 +73,6 @@
 						<?php } ?>
 					</ul>
 				</div>
-
-				<div class="col-lg-6 col-md-6 col-sm-6">
-
-					<a href="<?= base_url("admin/restaurants/edit/$restaurant->restaurant_id") ?>" class="btn btn-info">
-						<span class="btn-label">
-							<i class="fas fa-pencil-alt"></i>
-						</span>
-						Edit
-					</a>
-
-					<a href="<?= base_url("admin/restaurants/menu/$restaurant->restaurant_id") ?>"
-					   class="btn btn-success">
-						<span class="btn-label">
-							<i class="fas fas fa-book"></i>
-						</span>
-						Add Menu
-					</a>
-
-					<a href="<?= base_url("admin/restaurants/info/$restaurant->restaurant_id") ?>"
-					   class="btn btn-primary">
-						<span class="btn-label">
-							<i class="fas fa-info"></i>
-						</span>
-						Add More Info
-					</a>
-
-					<a href="<?= base_url("admin/restaurants/featured-offers/$restaurant->restaurant_id") ?>"
-					   class="btn btn-warning">
-						<span class="btn-label">
-							<i class="fas fa-tags"></i>
-						</span>
-						Add Featured Offers
-					</a>
-
-					<a href="<?= base_url("admin/restaurants/hour-offers/$restaurant->restaurant_id") ?>"
-					   class="btn btn-danger">
-						<span class="btn-label">
-							<i class="fas fa-hourglass-half"></i>
-						</span>
-						Add Hour Offers
-					</a>
-				</div>
 			</div>
 		</div>
 	</div>
@@ -77,7 +81,7 @@
 <div class="row">
 	<div class="col-lg-6">
 		<div class="panel panel-default" style="height: 607px;">
-			<div class="panel-heading">Slide show with owl Carousel</div>
+			<div class="panel-heading">restaurant slider carousel</div>
 			<div class="panel-wrapper p-b-10 collapse in">
 				<div id="owl-demo" class="owl-carousel owl-theme">
 					<?php foreach ($images as $key => $value) { ?>
@@ -153,6 +157,31 @@
 					<?php } ?>
 					</tbody>
 				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-lg-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">Food and bar menu</div>
+			<div class="panel-wrapper p-b-10 collapse in">
+				<div id="owl-demo2" class="owl-carousel owl-theme owl-loaded owl-drag">
+					<div class="owl-stage-outer">
+						<div class="owl-stage"
+							 style="transform: translate3d(-362px, 0px, 0px); transition: all 0.25s ease 0s; width: 2176px;">
+
+							<?php foreach ($menu_images as $key) { ?>
+								<div class="owl-item" style="width: 342.6px; margin-right: 20px;">
+									<div class="item"><img src="<?= base_url('plugins/images/Menu/') . $key->image ?>"
+														   alt="Menu Image"></div>
+								</div>
+							<?php } ?>
+
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

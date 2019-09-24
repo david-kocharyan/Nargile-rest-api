@@ -32,7 +32,8 @@ class Restaurants extends CI_Controller
 		$data['more_info'] = $this->Restaurant->show_more_info($id);//+
 		$data['featured'] = $this->Restaurant->show_featured_offers($id);//+
 		$data['hour'] = $this->Restaurant->show_hour_offers($id);//+
-		$data['menus'] = $this->Restaurant->show_menus($id);
+		$data['menus'] = $this->Restaurant->show_menus($id);//+
+		$data['menu_images'] = $this->Restaurant->show_menu_images($id);//+
 		$data['reviews'] = $this->Restaurant->show_reviews($id);//+
 		$data['title'] = "Show Restaurant Data";
 

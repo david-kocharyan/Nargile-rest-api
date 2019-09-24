@@ -160,6 +160,8 @@ $route["admin/restaurants/menu/store/(:any)"] = 'Menus/store/$1';
 $route["admin/restaurants/menu/edit/(:any)"] = 'Menus/edit/$1';
 $route["admin/restaurants/menu/update/(:any)"] = 'Menus/update/$1';
 $route["admin/restaurants/menu/change-status/(:any)"] = 'Menus/change_status/$1';
+$route["admin/restaurants/menu/image-store/(:any)"] = 'Menus/image_store/$1';
+$route["admin/restaurants/menu/change-status-image/(:any)"] = 'Menus/change_status_image/$1';
 
 //Slider
 $route['admin/sliders'] = 'Sliders';

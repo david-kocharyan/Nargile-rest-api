@@ -91,6 +91,11 @@ class Restaurant extends CI_Model
 		return $this->db->get_where("menus", array("restaurant_id" => $id, "status" => 1))->result();
 	}
 
+	public function show_menu_images($id)
+	{
+		return $this->db->get_where("menu_images", array("restaurant_id" => $id))->result();
+	}
+
 	public function show_reviews($id)
 	{
 		return $this->db->get_where("reviews", array("restaurant_id" => $id))->result();

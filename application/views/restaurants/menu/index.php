@@ -10,7 +10,7 @@
 			<?php } ?>
 			<div class="form-group">
 				<form data-toggle="validator"
-					  action="<?php echo base_url() ?>admin/restaurants/info/store/<?= $id ?>"
+					  action="<?php echo base_url('admin/restaurants/menu/store/') . $id ?>"
 					  method="post">
 					<div class="table-responsive">
 						<table class="table table-bordered" id="dynamic_field">
@@ -43,8 +43,8 @@
 	<div class="col-sm-12">
 		<div class="white-box">
 			<form data-toggle="validator"
-				  action="<?php echo base_url() ?>admin/restaurants/info/store/<?= $id ?>"
-				  method="post">
+				  action="<?php echo base_url('admin/restaurants/menu/image-store/') . $id ?>"
+				  method="post" enctype="multipart/form-data">
 
 				<div class="form-group">
 					<?php if (isset($this->errors)) { ?>
@@ -91,7 +91,7 @@
 							<td><?= $value->price; ?></td>
 							<td><?= $value->status; ?></td>
 							<td>
-								<a href="<?= base_url("admin/restaurants/info/edit/$value->id") ?>"
+								<a href="<?= base_url("admin/restaurants/menu/edit/$value->id") ?>"
 								   data-toggle="tooltip"
 								   data-placement="top" title="Edit" class="btn btn-info btn-circle tooltip-info"> <i
 										class="fas fa-pencil-alt"></i> </a>
@@ -119,6 +119,53 @@
 	</div>
 </div>
 
+<!--page content-->
+<div class="row">
+	<div class="col-sm-12">
+		<div class="white-box">
+			<div class="table-responsive">
+				<table id="myTable" class="table table-striped">
+					<thead>
+					<tr>
+						<th>ID</th>
+						<th>Image</th>
+						<th>Status</th>
+						<th>options</th>
+					</tr>
+					</thead>
+					<tbody>
+					<?php foreach ($menu_images as $key => $value) { ?>
+						<tr>
+							<td><?= $key + 1 ?></td>
+							<td>
+								<img src="<?= base_url('/plugins/images/Menu/') . $value->image ?> " alt="image"
+									 class="img-responsive" width="200" height="200">
+							</td>
+							<td><?= $value->status ?></td>
+
+							<td>
+								<?php if ($value->status == 1) { ?>
+									<a href="<?= base_url("admin/restaurants/menu/change-status-image/$value->id") ?>"
+									   data-toggle="tooltip"
+									   data-placement="top" title="Deactivate"
+									   class="btn btn-danger btn-circle tooltip-danger"><i class="fa fa-power-off"></i></a>
+								<?php } else { ?>
+									<a href="<?= base_url("admin/restaurants/menu/change-status-image/$value->id") ?>"
+									   data-toggle="tooltip"
+									   data-placement="top" title="Activate"
+									   class="btn btn-success btn-circle tooltip-success"><i
+											class="fa fa-power-off"></i></a>
+								<?php } ?>
+							</td>
+
+						</tr>
+					<?php } ?>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
 
 <script>
     $(document).ready(function () {
