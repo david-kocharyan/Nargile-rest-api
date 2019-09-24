@@ -71,7 +71,7 @@ class Restaurant_Profile_Api extends REST_Controller
 		$this->join();
 		$this->where();
 		$data = $this->db->get("restaurants")->row();
-		return $data != null ? $data : array();
+		return $data != null ? $data : new stdClass();
 	}
 
 	private function where()
@@ -109,7 +109,7 @@ class Restaurant_Profile_Api extends REST_Controller
 		$this->db->select("COUNT(restaurant_id) as reviews");
 		$this->db->where("restaurant_id", $id);
 		$data = $this->db->get("reviews")->row();
-		return $data != null ? $data : 0;
+		return $data;
 	}
 
 	private function get_current_user_rate($res)
@@ -166,7 +166,7 @@ class Restaurant_Profile_Api extends REST_Controller
 
 	private function get_admin()
 	{
-		$data = $this->db->get_where("admins", array('restaurant_id' => $this->input->get('id'), 'active' => 1))->result();
+		$data = $this->db->get_where("restaurants", array('id' => $this->input->get('id'), 'admin_id != ' => NULL))->result();
 		return $data != null ? '1' : '0';
 	}
 
