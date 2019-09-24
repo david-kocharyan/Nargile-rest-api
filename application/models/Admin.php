@@ -13,7 +13,7 @@ class Admin extends CI_Model
 //	check user authenticate
 	public function authenticate($username, $password)
 	{
-		$getUser = $this->db->get_where('admins',["username"=>$username])->row();
+		$getUser = $this->db->get_where('admins', ["username" => $username])->row();
 		if (!$getUser) return false;
 		if (!$getUser->active) return false;
 
@@ -25,9 +25,13 @@ class Admin extends CI_Model
 //	select all from admins table
 	public function selectAll()
 	{
-		$this->db->select("admins.*, restaurants.name as restaurant_name");
-		$this->db->join("restaurants", "admins.id = restaurants.admin_id", "left");
-		return $this->db->get_where($this->table, array('role' => 'admin'))->result();
+		$this->db->select("*");
+		$data = $this->db->get_where($this->table, array('role' => 'admin'))->result();
+		foreach ($data as $i => $key) {
+			$this->db->select('name');
+			$data[$i]->restaurants = $this->db->get_where('restaurants', array('admin_id' => $key->id))->result();
+		}
+		return $data;
 	}
 
 //	create new restaurant
@@ -37,7 +41,8 @@ class Admin extends CI_Model
 	}
 
 //	update
-	public function update($id, $data){
+	public function update($id, $data)
+	{
 		$this->db->where('id', $id);
 		$this->db->update($this->table, $data);
 	}
@@ -46,17 +51,17 @@ class Admin extends CI_Model
 	public function changeStatus($id)
 	{
 		$data = $this->db->get_where($this->table, ["id" => $id])->row();
-		if(null == $data) {
+		if (null == $data) {
 			return;
 		}
 		$status = $data->active == 1 ? 0 : 1;
-		$this->db->update($this->table, array("active" => $status), ['id' => $id] );
+		$this->db->update($this->table, array("active" => $status), ['id' => $id]);
 	}
 
 //	get clients by id for edit
 	public function getClientById($id)
 	{
-		$getClient = $this->db->get_where('admins',["id"=>$id])->row();
+		$getClient = $this->db->get_where('admins', ["id" => $id])->row();
 		if (!$getClient) return false;
 		return $getClient;
 	}

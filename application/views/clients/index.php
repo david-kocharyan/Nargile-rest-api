@@ -36,7 +36,11 @@
 							<td><img src="<?= base_url("plugins/images/Logo/" . $value->logo); ?>" width="200"
 									 height="200" alt=""></td>
 
-							<td><?= $value->restaurant_name; ?></td>
+							<td>
+								<?php foreach ($value->restaurants as $bin => $val) { ?>
+									<strong><?= $val->name ?></strong> <br />
+								<?php } ?>
+							</td>
 
 							<td><?= $value->active; ?></td>
 							<td>
