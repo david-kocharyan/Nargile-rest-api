@@ -27,21 +27,7 @@ class Login extends CI_Controller {
 		if ($check === false){
 			$this->load->view('login.php');
 		}
-		elseif ($check->role == 'admin'){
-			$user = array(
-				'user_id' => $check->id,
-				'username' => $check->username,
-				'first_name' => $check->first_name,
-				'last_name' => $check->last_name,
-				'email' => $check->email,
-				'role' => $check->role,
-				'active' => $check->active,
-				'logo' => $check->logo,
-			);
-			$this->session->set_userdata("user",$user);
-			redirect( 'owner/dashboard' );
-		}
-		elseif ($check->role == 'superAdmin'){
+		else{
 			$user = array(
 				'user_id' => $check->id,
 				'username' => $check->username,

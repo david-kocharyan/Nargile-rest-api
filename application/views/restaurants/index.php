@@ -4,9 +4,12 @@
 		<div class="white-box">
 			<h3 class="box-title m-b-0">Restaurants Table</h3>
 			<p class="text-muted m-b-15">All restaurants in 1 place!!</p>
-			<p class="box-title m-b-30 btn btn-success btn-outline"><a
-					href="<?= base_url("admin/restaurants/create") ?>" class="text-success">Add
-					new Restaurants</a></p>
+
+			<?php if ($user['role'] == 'superAdmin') { ?>
+				<p class="box-title m-b-30 btn btn-success btn-outline"><a
+						href="<?= base_url("admin/restaurants/create") ?>" class="text-success">Add
+						new Restaurants</a></p>
+			<?php } ?>
 
 			<div class="table-responsive">
 				<table id="myTable" class="table table-striped">

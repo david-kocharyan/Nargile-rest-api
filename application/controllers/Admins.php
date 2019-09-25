@@ -7,7 +7,7 @@ class Admins extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		if (($this->session->userdata('user') == NULL OR !$this->session->userdata('user')) OR $this->session->userdata('user')['role'] != "superAdmin") {
+		if (($this->session->userdata('user') == NULL OR !$this->session->userdata('user'))) {
 			redirect('/admin/login');
 		}
 		$this->load->model("Admin");
@@ -18,6 +18,9 @@ class Admins extends CI_Controller
 	 */
 	public function index()
 	{
+//		check user type
+		if ($this->session->userdata('user')['role'] != 'superAdmin') redirect('admin/home');
+
 		$data['user'] = $this->session->userdata('user');
 		$data['title'] = "Home";
 
@@ -31,8 +34,20 @@ class Admins extends CI_Controller
 		$this->load->view('layouts/footer.php');
 	}
 
+	public function owner_index()
+	{
+		$data['user'] = $this->session->userdata('user');
+		$data['title'] = "Home";
+
+		$this->load->view('layouts/header.php', $data);
+		$this->load->view('layouts/footer.php');
+	}
+
 	public function change_status($id)
 	{
+		//	check user type
+		if ($this->session->userdata('user')['role'] != 'superAdmin') redirect('404');
+
 		$data = $this->db->get_where('claim_your_business', ["id" => $id])->row();
 		if (null == $data) {
 			return;
@@ -44,6 +59,9 @@ class Admins extends CI_Controller
 
 	public function create_owner($id)
 	{
+		//	check user type
+		if ($this->session->userdata('user')['role'] != 'superAdmin') redirect('404');
+
 		$data['user'] = $this->session->userdata('user');
 		$data['title'] = "Home";
 
@@ -54,7 +72,7 @@ class Admins extends CI_Controller
 		$owner = $this->db->get_where('claim_your_business', ["claim_your_business.id" => $id])->row();
 		$admin = $this->db->get_where('admins', ["email" => $owner->email])->row();
 
-		if ($admin != NULL){
+		if ($admin != NULL) {
 			$this->db->trans_start();
 
 			$this->db->set('admin_id', $admin->id);
@@ -76,6 +94,9 @@ class Admins extends CI_Controller
 
 	public function store_owner($id)
 	{
+		//	check user type
+		if ($this->session->userdata('user')['role'] != 'superAdmin') redirect('404');
+
 		$username = $this->input->post('username');
 		$first_name = $this->input->post('first_name');
 		$last_name = $this->input->post('last_name');

@@ -7,7 +7,7 @@ class Restaurants extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		if (($this->session->userdata('user') == NULL OR !$this->session->userdata('user')) OR $this->session->userdata('user')['role'] != "superAdmin") {
+		if (($this->session->userdata('user') == NULL OR !$this->session->userdata('user'))) {
 			redirect('/admin/login');
 		}
 		$this->load->model("Restaurant");
@@ -16,7 +16,12 @@ class Restaurants extends CI_Controller
 	public function index()
 	{
 		$data['user'] = $this->session->userdata('user');
-		$data['restaurants'] = $this->Restaurant->selectAll();
+		$type = $this->check_admin();
+		if ($type == 2) {
+			$data['restaurants'] = $this->Restaurant->selectResForAdmin($data['user']['user_id']);
+		} else {
+			$data['restaurants'] = $this->Restaurant->selectAll();
+		}
 		$data['title'] = "Restaurants";
 
 		$this->load->view('layouts/header.php', $data);
@@ -26,6 +31,8 @@ class Restaurants extends CI_Controller
 
 	public function show($id)
 	{
+		$type = $this->check_admin_restaurant($id);
+
 		$data['user'] = $this->session->userdata('user');
 		$data['restaurant'] = $this->Restaurant->show($id);//+
 		$data['images'] = $this->Restaurant->show_images($id);//+
@@ -45,6 +52,9 @@ class Restaurants extends CI_Controller
 
 	public function create()
 	{
+		// check user type
+		if ($this->session->userdata('user')['role'] != 'superAdmin') redirect('404');
+
 		$data['user'] = $this->session->userdata('user');
 		$this->load->model("Area");
 		$data['area'] = $this->Area->selectAll();
@@ -58,6 +68,9 @@ class Restaurants extends CI_Controller
 
 	public function store()
 	{
+		// check user type
+		if ($this->session->userdata('user')['role'] != 'superAdmin') redirect('404');
+
 		$name = $this->input->post('name');
 		$area = $this->input->post('area');
 		$phone_number = $this->input->post('phone_number');
@@ -114,6 +127,9 @@ class Restaurants extends CI_Controller
 	{
 		$data['user'] = $this->session->userdata('user');
 		$this->load->model("Area");
+
+		$admin_type = $this->check_admin_restaurant($id);
+
 		$data['area'] = $this->Area->selectAll();
 		$data['restaurant'] = $this->Restaurant->selectById($id);
 		$data['restaurant_images'] = $this->db->get_where('restaurants_images', array('restaurant_id' => $id))->result();
@@ -131,6 +147,8 @@ class Restaurants extends CI_Controller
 	 */
 	public function update($id)
 	{
+		$admin_type = $this->check_admin_restaurant($id);
+
 		$name = $this->input->post('name');
 		$area = $this->input->post('area');
 		$address = $this->input->post('address');
@@ -346,5 +364,33 @@ class Restaurants extends CI_Controller
 			echo $this->image_lib->display_errors();
 		}
 		$this->image_lib->clear();
+	}
+
+//	check admin type
+	private function check_admin_restaurant($res_id)
+	{
+		$admin_id = $this->session->userdata('user')['user_id'];
+
+		$type = $this->check_admin();
+		if ($type == 2) {
+			$res_admin_id = $this->db->get_where('restaurants', array('id' => $res_id))->row()->admin_id;
+			if ($res_admin_id != $admin_id) {
+				redirect('404_override');
+			}
+		}
+	}
+
+	private function check_admin()
+	{
+		$admin_role = $this->session->userdata('user')['role'];
+
+		if ($admin_role == 'superAdmin') {
+			return 1;
+		} elseif ($admin_role == 'admin') {
+			return 2;
+		} else {
+			redirect('404_override');
+			return;
+		}
 	}
 }

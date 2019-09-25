@@ -50,7 +50,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |		my-controller/my-method	-> my_controller/my_method
 */
 $route['default_controller'] = 'Admins';
-$route['404_override'] = '';
+$route['404_override'] = 'Errors/_404';
 $route['translate_uri_dashes'] = FALSE;
 
 //users Api
@@ -91,6 +91,7 @@ $route['api/rate'] = 'api/Rate_Api';
 //admin panel
 $route['admin'] = 'Admins';
 $route['admin/dashboard'] = 'Admins';
+$route['admin/home'] = 'Admins/owner_index';
 $route['admin/register'] = 'Admins/register';
 $route['admin/login'] = 'Login';
 $route['admin/logout'] = 'Login/logout';
