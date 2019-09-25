@@ -103,6 +103,7 @@
 					<?php } ?>
 					<div class="input-group col-md-12">
 						<select class="form-control select_2_example" id="country" name="owner">
+							<option value="">Choose Admin</option>
 							<?php foreach ($owner as $key) { ?>
 								<option value="<?= $key->id ?>"
 									<?php if ($key->id == $restaurant->admin_id) { ?>

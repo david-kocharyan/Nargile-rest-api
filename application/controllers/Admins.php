@@ -51,8 +51,24 @@ class Admins extends CI_Controller
 
 		$this->db->select("claim_your_business.*, restaurants.id as restaurant_id");
 		$this->db->join('restaurants', 'restaurants.id =  claim_your_business.restaurant_id');
-		$data['owner'] = $this->db->get_where('claim_your_business', ["claim_your_business.id" => $id])->row();
+		$owner = $this->db->get_where('claim_your_business', ["claim_your_business.id" => $id])->row();
+		$admin = $this->db->get_where('admins', ["email" => $owner->email])->row();
 
+		if ($admin != NULL){
+			$this->db->trans_start();
+
+			$this->db->set('admin_id', $admin->id);
+			$this->db->where('restaurants.id', $owner->restaurant_id);
+			$this->db->update('restaurants');
+
+			$this->db->set('status', 2);
+			$this->db->where('id', $owner->id);
+			$this->db->update('claim_your_business');
+
+			$this->db->trans_complete();
+			redirect("admin/dashboard");
+			return;
+		}
 		$this->load->view('layouts/header.php', $data);
 		$this->load->view('admin/owner/create.php');
 		$this->load->view('layouts/footer.php');
