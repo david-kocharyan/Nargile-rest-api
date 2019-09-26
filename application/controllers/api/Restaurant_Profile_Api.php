@@ -198,7 +198,7 @@ class Restaurant_Profile_Api extends REST_Controller
 		$offset = (null !== $this->input->get('offset') && is_numeric($this->input->get("offset"))) ? $this->input->get('offset') * $limit : 0;
 		$pages = ($limit != 0 || null !== $limit) ? ceil($this->reviews_page($res)->pages / $limit) : 0;
 
-		$this->db->select("reviews.review, users.id as user_id, users.image as user_image");
+		$this->db->select("reviews.review, users.id as user_id, concat('/plugins/images/Logo/', users.image) as user_image");
 		$this->db->join("users", 'users.id = reviews.user_id');
 		$this->reviews_were($res);
 		$this->db->limit($limit, $offset);

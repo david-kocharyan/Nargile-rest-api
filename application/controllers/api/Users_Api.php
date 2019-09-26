@@ -285,6 +285,43 @@ class Users_API extends REST_Controller
 
 	}
 
+//	logout
+	public function logout_get()
+	{
+		$headers = $this->input->request_headers();
+		$token = "";
+		if (isset($headers['Authorize'])) {
+			$token = $headers['Authorize'];
+		}
+		$res = $this->db->get_where("tokens", array("token" => $token))->row_array();
+		if (null == $res || empty($res)) {
+			$data = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => "Provide valid token",
+				"status" => REST_Controller::HTTP_UNPROCESSABLE_ENTITY
+			);
+		} else {
+
+			$this->db->set('token', NULL);
+			$this->db->set('refresh_token', NULL);
+			$this->db->set('time', NULL);
+			$this->db->where('id', $res['id']);
+			$this->db->update('tokens');
+
+			$data = array(
+				"success" => true,
+				"data" => array(),
+				"msg" => "You have successfully logged out",
+				"status" => REST_Controller::HTTP_OK
+			);
+		}
+		$status = $data['status'];
+		unset($data['status']);
+		$this->response($data, $status);
+	}
+
+
 //	get authorized user data
 	public function getUser_get()
 	{
@@ -330,41 +367,6 @@ class Users_API extends REST_Controller
 			"success" => true
 		);
 		$this->response($response, REST_Controller::HTTP_OK);
-	}
-
-	public function logout_get()
-	{
-		$headers = $this->input->request_headers();
-		$token = "";
-		if (isset($headers['Authorize'])) {
-			$token = $headers['Authorize'];
-		}
-		$res = $this->db->get_where("tokens", array("token" => $token))->row_array();
-		if (null == $res || empty($res)) {
-			$data = array(
-				"success" => false,
-				"data" => array(),
-				"msg" => "Provide valid token",
-				"status" => REST_Controller::HTTP_UNPROCESSABLE_ENTITY
-			);
-		} else {
-
-			$this->db->set('token', NULL);
-			$this->db->set('refresh_token', NULL);
-			$this->db->set('time', NULL);
-			$this->db->where('id', $res['id']);
-			$this->db->update('tokens');
-
-			$data = array(
-				"success" => true,
-				"data" => array(),
-				"msg" => "You have successfully logged out",
-				"status" => REST_Controller::HTTP_OK
-			);
-		}
-		$status = $data['status'];
-		unset($data['status']);
-		$this->response($data, $status);
 	}
 
 }
