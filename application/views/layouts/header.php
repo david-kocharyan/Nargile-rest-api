@@ -25,11 +25,6 @@
 	<link href="<?= base_url('public/') ?>plugins/bower_components/toast-master/css/jquery.toast.css" rel="stylesheet">
 	<!-- morris CSS -->
 	<link href="<?= base_url('public/') ?>plugins/bower_components/morrisjs/morris.css" rel="stylesheet">
-	<!-- chartist CSS -->
-	<link href="<?= base_url('public/') ?>plugins/bower_components/chartist-js/dist/chartist.min.css" rel="stylesheet">
-	<link
-		href="<?= base_url('public/') ?>plugins/bower_components/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.css"
-		rel="stylesheet">
 	<!-- Calendar CSS -->
 	<link href="<?= base_url('public/') ?>plugins/bower_components/calendar/dist/fullcalendar.css" rel="stylesheet"/>
 	<!-- animation CSS -->

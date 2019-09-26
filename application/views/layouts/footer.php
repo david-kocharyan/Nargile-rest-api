@@ -28,9 +28,6 @@ $(document).ready(function() {
 <!--Morris JavaScript -->
 <script src="<?= base_url('public/') ?>plugins/bower_components/raphael/raphael-min.js"></script>
 <script src="<?= base_url('public/') ?>plugins/bower_components/morrisjs/morris.js"></script>
-<!-- chartist chart -->
-<script src="<?= base_url('public/') ?>plugins/bower_components/chartist-js/dist/chartist.min.js"></script>
-<script src="<?= base_url('public/') ?>plugins/bower_components/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.min.js"></script>
 <!-- Calendar JavaScript -->
 <script src="<?= base_url('public/') ?>plugins/bower_components/moment/moment.js"></script>
 <script src='<?= base_url('public/') ?>plugins/bower_components/calendar/dist/fullcalendar.min.js'></script>

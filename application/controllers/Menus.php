@@ -7,7 +7,7 @@ class Menus extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		if (($this->session->userdata('user') == NULL OR !$this->session->userdata('user')) OR $this->session->userdata('user')['role'] != "superAdmin") {
+		if (($this->session->userdata('user') == NULL OR !$this->session->userdata('user'))) {
 			redirect('/admin/login');
 		}
 		$this->load->model("Menu");
@@ -15,6 +15,8 @@ class Menus extends CI_Controller
 
 	public function index($id)
 	{
+		$type = $this->check_admin_restaurant($id);
+
 		$data['user'] = $this->session->userdata('user');
 		$data['title'] = "Restaurant Menu";
 		$data['menu'] = $this->Menu->selectAll($id);
@@ -28,6 +30,8 @@ class Menus extends CI_Controller
 
 	public function store($id)
 	{
+		$type = $this->check_admin_restaurant($id);
+
 		$name = $this->input->post('name');
 		$price = $this->input->post('price');
 
@@ -44,6 +48,7 @@ class Menus extends CI_Controller
 		$data['user'] = $this->session->userdata('user');
 		$data['title'] = "Menu Edit";
 		$data['menu'] = $this->Menu->select($id);
+		$type = $this->check_admin_restaurant($data['menu']->restaurant_id);
 
 		$this->load->view('layouts/header.php', $data);
 		$this->load->view('restaurants/Menu/edit.php');
@@ -52,6 +57,8 @@ class Menus extends CI_Controller
 
 	public function update($id)
 	{
+		$type = $this->check_admin_restaurant($this->Menu->select($id)->restaurant_id);
+
 		$name = $this->input->post('name');
 		$price = $this->input->post('price');
 
@@ -69,6 +76,8 @@ class Menus extends CI_Controller
 
 	public function image_store($id)
 	{
+		$type = $this->check_admin_restaurant($id);
+
 		$this->db->trans_start();
 
 		if (!empty($_FILES['images']['name'][0]) || null != $_FILES['images']['name'][0]) {
@@ -92,6 +101,7 @@ class Menus extends CI_Controller
 		if (null == $data) {
 			return;
 		}
+		$type = $this->check_admin_restaurant($data->restaurant_id);
 		$status = $data->status == 1 ? 0 : 1;
 		$this->db->update('menus', array("status" => $status), ['id' => $id]);
 		redirect("admin/restaurants/menu/$data->restaurant_id");
@@ -103,6 +113,7 @@ class Menus extends CI_Controller
 		if (null == $data) {
 			return;
 		}
+		$type = $this->check_admin_restaurant($data->restaurant_id);
 		$status = $data->status == 1 ? 0 : 1;
 		$this->db->update('menu_images', array("status" => $status), ['id' => $id]);
 		redirect("admin/restaurants/menu/$data->restaurant_id");
@@ -172,4 +183,33 @@ class Menus extends CI_Controller
 		}
 		$this->image_lib->clear();
 	}
+
+//	check admin type
+	private function check_admin_restaurant($res_id)
+	{
+		$admin_id = $this->session->userdata('user')['user_id'];
+
+		$type = $this->check_admin();
+		if ($type == 2) {
+			$res_admin_id = $this->db->get_where('restaurants', array('id' => $res_id))->row()->admin_id;
+			if ($res_admin_id != $admin_id) {
+				redirect('404_override');
+			}
+		}
+	}
+
+	private function check_admin()
+	{
+		$admin_role = $this->session->userdata('user')['role'];
+
+		if ($admin_role == 'superAdmin') {
+			return 1;
+		} elseif ($admin_role == 'admin') {
+			return 2;
+		} else {
+			redirect('404_override');
+			return;
+		}
+	}
+
 }
