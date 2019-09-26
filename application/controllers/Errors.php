@@ -1,7 +1,9 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+require(APPPATH . '/libraries/REST_Controller.php');
 
-class Errors extends CI_Controller
+
+class Errors extends REST_Controller
 {
 	public function __construct()
 	{
@@ -10,7 +12,17 @@ class Errors extends CI_Controller
 
 	public function _404()
 	{
-		$this->load->view('errors/404.php');
+		if(stristr($_SERVER['HTTP_USER_AGENT'],'Mobile')){
+			$response = array(
+				"msg" => 'Page not found!',
+				"data" => array(),
+				"success" => false
+			);
+			$this->response($response, REST_Controller::HTTP_OK);
+		}else{
+			$this->load->view('errors/404.php');
+		}
+
 	}
 
 }
