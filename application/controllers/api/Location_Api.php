@@ -69,8 +69,8 @@ class Location_Api extends REST_Controller
 			"success" => true,
 			"data" => array(
 				"geolocation" => array(
-					"city" => $address->city,
-					"country" => $address->country
+					"city" => $address != null ? $address->city : 'null',
+					"country" => $address != null ? $address->country : 'null',
 				),
 			),
 			"msg" => "",

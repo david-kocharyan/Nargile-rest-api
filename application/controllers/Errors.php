@@ -12,17 +12,16 @@ class Errors extends REST_Controller
 
 	public function _404()
 	{
-		if(stristr($_SERVER['HTTP_USER_AGENT'],'Mobile')){
+		if(stristr($_SERVER['REQUEST_URI'],'api')){
 			$response = array(
 				"msg" => 'Page not found!',
 				"data" => array(),
 				"success" => false
 			);
-			$this->response($response, REST_Controller::HTTP_OK);
+			$this->response($response, 404);
 		}else{
 			$this->load->view('errors/404.php');
 		}
-
 	}
 
 }

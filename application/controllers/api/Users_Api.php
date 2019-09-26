@@ -368,6 +368,21 @@ class Users_API extends REST_Controller
 		);
 		$this->response($response, REST_Controller::HTTP_OK);
 	}
+//
+//	private function get_badges($res)
+//	{
+//		$this->db->select('COUNT("user_id") as count');
+//		$review = $this->db->get_where("reviews", array("user_id" => $res))->row();
+//
+//		$this->db->select('COUNT("user_id") as count');
+//		$rate = $this->db->get_where("rates", array("user_id" => $res))->row();
+//
+//		$count = $rate->count + $review->count;
+//
+//
+//		var_dump($count);die;
+//
+//	}
 
 }
 
