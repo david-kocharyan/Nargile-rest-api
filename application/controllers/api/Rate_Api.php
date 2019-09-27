@@ -28,8 +28,8 @@ class Rate_Api extends REST_Controller
 		}
 
 		$rate = array(
-			"user_id" => $this->input->post("user_id"),
-			"restaurant_id" => $this->input->post("restaurant_id"),
+			"user_id" => $res,
+			"restaurant_id" => $this->input->post("id"),
 			"overall" => $this->input->post("overall"),
 			"taste" => $this->input->post("taste"),
 			"charcoal" => $this->input->post("charcoal"),
@@ -41,12 +41,12 @@ class Rate_Api extends REST_Controller
 		$review = $this->input->post("review");
 		$this->db->insert('rates', $rate);
 		if (NULL != $review){
-			$this->db->insert('reviews', array("user_id" => $this->input->post("user_id"), "restaurant_id" => $this->input->post("restaurant_id"), "review" => $review));
+			$this->db->insert('reviews', array("user_id" => $res, "restaurant_id" => $this->input->post("id"), "review" => $review));
 		}
 
 //		calculate total rate
-		$this->db->select("overall");
-		$res_rate = $this->db->get_where("rates", array("restaurant_id" => $this->input->post("restaurant_id")))->result();
+		$this->db->select("AVG(overall) as overall");
+		$res_rate = $this->db->get_where("rates", array("restaurant_id" => $this->input->post("id")))->result();
 		$counter = 0;
 		$total = 0;
 		foreach ($res_rate as $row) {
@@ -56,7 +56,7 @@ class Rate_Api extends REST_Controller
 		$total_rate = $total / $counter;
 
 		$this->db->set('rate', $total_rate);
-		$this->db->where('id', $this->input->post("restaurant_id"));
+		$this->db->where('id', $this->input->post("id"));
 		$this->db->update('restaurants');
 
 //		response
