@@ -45,7 +45,7 @@ class Rate_Api extends REST_Controller
 		}
 
 //		calculate total rate
-		$this->db->select("AVG(overall) as overall");
+		$this->db->select("overall");
 		$res_rate = $this->db->get_where("rates", array("restaurant_id" => $this->input->post("id")))->result();
 		$counter = 0;
 		$total = 0;
