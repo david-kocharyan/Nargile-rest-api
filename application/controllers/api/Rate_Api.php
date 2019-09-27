@@ -38,7 +38,7 @@ class Rate_Api extends REST_Controller
 			"value_for_money" => $this->input->post("value_for_money"),
 		);
 
-		var_dump($rate);die;
+		var_dump($_POST);die;
 
 		$review = $this->input->post("review");
 		$this->db->insert('rates', $rate);
