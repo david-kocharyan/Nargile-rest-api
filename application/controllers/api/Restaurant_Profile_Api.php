@@ -33,7 +33,7 @@ class Restaurant_Profile_Api extends REST_Controller
 		$restaurant->overall_rate = $this->get_restaurant_rate();
 		$restaurant->my_rate = $this->get_current_user_rate($res);
 		$restaurant->favorite = $this->get_favorite($res);
-		$restaurant->admin = $this->get_admin();
+		$restaurant->is_admin = $this->get_admin();
 
 		$images = $this->getImages();
 		$more_info = $this->get_info();
