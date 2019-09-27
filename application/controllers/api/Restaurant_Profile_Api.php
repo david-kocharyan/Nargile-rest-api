@@ -250,6 +250,17 @@ class Restaurant_Profile_Api extends REST_Controller
 			return;
 		}
 
+		if (!$this->input->post('restaurant_id') OR $this->input->post('restaurant_id') == NULL) {
+			$status = self::HTTP_UNPROCESSABLE_ENTITY;
+			$response = array(
+				'success' => false,
+				'data' => array(),
+				'msg' => 'Please provide restaurant id',
+			);
+			$this->response($response, $status);
+			return;
+		}
+
 		$favorite = $this->db->get_where('favorites', array('user_id' => $res, 'restaurant_id' => $this->input->post('restaurant_id')))->row();
 
 		if ($favorite == NULL) {
