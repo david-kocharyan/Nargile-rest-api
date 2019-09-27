@@ -30,7 +30,7 @@ class Restaurant_Profile_Api extends REST_Controller
 		$restaurant = $this->find();
 
 		$restaurant->reviews = $this->get_reviews_count($this->input->get('id'))->reviews;
-		$restaurant->rate = $this->get_restaurant_rate();
+		$restaurant->overall_rate = $this->get_restaurant_rate();
 		$restaurant->my_rate = $this->get_current_user_rate($res);
 		$restaurant->favorite = $this->get_favorite($res);
 		$restaurant->admin = $this->get_admin();
