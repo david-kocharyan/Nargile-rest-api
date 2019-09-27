@@ -157,6 +157,13 @@ $route["admin/restaurants/hour-offers/edit/(:any)"] = 'HourOffers/edit/$1';
 $route["admin/restaurants/hour-offers/update/(:any)"] = 'HourOffers/update/$1';
 $route["admin/restaurants/hour-offers/change-status/(:any)"] = 'HourOffers/change_status/$1';
 
+//Restaurant Weeks
+$route["admin/restaurants/weeks/(:any)"] = 'Weeks/index/$1';
+$route["admin/restaurants/weeks/store/(:any)"] = 'Weeks/store/$1';
+$route["admin/restaurants/weeks/edit/(:any)"] = 'Weeks/edit/$1';
+$route["admin/restaurants/weeks/update/(:any)"] = 'Weeks/update/$1';
+$route["admin/restaurants/weeks/change-status/(:any)"] = 'Weeks/change_status/$1';
+
 //Restaurant Menu
 $route["admin/restaurants/menu/(:any)"] = 'Menus/index/$1';
 $route["admin/restaurants/menu/store/(:any)"] = 'Menus/store/$1';

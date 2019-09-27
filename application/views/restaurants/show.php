@@ -40,6 +40,14 @@
 				</span>
 				Add Hour Offers
 			</a>
+
+			<a href="<?= base_url("admin/restaurants/weeks/$restaurant->restaurant_id") ?>"
+			   class="btn btn-basic">
+				<span class="btn-label">
+					<i class="fas fa-calendar-alt"></i>
+				</span>
+				Add Working hours
+			</a>
 		</div>
 	</div>
 </div>
