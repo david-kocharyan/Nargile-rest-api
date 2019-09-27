@@ -257,7 +257,9 @@ class Restaurant_Profile_Api extends REST_Controller
 
 			$data = array(
 				"success" => true,
-				"data" => array(),
+				"data" => array(
+					'is_favorite' => 1
+				),
 				"msg" => "Favorite chosen and save successfully",
 			);
 			$this->response($data, REST_Controller::HTTP_OK);
@@ -270,7 +272,9 @@ class Restaurant_Profile_Api extends REST_Controller
 
 			$data = array(
 				"success" => true,
-				"data" => array(),
+				"data" => array(
+					'is_favorite' => 0
+				),
 				"msg" => "Favorite deleted successfully",
 			);
 			$this->response($data, REST_Controller::HTTP_OK);
@@ -283,7 +287,9 @@ class Restaurant_Profile_Api extends REST_Controller
 
 			$data = array(
 				"success" => true,
-				"data" => array(),
+				"data" => array(
+					'is_favorite' => 1
+				),
 				"msg" => "Favorite chosen and save successfully",
 			);
 			$this->response($data, REST_Controller::HTTP_OK);
