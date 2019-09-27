@@ -95,7 +95,7 @@ class Restaurant_Profile_Api extends REST_Controller
 
 	private function get_reviews($id)
 	{
-		$this->db->select("reviews.review, users.id as user_id, concat('/plugins/default_images/', users.image) as user_image");
+		$this->db->select("reviews.review, users.id as user_id, concat('/plugins/images/Logo', users.image) as user_image");
 		$this->db->join("users", 'users.id = reviews.user_id');
 		$this->db->where("restaurant_id", $id);
 		$this->db->limit(3);
