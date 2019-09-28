@@ -27,7 +27,7 @@ class Restaurant_Profile_Api extends REST_Controller
 			return;
 		}
 
-		if ($this->input->get("timezone") == NULL OR is_numeric($this->input->get('id'))){
+		if ($this->input->get("timezone") == NULL OR !is_numeric($this->input->get('id'))){
 			$data = array(
 				"success" => false,
 				"data" => array(),
