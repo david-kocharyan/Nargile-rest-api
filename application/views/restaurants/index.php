@@ -21,6 +21,7 @@
 						<th>Country name</th>
 						<th>Logo</th>
 						<th>Address</th>
+						<th>Type</th>
 						<th>Phone Number</th>
 						<th>Lat</th>
 						<th>Lng</th>
@@ -38,6 +39,7 @@
 							<td><img src="<?= base_url("plugins/images/Restaurants/" . $value->logo); ?>" width="200"
 									 height="200" alt=""></td>
 							<td><?= $value->address; ?></td>
+							<td><?= $value->type; ?></td>
 							<td><?= $value->phone_number; ?></td>
 							<td><?= $value->lat; ?></td>
 							<td><?= $value->lng; ?></td>

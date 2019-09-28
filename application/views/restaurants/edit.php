@@ -18,7 +18,7 @@
 
 				<div class="form-group">
 					<label for="inputUsername" class="control-label">Name</label>
-					<input type="text" class="form-control" id="inputUsername" placeholder=Name name="name"
+					<input type="text" class="form-control" id="inputUsername" placeholder="Restaurant name" name="name"
 						   value="<?= $restaurant->name ?>"
 						   required>
 					<?php if (!empty(form_error('name'))) { ?>
@@ -48,6 +48,17 @@
 							<?php } ?>
 						</select>
 					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="inputType" class="control-label">Restaurant Type</label>
+					<input type="text" class="form-control" id="inputType" placeholder="Restaurant Type (resto-cafe, cafe, restaurant, hookah-cafe)" name="type"
+						   required value="<?= $restaurant->type ?>">
+					<?php if (!empty(form_error('type'))) { ?>
+						<div class="help-block with-errors text-danger">
+							<?= form_error('type'); ?>
+						</div>
+					<?php } ?>
 				</div>
 
 				<div class="form-group">
