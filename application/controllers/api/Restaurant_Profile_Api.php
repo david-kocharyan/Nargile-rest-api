@@ -34,6 +34,8 @@ class Restaurant_Profile_Api extends REST_Controller
 		$restaurant->my_rate = $this->get_current_user_rate($res);
 		$restaurant->favorite = $this->get_favorite($res);
 		$restaurant->is_admin = $this->get_admin();
+		$restaurant->working_hours = $this->get_working_hours();
+
 
 		$images = $this->getImages();
 		$more_info = $this->get_info();
@@ -65,9 +67,7 @@ class Restaurant_Profile_Api extends REST_Controller
 		area.name as area_name, 
 		concat('/plugins/images/Restaurants/', restaurants.logo) as logo,
 		concat('/plugins/thumb_images/Restaurants/Thumb_', restaurants.logo) as thumb, 
-		lat, lng, address, phone_number,
-		'Nargile Price Range 10000-16000 LBP' as info,
-		");
+		lat, lng, address, phone_number");
 		$this->join();
 		$this->where();
 		$data = $this->db->get("restaurants")->row();
@@ -169,6 +169,21 @@ class Restaurant_Profile_Api extends REST_Controller
 		$data = $this->db->get_where("restaurants", array('id' => $this->input->get('id'), 'admin_id != ' => NULL))->result();
 		return $data != null ? '1' : '0';
 	}
+
+	private function get_working_hours()
+	{
+		$this->db->select('weeks.day as day, open, close');
+		$this->db->join('weeks', "weeks.day_id = restaurant_weeks.day");
+		$data = $this->db->get_where("restaurant_weeks", array("restaurant_id" => $this->input->get('id'), 'status' => 1))->result();
+		$dateTime = new DateTime('now', new DateTimeZone('Asia/Yerevan'));
+		$day = $dateTime->format('N');
+		for ($i=2; $i <= $day ; $i++) {
+			array_push($data, array_shift($data));
+		}
+		return $data != null ? $data : array();
+	}
+
+
 
 // restaurant reviews request
 	public function reviews_get()
@@ -367,7 +382,7 @@ class Restaurant_Profile_Api extends REST_Controller
 		$this->db->select('name, price');
 		$menu = $this->db->get_where('menus', array('restaurant_id' => $this->input->get('id'), 'status' => 1))->result();
 
-		$this->db->select('image');
+		$this->db->select('concat("/plugins/images/Menu/", users.image) as image');
 		$images = $this->db->get_where('menu_images', array('restaurant_id' => $this->input->get('id'), 'status' => 1))->result();
 
 		$data = array(

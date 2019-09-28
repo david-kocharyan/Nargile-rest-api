@@ -39,11 +39,11 @@ class Weeks extends CI_Controller
 		for ($i = 0; $i < count($day); $i++) {
 			if ($type[$i] == 1) {
 				if (trim($day[$i]) != '' && trim($open[$i]) != '' && trim($close[$i]) != '') {
-					$this->db->insert("weeks", array("day" => $day[$i], "type" => 1, "open" => $open[$i], "close" => $close[$i], 'restaurant_id' => $id));
+					$this->db->insert("restaurant_weeks", array("day" => $day[$i], "type" => 1, "open" => $open[$i], "close" => $close[$i], 'restaurant_id' => $id));
 				}
 			}
 			elseif($type[$i] == 0){
-				$this->db->insert("weeks", array("day" => $day[$i], "type" => 0, "open" => NULL, "close" => NULL, 'restaurant_id' => $id));
+				$this->db->insert("restaurant_weeks", array("day" => $day[$i], "type" => 0, "open" => NULL, "close" => NULL, 'restaurant_id' => $id));
 			}
 			else{
 				redirect('404_override');
@@ -86,14 +86,14 @@ class Weeks extends CI_Controller
 
 	public function change_status($id)
 	{
-		$data = $this->db->get_where('weeks', ["id" => $id])->row();
+		$data = $this->db->get_where('restaurant_weeks', ["id" => $id])->row();
 		if (null == $data) {
 			redirect('404_override');
 			return;
 		}
 		$type = $this->check_admin_restaurant($data->restaurant_id);
 		$status = $data->status == 1 ? 0 : 1;
-		$this->db->update('weeks', array("status" => $status), ['id' => $id]);
+		$this->db->update('restaurant_weeks', array("status" => $status), ['id' => $id]);
 		redirect("admin/restaurants/weeks/$data->restaurant_id");
 	}
 

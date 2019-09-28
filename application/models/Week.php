@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Week extends CI_Model
 {
-	private $table = 'weeks';
+	private $table = 'restaurant_weeks';
 
 	function __construct()
 	{
