@@ -187,10 +187,15 @@ class Restaurant_Profile_Api extends REST_Controller
 		$data = $this->db->get_where("restaurant_weeks", array("restaurant_id" => $this->input->get('id'), 'status' => 1))->result();
 		$dateTime = new DateTime('now', new DateTimeZone('Asia/Yerevan'));
 		$day = $dateTime->format('N');
-		for ($i=2; $i <= $day ; $i++) {
-			array_push($data, array_shift($data));
+		if ($data != null){
+			for ($i=2; $i <= $day ; $i++) {
+				array_push($data, array_shift($data));
+			}
+			return $data;
 		}
-		return $data != null ? $data : array();
+		else{
+			return array();
+		}
 	}
 
 
