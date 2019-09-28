@@ -41,11 +41,9 @@ class Weeks extends CI_Controller
 				if (trim($day[$i]) != '' && trim($open[$i]) != '' && trim($close[$i]) != '') {
 					$this->db->insert("restaurant_weeks", array("day" => $day[$i], "type" => 1, "open" => $open[$i], "close" => $close[$i], 'restaurant_id' => $id));
 				}
-			}
-			elseif($type[$i] == 0){
-				$this->db->insert("restaurant_weeks", array("day" => $day[$i], "type" => 0, "open" => NULL, "close" => NULL, 'restaurant_id' => $id));
-			}
-			else{
+			} elseif ($type[$i] == 0) {
+				$this->db->insert("restaurant_weeks", array("day" => $day[$i], "type" => 0, "open" => "", "close" => "", 'restaurant_id' => $id));
+			} else {
 				redirect('404_override');
 				return;
 			}
@@ -71,15 +69,23 @@ class Weeks extends CI_Controller
 
 		$open = $this->input->post('open');
 		$close = $this->input->post('close');
+		$type = $this->input->post('type');
 
-		$this->form_validation->set_rules('open', 'Open', 'required');
-		$this->form_validation->set_rules('close', 'Close', 'required');
+		if ($type == 1) {
+			$this->form_validation->set_rules('open', 'Open', 'required');
+			$this->form_validation->set_rules('close', 'Close', 'required');
 
-		if ($this->form_validation->run() == FALSE) {
-			$this->edit($id);
-			return;
+			if ($this->form_validation->run() == FALSE) {
+				$this->edit($id);
+				return;
+			}
+			$this->Week->update($id, array("open" => $open, "close" => $close, 'type' => $type));
+
 		}
-		$this->Week->update($id, array("open" => $open, "close" => $close,));
+		else{
+			$this->Week->update($id, array("open" => "", "close" => "", 'type' => $type));
+		}
+
 		$this->session->set_flashdata('success', 'You have change the working hour successfully');
 		redirect("admin/restaurants/weeks/edit/$id");
 	}
