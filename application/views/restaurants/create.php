@@ -3,7 +3,6 @@
 	<div class="col-sm-12">
 		<div class="white-box">
 			<h3 class="box-title m-b-0">Register new restaurant</h3>
-
 			<?php if (!empty($this->session->flashdata('success'))) { ?>
 				<p class="text-muted m-b-0">Register restaurant quickly and easily!</p>
 				<p class="text-mutedv text-success m-b-30">    <?= $this->session->flashdata('success'); ?> </p>
@@ -107,8 +106,8 @@
 						</div>
 					<?php } ?>
 					<div class="input-group col-md-12">
-						<select class="form-control select_2_example" id="country" name="owner">
-							<option value="">Choose owner</option>
+						<select class="form-control" id="country" name="owner">
+							<option>Choose owner</option>
 							<?php foreach ($owner as $key) { ?>
 								<option value="<?= $key->id ?>">
 									<?= $key->username ?>

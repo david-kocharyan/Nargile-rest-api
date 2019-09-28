@@ -117,12 +117,12 @@ class Restaurants extends CI_Controller
 				'lng' => $long,
 				'status' => 1
 			);
-			if (isset($owner)) $restaurant['admin_id'] = $owner;
+			$restaurant['admin_id'] = is_numeric($owner) ? $owner : NULL;
 
 			$this->Restaurant->insert($restaurant);
 
 			$this->session->set_flashdata('success', 'You have stored the restaurant successfully');
-			redirect("admin/restaurants/create");
+			redirect("admin/restaurants");
 		}
 	}
 
@@ -210,12 +210,12 @@ class Restaurants extends CI_Controller
 				'lat' => $lat,
 				'lng' => $lng,
 			);
+			$restaurant['admin_id'] = is_numeric($owner) ? $owner : NULL;
 			if (isset($logo)) $restaurant['logo'] = $logo;
-			if (isset($owner)) $restaurant['admin_id'] = $owner;
 
 			$this->Restaurant->update($restaurant, $id);
-			$this->session->set_flashdata('success', 'You have change the clients successfully');
-			redirect("admin/restaurants/edit/$id");
+//			$this->session->set_flashdata('success', 'You have change the clients successfully');
+			redirect("admin/restaurants");
 		}
 	}
 
