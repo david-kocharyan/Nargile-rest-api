@@ -27,15 +27,15 @@ class Restaurant_Profile_Api extends REST_Controller
 			return;
 		}
 
-//		if ($this->input->get("timezone") == NULL OR is_numeric($this->input->get('id'))){
-//			$data = array(
-//				"success" => false,
-//				"data" => array(),
-//				"msg" => 'Please provide correct id and timezone'
-//			);
-//			$this->response($data, self::HTTP_UNPROCESSABLE_ENTITY);
-//			return;
-//		}
+		if ($this->input->get("timezone") == NULL OR is_numeric($this->input->get('id'))){
+			$data = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => 'Please provide correct id and timezone'
+			);
+			$this->response($data, self::HTTP_UNPROCESSABLE_ENTITY);
+			return;
+		}
 
 		$restaurant = $this->find();
 
@@ -44,7 +44,7 @@ class Restaurant_Profile_Api extends REST_Controller
 		$restaurant->my_rate = $this->get_current_user_rate($res);
 		$restaurant->favorite = $this->get_favorite($res);
 		$restaurant->is_admin = $this->get_admin();
-//		$restaurant->working_hours = $this->get_working_hours($this->input->get("timezone"));
+		$restaurant->working_hours = $this->get_working_hours($this->input->get("timezone"));
 
 
 		$images = $this->getImages();
@@ -180,18 +180,18 @@ class Restaurant_Profile_Api extends REST_Controller
 		return $data != null ? '1' : '0';
 	}
 
-//	private function get_working_hours($timezone)
-//	{
-//		$this->db->select('weeks.day as day, open, close');
-//		$this->db->join('weeks', "weeks.day_id = restaurant_weeks.day");
-//		$data = $this->db->get_where("restaurant_weeks", array("restaurant_id" => $this->input->get('id'), 'status' => 1))->result();
-//		$dateTime = new DateTime('now', new DateTimeZone('Asia/Yerevan'));
-//		$day = $dateTime->format('N');
-//		for ($i=2; $i <= $day ; $i++) {
-//			array_push($data, array_shift($data));
-//		}
-//		return $data != null ? $data : array();
-//	}
+	private function get_working_hours($timezone)
+	{
+		$this->db->select('weeks.day as day, open, close');
+		$this->db->join('weeks', "weeks.day_id = restaurant_weeks.day");
+		$data = $this->db->get_where("restaurant_weeks", array("restaurant_id" => $this->input->get('id'), 'status' => 1))->result();
+		$dateTime = new DateTime('now', new DateTimeZone('Asia/Yerevan'));
+		$day = $dateTime->format('N');
+		for ($i=2; $i <= $day ; $i++) {
+			array_push($data, array_shift($data));
+		}
+		return $data != null ? $data : array();
+	}
 
 
 
