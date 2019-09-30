@@ -70,7 +70,7 @@
 				<div class="form-group">
 					<label for="inputPassword" class="control-label">Password</label>
 					<input type="text" class="form-control" id="inputPassword" placeholder="Password" name="password"
-						   required>
+						   required value="<?= $owner->password ?>">
 					<?php if (!empty(form_error('password'))) { ?>
 						<div class="help-block with-errors text-danger">
 							<?= form_error('password'); ?>

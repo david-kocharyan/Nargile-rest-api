@@ -17,7 +17,7 @@
 				<div class="form-group">
 					<label for="inputUsername" class="control-label">Username</label>
 					<input type="text" class="form-control" id="inputUsername" placeholder="Username" name="username"
-						   required>
+						   required value="<?= $this->input->post('username'); ?>">
 					<?php if (!empty(form_error('username'))) { ?>
 						<div class="help-block with-errors text-danger">
 							<?= form_error('username'); ?>
@@ -28,7 +28,7 @@
 				<div class="form-group">
 					<label for="inputFirst_name" class="control-label">First Name</label>
 					<input type="text" class="form-control" id="inputFirst_name" placeholder="First Name" name="first_name"
-						   required>
+						   required value="<?= $this->input->post('first_name'); ?>">
 					<?php if (!empty(form_error('first_name'))) { ?>
 						<div class="help-block with-errors text-danger">
 							<?= form_error('first_name'); ?>
@@ -39,7 +39,7 @@
 				<div class="form-group">
 					<label for="inputLast_name" class="control-label">Last Name</label>
 					<input type="text" class="form-control" id="inputLast_name" placeholder="Last Name" name="last_name"
-						   required>
+						   required value="<?= $this->input->post('last_name'); ?>">
 					<?php if (!empty(form_error('last_name'))) { ?>
 						<div class="help-block with-errors text-danger">
 							<?= form_error('last_name'); ?>
@@ -49,7 +49,7 @@
 
 				<div class="form-group">
 					<label for="inputEmail" class="control-label">Email</label>
-					<input type="email" class="form-control" id="inputEmail" placeholder="Email" name="email" required>
+					<input type="email" class="form-control" id="inputEmail" placeholder="Email" name="email" required value="<?= $this->input->post('email'); ?>">
 					<?php if (!empty(form_error('email'))) { ?>
 						<div class="help-block with-errors text-danger">
 							<?= form_error('email'); ?>
@@ -60,7 +60,7 @@
 				<div class="form-group">
 					<label for="inputMobile" class="control-label">Mobile Number</label>
 					<input type="text" class="form-control" id="inputMobile" placeholder="Mobile Number" name="mobile_number"
-						   required>
+						   required value="<?= $this->input->post('mobile_number'); ?>">
 					<?php if (!empty(form_error('last_name'))) { ?>
 						<div class="help-block with-errors text-danger">
 							<?= form_error('last_name'); ?>

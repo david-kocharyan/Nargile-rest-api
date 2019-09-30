@@ -16,7 +16,7 @@
 				<div class="form-group">
 					<label for="inputUsername" class="control-label">Name</label>
 					<input type="text" class="form-control" id="inputUsername" placeholder="Restaurant Name" name="name"
-						   required>
+						   required value="<?= $this->input->post('name'); ?>">
 					<?php if (!empty(form_error('name'))) { ?>
 						<div class="help-block with-errors text-danger">
 							<?= form_error('name'); ?>
@@ -46,7 +46,7 @@
 				<div class="form-group">
 					<label for="inputType" class="control-label">Restaurant Type</label>
 					<input type="text" class="form-control" id="inputType" placeholder="Restaurant Type (resto-cafe, cafe, restaurant, hookah-cafe)" name="type"
-						   required>
+						   required value="<?= $this->input->post('type'); ?>">
 					<?php if (!empty(form_error('type'))) { ?>
 						<div class="help-block with-errors text-danger">
 							<?= form_error('type'); ?>
@@ -57,7 +57,7 @@
 				<div class="form-group">
 					<label for="inputNumber" class="control-label">Phone Number</label>
 					<input type="text" class="form-control" id="inputNumber" placeholder="Phone number" name="phone_number"
-						   required>
+						   required value="<?= $this->input->post('phone_number'); ?>">
 					<?php if (!empty(form_error('phone_number'))) { ?>
 						<div class="help-block with-errors text-danger">
 							<?= form_error('phone_number'); ?>
@@ -68,7 +68,7 @@
 				<div class="form-group">
 					<label for="inputAddress" class="control-label">Address</label>
 					<input type="text" class="form-control" id="inputAddress" placeholder="Address" name="address"
-						   required>
+						   required value="<?= $this->input->post('address'); ?>">
 					<?php if (!empty(form_error('address'))) { ?>
 						<div class="help-block with-errors text-danger">
 							<?= form_error('address'); ?>
@@ -79,7 +79,7 @@
 				<div class="form-group col-md-6">
 					<label for="inputLat" class="control-label">Latitude</label>
 					<input type="text" class="form-control" id="inputLat" placeholder="Latitude" name="lat"
-						   required>
+						   required value="<?= $this->input->post('lat'); ?>">
 					<?php if (!empty(form_error('lat'))) { ?>
 						<div class="help-block with-errors text-danger">
 							<?= form_error('lat'); ?>
@@ -90,7 +90,7 @@
 				<div class="form-group col-md-6">
 					<label for="inputLong" class="control-label">Longitude</label>
 					<input type="text" class="form-control" id="inputLong" placeholder="Longitude" name="long"
-						   required>
+						   required value="<?= $this->input->post('long'); ?>">
 					<?php if (!empty(form_error('long'))) { ?>
 						<div class="help-block with-errors text-danger">
 							<?= form_error('long'); ?>

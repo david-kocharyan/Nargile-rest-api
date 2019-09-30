@@ -25,9 +25,10 @@ class Admins extends CI_Controller
 		$data['title'] = "Home";
 
 		$this->db->select("claim_your_business.*, restaurants.name as restaurant_name");
-		$this->db->order_by('id', 'DESC');
 		$this->db->join('restaurants', 'restaurants.id =  claim_your_business.restaurant_id');
-		$data['business'] = $this->db->get_where('claim_your_business', array('claim_your_business.status !=' => 2))->result();
+		$this->db->where('claim_your_business.status != ', 2);
+		$this->db->order_by('id', 'DESC');
+		$data['business'] = $this->db->get('claim_your_business')->result();
 
 		$this->load->view('layouts/header.php', $data);
 		$this->load->view('admin/home.php');
@@ -64,12 +65,14 @@ class Admins extends CI_Controller
 
 		$data['user'] = $this->session->userdata('user');
 		$data['title'] = "Home";
-
 		$data['restaurants'] = $this->db->get('restaurants')->result();
 
 		$this->db->select("claim_your_business.*, restaurants.id as restaurant_id");
 		$this->db->join('restaurants', 'restaurants.id =  claim_your_business.restaurant_id');
 		$owner = $this->db->get_where('claim_your_business', ["claim_your_business.id" => $id])->row();
+		$data['owner'] = $owner;
+		$data['owner']->password = $this->randomPassword();
+
 		$admin = $this->db->get_where('admins', ["email" => $owner->email])->row();
 
 		if ($admin != NULL) {
@@ -223,7 +226,7 @@ class Admins extends CI_Controller
 			$this->Admin->update($id, $admin);
 
 			$this->session->set_flashdata('success', 'You have change the clients successfully');
-			redirect("admin/settings");
+			redirect("admin/profile");
 		}
 	}
 
@@ -295,5 +298,16 @@ class Admins extends CI_Controller
 			echo $this->image_lib->display_errors();
 		}
 		$this->image_lib->clear();
+	}
+
+	private function randomPassword() {
+		$alphabet = "abcdefghijklmnopqrstuwxyzABCDEFGHIJKLMNOPQRSTUWXYZ0123456789";
+		$pass = array();
+		$alphaLength = strlen($alphabet) - 1;
+		for ($i = 0; $i < 8; $i++) {
+			$n = rand(0, $alphaLength);
+			$pass[] = $alphabet[$n];
+		}
+		return implode($pass);
 	}
 }
