@@ -182,7 +182,7 @@ class Restaurant_Profile_Api extends REST_Controller
 
 	private function get_working_hours($timezone)
 	{
-		$this->db->select('weeks.day as day, open, close');
+		$this->db->select('weeks.day as day, open, close, FLOOR(type) as is_closed');
 		$this->db->join('weeks', "weeks.day_id = restaurant_weeks.day");
 		$data = $this->db->get_where("restaurant_weeks", array("restaurant_id" => $this->input->get('id'), 'status' => 1))->result();
 		$dateTime = new DateTime('now', new DateTimeZone($timezone));
