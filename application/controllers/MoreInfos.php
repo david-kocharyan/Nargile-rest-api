@@ -54,7 +54,8 @@ class MoreInfos extends CI_Controller
 
 	public function update($id)
 	{
-		$type = $this->check_admin_restaurant($this->MoreInfo->select($id)->restaurant_id);
+		$res = $this->MoreInfo->select($id)->restaurant_id;
+		$type = $this->check_admin_restaurant($res);
 
 		$name = $this->input->post('name');
 		$this->form_validation->set_rules('name', 'Info', 'required');
@@ -64,7 +65,7 @@ class MoreInfos extends CI_Controller
 		}
 		$this->MoreInfo->update($id, array("name" => $name));
 		$this->session->set_flashdata('success', 'You have change the clients successfully');
-		redirect("admin/restaurants/info/edit/$id");
+		redirect("admin/restaurants/info/$res");
 	}
 
 	public function change_status($id)

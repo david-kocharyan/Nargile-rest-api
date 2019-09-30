@@ -137,8 +137,7 @@ class Restaurants_Api extends REST_Controller
 		$filter = array('lat >' => $radius["latMin"], 'lng >' => $radius["lngMin"], 'lat <' => $radius["latMax"], 'lng <' => $radius["lngMax"]);
 
 		$this->db->select("restaurants.name, area.name as area_name, countries.name as country_name, 
-		concat('/plugins/images/Restaurants/', restaurants.logo) as logo, restaurants.id as id, rate,
-		 'Nargile Price Range 10000-16000 LBP' as info");
+		concat('/plugins/images/Restaurants/', restaurants.logo) as logo, restaurants.id as id, rate");
         $this->limits();
         $this->join();
 		$this->db->where($filter);
@@ -149,11 +148,10 @@ class Restaurants_Api extends REST_Controller
     private function get_top_rated()
     {
         $this->db->select("restaurants.name, area.name as area_name, 
-        countries.name as country_name, concat('/plugins/images/Restaurants/', restaurants.logo) as logo, restaurants.id as id, rate,
-        'Nargile Price Range 10000-16000 LBP' as info");
+        countries.name as country_name, concat('/plugins/images/Restaurants/', restaurants.logo) as logo, restaurants.id as id, rate");
         $this->limits();
         $this->join();
-        $this->db->where("restaurants.rate = 5");
+        $this->db->order_by('restaurants.rate',  'Desc');
         $this->where();
         $data = $this->db->get("restaurants")->result();
         return $data != null ? $data : array();

@@ -57,7 +57,8 @@ class Menus extends CI_Controller
 
 	public function update($id)
 	{
-		$type = $this->check_admin_restaurant($this->Menu->select($id)->restaurant_id);
+		$res = $this->Menu->select($id)->restaurant_id;
+		$type = $this->check_admin_restaurant($res);
 
 		$name = $this->input->post('name');
 		$price = $this->input->post('price');
@@ -71,7 +72,7 @@ class Menus extends CI_Controller
 		}
 		$this->Menu->update($id, array("name" => $name, 'price' => $price));
 		$this->session->set_flashdata('success', 'You have change the clients successfully');
-		redirect("admin/restaurants/menu/edit/$id");
+		redirect("admin/restaurants/menu/$res");
 	}
 
 	public function image_store($id)

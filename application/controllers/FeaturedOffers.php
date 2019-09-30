@@ -53,7 +53,8 @@ class FeaturedOffers extends CI_Controller
 
 	public function update($id)
 	{
-		$type = $this->check_admin_restaurant($this->FeaturedOffer->select($id)->restaurant_id);
+		$res = $this->FeaturedOffer->select($id)->restaurant_id;
+		$type = $this->check_admin_restaurant($res);
 
 		$name = $this->input->post('name');
 		$this->form_validation->set_rules('name', 'Text', 'required');
@@ -63,7 +64,7 @@ class FeaturedOffers extends CI_Controller
 		}
 		$this->FeaturedOffer->update($id, array("text" => $name));
 		$this->session->set_flashdata('success', 'You have change the offer successfully');
-		redirect("admin/restaurants/featured-offers/edit/$id");
+		redirect("admin/restaurants/featured-offers/$res");
 	}
 
 	public function change_status($id)

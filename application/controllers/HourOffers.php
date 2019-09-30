@@ -54,7 +54,8 @@ class HourOffers extends CI_Controller
 
 	public function update($id)
 	{
-		$type = $this->check_admin_restaurant($this->HourOffer->select($id)->restaurant_id);
+		$res = $this->HourOffer->select($id)->restaurant_id;
+		$type = $this->check_admin_restaurant($res);
 
 		$name = $this->input->post('name');
 		$this->form_validation->set_rules('name', 'Text', 'required');
@@ -64,7 +65,7 @@ class HourOffers extends CI_Controller
 		}
 		$this->HourOffer->update($id, array("text" => $name));
 		$this->session->set_flashdata('success', 'You have change the offer successfully');
-		redirect("admin/restaurants/hour-offers/edit/$id");
+		redirect("admin/restaurants/hour-offers/$res");
 	}
 
 	public function change_status($id)
