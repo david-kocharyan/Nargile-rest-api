@@ -101,6 +101,7 @@ $route['admin/settings/update/(:any)'] = 'Admins/update/$1';
 $route['admin/owner/change-status/(:any)'] = 'Admins/change_status/$1';
 $route['admin/owner/create/(:any)'] = 'Admins/create_owner/$1';
 $route['admin/owner/store/(:any)'] = 'Admins/store_owner/$1';
+$route['admin/users-list'] = 'Admins/users_list';
 
 //Client
 $route['admin/clients'] = 'Clients';

@@ -159,7 +159,7 @@ class Admins extends CI_Controller
 	{
 		$data['user'] = $this->session->userdata('user');
 		$data['admin'] = $this->Admin->getClientById($data['user']["user_id"]);
-		$data['title'] = "Super Admin Profile";
+		$data['title'] = "Admin Profile";
 
 		$this->load->view('layouts/header.php', $data);
 		$this->load->view('admin/index.php');
@@ -169,7 +169,7 @@ class Admins extends CI_Controller
 	public function settings()
 	{
 		$data['user'] = $this->session->userdata('user');
-		$data['title'] = "Super Admin Settings";
+		$data['title'] = "Admin Settings";
 		$data['admin'] = $this->Admin->getClientById($data['user']["user_id"]);
 
 		$this->load->view('layouts/header.php', $data);
@@ -310,4 +310,23 @@ class Admins extends CI_Controller
 		}
 		return implode($pass);
 	}
+
+
+//	users list
+	public function users_list()
+	{
+		$data['user'] = $this->session->userdata('user');
+		$data['title'] = "Users List";
+
+		$this->db->select('username, first_name, last_name, date_of_birth, mobile_number, email, coins, concat("/plugins/images/Logo/", image) as image');
+
+		$data['users'] = $this->db->get('users')->result();
+
+		$this->load->view('layouts/header.php', $data);
+		$this->load->view('users/index.php');
+		$this->load->view('layouts/footer.php');
+	}
+
+
+
 }

@@ -118,9 +118,9 @@
 					<li><a href="<?= base_url('admin/dashboard') ?>" class="waves-effect"><i
 								class="mdi mdi-home fa-fw"></i> <span
 								class="hide-menu">Home</span></a></li>
-					<li><a href="javascript:void(0)" class="waves-effect"><i class="mdi mdi-face-profile  fa-fw"></i>
-							<span
-								class="hide-menu">Users</span></a></li>
+					<li><a href="<?= base_url('admin/users-list') ?>" class="waves-effect"><i
+								class="mdi mdi-face-profile  fa-fw"></i>
+							<span class="hide-menu">Users</span></a></li>
 					<li><a href="<?= base_url('admin/clients') ?>" class="waves-effect"><i
 								class="mdi mdi-account fa-fw"></i> <span class="hide-menu">Clients</span></a></li>
 
@@ -143,13 +143,6 @@
 										class="hide-menu">Area</span></a></li>
 						</ul>
 					</li>
-					<li class="devider"></li>
-					<!-- END restaurants, offers, slider-->
-
-					<li><a href="javascript:void(0)" class="waves-effect"><i class="mdi mdi-evernote fa-fw"></i> <span
-								class="hide-menu">Accounting</span></a></li>
-					<li><a href="javascript:void(0)" class="waves-effect"><i class="mdi mdi-settings fa-fw"></i> <span
-								class="hide-menu">Settings</span></a></li>
 
 				<?php } elseif ($user['role'] == "admin") { ?>
 
