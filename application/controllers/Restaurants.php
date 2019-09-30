@@ -42,6 +42,7 @@ class Restaurants extends CI_Controller
 		$data['menus'] = $this->Restaurant->show_menus($id);//+
 		$data['menu_images'] = $this->Restaurant->show_menu_images($id);//+
 		$data['reviews'] = $this->Restaurant->show_reviews($id);//+
+		$data['weeks'] = $this->Restaurant->show_weeks($id);//+
 		$data['title'] = "Show Restaurant Data";
 
 		$this->load->view('layouts/header.php', $data);

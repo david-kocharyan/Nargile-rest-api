@@ -110,5 +110,11 @@ class Restaurant extends CI_Model
 		return $this->db->get_where("reviews", array("restaurant_id" => $id))->result();
 	}
 
+	public function show_weeks($id)
+	{
+		$this->db->join('weeks','weeks.day_id = restaurant_weeks.day');
+		return $this->db->get_where("restaurant_weeks", array("restaurant_id" => $id))->result();
+	}
+
 }
 

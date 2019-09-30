@@ -65,6 +65,9 @@
 				</div>
 				<div class="col-lg-9 col-md-9 col-sm-6">
 					<h3 class="box-title m-t-0">Restaurant description</h3>
+					<button data-toggle="modal" data-target=".bs-example-modal-sm" class="btn btn-outline btn-primary">
+						Working Hours
+					</button>
 					<ul class="list-icons">
 						<li><h4> Name - <?= $restaurant->restaurant_name ?>    </h4></li>
 						<li><h4> Phone Number - <?= $restaurant->phone_number ?>  </h4></li>
@@ -190,6 +193,33 @@
 						</div>
 					</div>
 				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+	 aria-hidden="true" style="display: none;">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h4 class="modal-title" id="mySmallModalLabel">Working Hours</h4></div>
+			<div class="modal-body">
+				<ul>
+					<?php foreach ($weeks as $key => $value) { ?>
+						<?php if ($value->type == 0) { ?>
+							<li>
+								<strong><?= $value->day . ": " . 'Close' ?></strong>
+							</li>
+						<?php } else { ?>
+							<li>
+								<strong><?= $value->day . ": " . $value->open . " - " . $value->close ?></strong>
+							</li>
+						<?php } ?>
+					<?php } ?>
+				</ul>
 			</div>
 		</div>
 	</div>
