@@ -51,7 +51,7 @@ class Menus extends CI_Controller
 		$type = $this->check_admin_restaurant($data['menu']->restaurant_id);
 
 		$this->load->view('layouts/header.php', $data);
-		$this->load->view('restaurants/Menu/edit.php');
+		$this->load->view('restaurants/menu/edit.php');
 		$this->load->view('layouts/footer.php');
 	}
 
