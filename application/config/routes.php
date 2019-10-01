@@ -178,3 +178,12 @@ $route["admin/restaurants/menu/change-status-image/(:any)"] = 'Menus/change_stat
 $route['admin/sliders'] = 'Sliders';
 $route["admin/sliders/store"] = 'Sliders/store';
 $route["admin/sliders/change-status/(:any)"] = 'Sliders/change_status/$1';
+
+//Badges
+$route['admin/badges'] = 'Badges';
+$route['admin/badges/create'] = 'Badges/create';
+$route['admin/badges/store'] = 'Badges/store';
+$route["admin/badges/edit/(:any)"] = 'Badges/edit/$1';
+$route["admin/badges/update/(:any)"] = 'Badges/update/$1';
+$route["admin/badges/change-status/(:any)"] = 'Badges/change_status/$1';
+

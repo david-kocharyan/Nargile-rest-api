@@ -143,6 +143,9 @@
 										class="hide-menu">Area</span></a></li>
 						</ul>
 					</li>
+					<li><a href="<?= base_url('admin/badges') ?>" class="waves-effect"><i
+								class="mdi mdi-guitar-pick fa-fw"></i> <span class="hide-menu">Badges</span></a>
+					</li>
 
 				<?php } elseif ($user['role'] == "admin") { ?>
 
