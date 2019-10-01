@@ -68,7 +68,7 @@ class Restaurant extends CI_Model
 	{
 		$this->db->select("restaurants.name as restaurant_name, restaurants.id as restaurant_id, 
 		area.name as area, concat('/plugins/images/Restaurants/', restaurants.logo) as logo, 
-		concat('/plugins/thumb_images/Restaurants/Thumb_', restaurants.logo) as thumb, lat, lng, rate, address, phone_number");
+		concat('/plugins/thumb_images/Restaurants/Thumb_', restaurants.logo) as thumb, lat, lng, ROUND(rate, 1) as rate, address, phone_number");
 		$this->db->join("area", "area.id = restaurants.area_id");
 		$this->db->join("countries", "countries.id = area.country_id");
 		return $this->db->get_where("restaurants", array("restaurants.id" => $id))->row();
