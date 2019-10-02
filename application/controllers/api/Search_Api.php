@@ -49,7 +49,7 @@ class Search_Api extends REST_Controller
 		$this->db->select("restaurants.name as restaurant_name, restaurants.id as restaurant_id, 
 		area.name as area, concat('/plugins/images/Restaurants/', restaurants.logo) as logo, 
 		concat('/plugins/thumb_images/Restaurants/Thumb_', restaurants.logo) as thumb, lat, lng, ROUND(rate, 1) as rate,
-		'Nargile Price Range 10000-16000 LBP' as info");
+		concat('Nargile price range: ', MIN(menus.price), 'LBP', ' - ', MAX(price), 'LBP') as info");
 		$this->join();
 		$this->where();
 		$this->limits();
@@ -119,11 +119,10 @@ class Search_Api extends REST_Controller
 		$this->db->select("MIN(price) as min, MAX(price) as max");
 		$data = $this->db->get("menus")->row();
 
-		if ($data != null){
+		if ($data != null) {
 			$data->min = floatval($data->min);
 			$data->max = floatval($data->max);
-		}
-		else{
+		} else {
 			$data = array();
 		}
 
