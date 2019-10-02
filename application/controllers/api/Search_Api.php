@@ -26,9 +26,12 @@ class Search_Api extends REST_Controller
 
 		$limit = (null !== $this->input->get('limit') && is_numeric($this->input->get("limit"))) ? intval($this->input->get('limit')) : 10;
 		$offset = (null !== $this->input->get('offset') && is_numeric($this->input->get("offset"))) ? $this->input->get('offset') * $limit : 0;
-		$pages = ($limit != 0 || null !== $limit) ? ceil($this->get_pages()->pages / $limit) : 0;
+		$pages = ($limit != 0 || null !== $limit) ? ceil($this->get_pages(null, $res)->pages / $limit) : 0;
 
-		$data = $this->find();
+		$ac = $this->input->get('action');
+
+
+		$data = $this->find($res);
 		$response = array(
 			"success" => true,
 			"data" => array(
@@ -44,13 +47,14 @@ class Search_Api extends REST_Controller
 		$this->response($response, REST_Controller::HTTP_OK);
 	}
 
-	private function find()
+	private function find($res)
 	{
-		$this->db->select("restaurants.name as restaurant_name, restaurants.id as restaurant_id, 
-		area.name as area, concat('/plugins/images/Restaurants/', restaurants.logo) as logo, 
+		$this->db->select("restaurants.name as restaurant_name, restaurants.id as restaurant_id,
+		area.name as area, concat('/plugins/images/Restaurants/', restaurants.logo) as logo,
 		concat('/plugins/thumb_images/Restaurants/Thumb_', restaurants.logo) as thumb, lat, lng, ROUND(rate, 1) as rate,
 		concat('Nargile price range: ', MIN(menus.price), 'LBP', ' - ', MAX(price), 'LBP') as info");
-		$this->join();
+		$this->join($res);
+		$this->db->join("menus", "restaurants.id = menus.restaurant_id");
 		$this->where();
 		$this->limits();
 		$this->filters();
@@ -79,17 +83,20 @@ class Search_Api extends REST_Controller
 		if ($this->input->get("price_to") != null) $this->db->where('menus.price <=', $this->input->get("price_to"));
 	}
 
-	private function join()
+	private function join($res)
 	{
 		$this->db->join("area", "area.id = restaurants.area_id");
 		$this->db->join("countries", "countries.id = area.country_id");
-		$this->db->join("menus", "restaurants.id = menus.restaurant_id");
+		if ($this->input->get('action') != null && $this->input->get('action') == 'favorites') {
+			$this->db->join('favorites', 'favorites.restaurant_id = restaurants.id');
+			$this->db->where('favorites.user_id', $res);
+		}
 	}
 
-	private function get_pages($type = null)
+	private function get_pages($type = null, $res)
 	{
 		$this->db->select("count(restaurants.id) as pages");
-		$this->join();
+		$this->join($res);
 		$this->where();
 		$this->filters();
 		$data = $this->db->get("restaurants")->row();
