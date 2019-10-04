@@ -88,6 +88,9 @@ $route['api/locations/geolocation'] = 'api/Location_Api/geolocation';
 //rate
 $route['api/rate'] = 'api/Rate_Api';
 
+//community
+$route['api/community'] = 'api/Community_Api';
+
 //admin panel
 $route['admin'] = 'Admins';
 $route['admin/dashboard'] = 'Admins';
@@ -157,6 +160,13 @@ $route["admin/restaurants/hour-offers/store/(:any)"] = 'HourOffers/store/$1';
 $route["admin/restaurants/hour-offers/edit/(:any)"] = 'HourOffers/edit/$1';
 $route["admin/restaurants/hour-offers/update/(:any)"] = 'HourOffers/update/$1';
 $route["admin/restaurants/hour-offers/change-status/(:any)"] = 'HourOffers/change_status/$1';
+
+//Restaurant coin Offers
+$route["admin/restaurants/coin-offers/(:any)"] = 'CoinOffers/index/$1';
+$route["admin/restaurants/coin-offers/store/(:any)"] = 'CoinOffers/store/$1';
+$route["admin/restaurants/coin-offers/edit/(:any)"] = 'CoinOffers/edit/$1';
+$route["admin/restaurants/coin-offers/update/(:any)"] = 'CoinOffers/update/$1';
+$route["admin/restaurants/coin-offers/change-status/(:any)"] = 'CoinOffers/change_status/$1';
 
 //Restaurant Weeks
 $route["admin/restaurants/weeks/(:any)"] = 'Weeks/index/$1';
