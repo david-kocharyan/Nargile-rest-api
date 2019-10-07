@@ -197,45 +197,48 @@ class Community_Api extends REST_Controller
 	}
 
 
-//	public function get_friends_get()
-//	{
-//		$res = $this->verify_get_request();
-//		if (gettype($res) != 'string') {
-//			$data = array(
-//				"success" => false,
-//				"data" => array(),
-//				"msg" => $res['msg']
-//			);
-//			$this->response($data, $res['status']);
-//			return;
-//		}
-//
-//		$limit = (null !== $this->input->get('limit') && is_numeric($this->input->get("limit"))) ? intval($this->input->get('limit')) : 10;
-//		$offset = (null !== $this->input->get('offset') && is_numeric($this->input->get("offset"))) ? $this->input->get('offset') * $limit : 0;
-////		$pages = ($limit != 0 || null !== $limit) ? ceil($this->get_pages(null, $res)->pages / $limit) : 0;
-//
-////	 get friends db
-//
-//		$sql = ("SELECT users.id as id FROM friends JOIN  users on users.id = friends.from_id where to_id = $res and status = 1 UNION
-//				(SELECT users.id as id FROM friends JOIN  users on users.id = friends.to_id where from_id = $res and status = 1) ORDER BY friends.id LIMIT 1 OFFSET $offset;");
-//		$data = $this->db->query($sql)->result();
-//		var_dump($data);
-//		die;
-//
-//		$response = array(
-//			"success" => true,
-//			"data" => array(
-//				"list" => isset($data) ? $data : array(),
-//				"meta" => array(
-//					"limit" => $limit,
-//					"offset" => (null !== $this->input->get('offset') && is_numeric($this->input->get("offset"))) ? intval($this->input->get('offset')) : 0,
-//					"pages" => ($limit != 0 || null !== $limit) ? $pages : 0,
-//				),
-//			),
-//			"msg" => ""
-//		);
-//		$this->response($response, REST_Controller::HTTP_OK);
-//	}
+	public function get_friends_get()
+	{
+		$res = $this->verify_get_request();
+		if (gettype($res) != 'string') {
+			$data = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => $res['msg']
+			);
+			$this->response($data, $res['status']);
+			return;
+		}
+
+		$limit = (null !== $this->input->get('limit') && is_numeric($this->input->get("limit"))) ? intval($this->input->get('limit')) : 10;
+		$offset = (null !== $this->input->get('offset') && is_numeric($this->input->get("offset"))) ? $this->input->get('offset') * $limit : 0;
+
+		$sql = ("SELECT users.id as user_id, users.username, users.first_name, users.last_name, concat('plugins/images/Logo/', users.image) as image, friends.id as friends_id
+ 				FROM friends JOIN  users on users.id = friends.from_id where to_id = $res and status = 1 UNION
+				(SELECT users.id as user_id, users.username, users.first_name, users.last_name, concat('plugins/images/Logo/', users.image) as image, friends.id as friends_id
+				FROM friends JOIN  users on users.id = friends.to_id where from_id = $res and status = 1) 
+				ORDER BY friends_id LIMIT $limit OFFSET $offset");
+		$data = $this->db->query($sql)->result();
+
+		$page_sql = ("SELECT COUNT(friends_id) as pages	FROM (SELECT friends.id as friends_id FROM friends JOIN users on users.id = friends.from_id where to_id = $res and status = 1 
+						UNION (SELECT friends.id as friends_id FROM friends JOIN users on users.id = friends.to_id where from_id = $res and status = 1) ) as p");
+		$get_pages = $this->db->query($page_sql)->row();
+		$pages = ($limit != 0 || null !== $limit) ? ceil($get_pages->pages / $limit) : 0;
+
+		$response = array(
+			"success" => true,
+			"data" => array(
+				"list" => isset($data) ? $data : array(),
+				"meta" => array(
+					"limit" => $limit,
+					"offset" => (null !== $this->input->get('offset') && is_numeric($this->input->get("offset"))) ? intval($this->input->get('offset')) : 0,
+					"pages" => ($limit != 0 || null !== $limit) ? $pages : 0,
+				),
+			),
+			"msg" => ""
+		);
+		$this->response($response, REST_Controller::HTTP_OK);
+	}
 
 
 }
