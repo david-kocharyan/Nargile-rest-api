@@ -46,7 +46,7 @@ class Community_Api extends REST_Controller
 			$response = array(
 				'success' => true,
 				'data' => array(
-					"coin_offers" => array(
+					"coin-offers" => array(
 						"list" => $coin_offers,
 						"meta" => array(
 							"limit" => $limit,
@@ -195,5 +195,49 @@ class Community_Api extends REST_Controller
 		$this->db->join("area", "area.id = restaurants.area_id");
 		$this->db->join("countries", "countries.id = area.country_id");
 	}
+
+
+//	get friends
+//	public function get_friends_get()
+//	{
+//		$res = $this->verify_get_request();
+//		if (gettype($res) != 'string') {
+//			$data = array(
+//				"success" => false,
+//				"data" => array(),
+//				"msg" => $res['msg']
+//			);
+//			$this->response($data, $res['status']);
+//			return;
+//		}
+//
+//		$limit = (null !== $this->input->get('limit') && is_numeric($this->input->get("limit"))) ? intval($this->input->get('limit')) : 10;
+//		$offset = (null !== $this->input->get('offset') && is_numeric($this->input->get("offset"))) ? $this->input->get('offset') * $limit : 0;
+////		$pages = ($limit != 0 || null !== $limit) ? ceil($this->get_pages(null, $res)->pages / $limit) : 0;
+//
+////	 get friends db
+//
+//		 $sql = ("SELECT users.id as id FROM friends JOIN  users on users.id = friends.from_id where to_id = $res and status = 1 UNION
+//							(SELECT users.id as id FROM friends JOIN  users on users.id = friends.to_id where from_id = $res and status = 1)");
+//		$this->db->order_by("friends.id ASK");
+////		$this->db->limit($limit, $offset);
+//		$data = $this->db->query($sql)->result();
+//		var_dump($data);die;
+//
+//		$response = array(
+//			"success" => true,
+//			"data" => array(
+//				"list" => isset($data) ? $data : array(),
+//				"meta" => array(
+//					"limit" => $limit,
+//					"offset" => (null !== $this->input->get('offset') && is_numeric($this->input->get("offset"))) ? intval($this->input->get('offset')) : 0,
+//					"pages" => ($limit != 0 || null !== $limit) ? $pages : 0,
+//				),
+//			),
+//			"msg" => ""
+//		);
+//		$this->response($response, REST_Controller::HTTP_OK);
+//	}
+
 
 }
