@@ -31,7 +31,7 @@ class Community_Api extends REST_Controller
 		$birthdays = $this->get_birthday($res);
 		$upcoming = $this->get_upcoming($res);
 
-		if ($this->input->get("action") == "coin-offers") {
+		if ($this->input->get("action") == "coin_offers") {
 			$count_data = $this->get_coin_pages();
 		} else if ($this->input->get("action") == "birthdays") {
 			$count_data = $this->get_birthdays_pages($res);
@@ -46,14 +46,14 @@ class Community_Api extends REST_Controller
 			$response = array(
 				'success' => true,
 				'data' => array(
-					"coin-offers" => array(
+					"coin_offers" => array(
 						"list" => $coin_offers,
 						"meta" => array(
 							"limit" => $limit,
 							"offset" => (null !== $this->input->get('offset') && is_numeric($this->input->get("offset"))) ? intval($this->input->get('offset')) : 0,
 							"pages" => ($limit != 0 || null !== $limit) ? ceil($count_coin_offers->pages / $limit) : 0,
 						),
-						"action" => "coin-offers"
+						"action" => "coin_offers"
 					),
 					"birthdays" => array(
 						"list" => $birthdays,
@@ -79,7 +79,7 @@ class Community_Api extends REST_Controller
 			$this->response($response, REST_Controller::HTTP_OK);
 		} else {
 			switch ($this->input->get('action')) {
-				case "coin-offers":
+				case "coin_offers":
 					$data = $this->get_coin_offers();
 					break;
 				case "birthdays":
@@ -197,7 +197,6 @@ class Community_Api extends REST_Controller
 	}
 
 
-//	get friends
 //	public function get_friends_get()
 //	{
 //		$res = $this->verify_get_request();
@@ -217,12 +216,11 @@ class Community_Api extends REST_Controller
 //
 ////	 get friends db
 //
-//		 $sql = ("SELECT users.id as id FROM friends JOIN  users on users.id = friends.from_id where to_id = $res and status = 1 UNION
-//							(SELECT users.id as id FROM friends JOIN  users on users.id = friends.to_id where from_id = $res and status = 1)");
-//		$this->db->order_by("friends.id ASK");
-////		$this->db->limit($limit, $offset);
+//		$sql = ("SELECT users.id as id FROM friends JOIN  users on users.id = friends.from_id where to_id = $res and status = 1 UNION
+//				(SELECT users.id as id FROM friends JOIN  users on users.id = friends.to_id where from_id = $res and status = 1) ORDER BY friends.id LIMIT 1 OFFSET $offset;");
 //		$data = $this->db->query($sql)->result();
-//		var_dump($data);die;
+//		var_dump($data);
+//		die;
 //
 //		$response = array(
 //			"success" => true,
