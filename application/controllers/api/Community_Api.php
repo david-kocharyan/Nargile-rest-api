@@ -137,7 +137,8 @@ class Community_Api extends REST_Controller
 
 	private function get_upcoming($res)
 	{
-		$this->db->select("concat('/plugins/images/Logo/', users.image) as image, username, first_name, last_name, DAYOFYEAR(FROM_UNIXTIME(1570132800))");
+		$this->db->select("concat('/plugins/images/Logo/', users.image) as image, username, first_name, last_name, 
+		DATE_FORMAT(FROM_UNIXTIME(date_of_birth), '%M %D %Y') as date_of_birth");
 		$this->db->where("DAYOFYEAR(FROM_UNIXTIME(date_of_birth)) BETWEEN DAYOFYEAR(NOW()) + 1 AND DAYOFYEAR(NOW()) + 31");
 		$this->db->where("users.id != $res");
 		$this->db->order_by("users.id DESC");
@@ -212,8 +213,8 @@ class Community_Api extends REST_Controller
 
 //		check name
 		if ($this->input->get("name") != NULL OR $this->input->get("name") != "") {
-			$name_sql = "and (users.username LIKE '%".$this->input->get("name")."%' OR users.first_name LIKE '%".$this->input->get("name")."%' OR users.last_name LIKE '%".$this->input->get("name")."%')";
-		}else{
+			$name_sql = "and (users.username LIKE '%" . $this->input->get("name") . "%' OR users.first_name LIKE '%" . $this->input->get("name") . "%' OR users.last_name LIKE '%" . $this->input->get("name") . "%')";
+		} else {
 			$name_sql = "";
 		}
 
@@ -248,6 +249,41 @@ class Community_Api extends REST_Controller
 		);
 		$this->response($response, REST_Controller::HTTP_OK);
 	}
+
+////	claim coin offers
+//	public function claim_post()
+//	{
+//		$res = $this->verify_get_request();
+//		if (gettype($res) != 'string') {
+//			$data = array(
+//				"success" => false,
+//				"data" => array(),
+//				"msg" => $res['msg']
+//			);
+//			$this->response($data, $res['status']);
+//			return;
+//		}
+//
+//		if ($this->input->post('coin_id') == NUll OR is_numeric($this->input->post('coin_id')) == FALSE) {
+//			$response = array(
+//				"success" => false,
+//				"data" => array(),
+//				"msg" => "Please provide valid value"
+//			);
+//			$this->response($response, REST_Controller::HTTP_UNPROCESSABLE_ENTITY);
+//		}
+//
+//		$offer_id = $this->input->post("coin_id");
+//
+//		$this->db->select('price');
+//		$price = ;
+//
+//		$this->db->select('id, coins');
+//		$user = $this->db->get_where("users", array("id" => $res))->row();
+//
+//		var_dump($offer_id, $price, $user->coins);
+//
+//	}
 
 
 }
