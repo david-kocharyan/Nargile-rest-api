@@ -65,12 +65,13 @@ class Location_Api extends REST_Controller
 		$lng = $this->input->post("lng");
 		$address = $this->getaddress($lat, $lng);
 
+//		var_dump($address);die;
 		$response = array(
 			"success" => true,
 			"data" => array(
 				"geolocation" => array(
-					"city" => $address != null ? $address->city : 'null',
-					"country" => $address != null ? $address->country : 'null',
+					"city" => isset($address->city) ? $address->city : 'null',
+					"country" => isset($address->country) ? $address->country : 'null',
 				),
 			),
 			"msg" => "",
