@@ -350,6 +350,8 @@ class Users_API extends REST_Controller
 			return;
 		}
 
+		$badges = $this->get_badges($res);
+
 		$response = array(
 			"msg" => '',
 			"data" => array(
@@ -362,27 +364,30 @@ class Users_API extends REST_Controller
 					"reference_code" => $user->reference_code == null ? "" : $user->reference_code,
 					"coins" => $user->coins,
 					"image" => '/plugins/images/Logo/' . $user->image,
+					'badges' => $badges,
 				),
 			),
 			"success" => true
 		);
 		$this->response($response, REST_Controller::HTTP_OK);
 	}
-//
-//	private function get_badges($res)
-//	{
-//		$this->db->select('COUNT("user_id") as count');
-//		$review = $this->db->get_where("reviews", array("user_id" => $res))->row();
-//
-//		$this->db->select('COUNT("user_id") as count');
-//		$rate = $this->db->get_where("rates", array("user_id" => $res))->row();
-//
-//		$count = $rate->count + $review->count;
-//
-//
-//		var_dump($count);die;
-//
-//	}
+
+	private function get_badges($res)
+	{
+		$this->db->select('COUNT("user_id") as count');
+		$review = $this->db->get_where("reviews", array("user_id" => $res))->row();
+
+		$this->db->select('COUNT("user_id") as count');
+		$rate = $this->db->get_where("rates", array("user_id" => $res))->row();
+
+		$count = $rate->count + $review->count;
+
+		$this->db->select('*');
+		$this->db->where(array('status' => 1, "count <" => $count));
+		$data = $this->db->get('badges')->result();
+
+		return $data != null ? $data : array();
+	}
 
 }
 

@@ -92,6 +92,9 @@ $route['api/rate'] = 'api/Rate_Api';
 $route['api/community'] = 'api/Community_Api';
 $route['api/community-friends'] = 'api/Community_Api/get_friends';
 
+//service
+$route['api/service'] = 'api/Service_Api';
+
 //admin panel
 $route['admin'] = 'Admins';
 $route['admin/dashboard'] = 'Admins';
