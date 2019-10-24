@@ -216,8 +216,11 @@ class Users_API extends REST_Controller
 				'refresh_token' => $data['refresh_token']
 			);
 
+			$badges = $this->get_badges($auth->id);
+
 			$user_data = array(
 				"user" => array(
+					"id" => $auth->id,
 					"first_name" => $auth->first_name,
 					"last_name" => $auth->last_name,
 					"date_of_birth" => $auth->date_of_birth,
@@ -226,6 +229,7 @@ class Users_API extends REST_Controller
 					"reference_code" => $auth->reference_code == null ? "" : $auth->reference_code,
 					"coins" => $auth->coins,
 					"image" => '/plugins/images/Logo/' . $auth->image,
+					'badges' => $badges,
 				),
 				"tokens" => array(
 					"token" => $token,
@@ -337,7 +341,7 @@ class Users_API extends REST_Controller
 			return;
 		}
 
-		$this->db->select('username, first_name, last_name, date_of_birth, mobile_number, email, coins, reference_code, image');
+		$this->db->select('id, username, first_name, last_name, date_of_birth, mobile_number, email, coins, reference_code, image');
 		$user = $this->db->get_where("users", ['id' => $res])->row();
 
 		if (null == $user) {
@@ -356,6 +360,7 @@ class Users_API extends REST_Controller
 			"msg" => '',
 			"data" => array(
 				"user" => array(
+					"id" => $user->id,
 					"first_name" => $user->first_name,
 					"last_name" => $user->last_name,
 					"date_of_birth" => $user->date_of_birth,
