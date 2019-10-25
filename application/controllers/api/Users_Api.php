@@ -126,12 +126,15 @@ class Users_API extends REST_Controller
 
 			$auth_id = $this->User->register($data);
 
+			$badges = $this->get_badges($auth_id);
+
 			$token = $this->generateToken();
 			$data['refresh_token'] = $this->generateToken();
 			$status = self::HTTP_OK;
 
 			$user_data = array(
 				"user" => array(
+					"id" => $auth_id,
 					"first_name" => $first_name,
 					"last_name" => $last_name,
 					"date_of_birth" => $date_of_birth,
@@ -140,6 +143,7 @@ class Users_API extends REST_Controller
 					"reference_code" => $reference_code == null ? "" : $reference_code,
 					"coins" => "0",
 					"image" => '/plugins/images/Logo/User_default.png',
+					'badges' => $badges,
 				),
 				"tokens" => array(
 					"token" => $token,
@@ -387,7 +391,7 @@ class Users_API extends REST_Controller
 
 		$count = $rate->count + $review->count;
 
-		$this->db->select('*');
+		$this->db->select('count, type, info, concat("/plugins/images/Badge/", image) as image');
 		$this->db->where(array('status' => 1, "count <" => $count));
 		$data = $this->db->get('badges')->result();
 
