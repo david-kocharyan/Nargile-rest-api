@@ -345,8 +345,14 @@ class Users_API extends REST_Controller
 			return;
 		}
 
+		if ($this->input->get('id') != "" OR $this->input->get('id') != NULL) {
+			$user_id = $this->input->get('id');
+		} else {
+			$user_id = $res;
+		}
+
 		$this->db->select('id, username, first_name, last_name, date_of_birth, mobile_number, email, coins, reference_code, image');
-		$user = $this->db->get_where("users", ['id' => $res])->row();
+		$user = $this->db->get_where("users", ['id' => $user_id])->row();
 
 		if (null == $user) {
 			$data = array(
@@ -357,8 +363,7 @@ class Users_API extends REST_Controller
 			$this->response($data, REST_Controller::HTTP_BAD_REQUEST);
 			return;
 		}
-
-		$badges = $this->get_badges($res);
+		$badges = $this->get_badges($user_id);
 
 		$response = array(
 			"msg" => '',
