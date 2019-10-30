@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 require(APPPATH . '/libraries/REST_Controller.php');
-require "Firebase.php";
+require FCPATH . "application/controllers/Firebase.php";
 
 class Community_Api extends REST_Controller
 {
@@ -268,21 +268,7 @@ class Community_Api extends REST_Controller
 			return;
 		}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+		$friend_id = $this->input->post("id");
 
 
 		$this->send_notif(NULL, $inserted_id);
