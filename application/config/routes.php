@@ -95,6 +95,11 @@ $route['api/community-friends'] = 'api/Community_Api/get_friends';
 //service
 $route['api/service'] = 'api/Service_Api';
 
+//send coins
+$route['api/send-coins'] = 'api/Coins_Api';
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //admin panel
 $route['admin'] = 'Admins';
 $route['admin/dashboard'] = 'Admins';
