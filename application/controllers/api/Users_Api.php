@@ -293,6 +293,7 @@ class Users_API extends REST_Controller
 
 	}
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //	logout
 	public function logout_get()
 	{
@@ -329,7 +330,7 @@ class Users_API extends REST_Controller
 		$this->response($data, $status);
 	}
 
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //	get authorized user data
 	public function getUser_get()
 	{
@@ -433,7 +434,7 @@ class Users_API extends REST_Controller
 			$avatar = isset($image['data']['file_name']) ? $image['data']['file_name'] : "";
 			$user_image = $this->db->get_where("users", array('id' => $res))->row()->image;
 
-			if ($user_image != "User_default.png"){
+			if ($user_image != "User_default.png") {
 				unlink(FCPATH . "/plugins/images/Logo/" . $user_image);
 			}
 
@@ -520,6 +521,78 @@ class Users_API extends REST_Controller
 			echo $this->image_lib->display_errors();
 		}
 		$this->image_lib->clear();
+	}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// change password
+
+	public function change_password_put()
+	{
+		$res = $this->verify_get_request();
+		if (gettype($res) != 'string') {
+			$data = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => $res['msg']
+			);
+			$this->response($data, $res['status']);
+			return;
+		}
+
+		$old_pass = $this->put('old');
+		$new_pass = $this->put('new');
+
+		if ($old_pass == NULL OR $new_pass == NULL OR $old_pass == "" OR $new_pass == "") {
+			$response = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => "Please provide old or new password",
+			);
+			$this->response($response, REST_Controller::HTTP_UNPROCESSABLE_ENTITY);
+			return;
+		} elseif (strlen($new_pass) < 8) {
+			$response = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => "Password must be at least 8 characters",
+			);
+			$this->response($response, REST_Controller::HTTP_UNPROCESSABLE_ENTITY);
+			return;
+		}
+
+		$user_pass = $this->db->get_where("users", array('id' => $res))->row()->password;
+		$password_hash_old = hash("SHA512", $old_pass);
+		$password_hash_new = hash("sha512", $new_pass);
+
+		if ($password_hash_old != $user_pass) {
+			$response = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => "Your old password does not match the current password",
+			);
+			$this->response($response, REST_Controller::HTTP_UNPROCESSABLE_ENTITY);
+			return;
+		}elseif ($password_hash_new == $user_pass){
+			$response = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => "Your new password can not be match the current password",
+			);
+			$this->response($response, REST_Controller::HTTP_UNPROCESSABLE_ENTITY);
+			return;
+		}
+
+		$this->db->set('password', $password_hash_new);
+		$this->db->where('id', $res);
+		$this->db->update('users');
+
+		$response = array(
+			"success" => true,
+			"data" => array(),
+			"msg" => "Password successfully changed",
+		);
+		$this->response($response, REST_Controller::HTTP_OK);
 	}
 
 
