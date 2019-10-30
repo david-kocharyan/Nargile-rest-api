@@ -250,7 +250,27 @@ class Community_Api extends REST_Controller
 		$this->response($response, REST_Controller::HTTP_OK);
 	}
 
-////	claim coin offers
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//add friend
+
+//	public function add_friend_post()
+//	{
+//		$res = $this->verify_get_request();
+//		if (gettype($res) != 'string') {
+//			$data = array(
+//				"success" => false,
+//				"data" => array(),
+//				"msg" => $res['msg']
+//			);
+//			$this->response($data, $res['status']);
+//			return;
+//		}
+//	}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// claim coin offers
+
 //	public function claim_post()
 //	{
 //		$res = $this->verify_get_request();

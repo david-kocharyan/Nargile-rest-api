@@ -403,5 +403,125 @@ class Users_API extends REST_Controller
 		return $data != null ? $data : array();
 	}
 
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// change User Image
+
+	public function change_image_post()
+	{
+		$res = $this->verify_get_request();
+		if (gettype($res) != 'string') {
+			$data = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => $res['msg']
+			);
+			$this->response($data, $res['status']);
+			return;
+		}
+
+		if (!empty($_FILES)) {
+			$image = $this->uploadImage('image');
+			if (isset($image['error'])) {
+				$response = array(
+					"success" => false,
+					"data" => array(),
+					"msg" => $image['error'],
+				);
+				$this->response($response, REST_Controller::HTTP_UNPROCESSABLE_ENTITY);
+			}
+			$avatar = isset($image['data']['file_name']) ? $image['data']['file_name'] : "";
+			$user_image = $this->db->get_where("users", array('id' => $res))->row()->image;
+
+			if ($user_image != "User_default.png"){
+				unlink(FCPATH . "/plugins/images/Logo/" . $user_image);
+			}
+
+			$this->db->set('image', $avatar);
+			$this->db->where('id', $res);
+			$this->db->update('users');
+		} else {
+			$response = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => "Please upload image!",
+			);
+			$this->response($response, REST_Controller::HTTP_UNPROCESSABLE_ENTITY);
+			return;
+		}
+
+		$this->db->select('id, username, first_name, last_name, date_of_birth, mobile_number, email, coins, reference_code, image');
+		$user = $this->db->get_where("users", array('id' => $res))->row();
+		$badges = $this->get_badges($res);
+
+		$response = array(
+			"msg" => '',
+			"data" => array(
+				"user" => array(
+					"id" => $user->id,
+					"first_name" => $user->first_name,
+					"last_name" => $user->last_name,
+					"date_of_birth" => $user->date_of_birth,
+					"mobile_number" => $user->mobile_number,
+					"email" => $user->email,
+					"reference_code" => $user->reference_code == null ? "" : $user->reference_code,
+					"coins" => $user->coins,
+					"image" => '/plugins/images/Logo/' . $user->image,
+					'badges' => $badges,
+				),
+			),
+			"success" => true
+		);
+		$this->response($response, REST_Controller::HTTP_OK);
+	}
+
+	private function uploadImage($image)
+	{
+		if (!is_dir(FCPATH . "/plugins/images/Logo")) {
+			mkdir(FCPATH . "/plugins/images/Logo", 0755, true);
+		}
+
+		$path = FCPATH . "/plugins/images/Logo";
+		$config['upload_path'] = $path;
+		$config['file_name'] = 'Logo_' . time() . '_' . rand();
+		$config['allowed_types'] = '*';
+		$config['max_size'] = 100000;
+		$this->load->library('upload', $config);
+
+		if (!$this->upload->do_upload($image)) {
+			$errorStrings = strip_tags($this->upload->display_errors());
+			$error = array('error' => $errorStrings, 'image' => $image);
+			return $error;
+		} else {
+			$uploadedImage = $this->upload->data();
+			$this->resizeImage($uploadedImage['file_name'], $path);
+			$data = array('data' => $uploadedImage);
+			return $data;
+		}
+	}
+
+	private function resizeImage($filename, $path)
+	{
+		$source_path = $path . "/" . $filename;
+		$target_path = $path . "/" . $filename;
+		$config_manip = array(
+			'image_library' => 'gd2',
+			'source_image' => $source_path,
+			'new_image' => $target_path,
+			'maintain_ratio' => TRUE,
+			'create_thumb' => FALSE,
+			'width' => 800,
+			'height' => 800,
+		);
+		$this->load->library('image_lib');
+		$this->image_lib->initialize($config_manip);
+
+		if (!$this->image_lib->resize()) {
+			echo $this->image_lib->display_errors();
+		}
+		$this->image_lib->clear();
+	}
+
+
 }
 

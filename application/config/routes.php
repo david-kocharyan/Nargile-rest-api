@@ -59,6 +59,7 @@ $route['api/users/login'] = 'api/Users_Api/login';
 $route['api/users/refresh-token'] = 'api/Users_Api/refresh_token';
 $route['api/users/get-user'] = 'api/Users_Api/getUser';
 $route['api/users/logout'] = 'api/Users_Api/logout';
+$route['api/users/change-image'] = 'api/Users_Api/change_image';
 
 //facebook login Api
 $route['api/users/facebook/login'] = 'api/Facebook_Api/login';
@@ -91,6 +92,7 @@ $route['api/rate'] = 'api/Rate_Api';
 //community
 $route['api/community'] = 'api/Community_Api';
 $route['api/community-friends'] = 'api/Community_Api/get_friends';
+$route['api/community/add-friend'] = 'api/Community_Api/add_friend';
 
 //service
 $route['api/service'] = 'api/Service_Api';
