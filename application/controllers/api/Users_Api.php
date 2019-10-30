@@ -134,7 +134,7 @@ class Users_API extends REST_Controller
 
 			$user_data = array(
 				"user" => array(
-					"id" => "git ",
+					"id" => "$auth_id",
 					"first_name" => $first_name,
 					"last_name" => $last_name,
 					"date_of_birth" => $date_of_birth,

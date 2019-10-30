@@ -1,6 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 require(APPPATH . '/libraries/REST_Controller.php');
+require "Firebase.php";
 
 class Community_Api extends REST_Controller
 {
@@ -254,19 +255,72 @@ class Community_Api extends REST_Controller
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //add friend
 
-//	public function add_friend_post()
-//	{
-//		$res = $this->verify_get_request();
-//		if (gettype($res) != 'string') {
-//			$data = array(
-//				"success" => false,
-//				"data" => array(),
-//				"msg" => $res['msg']
-//			);
-//			$this->response($data, $res['status']);
-//			return;
-//		}
-//	}
+	public function add_friend_post()
+	{
+		$res = $this->verify_get_request();
+		if (gettype($res) != 'string') {
+			$data = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => $res['msg']
+			);
+			$this->response($data, $res['status']);
+			return;
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		$this->send_notif(NULL, $inserted_id);
+	}
+
+
+	private function send_notif($offset = null, $event_id)
+	{
+		$this->db->select("fcm_token, os");
+		$this->db->where("tokens.fcm_token IS NOT NULL");
+		$this->db->where("users_api.notifications", 1);
+		$this->db->join("users_api", "users_api.id = tokens.user_id AND users_api.facility_id = " . $this->session->userdata('user')->id);
+
+		if ($offset == null) {
+			$this->db->limit("50", 0);
+			$offset = 50;
+		} else {
+			$this->db->limit("50", $offset);
+			$offset += 50;
+		}
+
+		$data = $this->db->get("tokens")->result();
+		$result = array();
+
+		if (null != $data) {
+			foreach ($data as $d) {
+				if ($d->os == Firebase::IS_ANDROID) {
+					$result[Firebase::IS_ANDROID][] = $d->fcm_token;
+				} else {
+					$result[Firebase::IS_IOS][] = $d->fcm_token;
+				}
+			}
+		} elseif (null == $data) {
+			return;
+		}
+		Firebase::send("New Event Registered !!!", $result, "event", $event_id);
+		$this->sendNotif($offset, $event_id);
+	}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// claim coin offers
