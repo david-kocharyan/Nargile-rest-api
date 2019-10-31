@@ -209,3 +209,7 @@ $route["admin/badges/edit/(:any)"] = 'Badges/edit/$1';
 $route["admin/badges/update/(:any)"] = 'Badges/update/$1';
 $route["admin/badges/change-status/(:any)"] = 'Badges/change_status/$1';
 
+//Slider
+$route['admin/service'] = 'Service';
+$route["admin/service/edit/(:any)"] = 'Service/edit/$1';
+$route["admin/service/update/(:any)"] = 'Service/update/$1';

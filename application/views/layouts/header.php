@@ -117,7 +117,8 @@
 							<span class="hide-menu">Users</span></a></li>
 					<li><a href="<?= base_url('admin/clients') ?>" class="waves-effect"><i
 								class="mdi mdi-account fa-fw"></i> <span class="hide-menu">Clients</span></a></li>
-
+					<li><a href="<?= base_url('admin/service') ?>" class="waves-effect"><i
+								class="mdi mdi-map-marker-radius fa-fw"></i><span class="hide-menu">Service</span></a></li>
 					<!--restaurants, offers, slider-->
 					<li class="devider"></li>
 					<li><a href="<?= base_url('admin/restaurants') ?>" class="waves-effect"><i
