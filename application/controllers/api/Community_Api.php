@@ -268,44 +268,58 @@ class Community_Api extends REST_Controller
 			return;
 		}
 
-		$friend_id = $this->input->post("id");
-
-
-		$this->send_notif(NULL, $inserted_id);
-	}
-
-
-	private function send_notif($offset = null, $event_id)
-	{
-		$this->db->select("fcm_token, os");
-		$this->db->where("tokens.fcm_token IS NOT NULL");
-		$this->db->where("users_api.notifications", 1);
-		$this->db->join("users_api", "users_api.id = tokens.user_id AND users_api.facility_id = " . $this->session->userdata('user')->id);
-
-		if ($offset == null) {
-			$this->db->limit("50", 0);
-			$offset = 50;
-		} else {
-			$this->db->limit("50", $offset);
-			$offset += 50;
-		}
-
-		$data = $this->db->get("tokens")->result();
-		$result = array();
-
-		if (null != $data) {
-			foreach ($data as $d) {
-				if ($d->os == Firebase::IS_ANDROID) {
-					$result[Firebase::IS_ANDROID][] = $d->fcm_token;
-				} else {
-					$result[Firebase::IS_IOS][] = $d->fcm_token;
-				}
-			}
-		} elseif (null == $data) {
+		if ($this->input->post("id") == NULL OR $this->input->post("id") == "") {
+			$response = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => "Please provide User"
+			);
+			$this->response($response, REST_Controller::HTTP_UNPROCESSABLE_ENTITY);
 			return;
 		}
-		Firebase::send("New Event Registered !!!", $result, "event", $event_id);
-		$this->sendNotif($offset, $event_id);
+
+		$friend_id = $this->input->post("id");
+		$this->db->where(array("from_id" => $res, "to_id" => $friend_id));
+		$this->db->or_where(array("from_id" => $friend_id));
+		$this->db->where(array("to_id" => $res));
+		$is_friends = $this->db->get('friends')->row();
+		if ($is_friends != NULL) {
+			$response = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => "This user already your friends"
+			);
+			$this->response($response, REST_Controller::HTTP_UNPROCESSABLE_ENTITY);
+			return;
+		}
+
+		$data  = array(
+			"from_id" => $res,
+			"to_id" => $friend_id,
+			"status" => 1,
+		);
+		$this->db->insert('friends', $data);
+		$id = $this->db->insert_id();
+
+		$this->send_notif($id);
+
+		$response = array(
+			"success" => false,
+			"data" => array(),
+			"msg" => "This user already your friends"
+		);
+		$this->response($response, REST_Controller::HTTP_UNPROCESSABLE_ENTITY);
+	}
+
+	private function send_notif($id)
+	{
+		$this->db->select("user_1.id as id_1, user_2.id as id_2, 
+		user_1.username as username_1, user_2.username as username_2");
+		$this->db->join('users as user_1', 'user_1.id = friends.from_id');
+		$this->db->join('users as user_2', 'user_2.id = friends.to_id');
+		$data = $this->db->get_where('friends', array("friends.id" => $id))->row();
+
+		Firebase::send("New Event Registered !!!", $data, "event", $id);
 	}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

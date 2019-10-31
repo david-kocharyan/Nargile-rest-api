@@ -14,7 +14,7 @@ class Firebase
 
 //    send notification
 
-	public static function send($notif, $ids = null, $event = null, $id = null, $district_id = null, $district_name = null)
+	public static function send($notif, $data, $event = null, $id = null)
 	{
 		$topic = "notification";
 		$serviceAccount = ServiceAccount::fromJsonFile("./system/credentials/nargile-253210-firebase-adminsdk-9k5sd-7a61678992.json");

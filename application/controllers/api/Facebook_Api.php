@@ -65,6 +65,7 @@ class Facebook_Api extends REST_Controller
 
 		if (NULL == $user_data) {
 			$data = array(
+
 				"username" => $username,
 				"first_name" => $user['first_name'],
 				"last_name" => $user['last_name'],
@@ -89,6 +90,7 @@ class Facebook_Api extends REST_Controller
 
 	private function Auth($auth)
 	{
+
 		if (!$auth) {
 			$status = self::HTTP_UNPROCESSABLE_ENTITY;
 			$response = array(
@@ -110,8 +112,10 @@ class Facebook_Api extends REST_Controller
 			'refresh_token' => $data['refresh_token']
 		);
 
+		$badges = $this->get_badges($auth->id);
 		$user_data = array(
 			"user" => array(
+				"id" => $auth->id,
 				"first_name" => $auth->first_name,
 				"last_name" => $auth->last_name,
 				"date_of_birth" => $auth->date_of_birth,
@@ -120,6 +124,7 @@ class Facebook_Api extends REST_Controller
 				"reference_code" => $auth->reference_code == null ? "" : $auth->reference_code,
 				"coins" => $auth->coins,
 				"image" => '/plugins/images/Logo/' . $auth->image,
+				'badges' => $badges,
 			),
 			"tokens" => array(
 				"token" => $token,
@@ -136,6 +141,23 @@ class Facebook_Api extends REST_Controller
 			"success" => true
 		);
 		$this->response($response, $status);
+	}
+
+	private function get_badges($res)
+	{
+		$this->db->select('COUNT("user_id") as count');
+		$review = $this->db->get_where("reviews", array("user_id" => $res))->row();
+
+		$this->db->select('COUNT("user_id") as count');
+		$rate = $this->db->get_where("rates", array("user_id" => $res))->row();
+
+		$count = $rate->count + $review->count;
+
+		$this->db->select('count, type, info, concat("/plugins/images/Badge/", image) as image');
+		$this->db->where(array('status' => 1, "count <" => $count));
+		$data = $this->db->get('badges')->result();
+
+		return $data != null ? $data : array();
 	}
 
 
