@@ -127,7 +127,7 @@ class Community_Api extends REST_Controller
 
 	private function get_birthday($res)
 	{
-		$this->db->select("concat('/plugins/images/Logo/', users.image) as image, username, first_name, last_name");
+		$this->db->select("id, concat('/plugins/images/Logo/', users.image) as image, username, first_name, last_name");
 		$this->db->where("DATE_FORMAT(FROM_UNIXTIME(date_of_birth),'%m-%d') = DATE_FORMAT(NOW(),'%m-%d')");
 		$this->db->where("users.id != $res");
 		$this->db->order_by("users.id DESC");
@@ -138,7 +138,7 @@ class Community_Api extends REST_Controller
 
 	private function get_upcoming($res)
 	{
-		$this->db->select("concat('/plugins/images/Logo/', users.image) as image, username, first_name, last_name, 
+		$this->db->select("id, concat('/plugins/images/Logo/', users.image) as image, username, first_name, last_name, 
 		DATE_FORMAT(FROM_UNIXTIME(date_of_birth), '%M %D %Y') as date_of_birth");
 		$this->db->where("DAYOFYEAR(FROM_UNIXTIME(date_of_birth)) BETWEEN DAYOFYEAR(NOW()) + 1 AND DAYOFYEAR(NOW()) + 31");
 		$this->db->where("users.id != $res");
