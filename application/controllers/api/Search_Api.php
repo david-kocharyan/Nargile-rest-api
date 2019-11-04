@@ -88,6 +88,7 @@ class Search_Api extends REST_Controller
 		if ($this->input->get('action') != null && $this->input->get('action') == 'favorites') {
 			$this->db->join('favorites', 'favorites.restaurant_id = restaurants.id');
 			$this->db->where('favorites.user_id', $user_id);
+			$this->db->where('favorites.status', 1);
 		}
 	}
 
