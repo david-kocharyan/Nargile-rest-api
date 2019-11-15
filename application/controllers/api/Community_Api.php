@@ -293,11 +293,12 @@ class Community_Api extends REST_Controller
 			return;
 		}
 
-		$data  = array(
+		$data = array(
 			"from_id" => $res,
 			"to_id" => $friend_id,
 			"status" => 1,
 		);
+
 		$this->db->insert('friends', $data);
 		$id = $this->db->insert_id();
 
@@ -319,45 +320,93 @@ class Community_Api extends REST_Controller
 		$this->db->join('users as user_2', 'user_2.id = friends.to_id');
 		$data = $this->db->get_where('friends', array("friends.id" => $id))->row();
 
-		Firebase::send("New Event Registered !!!", $data, "event", $id);
+//		if($user_id->user_id != null) {
+//			$this->db->select("fcm_token, os");
+//			$this->db->join("users_api", "users_api.id = tokens.user_id AND users_api.notifications = 1");
+//			$this->db->where("tokens.fcm_token IS NOT NULL");
+//			$this->db->where("tokens.user_id", $user_id->user_id);
+//			$data = $this->db->get("tokens")->result();
+//			$result = array();
+//			if(null != $data) {
+//				foreach ($data as $d) {
+//					if($d->os == Firebase::IS_ANDROID) {
+//						$result[Firebase::IS_ANDROID][] = $d->fcm_token;
+//					} else {
+//						$result[Firebase::IS_IOS][] = $d->fcm_token;
+//					}
+//				}
+//				Firebase::send("New Receipt Registered !!!", $result, "invoice", $id);
+//			}
+//		}
+		Firebase::send("useri anun um uxarkum em", "friend_request", $id);
 	}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// claim coin offers
 
-//	public function claim_post()
-//	{
-//		$res = $this->verify_get_request();
-//		if (gettype($res) != 'string') {
-//			$data = array(
-//				"success" => false,
-//				"data" => array(),
-//				"msg" => $res['msg']
-//			);
-//			$this->response($data, $res['status']);
-//			return;
-//		}
-//
-//		if ($this->input->post('coin_id') == NUll OR is_numeric($this->input->post('coin_id')) == FALSE) {
-//			$response = array(
-//				"success" => false,
-//				"data" => array(),
-//				"msg" => "Please provide valid value"
-//			);
-//			$this->response($response, REST_Controller::HTTP_UNPROCESSABLE_ENTITY);
-//		}
-//
-//		$offer_id = $this->input->post("coin_id");
-//
-//		$this->db->select('price');
-//		$price = ;
-//
-//		$this->db->select('id, coins');
-//		$user = $this->db->get_where("users", array("id" => $res))->row();
-//
-//		var_dump($offer_id, $price, $user->coins);
-//
-//	}
+	public function claim_post()
+	{
+		$res = $this->verify_get_request();
+		if (gettype($res) != 'string') {
+			$data = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => $res['msg']
+			);
+			$this->response($data, $res['status']);
+			return;
+		}
 
+		if ($this->input->post('coin_id') == NUll OR is_numeric($this->input->post('coin_id')) == FALSE) {
+			$response = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => "Please provide valid value"
+			);
+			$this->response($response, REST_Controller::HTTP_UNPROCESSABLE_ENTITY);
+		}
 
+		$offer_id = $this->input->post("coin_id");
+
+		$this->db->select('price');
+		$price = $this->db->get_where("coin_offers", array("id" => $offer_id))->row()->price;
+
+		$this->db->select('id, coins');
+		$user = $this->db->get_where("users", array("id" => $res))->row();
+
+		if ($user->coins < $price) {
+			$response = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => "Insufficient funds"
+			);
+			$this->response($response, REST_Controller::HTTP_UNPROCESSABLE_ENTITY);
+			return;
+		}
+
+		$data = array(
+			"user_id" => $res,
+			"coin_offer_id" => $offer_id
+		);
+
+		$balance = $user->coins - $price;
+
+		$this->db->trans_start();
+
+		$this->db->set("coins", $balance);
+		$this->db->where("id", $res);
+		$this->db->update("users");
+
+		$this->db->insert("claimed_offers", $data);
+
+		$this->db->trans_complete();
+
+		$response = array(
+			"success" => true,
+			"data" => array(),
+			"msg" => "Successfully purchased"
+		);
+		$this->response($response, REST_Controller::HTTP_OK);
+		return;
+	}
 }
