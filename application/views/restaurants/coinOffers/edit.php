@@ -7,13 +7,37 @@
 				  method="post">
 
 				<div class="form-group">
-					<label for="inputInfo" class="control-label">Info</label>
+					<label for="inputInfo" class="control-label">Price</label>
 					<input type="text" class="form-control" id="inputInfo" name="price"
 						   value="<?= $coins->price ?>"
 						   required>
 					<?php if (!empty(form_error('price'))) { ?>
 						<div class="help-block with-errors text-danger">
 							<?= form_error('price'); ?>
+						</div>
+					<?php } ?>
+				</div>
+
+				<div class="form-group">
+					<label for="inputInfo" class="control-label">Valid until</label>
+					<input type="text" class="form-control" id="inputInfo" name="date"
+						   value="<?= date("Y-m-d", $coins->valid_date) ?>"
+						   required>
+					<?php if (!empty(form_error('date'))) { ?>
+						<div class="help-block with-errors text-danger">
+							<?= form_error('date'); ?>
+						</div>
+					<?php } ?>
+				</div>
+
+				<div class="form-group">
+					<label for="inputInfo" class="control-label">Description</label>
+					<input type="text" class="form-control" id="inputInfo" name="desc"
+						   value="<?= $coins->description ?>"
+						   required>
+					<?php if (!empty(form_error('desc'))) { ?>
+						<div class="help-block with-errors text-danger">
+							<?= form_error('desc'); ?>
 						</div>
 					<?php } ?>
 				</div>

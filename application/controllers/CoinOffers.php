@@ -61,12 +61,18 @@ class CoinOffers extends CI_Controller
 		$type = $this->check_admin_restaurant($res);
 
 		$price = $this->input->post('price');
+		$date = $this->input->post('date');
+		$desc = $this->input->post('desc');
+
 		$this->form_validation->set_rules('price', 'Price', 'required');
+		$this->form_validation->set_rules('date', 'Date', 'required');
+		$this->form_validation->set_rules('desc', 'Description', 'required');
+
 		if ($this->form_validation->run() == FALSE) {
 			$this->edit($id);
 			return;
 		}
-		$this->CoinOffer->update($id, array("price" => $price));
+		$this->CoinOffer->update($id, array("price" => $price, "valid_date" => strtotime($date), "description" => $desc));
 		$this->session->set_flashdata('success', 'You have change the offer successfully');
 		redirect("admin/restaurants/coin-offers/$res");
 	}
