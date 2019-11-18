@@ -15,8 +15,13 @@
 					<div class="table-responsive">
 						<table class="table table-bordered" id="dynamic_field">
 							<tr>
-								<td><input type="text" name="price[]" placeholder="Enter price"
-										   class="form-control name_list"/></td>
+								<td>
+									<input type="text" name="price[]" placeholder="Enter price"
+										   class="form-control name_list m-b-5"/>
+									<input type="text" name="valid[]" placeholder="Enter date Y-m-d"
+										   class="form-control m-b-5"/>
+									<input type="text" name="desc[]" placeholder="Enter description"
+										   class="form-control m-b-5"/>
 								<td>
 									<button type="button" name="add" id="add" class="btn btn-success">Add More</button>
 								</td>
@@ -43,6 +48,8 @@
 					<tr>
 						<th>ID</th>
 						<th>Price</th>
+						<th>Valid date</th>
+						<th>Description</th>
 						<th>Status</th>
 						<th>Options</th>
 					</tr>
@@ -52,6 +59,8 @@
 						<tr>
 							<td><?= $key + 1 ?></td>
 							<td><?= $value->price; ?></td>
+							<td><?= date('Y-m-d', $value->valid_date); ?></td>
+							<td><?= $value->description; ?></td>
 							<td><?= $value->status; ?></td>
 							<td>
 								<a href="<?= base_url("admin/restaurants/coin-offers/edit/$value->id") ?>"
@@ -88,7 +97,11 @@
         var i = 1;
         $('#add').click(function () {
             i++;
-            $('#dynamic_field').append('<tr id="row' + i + '"><td><input type="text" name="price[]" placeholder="Enter info" class="form-control name_list" /></td><td><button type="button" name="remove" id="' + i + '" class="btn btn-danger btn_remove">X</button></td></tr>');
+            $('#dynamic_field').append(`<tr id="row${i}"><td>
+			<input type="text" name="price[]" placeholder="Enter narguile price" class="form-control m-b-5" />
+			<input type="text" name="valid[]" placeholder="Enter date Y-m-d" class="form-control m-b-5"/>
+			<input type="text" name="desc[]" placeholder="Enter description" class="form-control m-b-5"/>
+			<td><button type="button" name="remove" id="${i}" class="btn btn-danger btn_remove">X</button></td></tr>`);
         });
 
         $(document).on('click', '.btn_remove', function () {

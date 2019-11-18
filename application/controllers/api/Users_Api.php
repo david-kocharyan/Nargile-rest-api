@@ -573,7 +573,7 @@ class Users_API extends REST_Controller
 			);
 			$this->response($response, REST_Controller::HTTP_UNPROCESSABLE_ENTITY);
 			return;
-		}elseif ($password_hash_new == $user_pass){
+		} elseif ($password_hash_new == $user_pass) {
 			$response = array(
 				"success" => false,
 				"data" => array(),
@@ -595,6 +595,70 @@ class Users_API extends REST_Controller
 		$this->response($response, REST_Controller::HTTP_OK);
 	}
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// get and use claimed offers
+	public function coin_offers_get()
+	{
+		$res = $this->verify_get_request();
+		if (gettype($res) != 'string') {
+			$data = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => $res['msg']
+			);
+			$this->response($data, $res['status']);
+			return;
+		}
+
+		$this->db->select("concat('You have claimed 1 free nargile at ', restaurants.name) as description, claimed_offers.id as offer_id,
+		concat('Valid until` ', DATE_FORMAT(FROM_UNIXTIME(`coin_offers`.`valid_date`), '%d.%m.%Y')) as date");
+		$this->db->join("coin_offers", "coin_offers.id = claimed_offers.coin_offer_id");
+		$this->db->join("restaurants", "restaurants.id = coin_offers.restaurant_id");
+		$data = $this->db->get_where("claimed_offers", array("claimed_offers.status" => 1, "user_id" => $res))->result();
+
+		$response = array(
+			"success" => true,
+			"data" => $data != null ? $data : array(),
+			"msg" => ""
+		);
+		$this->response($response, REST_Controller::HTTP_OK);
+	}
+
+	public function use_offer()
+	{
+		$res = $this->verify_get_request();
+		if (gettype($res) != 'string') {
+			$data = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => $res['msg']
+			);
+			$this->response($data, $res['status']);
+			return;
+		}
+
+		$offer_id = $this->input->post("offer_id");
+		if ($offer_id == NULL) {
+			$response = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => "Please provide Offer ID",
+			);
+			$this->response($response, REST_Controller::HTTP_UNPROCESSABLE_ENTITY);
+			return;
+		}
+
+		$this->db->set("status", 0);
+		$this->db->where(array("user_id" => $res, "coin_offer_id" => $offer_id));
+		$this->db->update("claimed_offers");
+
+		$response = array(
+			"success" => true,
+			"data" => array(),
+			"msg" => "Offers successfully used"
+		);
+		$this->response($response, REST_Controller::HTTP_OK);
+	}
 
 }
 

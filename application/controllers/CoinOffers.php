@@ -30,11 +30,14 @@ class CoinOffers extends CI_Controller
 	public function store($id)
 	{
 		$type = $this->check_admin_restaurant($id);
-		$price = $_POST["price"];
 
-		foreach ($price as $key) {
-			if (trim($key) != '') {
-				$this->db->insert("coin_offers", array("price" => $key, 'restaurant_id' => $id));
+		$price = $this->input->post('price');
+		$valid = $this->input->post('valid');
+		$desc = $this->input->post('desc');
+
+		for ($i = 0; $i < count($price); $i++) {
+			if (trim($price[$i]) != '' && trim($valid[$i]) != '' && trim($desc[$i]) != '') {
+				$this->db->insert("coin_offers", array("price" => $price[$i], "valid_date" => strtotime($valid[$i]), "description" => $desc[$i], 'restaurant_id' => $id));
 			}
 		}
 		redirect("admin/restaurants/coin-offers/$id");
