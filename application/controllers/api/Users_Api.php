@@ -624,7 +624,7 @@ class Users_API extends REST_Controller
 		$this->response($response, REST_Controller::HTTP_OK);
 	}
 
-	public function use_offer()
+	public function use_offer_post()
 	{
 		$res = $this->verify_get_request();
 		if (gettype($res) != 'string') {
