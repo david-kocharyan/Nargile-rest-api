@@ -120,7 +120,7 @@ class Community_Api extends REST_Controller
 		$this->limits();
 		$this->db->join("restaurants", "restaurants.id = coin_offers.restaurant_id");
 		$this->join();
-		$this->db->join("claimed_offers", "coin_offers.id = claimed_offers.user_id", "left");
+		$this->db->join("claimed_offers", "coin_offers.id = claimed_offers.coin_offer_id", "left");
 		$this->where();
 		$this->db->where("claimed_offers.status IS NULL");
 		$this->db->or_where("claimed_offers.status", 0);
