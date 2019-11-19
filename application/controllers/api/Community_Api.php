@@ -118,12 +118,13 @@ class Community_Api extends REST_Controller
           coin_offers.id as coin_id, concat('Nargile for ' , coin_offers.price, ' coins') as info, coin_offers.price as price, description");
 		$this->limits();
 		$this->db->join("restaurants", "restaurants.id = coin_offers.restaurant_id");
-		$this->db->join("claimed_offers", "coin_offers.id = claimed_offers.user_id");
+		$this->db->join("claimed_offers", "coin_offers.id = claimed_offers.user_id", "left");
 		$this->join();
 		$this->where();
-		$this->db->where("claimed_offers.user_id !=", $res);
+		$this->db->where("claimed_offers.user_id =", NULL);
 		$this->db->order_by("coin_offers.id DESC");
 		$data = $this->db->get_where("coin_offers", array("coin_offers.status" => 1))->result();
+		var_dump($data);die;
 		return $data != null ? $data : array();
 	}
 
