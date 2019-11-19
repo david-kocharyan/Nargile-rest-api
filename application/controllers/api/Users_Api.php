@@ -125,8 +125,20 @@ class Users_API extends REST_Controller
 			);
 
 			$auth_id = $this->User->register($data);
-
 			$badges = $this->get_badges($auth_id);
+
+			if ($this->input->post("promo_code") != NULL OR $this->input->post("promo_code") != ""){
+				$promo_code = $this->input->post("promo_code");
+
+
+
+
+
+
+
+
+
+			}
 
 			$token = $this->generateToken();
 			$data['refresh_token'] = $this->generateToken();
@@ -610,7 +622,7 @@ class Users_API extends REST_Controller
 			return;
 		}
 
-		$this->db->select("concat('You have claimed 1 free nargile at ', restaurants.name) as description, claimed_offers.id as offer_id,
+		$this->db->select("concat('You have claimed 1 free nargile at ', restaurants.name) as description, claimed_offers.coin_offer_id as offer_id,
 		concat('Valid until` ', DATE_FORMAT(FROM_UNIXTIME(`coin_offers`.`valid_date`), '%d.%m.%Y')) as date");
 		$this->db->join("coin_offers", "coin_offers.id = claimed_offers.coin_offer_id");
 		$this->db->join("restaurants", "restaurants.id = coin_offers.restaurant_id");
@@ -649,7 +661,9 @@ class Users_API extends REST_Controller
 		}
 
 		$this->db->set("status", 0);
-		$this->db->where(array("user_id" => $res, "coin_offer_id" => $offer_id));
+		$this->db->where("status", 1);
+		$this->db->where("user_id", $res);
+		$this->db->where("coin_offer_id", $offer_id);
 		$this->db->update("claimed_offers");
 
 		$response = array(
