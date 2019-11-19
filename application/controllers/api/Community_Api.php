@@ -28,7 +28,7 @@ class Community_Api extends REST_Controller
 		$limit = (null !== $this->input->get('limit') && is_numeric($this->input->get("limit"))) ? intval($this->input->get('limit')) : 10;
 		$offset = (null !== $this->input->get('offset') && is_numeric($this->input->get("offset"))) ? $this->input->get('offset') * $limit : 0;
 
-		$coin_offers = $this->get_coin_offers();
+		$coin_offers = $this->get_coin_offers($res);
 		$birthdays = $this->get_birthday($res);
 		$upcoming = $this->get_upcoming($res);
 
@@ -81,7 +81,7 @@ class Community_Api extends REST_Controller
 		} else {
 			switch ($this->input->get('action')) {
 				case "coin_offers":
-					$data = $this->get_coin_offers();
+					$data = $this->get_coin_offers($res);
 					break;
 				case "birthdays":
 					$data = $this->get_birthday($res);
@@ -111,15 +111,17 @@ class Community_Api extends REST_Controller
 
 	}
 
-	private function get_coin_offers()
+	private function get_coin_offers($res)
 	{
 		$this->db->select("concat('/plugins/images/Restaurants/', restaurants.logo) as logo,
          restaurants.id as id, restaurants.name as name, restaurants.address as address, restaurants.rate as rate,
           coin_offers.id as coin_id, concat('Nargile for ' , coin_offers.price, ' coins') as info, coin_offers.price as price, description");
 		$this->limits();
 		$this->db->join("restaurants", "restaurants.id = coin_offers.restaurant_id");
+		$this->db->join("claimed_offers", "coin_offers.id = claimed_offers.user_id");
 		$this->join();
 		$this->where();
+		$this->db->where("claimed_offers.user_id", $res);
 		$this->db->order_by("coin_offers.id DESC");
 		$data = $this->db->get_where("coin_offers", array("coin_offers.status" => 1))->result();
 		return $data != null ? $data : array();
