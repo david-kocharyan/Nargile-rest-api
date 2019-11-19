@@ -124,7 +124,6 @@ class Community_Api extends REST_Controller
 		$this->db->where("claimed_offers.user_id =", NULL);
 		$this->db->order_by("coin_offers.id DESC");
 		$data = $this->db->get_where("coin_offers", array("coin_offers.status" => 1))->result();
-		var_dump($data);die;
 		return $data != null ? $data : array();
 	}
 
