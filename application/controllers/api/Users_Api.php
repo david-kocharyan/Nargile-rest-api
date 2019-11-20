@@ -126,18 +126,25 @@ class Users_API extends REST_Controller
 
 			$auth_id = $this->User->register($data);
 			$badges = $this->get_badges($auth_id);
+			$coins = "0";
 
-			if ($this->input->post("promo_code") != NULL OR $this->input->post("promo_code") != ""){
+			if ($this->input->post("promo_code") != NULL OR $this->input->post("promo_code") != "") {
 				$promo_code = $this->input->post("promo_code");
+				$username_promo = $this->db->get_where("users", array("username" => $promo_code))->row();
+				if ($username_promo != NULL && $username_promo->username != $username) {
+					$this->db->trans_start();
 
+					$this->db->set("coins", 10);
+					$this->db->where("id", $auth_id);
+					$this->db->update("users");
 
+					$this->db->set("coins", $username_promo->coins + 10);
+					$this->db->where("id", $username_promo->id);
+					$this->db->update("users");
 
-
-
-
-
-
-
+					$this->db->trans_complete();
+					$coins = "10";
+				}
 			}
 
 			$token = $this->generateToken();
@@ -153,7 +160,7 @@ class Users_API extends REST_Controller
 					"mobile_number" => $mobile_number,
 					"email" => $email,
 					"reference_code" => $reference_code == null ? "" : $reference_code,
-					"coins" => "0",
+					"coins" => $coins,
 					"image" => '/plugins/images/Logo/User_default.png',
 					'badges' => $badges,
 				),
