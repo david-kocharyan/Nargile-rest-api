@@ -33,13 +33,13 @@ class Community_Api extends REST_Controller
 		$upcoming = $this->get_upcoming($res);
 
 		if ($this->input->get("action") == "coin_offers") {
-			$count_data = $this->get_coin_pages();
+			$count_data = $this->get_coin_pages($res);
 		} else if ($this->input->get("action") == "birthdays") {
 			$count_data = $this->get_birthdays_pages($res);
 		} else if ($this->input->get("action") == "upcoming") {
 			$count_data = $this->get_upcoming_pages($res);
 		} else {
-			$count_coin_offers = $this->get_coin_pages();
+			$count_coin_offers = $this->get_coin_pages($res);
 			$count_birthdays = $this->get_birthdays_pages($res);
 			$count_upcoming = $this->get_upcoming_pages($res);
 		}
@@ -119,10 +119,10 @@ class Community_Api extends REST_Controller
 		$this->limits();
 		$this->db->join("restaurants", "restaurants.id = coin_offers.restaurant_id");
 		$this->join();
+		$this->db->join("claimed_offers", "claimed_offers.coin_offer_id = coin_offers.id AND `claimed_offers`.`user_id` = $res", "left");
 		$this->where();
 		$this->db->where("DATE(FROM_UNIXTIME(coin_offers.valid_date)) >= CURDATE()");
-
-		$this->db->order_by("coin_offers.id DESC");
+		$this->db->where(" (claimed_offers.status != 1 OR claimed_offers.status is NULL )");
 		$data = $this->db->get_where("coin_offers", array("coin_offers.status" => 1))->result();
 		return $data != null ? $data : array();
 	}
@@ -151,12 +151,15 @@ class Community_Api extends REST_Controller
 	}
 
 ///////////////////////////////////////////////////////////////////
-	private function get_coin_pages()
+	private function get_coin_pages($res)
 	{
 		$this->db->select("count(restaurant_id) as pages");
-		$this->where();
 		$this->db->join("restaurants", "restaurants.id = coin_offers.restaurant_id");
 		$this->join();
+		$this->db->join("claimed_offers", "claimed_offers.coin_offer_id = coin_offers.id AND `claimed_offers`.`user_id` = $res", "left");
+		$this->where();
+		$this->db->where("DATE(FROM_UNIXTIME(coin_offers.valid_date)) >= CURDATE()");
+		$this->db->where(" (claimed_offers.status != 1 OR claimed_offers.status is NULL )");
 		$data = $this->db->get_where('coin_offers', array("coin_offers.status" => 1))->row();
 		return $data != null ? $data : 0;
 	}

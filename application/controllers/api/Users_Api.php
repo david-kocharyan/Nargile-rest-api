@@ -622,7 +622,7 @@ class Users_API extends REST_Controller
 			return;
 		}
 
-		$this->db->select("concat('You have claimed 1 free nargile at ', restaurants.name) as description, claimed_offers.id as offer_id,
+		$this->db->select("concat('You have claimed 1 free nargile at ', restaurants.name) as description, claimed_offers.coin_offer_id as offer_id,
 		concat('Valid until` ', DATE_FORMAT(FROM_UNIXTIME(`coin_offers`.`valid_date`), '%d.%m.%Y')) as date");
 		$this->db->join("coin_offers", "coin_offers.id = claimed_offers.coin_offer_id");
 		$this->db->join("restaurants", "restaurants.id = coin_offers.restaurant_id");
@@ -661,19 +661,18 @@ class Users_API extends REST_Controller
 			return;
 		}
 
-		$used = $this->db->get_where("used_offers", array("claimed_id" => $offer_id))->row();
-		if ($used != NULL){
-			$response = array(
-				"success" => false,
-				"data" => array(),
-				"msg" => "This offer has already been used.",
-			);
-			$this->response($response, REST_Controller::HTTP_UNPROCESSABLE_ENTITY);
-			return;
-		}
+		$this->db->trans_start();
 
-		$this->db->insert("used_offers", array("claimed_id" => $offer_id, "time" => strtotime("now")));
+		$this->db->set('user_id', 0);
+		$this->db->set('coin_offer_id', 0);
+		$this->db->set('status', 0);
+		$this->db->where("coin_offer_id", $offer_id);
+		$this->db->where("user_id", $res);
+		$this->db->update('claimed_offers');
 
+		$this->db->insert("used_offers", array("coin_offer_id" => $offer_id, "user_id" => $res, "time" => strtotime("now")));
+
+		$this->db->trans_complete();
 		$response = array(
 			"success" => true,
 			"data" => array(),
