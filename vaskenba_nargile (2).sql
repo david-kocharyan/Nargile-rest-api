@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 05, 2019 at 03:47 AM
+-- Generation Time: Nov 20, 2019 at 02:10 AM
 -- Server version: 5.6.41-84.1
 -- PHP Version: 7.2.7
 
@@ -114,7 +114,7 @@ CREATE TABLE `claimed_offers` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `coin_offer_id` int(11) NOT NULL,
-  `status` int(11) DEFAULT '1'
+  `time` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -153,6 +153,8 @@ CREATE TABLE `coin_offers` (
   `id` int(11) NOT NULL,
   `restaurant_id` int(11) NOT NULL,
   `price` int(11) DEFAULT NULL,
+  `valid_date` int(11) DEFAULT '0',
+  `description` varchar(255) DEFAULT '',
   `status` int(11) DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -160,56 +162,10 @@ CREATE TABLE `coin_offers` (
 -- Dumping data for table `coin_offers`
 --
 
-INSERT INTO `coin_offers` (`id`, `restaurant_id`, `price`, `status`) VALUES
-(1, 1, 800, 1),
-(2, 1, 500, 1),
-(3, 1, 600, 1),
-(4, 1, 500, 1),
-(5, 1, 700, 1),
-(6, 1, 800, 1),
-(7, 1, 900, 1),
-(8, 1, 800, 1),
-(9, 1, 500, 1),
-(10, 1, 600, 1),
-(11, 9, 500, 1),
-(12, 9, 700, 1),
-(13, 9, 800, 1),
-(14, 9, 900, 1),
-(15, 9, 800, 1),
-(16, 9, 500, 1),
-(17, 4, 600, 1),
-(18, 4, 500, 1),
-(19, 4, 700, 1),
-(20, 3, 800, 1),
-(21, 3, 900, 1),
-(22, 6, 800, 1),
-(23, 6, 500, 1),
-(24, 6, 600, 1),
-(25, 6, 500, 1),
-(26, 6, 700, 1),
-(27, 1, 800, 1),
-(28, 5, 900, 1),
-(29, 5, 800, 1),
-(30, 5, 500, 1),
-(31, 5, 600, 1),
-(32, 8, 500, 1),
-(33, 8, 700, 1),
-(34, 8, 800, 1),
-(35, 8, 900, 1),
-(36, 8, 800, 1),
-(37, 8, 500, 1),
-(38, 8, 600, 1),
-(39, 8, 500, 1),
-(40, 1, 700, 1),
-(41, 1, 800, 1),
-(42, 12, 900, 1),
-(43, 12, 800, 1),
-(44, 12, 500, 1),
-(45, 12, 600, 1),
-(46, 12, 500, 1),
-(47, 1, 700, 1),
-(48, 14, 800, 1),
-(49, 14, 900, 1);
+INSERT INTO `coin_offers` (`id`, `restaurant_id`, `price`, `valid_date`, `description`, `status`) VALUES
+(11, 9, 500, 1576105200, 'Keif is offering 2 freenargile in Achrafieh branch.', 1),
+(12, 9, 700, 1576105200, 'Keif is offering 1 freenargile in Achrafieh branch.', 1),
+(13, 9, 800, 1576105200, 'Keif is offering 1 freenargile in Achrafieh branch.', 1);
 
 -- --------------------------------------------------------
 
@@ -249,7 +205,8 @@ CREATE TABLE `favorites` (
 
 INSERT INTO `favorites` (`id`, `user_id`, `restaurant_id`, `status`) VALUES
 (21, 54, 17, 0),
-(22, 54, 1, 0);
+(22, 54, 1, 0),
+(23, 31, 17, 1);
 
 -- --------------------------------------------------------
 
@@ -284,15 +241,15 @@ CREATE TABLE `friends` (
 
 INSERT INTO `friends` (`id`, `from_id`, `to_id`, `status`) VALUES
 (1, 30, 31, 1),
-(3, 54, 33, 1),
-(4, 34, 30, 1),
-(5, 35, 30, 1),
-(6, 30, 36, 1),
-(7, 37, 30, 1),
-(8, 51, 30, 1),
+(3, 54, 31, 1),
+(4, 34, 31, 1),
+(5, 35, 31, 1),
+(6, 30, 47, 1),
+(7, 37, 31, 1),
+(8, 51, 31, 1),
 (9, 37, 54, 1),
 (10, 35, 54, 1),
-(11, 40, 54, 1);
+(11, 40, 31, 1);
 
 -- --------------------------------------------------------
 
@@ -678,7 +635,9 @@ INSERT INTO `rates` (`id`, `user_id`, `restaurant_id`, `overall`, `taste`, `char
 (42, 46, 17, 3, 2, 4, 4, 3, 3),
 (43, 46, 17, 2, 1, 2, 4, 3, 3),
 (44, 46, 17, 4, 4, 4, 4, 5, 5),
-(45, 46, 17, 4, 5, 5, 5, 3, 3);
+(45, 46, 17, 4, 5, 5, 5, 3, 3),
+(46, 54, 17, 1, 1, 1, 1, 1, 1),
+(47, 31, 1, 5, 5, 5, 5, 5, 5);
 
 -- --------------------------------------------------------
 
@@ -706,7 +665,7 @@ CREATE TABLE `restaurants` (
 --
 
 INSERT INTO `restaurants` (`id`, `name`, `area_id`, `logo`, `phone_number`, `type`, `address`, `lat`, `lng`, `status`, `rate`, `admin_id`) VALUES
-(1, 'Cafe Em Nazih', 23, 'Logo_1569932559_1320868044.jpg', '9611745442', 'Cafe', 'Saifi Urban Gardens, Pasteur Street', '33.896025', '35.516406', 1, '0', NULL),
+(1, 'Cafe Em Nazih', 23, 'Logo_1569932559_1320868044.jpg', '9611745442', 'Cafe', 'Saifi Urban Gardens, Pasteur Street', '33.896025', '35.516406', 1, '5', NULL),
 (2, 'Abo Waseem', 23, 'Logo_1569932569_1241077901.jpg', '9611745442', 'Resto-Cafe', 'Main Street, Hamra', '33.896189', '35.477883', 1, '0', NULL),
 (3, 'Toot Beirut', 23, 'Logo_1569932577_1638295637.jpg', '9611756166', 'Restaurant', 'Makdessi Street, Facing Liban Post', '33.896447', '35.482184', 1, '0', NULL),
 (4, 'Barjees Cafe', 23, 'Logo_1569932588_1476692797.jpg', '9611745356', 'Cafe', 'Main Street, Hamra', '33.896320', '35.477650', 1, '0', NULL),
@@ -722,7 +681,7 @@ INSERT INTO `restaurants` (`id`, `name`, `area_id`, `logo`, `phone_number`, `typ
 (14, 'Kaza Meza', 23, 'Logo_1569932748_590022535.jpg', '9611348016', 'Resto-Caf', 'Mahatma Ghandi Street', '33.898285', '35.478734', 1, '0', NULL),
 (15, 'Wimpy', 23, 'Logo_1569932755_2011446988.jpg', '9611345641', 'cafe', 'Picadelly Street', '33.895280', '35.483274', 1, '0', NULL),
 (16, 'Lavender Cafe', 23, 'Logo_1569932763_250838888.jpg', '9611751251', 'Cafe', 'Baalbak Street', '33.895122', '35.480656', 1, '0', NULL),
-(17, 'Hashtag Resto Cafe', 23, 'Logo_1569932776_1470398627.jpg', '9611745442', 'Resto-Cafe', 'Yamout Street', '33.897402', '35.478095', 1, '3.25', NULL),
+(17, 'Hashtag Resto Cafe', 23, 'Logo_1569932776_1470398627.jpg', '9611745442', 'Resto-Cafe', 'Yamout Street', '33.897402', '35.478095', 1, '2.8', NULL),
 (18, 'El Denye Hek', 31, 'Logo_1569932793_236142029.jpg', '9611567191', 'Restaurant', 'Armenia Street', '33.896925', '35.525611', 1, '0', NULL),
 (19, 'El Brimo', 31, 'Logo_1569932802_473601840.jpg', '9611444199', 'cafe', 'Geitawi', '33.894107', '35.529946', 1, '0', NULL),
 (20, 'Caf Badaro', 31, 'Logo_1569932813_208496841.jpg', '9611380693', 'Cafe', 'Main Street, Near Bank Audi', '33.872769', '35.515837', 1, '0', NULL),
@@ -951,7 +910,8 @@ INSERT INTO `reviews` (`id`, `user_id`, `restaurant_id`, `review`) VALUES
 (23, 30, 5, 'asdasdasdas'),
 (24, 30, 8, 'asdasdasdasdasd'),
 (25, 46, 17, 'U'),
-(26, 46, 17, 'Vsbsj');
+(26, 46, 17, 'Vsbsj'),
+(27, 31, 1, 'xesdrgtu');
 
 -- --------------------------------------------------------
 
@@ -1040,7 +1000,7 @@ INSERT INTO `tokens` (`id`, `token`, `time`, `user_id`, `refresh_token`) VALUES
 (148, '', '', 48, ''),
 (149, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkYjk3Mjk0ZWM2NWMi.qZIyPXbfobss11whs09dpZY356sEEIeMHQFK9nJrHRM', '1572520980', 49, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkYjk3Mjk0ZWM2Yzci.t9Dy7LMW18C7A_Ju85c4IlkXj27_a-sC9znAMMaoIL8'),
 (150, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkYjk3MmRhMTdmYTIi.WaP6FBn6TwF-W8PnmbZrICDPwecxq7BkWOBajSiuaSM', '1572521050', 50, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkYjk3MmRhMTgwMmMi.lZ9sUEuAVYFjYR-JNHINetgSOY2AtfkKWXcMzBWaJjk'),
-(151, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkYjk3NDRiMGI0YmMi.OYZBeVBhSzQim9tiVIsWRplcfOaoc8aYjLtOPOeQQS0', '1572521419', 51, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkYjk3NDRiMGI1MmYi.LFN_gw-RDuzFB05FIngA8MOKJ6WaKDFDKcRc9WmG6Gk'),
+(151, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZDI0ZTcxMjFjNDYi.nB-xCIb_1ja6P1wTwXOqmpjnphunTpqhqjbkVa7-kgQ', '1574150129', 51, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZDI0ZTcxMjFjYmEi.e0BpuyX22fiFVPK9xqOGwVBgiJo-R2kUaGTobEOqx8g'),
 (152, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkYjk3ODQyNTVlZmIi.3FaROodGKMn3Qi9xLXllpIq1LgB07htE6iK-bHEGDZ0', '1572522434', 52, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkYjk3ODQyNTVmNzMi.Vf4av_TPQe9QRvSWoRtQdxmQ0LuXdW4FxKZpcCCLfNw'),
 (153, '', '', 53, ''),
 (154, '', '', 46, ''),
@@ -1062,14 +1022,47 @@ INSERT INTO `tokens` (`id`, `token`, `time`, `user_id`, `refresh_token`) VALUES
 (170, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkYmJlNmI4YTUwMWUi.V7vewZxLPYjVL15EI02SurXKS3oFypvQ7FnICRXOQQo', '1572681784', 31, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkYmJlNmI4YTUwYTUi.NhbzSyDLmDxl6S429r9ESTXrd37lTsjfWmGNdFzuB0o'),
 (171, '', '', 31, ''),
 (172, '', '', 31, ''),
-(173, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkYzAwMmNiNTU3MzEi.W2J9z95FX9dGw5rDb_OddyBKj2ZG8hx9kBIl803TUkk', '1572951115', 31, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkYzAwMmNiNTU3YTki.q7x7Cna_218e0Gz55ON8hFRksJNETV-o9dvVMyFaLvk'),
-(174, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkYmM1NmI4ZGU1YTgi.In0EVPXZdHocVhA7TnKxCs1nafe6hQhsYxatsibMxpI', '1572710456', 31, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkYmM1NmI4ZGU2MWUi.OaDwVpMktWtQD_-aIYuKGlMYTKpTQIkojDFkwn-F67E'),
+(173, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkY2VhMTJkZTE4YmEi.2mJsK6NhVZL_7SGKdy2qYQ_7UCwguA3KmdhRSuRiWv8', '1573909165', 31, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkY2VhMTJkZTE5Mzci.KybADZsHKX56FmU8sscdK1EOxPjJNaJ8F3Fk0Q-YjAc'),
+(174, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZDRkZGQ0M2YyOGYi.G-MhGATGt2CJp9OR9G8qWyI_zv09UF_0V3v5t1XvnOQ', '1574317908', 31, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZDRkZGQ0M2YzMDMi.LjsEc32uuCHAxiYRewEHnzjJztkPqaBud-eNR8Gtxqo'),
 (175, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkYmM4ZDY0ZDM4Mzgi.tGTOsipLdVCPFjngKRqc5PJKAR6RjmYoRmLlkahWbuc', '1572724452', 30, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkYmM4ZDY0ZDM5NTIi.FOypiAvNn9UnarxDx5dOhlpqHlSPLfCAFJO545sEPTE'),
-(176, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkYmZjNWE3MjdiMzEi.npXl835gPM52nvD5yroJYkyHCuFuflnjgqMFI-pCIQo', '1572935463', 54, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkYmZjNWE3MjdiYjEi.HLSKnTejO0_XrRRNMjFC629q3O-kuOf5aKLeJOz6DnM'),
-(177, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkYzAxNjE0MGY5MmYi.hfm744ZSEiTwnRaqrjPV1TdWrJc1WHEWPQBZTV39b3U', '1572956052', 54, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkYzAxNjE0MGY5YTAi.0hGHRCtt3YfvP9Cc7bikuQDnzpu25nm3h3eDyl-7zzo'),
+(176, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZDNiMmU4MWQzYWUi.uyRql_ynXlz1KezTvGZnrPX6UM-iIhatAdSjT62XNJg', '1574241384', 54, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZDNiMmU4MWQ0Mjki._JwOhC2tFaJ5ItjE2pqoOGjEKfzx-0uyIjVEpQTFlt4'),
+(177, '', '', 54, ''),
 (178, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkYzAyNjJjNDgzOGUi.XKlP1o2biCy752UR-XyOczjKqBIGRPHt5qsKtDBxCGo', '1572960172', 30, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkYzAyNjJjNDg0MTYi.Piks7845wo4m6-5kMpS0qOXlkclo0_gUgdstpuqUodg'),
 (179, '', '', 55, ''),
-(180, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkYzEyNWE2NDg2MjMi.EQTGwnzir0AcVhTszYSzM16i3vFo-_V8rvjEgjWsokg', '1573025574', 31, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkYzEyNWE2NDg2OWUi.hXCjlL0ONHAsg389MlLRnLJtRicrmviyTU1k1qjMmg0');
+(180, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZDQzN2NmY2EzMmQi.X-SQAKydaiV8HZIWQSQoa3hgLQAKId47MRiFZmd7kUU', '1574275407', 31, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZDQzN2NmY2EzYTIi.9daUiGfJ6uvcMVuwEgbzPxLMaT87r6cStS6Dc9rSiLM'),
+(181, '', '', 54, ''),
+(182, '', '', 54, ''),
+(183, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkYzgzMzk0MTAzMjQi.5oKCYX1FODgY4NIPktUma2RRqQaElVwZP5gegk9GHeE', '1573487892', 54, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkYzgzMzk0MTA0NGEi.AFkFUV0g5ZwhVigI__XFJBqXEAV6Y4wLWfQVUPXytgU'),
+(184, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkYzcwYzI2YTYxNDgi.RTPPGLgXIKKysn2jIHFUN3urPk3rMS5mSS4WbA5k5KU', '1573412262', 57, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkYzcwYzI2YTYxY2Yi.jHhsovCj0LJljE0F5O4TjydeZh2e1nWh9Cql6A0nclg'),
+(185, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkY2E2MjY5ODkyYmEi.WtJg4alsF4wWZKC2cdes2GiSevhc_0USuE6bg0L3HlM', '1573630953', 30, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkY2E2MjY5ODkzM2Mi.BPto1wpLzy0PX-TE2Xpr6-ECnC9MDXg4KhQj36YxkHk'),
+(186, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkY2MxZTUwYzlhMTMi.EdzvHIj0YLqw6fqMVcPBihJH0TA_Kp8DFVSORBSvqws', '1573744592', 30, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkY2MxZTUwYzlhODci.tP1ka1uBKz5Yt6FM9hQ6TD5ltG2kCfP_FlEg0q00Uik'),
+(187, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkY2MxZTcwNjk3ZmEi.0aZIiQyAY6zwT2vpTvkmx9hLWL7L3pkMDBhSAWZghlM', '1573744624', 31, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkY2MxZTcwNjk4NzYi.SlH1n2ep_NWf5sBtIu_Ok_ybHQB_pVME9D79fi2RZW4'),
+(188, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkY2MxZmY0MzNlZmIi.hET90cy4OJ6tRZEP1Hfv_QiYua_SYWAEw2W5y4mzeDs', '1573745012', 31, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkY2MxZmY0MzNmNmIi.5AME2hJdiRcfmlE05-a21HgnP-PpeY2xNVOcrWjFsd4'),
+(189, '', '', 54, ''),
+(190, '', '', 54, ''),
+(191, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZDI2N2U3OTcwMTci.dkH9dsUf7JoeK6QiP9oEOBtaS_HAzSW6tau7ni9fvTM', '1574156647', 54, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZDI2N2U3OTcwOGMi.72-PZiNZ6LpvbOjnuQytOhS9e3kE4536QAiOCgfcXsw'),
+(192, '', '', 54, ''),
+(193, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZDNiMmZlNDhjZmYi.2h2kT_pTxz2SlMjiqob1TnWNJsbfwqZMd-cMfhxqlPg', '1574241406', 54, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZDNiMmZlNDhkOWQi.OHUYIrrVMUhcHhNdPDc4swYcMzs_HTRWQGR4-BiqLus'),
+(194, '', '', 54, ''),
+(195, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZDQ0NTg1MWIyNmMi.ryu6G5Xc0EEaZHt-nfIoZwnaSaJJG-cCYHcG2wW53SE', '1574278917', 54, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZDQ0NTg1MWIyZDIi.FhyN9kPSLOrxp-JHRgzjmeO85fUD8hPWyGW9GpJtEAA'),
+(196, '', '', 54, ''),
+(197, '', '', 56, ''),
+(198, '', '', 54, ''),
+(199, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZDRlNTBjMGRkZDUi.nYEazbm0AergPELUJy7_6dGZOVqlfsUjdpQOthvmclo', '1574319756', 54, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZDRlNTBjMGRlNDgi.ni3Xfei8QKGt4myAR1Pk-sqvgercvFlZ5inHNsDMx8w'),
+(200, '', '', 56, ''),
+(201, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZDRlYWU4OTZjZmMi.MzuaDipwr4dLQTNZGvAb7vGwLTaMtjBP2jwXnY_FBfU', '1574321256', 54, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZDRlYWU4OTZkOTki.qwf_f8pjlzE0P9WraLKU0pm8J3Ds3qGF6Z2_VXY4mTk');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `used_offers`
+--
+
+CREATE TABLE `used_offers` (
+  `id` int(11) NOT NULL,
+  `claimed_id` int(11) NOT NULL,
+  `time` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1098,28 +1091,29 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `first_name`, `last_name`, `date_of_birth`, `mobile_number`, `email`, `password`, `reference_code`, `image`, `coins`, `created_at`, `updated_at`) VALUES
-(30, 'super22', 'Super22', 'Admin22', 54545455422, '+656565651466622', 'kakaka@gmail.com12222', 'c9cc24ffa63b25bb52b9d5fa288c2921a5190acd2ad461e2ece7b7d74af0fa53c86b783a066fc1ad3694313345702e69f57d70a597f7fbbf78dfc957d3bcdea9', '', 'Logo_1572429410_107664980.jpg', 135, '2019-10-01 03:14:51', '2019-10-01 03:14:51'),
-(31, 'zara', 'zara', 'tunyan', 1540166400, '695', 'zara.tunyan@gmail.com', '62670d1e1eea06b6c975e12bc8a16131b278f6d7bcbe017b65f854c58476baba86c2082b259fd0c1310935b365dc40f609971b6810b065e528b0b60119e69f61', NULL, 'User_default.png', 267, '2019-10-01 18:08:45', '2019-10-01 18:08:45'),
-(33, 'adminSuper', 'Su', 'A', 1572852258, '+656565651466622s', 'kakaka@gmail.com12222s', 'c7ad44cbad762a5da0a452f9e854fdc1e0e7a52a38015f23f3eab1d80b931dd472634dfac71cd34ebc35d16ab7fb8a90c81f975113d6c7538dc69dd8de9077ec', '', 'User_default.png', 60, '2019-10-02 14:31:04', '2019-10-02 14:31:04'),
-(34, 'user', 'developer', 'develop', 1572852258, '876767', 'test@mail.ru', 'ee26b0dd4af7e749aa1a8ee3c10ae9923f618980772e473f8819a5d4940e0db27ac185f8a0e1d5f84f88bc887fd67b143732c304cc5fa9ad8e6f57f50028a8ff', '', 'User_default.png', 530, '2019-10-02 16:06:48', '2019-10-02 16:06:48'),
-(35, 'testuser', 'test', 'test', 1572852258, '846464', 'testuser@mail.ru', 'ee26b0dd4af7e749aa1a8ee3c10ae9923f618980772e473f8819a5d4940e0db27ac185f8a0e1d5f84f88bc887fd67b143732c304cc5fa9ad8e6f57f50028a8ff', '', 'User_default.png', 0, '2019-10-02 16:14:45', '2019-10-02 16:14:45'),
-(36, 'usertest', 'test', 'test', 1572852258, '9467646', 'testtest@mail.ru', 'ee26b0dd4af7e749aa1a8ee3c10ae9923f618980772e473f8819a5d4940e0db27ac185f8a0e1d5f84f88bc887fd67b143732c304cc5fa9ad8e6f57f50028a8ff', '', 'User_default.png', 0, '2019-10-02 16:38:14', '2019-10-02 16:38:14'),
-(37, 'MiledAoun15700188621825521286', 'Miled', 'Aoun', 1572852258, '', 'miled.ha21@gmail.com', '1570018862?1518581949', '', 'User_default.png', 0, '2019-10-02 17:21:02', '2019-10-02 17:21:02'),
-(38, 'miles', 'miled', 'sounds', 1540166400, '111111', 'aaa@aaa.aaaa', 'ba3253876aed6bc22d4a6ff53d8406c6ad864195ed144ab5c87621b6c233b548baeae6956df346ec8c17f5ea10f35ee3cbc514797ed7ddd3145464e2a0bab413', '', 'User_default.png', 0, '2019-10-02 17:22:21', '2019-10-02 17:22:21'),
-(39, 'ttt', 'ttt', 'ttt', 1572611978, '45345345', 'tttt@mail.ryu', '99f97d455d5d62b24f3a942a1abc3fa8863fc0ce2037f52f09bd785b22b800d4f2e7b2b614cb600ffc2a4fe24679845b24886d69bb776fcfa46e54d188889c6f', '', 'User_default.png', 0, '2019-10-04 15:08:08', '2019-10-04 15:08:08'),
-(40, 'ggg', 'gggg', 'gggg', 1572852258, '656565', 'tttt@mail.ru', 'ee26b0dd4af7e749aa1a8ee3c10ae9923f618980772e473f8819a5d4940e0db27ac185f8a0e1d5f84f88bc887fd67b143732c304cc5fa9ad8e6f57f50028a8ff', '', 'User_default.png', 14, '2019-10-04 15:36:00', '2019-10-04 15:36:00'),
-(41, 'cggg', 'cfff', 'cggg', 1572852258, '22888', 'yyy@mail.ru', 'ee26b0dd4af7e749aa1a8ee3c10ae9923f618980772e473f8819a5d4940e0db27ac185f8a0e1d5f84f88bc887fd67b143732c304cc5fa9ad8e6f57f50028a8ff', '', 'User_default.png', 4, '2019-10-04 15:52:13', '2019-10-04 15:52:13'),
-(46, 'dev', 'ddd', 'ddd', 1572852258, '7577557', 'test1111@mail.ru', 'ee26b0dd4af7e749aa1a8ee3c10ae9923f618980772e473f8819a5d4940e0db27ac185f8a0e1d5f84f88bc887fd67b143732c304cc5fa9ad8e6f57f50028a8ff', '', 'User_default.png', 0, '2019-10-30 11:13:59', '2019-10-30 11:13:59'),
-(47, 'devv', 'ddd', 'ddd', 1572852258, '444444', 'ttt@mail.ru', 'ee26b0dd4af7e749aa1a8ee3c10ae9923f618980772e473f8819a5d4940e0db27ac185f8a0e1d5f84f88bc887fd67b143732c304cc5fa9ad8e6f57f50028a8ff', '', 'User_default.png', 0, '2019-10-30 11:20:02', '2019-10-30 11:20:02'),
-(48, 'developer', 'ddd', 'ddd', 1573171200, '453453', 'rrr@mail.ru', 'ee26b0dd4af7e749aa1a8ee3c10ae9923f618980772e473f8819a5d4940e0db27ac185f8a0e1d5f84f88bc887fd67b143732c304cc5fa9ad8e6f57f50028a8ff', '', 'User_default.png', 0, '2019-10-30 11:21:25', '2019-10-30 11:21:25'),
+(30, 'super22', 'Super22', 'Admin22', 54545455422, '+656565651466622', 'kakaka@gmail.com12222', 'c9cc24ffa63b25bb52b9d5fa288c2921a5190acd2ad461e2ece7b7d74af0fa53c86b783a066fc1ad3694313345702e69f57d70a597f7fbbf78dfc957d3bcdea9', '', 'Logo_1573544631_1428740283.png', 135, '2019-10-01 03:14:51', '2019-10-01 03:14:51'),
+(31, 'zara', 'zara', 'tunyan', 1540166400, '695', 'zara.tunyan@gmail.com', '62670d1e1eea06b6c975e12bc8a16131b278f6d7bcbe017b65f854c58476baba86c2082b259fd0c1310935b365dc40f609971b6810b065e528b0b60119e69f61', NULL, 'Logo_1573999226_344756808.jpg', 289, '2019-10-01 18:08:45', '2019-10-01 18:08:45'),
+(33, 'adminSuper', 'Su', 'A', 1574233377, '+656565651466622s', 'kakaka@gmail.com12222s', 'c7ad44cbad762a5da0a452f9e854fdc1e0e7a52a38015f23f3eab1d80b931dd472634dfac71cd34ebc35d16ab7fb8a90c81f975113d6c7538dc69dd8de9077ec', '', 'User_default.png', 115, '2019-10-02 14:31:04', '2019-10-02 14:31:04'),
+(34, 'user', 'developer', 'develop', 1574233377, '876767', 'test@mail.ru', 'ee26b0dd4af7e749aa1a8ee3c10ae9923f618980772e473f8819a5d4940e0db27ac185f8a0e1d5f84f88bc887fd67b143732c304cc5fa9ad8e6f57f50028a8ff', '', 'User_default.png', 530, '2019-10-02 16:06:48', '2019-10-02 16:06:48'),
+(35, 'testuser', 'test', 'test', 1574233377, '846464', 'testuser@mail.ru', 'ee26b0dd4af7e749aa1a8ee3c10ae9923f618980772e473f8819a5d4940e0db27ac185f8a0e1d5f84f88bc887fd67b143732c304cc5fa9ad8e6f57f50028a8ff', '', 'User_default.png', 0, '2019-10-02 16:14:45', '2019-10-02 16:14:45'),
+(36, 'usertest', 'test', 'test', 1574233377, '9467646', 'testtest@mail.ru', 'ee26b0dd4af7e749aa1a8ee3c10ae9923f618980772e473f8819a5d4940e0db27ac185f8a0e1d5f84f88bc887fd67b143732c304cc5fa9ad8e6f57f50028a8ff', '', 'User_default.png', 0, '2019-10-02 16:38:14', '2019-10-02 16:38:14'),
+(37, 'MiledAoun15700188621825521286', 'Miled', 'Aoun', 1574233377, '', 'miled.ha21@gmail.com', '1570018862?1518581949', '', 'User_default.png', 0, '2019-10-02 17:21:02', '2019-10-02 17:21:02'),
+(38, 'miles', 'miled', 'sounds', 1574233377, '111111', 'aaa@aaa.aaaa', 'ba3253876aed6bc22d4a6ff53d8406c6ad864195ed144ab5c87621b6c233b548baeae6956df346ec8c17f5ea10f35ee3cbc514797ed7ddd3145464e2a0bab413', '', 'User_default.png', 0, '2019-10-02 17:22:21', '2019-10-02 17:22:21'),
+(39, 'ttt', 'ttt', 'ttt', 1574233377, '45345345', 'tttt@mail.ryu', '99f97d455d5d62b24f3a942a1abc3fa8863fc0ce2037f52f09bd785b22b800d4f2e7b2b614cb600ffc2a4fe24679845b24886d69bb776fcfa46e54d188889c6f', '', 'User_default.png', 0, '2019-10-04 15:08:08', '2019-10-04 15:08:08'),
+(40, 'ggg', 'gggg', 'gggg', 1574233377, '656565', 'tttt@mail.ru', 'ee26b0dd4af7e749aa1a8ee3c10ae9923f618980772e473f8819a5d4940e0db27ac185f8a0e1d5f84f88bc887fd67b143732c304cc5fa9ad8e6f57f50028a8ff', '', 'User_default.png', 14, '2019-10-04 15:36:00', '2019-10-04 15:36:00'),
+(41, 'cggg', 'cfff', 'cggg', 1574233377, '22888', 'yyy@mail.ru', 'ee26b0dd4af7e749aa1a8ee3c10ae9923f618980772e473f8819a5d4940e0db27ac185f8a0e1d5f84f88bc887fd67b143732c304cc5fa9ad8e6f57f50028a8ff', '', 'User_default.png', 4, '2019-10-04 15:52:13', '2019-10-04 15:52:13'),
+(46, 'dev', 'ddd', 'ddd', 1574233377, '7577557', 'test1111@mail.ru', 'ee26b0dd4af7e749aa1a8ee3c10ae9923f618980772e473f8819a5d4940e0db27ac185f8a0e1d5f84f88bc887fd67b143732c304cc5fa9ad8e6f57f50028a8ff', '', 'User_default.png', 0, '2019-10-30 11:13:59', '2019-10-30 11:13:59'),
+(47, 'devv', 'ddd', 'ddd', 1574233377, '444444', 'ttt@mail.ru', 'ee26b0dd4af7e749aa1a8ee3c10ae9923f618980772e473f8819a5d4940e0db27ac185f8a0e1d5f84f88bc887fd67b143732c304cc5fa9ad8e6f57f50028a8ff', '', 'User_default.png', 0, '2019-10-30 11:20:02', '2019-10-30 11:20:02'),
+(48, 'developer', 'ddd', 'ddd', 1574233377, '453453', 'rrr@mail.ru', 'ee26b0dd4af7e749aa1a8ee3c10ae9923f618980772e473f8819a5d4940e0db27ac185f8a0e1d5f84f88bc887fd67b143732c304cc5fa9ad8e6f57f50028a8ff', '', 'User_default.png', 0, '2019-10-30 11:21:25', '2019-10-30 11:21:25'),
 (49, 'adminSuperas', 'Super22as', 'Admin22asd', 54545455422, '+656565651466622sas', 'kakaka@gmail.com12222sas', 'c7ad44cbad762a5da0a452f9e854fdc1e0e7a52a38015f23f3eab1d80b931dd472634dfac71cd34ebc35d16ab7fb8a90c81f975113d6c7538dc69dd8de9077ec', '', 'User_default.png', 0, '2019-10-30 11:23:00', '2019-10-30 11:23:00'),
 (50, 'adminSuperasas', 'Super22asas', 'Admin22asd', 54545455422, '+656565651466622sasas', 'kakaka@gmail.com12222sasas', 'c7ad44cbad762a5da0a452f9e854fdc1e0e7a52a38015f23f3eab1d80b931dd472634dfac71cd34ebc35d16ab7fb8a90c81f975113d6c7538dc69dd8de9077ec', '', 'User_default.png', 0, '2019-10-30 11:24:10', '2019-10-30 11:24:10'),
 (51, 'test data', 'test', 'test', 1572852258, '745638745683', 'rrriiiii@mail.ru', 'ee26b0dd4af7e749aa1a8ee3c10ae9923f618980772e473f8819a5d4940e0db27ac185f8a0e1d5f84f88bc887fd67b143732c304cc5fa9ad8e6f57f50028a8ff', '', 'User_default.png', 8, '2019-10-30 11:30:19', '2019-10-30 11:30:19'),
 (52, 'miled', 'miled', 'aoun', 1572436003576, '111111999999', 'miled@miled.miled', 'ba3253876aed6bc22d4a6ff53d8406c6ad864195ed144ab5c87621b6c233b548baeae6956df346ec8c17f5ea10f35ee3cbc514797ed7ddd3145464e2a0bab413', NULL, 'User_default.png', 0, '2019-10-30 11:47:14', '2019-10-30 11:47:14'),
 (53, 'testt', 'ttttt', 'fffff', 1572292800, '2222', 'ffffff@mail.ru', 'ee26b0dd4af7e749aa1a8ee3c10ae9923f618980772e473f8819a5d4940e0db27ac185f8a0e1d5f84f88bc887fd67b143732c304cc5fa9ad8e6f57f50028a8ff', '', 'User_default.png', 0, '2019-10-30 12:09:52', '2019-10-30 12:09:52'),
-(54, 'test1', 'test', 'test', 1509307200, '21212124', 'testtt@mail.ru', '125d6d03b32c84d492747f79cf0bf6e179d287f341384eb5d6d3197525ad6be8e6df0116032935698f99a09e265073d1d6c32c274591bf1d0a20ad67cba921bc', '', 'Logo_1572507270_1610405728.jpeg', 1732, '2019-10-30 12:16:38', '2019-10-30 12:16:38'),
+(54, 'test1', 'test', 'test', 1509307200, '21212124', 'testtt@mail.ru', '125d6d03b32c84d492747f79cf0bf6e179d287f341384eb5d6d3197525ad6be8e6df0116032935698f99a09e265073d1d6c32c274591bf1d0a20ad67cba921bc', '', 'Logo_1574233402_631642950.jpeg', 18315, '2019-10-30 12:16:38', '2019-10-30 12:16:38'),
 (55, 'aaa', 'aaa', 'aaa', 1572450967305, '000', 'ckymarra@gmail.com', 'd6f644b19812e97b5d871658d6d3400ecd4787faeb9b8990c1e7608288664be77257104a58d033bcf1a0e0945ff06468ebe53e2dff36e248424c7273117dac09', NULL, 'User_default.png', 0, '2019-10-30 15:56:20', '2019-10-30 15:56:20'),
-(56, 'ԱրմենուհիՄկրտչյան1572507967871163647', 'Արմենուհի', 'Մկրտչյան', 0, '', 'mkrtchyanarmenuhi89@gmail.com', '1572507967?698057233', '', 'User_default.png', 0, '2019-10-31 07:46:07', '2019-10-31 07:46:07');
+(56, 'ԱրմենուհիՄկրտչյան1572507967871163647', 'Արմենուհի', 'Մկրտչյան', 0, '', 'mkrtchyanarmenuhi89@gmail.com', '1572507967?698057233', '', 'User_default.png', 0, '2019-10-31 07:46:07', '2019-10-31 07:46:07'),
+(57, 'VaskenBakkalian15733258621951140152', 'Vasken', 'Bakkalian', 0, '', 'engerochvasken@hotmail.com', '1573325862?1717654752', '', 'User_default.png', 0, '2019-11-09 18:57:42', '2019-11-09 18:57:42');
 
 -- --------------------------------------------------------
 
@@ -1173,7 +1167,9 @@ ALTER TABLE `badges`
 -- Indexes for table `claimed_offers`
 --
 ALTER TABLE `claimed_offers`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `coin_offer_id` (`coin_offer_id`);
 
 --
 -- Indexes for table `claim_your_business`
@@ -1308,6 +1304,13 @@ ALTER TABLE `tokens`
   ADD KEY `user_id` (`user_id`) USING BTREE;
 
 --
+-- Indexes for table `used_offers`
+--
+ALTER TABLE `used_offers`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `claimed_id` (`claimed_id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -1345,7 +1348,7 @@ ALTER TABLE `badges`
 -- AUTO_INCREMENT for table `claimed_offers`
 --
 ALTER TABLE `claimed_offers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `claim_your_business`
@@ -1357,7 +1360,7 @@ ALTER TABLE `claim_your_business`
 -- AUTO_INCREMENT for table `coin_offers`
 --
 ALTER TABLE `coin_offers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT for table `countries`
@@ -1369,7 +1372,7 @@ ALTER TABLE `countries`
 -- AUTO_INCREMENT for table `favorites`
 --
 ALTER TABLE `favorites`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `featured_offers`
@@ -1411,7 +1414,7 @@ ALTER TABLE `more_infos`
 -- AUTO_INCREMENT for table `rates`
 --
 ALTER TABLE `rates`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT for table `restaurants`
@@ -1435,7 +1438,7 @@ ALTER TABLE `restaurant_weeks`
 -- AUTO_INCREMENT for table `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `service`
@@ -1453,13 +1456,19 @@ ALTER TABLE `sliders`
 -- AUTO_INCREMENT for table `tokens`
 --
 ALTER TABLE `tokens`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=181;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=202;
+
+--
+-- AUTO_INCREMENT for table `used_offers`
+--
+ALTER TABLE `used_offers`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
 -- AUTO_INCREMENT for table `weeks`
@@ -1476,6 +1485,13 @@ ALTER TABLE `weeks`
 --
 ALTER TABLE `area`
   ADD CONSTRAINT `area_ibfk_1` FOREIGN KEY (`country_id`) REFERENCES `countries` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `claimed_offers`
+--
+ALTER TABLE `claimed_offers`
+  ADD CONSTRAINT `claimed_offers_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `claimed_offers_ibfk_2` FOREIGN KEY (`coin_offer_id`) REFERENCES `coin_offers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `coin_offers`
@@ -1558,6 +1574,12 @@ ALTER TABLE `reviews`
 --
 ALTER TABLE `tokens`
   ADD CONSTRAINT `tokens_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `used_offers`
+--
+ALTER TABLE `used_offers`
+  ADD CONSTRAINT `used_offers_ibfk_1` FOREIGN KEY (`claimed_id`) REFERENCES `claimed_offers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
