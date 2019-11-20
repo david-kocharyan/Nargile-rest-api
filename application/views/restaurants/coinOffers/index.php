@@ -18,7 +18,7 @@
 								<td>
 									<input type="text" name="price[]" placeholder="Enter price"
 										   class="form-control name_list m-b-5"/>
-									<input type="text" name="valid[]" placeholder="Enter date Y-m-d"
+									<input type="date" name="valid[]" placeholder="Enter date Y-m-d"
 										   class="form-control m-b-5"/>
 									<input type="text" name="desc[]" placeholder="Enter description"
 										   class="form-control m-b-5"/>
@@ -99,7 +99,7 @@
             i++;
             $('#dynamic_field').append(`<tr id="row${i}"><td>
 			<input type="text" name="price[]" placeholder="Enter narguile price" class="form-control m-b-5" />
-			<input type="text" name="valid[]" placeholder="Enter date Y-m-d" class="form-control m-b-5"/>
+			<input type="date" name="valid[]" placeholder="Enter date Y-m-d" class="form-control m-b-5"/>
 			<input type="text" name="desc[]" placeholder="Enter description" class="form-control m-b-5"/>
 			<td><button type="button" name="remove" id="${i}" class="btn btn-danger btn_remove">X</button></td></tr>`);
         });

@@ -111,7 +111,7 @@ class Community_Api extends REST_Controller
 
 	}
 
-	private function get_coin_offers()
+	private function get_coin_offers($res)
 	{
 		$this->db->select("concat('/plugins/images/Restaurants/', restaurants.logo) as logo,
          restaurants.id as id, restaurants.name as name, restaurants.address as address, restaurants.rate as rate,
@@ -120,6 +120,8 @@ class Community_Api extends REST_Controller
 		$this->db->join("restaurants", "restaurants.id = coin_offers.restaurant_id");
 		$this->join();
 		$this->where();
+		$this->db->where("DATE(FROM_UNIXTIME(coin_offers.valid_date)) >= CURDATE()");
+
 		$this->db->order_by("coin_offers.id DESC");
 		$data = $this->db->get_where("coin_offers", array("coin_offers.status" => 1))->result();
 		return $data != null ? $data : array();
@@ -386,7 +388,8 @@ class Community_Api extends REST_Controller
 
 		$data = array(
 			"user_id" => $res,
-			"coin_offer_id" => $offer_id
+			"coin_offer_id" => $offer_id,
+			"time" => strtotime("now"),
 		);
 
 		$balance = $user->coins - $price;

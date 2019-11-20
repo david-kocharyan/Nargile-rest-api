@@ -20,7 +20,7 @@
 
 				<div class="form-group">
 					<label for="inputInfo" class="control-label">Valid until</label>
-					<input type="text" class="form-control" id="inputInfo" name="date"
+					<input type="date" class="form-control" id="inputInfo" name="date"
 						   value="<?= date("Y-m-d", $coins->valid_date) ?>"
 						   required>
 					<?php if (!empty(form_error('date'))) { ?>
