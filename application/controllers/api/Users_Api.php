@@ -120,7 +120,6 @@ class Users_API extends REST_Controller
 				"mobile_number" => $mobile_number,
 				"email" => $email,
 				"password" => $password,
-				"reference_code" => $reference_code,
 				'image' => 'User_default.png',
 			);
 
@@ -128,10 +127,11 @@ class Users_API extends REST_Controller
 			$badges = $this->get_badges($auth_id);
 			$coins = "0";
 
-			if ($this->input->post("reference_code") != NULL OR $this->input->post("reference_code") != "") {
-				$promo_code = $this->input->post("reference_code");
-				$username_promo = $this->db->get_where("users", array("username" => $promo_code))->row();
-				if ($username_promo != NULL && $username_promo->username != $username) {
+			//"reference_code" => $reference_code,
+			if ($reference_code != NULL OR $reference_code != "") {
+				$username_promo = $this->db->get_where("users", array("username" => $reference_code))->row();
+
+				if ($username_promo != NULL && $username_promo->username != $username && $username_promo->is_used_reference == 0) {
 					$this->db->trans_start();
 
 					$this->db->set("coins", 10);
@@ -190,11 +190,79 @@ class Users_API extends REST_Controller
 		}
 	}
 
+//	reference code check
+	public function promo_code_post()
+	{
+		$res = $this->verify_get_request();
+		if (gettype($res) != 'string') {
+			$data = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => $res['msg']
+			);
+			$this->response($data, $res['status']);
+			return;
+		}
+
+		$promo_code = $this->input->post("promo_code");
+		if ($promo_code == NULL) {
+			$data = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => "Please provide reference code."
+			);
+			$this->response($data, self::HTTP_UNPROCESSABLE_ENTITY);
+			return;
+		}
+
+		$me = $this->db->get_where("users", array("id" => $res))->row();
+		$user = $this->db->get_where("users", array("username" => $promo_code))->row();
+		if ($user == NULL OR $user->is_used_reference == 1) {
+			$data = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => "Your reference code is incorrect or already used."
+			);
+			$this->response($data, self::HTTP_UNPROCESSABLE_ENTITY);
+			return;
+		}
+
+		$this->db->trans_start();
+		$this->db->set("coins", $me->coins + 10);
+		$this->db->where("id", $me->id);
+		$this->db->update("users");
+
+		$this->db->set("coins", $user->coins + 10);
+		$this->db->set("is_used_reference", 1);
+		$this->db->where("id", $user->id);
+		$this->db->update("users");
+
+		$this->db->trans_complete();
+
+		if ($this->db->trans_status() === FALSE) {
+			$data = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => "Something went wrong. Please try again."
+			);
+			$this->response($data, self::HTTP_UNPROCESSABLE_ENTITY);
+			return;
+		}
+		$data = array(
+			"success" => true,
+			"data" => array(),
+			"msg" => "Your 10 coins has been successfully transferred."
+		);
+		$this->response($data, self::HTTP_OK);
+
+	}
+
 	/**
 	 * Simple login method.
 	 * @return Response
 	 */
-	public function login_post()
+	public
+	function login_post()
 	{
 		$username = $this->input->post('username');
 		$password = $this->input->post('password');
@@ -272,7 +340,8 @@ class Users_API extends REST_Controller
 		}
 	}
 
-	public function refresh_token_post()
+	public
+	function refresh_token_post()
 	{
 
 		if (null == $this->input->post("refresh_token")) {
@@ -314,7 +383,8 @@ class Users_API extends REST_Controller
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //	logout
-	public function logout_get()
+	public
+	function logout_get()
 	{
 		$headers = $this->input->request_headers();
 		$token = "";
@@ -351,7 +421,8 @@ class Users_API extends REST_Controller
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //	get authorized user data
-	public function getUser_get()
+	public
+	function getUser_get()
 	{
 		//        the function would return current user's id, if the token would be approved
 		$res = $this->verify_get_request();
@@ -406,7 +477,8 @@ class Users_API extends REST_Controller
 		$this->response($response, REST_Controller::HTTP_OK);
 	}
 
-	private function get_badges($res)
+	private
+	function get_badges($res)
 	{
 		$this->db->select('COUNT("user_id") as count');
 		$review = $this->db->get_where("reviews", array("user_id" => $res))->row();
@@ -427,7 +499,8 @@ class Users_API extends REST_Controller
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// change User Image
 
-	public function change_image_post()
+	public
+	function change_image_post()
 	{
 		$res = $this->verify_get_request();
 		if (gettype($res) != 'string') {
@@ -495,7 +568,8 @@ class Users_API extends REST_Controller
 		$this->response($response, REST_Controller::HTTP_OK);
 	}
 
-	private function uploadImage($image)
+	private
+	function uploadImage($image)
 	{
 		if (!is_dir(FCPATH . "/plugins/images/Logo")) {
 			mkdir(FCPATH . "/plugins/images/Logo", 0755, true);
@@ -520,7 +594,8 @@ class Users_API extends REST_Controller
 		}
 	}
 
-	private function resizeImage($filename, $path)
+	private
+	function resizeImage($filename, $path)
 	{
 		$source_path = $path . "/" . $filename;
 		$target_path = $path . "/" . $filename;
@@ -546,7 +621,8 @@ class Users_API extends REST_Controller
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// change password
 
-	public function change_password_put()
+	public
+	function change_password_put()
 	{
 		$res = $this->verify_get_request();
 		if (gettype($res) != 'string') {
@@ -616,7 +692,8 @@ class Users_API extends REST_Controller
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // get and use claimed offers
-	public function coin_offers_get()
+	public
+	function coin_offers_get()
 	{
 		$res = $this->verify_get_request();
 		if (gettype($res) != 'string') {
@@ -644,7 +721,8 @@ class Users_API extends REST_Controller
 		$this->response($response, REST_Controller::HTTP_OK);
 	}
 
-	public function use_offer_post()
+	public
+	function use_offer_post()
 	{
 		$res = $this->verify_get_request();
 		if (gettype($res) != 'string') {
