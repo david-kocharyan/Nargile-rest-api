@@ -438,7 +438,7 @@ class Users_API extends REST_Controller
 			$user_id = $res;
 		}
 
-		$this->db->select('id, username, first_name, last_name, date_of_birth, mobile_number, email, coins, reference_code, image');
+		$this->db->select('id, username, first_name, last_name, date_of_birth, mobile_number, email, coins, uuid, image');
 		$user = $this->db->get_where("users", ['id' => $user_id])->row();
 
 		if (null == $user) {
@@ -537,7 +537,7 @@ class Users_API extends REST_Controller
 			return;
 		}
 
-		$this->db->select('id, username, first_name, last_name, date_of_birth, mobile_number, email, coins, reference_code, image');
+		$this->db->select('id, username, first_name, last_name, date_of_birth, mobile_number, email, coins, uuid, image');
 		$user = $this->db->get_where("users", array('id' => $res))->row();
 		$badges = $this->get_badges($res);
 
