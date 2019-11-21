@@ -14,7 +14,6 @@ class Users_API extends REST_Controller
 
 	/**
 	 * Simple register method.
-	 * @return Response
 	 */
 	public function register_post()
 	{
@@ -112,12 +111,14 @@ class Users_API extends REST_Controller
 			return;
 		} else {
 			$password = hash("sha512", $password);
+			$uuid = vsprintf('%s-%s', str_split(dechex(microtime(true) * 1000) . bin2hex(random_bytes(10)), 5));
 			$data = array(
 				"username" => $username,
 				"first_name" => $first_name,
 				"last_name" => $last_name,
 				"date_of_birth" => $date_of_birth,
 				"mobile_number" => $mobile_number,
+				"uuid" => $uuid,
 				"email" => $email,
 				"password" => $password,
 				'image' => 'User_default.png',
@@ -127,19 +128,19 @@ class Users_API extends REST_Controller
 			$badges = $this->get_badges($auth_id);
 			$coins = "0";
 
-			//"reference_code" => $reference_code,
 			if ($reference_code != NULL OR $reference_code != "") {
-				$username_promo = $this->db->get_where("users", array("username" => $reference_code))->row();
+				$promo = $this->db->get_where("users", array("uuid" => $reference_code))->row();
 
-				if ($username_promo != NULL && $username_promo->username != $username && $username_promo->is_used_reference == 0) {
+				if ($promo != NULL && $promo->is_used_reference == 0) {
 					$this->db->trans_start();
 
 					$this->db->set("coins", 10);
 					$this->db->where("id", $auth_id);
 					$this->db->update("users");
 
-					$this->db->set("coins", $username_promo->coins + 10);
-					$this->db->where("id", $username_promo->id);
+					$this->db->set("coins", $promo->coins + 10);
+					$this->db->set("is_used_reference", 1);
+					$this->db->where("id", $promo->id);
 					$this->db->update("users");
 
 					$this->db->trans_complete();
@@ -159,7 +160,7 @@ class Users_API extends REST_Controller
 					"date_of_birth" => $date_of_birth,
 					"mobile_number" => $mobile_number,
 					"email" => $email,
-					"reference_code" => $reference_code == null ? "" : $reference_code,
+					"uuid" => $uuid,
 					"coins" => $coins,
 					"image" => '/plugins/images/Logo/User_default.png',
 					'badges' => $badges,
@@ -228,6 +229,7 @@ class Users_API extends REST_Controller
 		}
 
 		$this->db->trans_start();
+
 		$this->db->set("coins", $me->coins + 10);
 		$this->db->where("id", $me->id);
 		$this->db->update("users");
@@ -261,8 +263,7 @@ class Users_API extends REST_Controller
 	 * Simple login method.
 	 * @return Response
 	 */
-	public
-	function login_post()
+	public function login_post()
 	{
 		$username = $this->input->post('username');
 		$password = $this->input->post('password');
@@ -317,7 +318,7 @@ class Users_API extends REST_Controller
 					"date_of_birth" => $auth->date_of_birth,
 					"mobile_number" => $auth->mobile_number,
 					"email" => $auth->email,
-					"reference_code" => $auth->reference_code == null ? "" : $auth->reference_code,
+					"uuid" => $auth->uuid,
 					"coins" => $auth->coins,
 					"image" => '/plugins/images/Logo/' . $auth->image,
 					'badges' => $badges,
@@ -340,10 +341,8 @@ class Users_API extends REST_Controller
 		}
 	}
 
-	public
-	function refresh_token_post()
+	public function refresh_token_post()
 	{
-
 		if (null == $this->input->post("refresh_token")) {
 			$status = self::HTTP_UNPROCESSABLE_ENTITY;
 			$response = array(
@@ -378,13 +377,11 @@ class Users_API extends REST_Controller
 			'msg' => ""
 		);
 		$this->response($data, REST_Controller::HTTP_OK);
-
 	}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //	logout
-	public
-	function logout_get()
+	public function logout_get()
 	{
 		$headers = $this->input->request_headers();
 		$token = "";
@@ -421,8 +418,7 @@ class Users_API extends REST_Controller
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //	get authorized user data
-	public
-	function getUser_get()
+	public function getUser_get()
 	{
 		//        the function would return current user's id, if the token would be approved
 		$res = $this->verify_get_request();
@@ -466,7 +462,7 @@ class Users_API extends REST_Controller
 					"date_of_birth" => $user->date_of_birth,
 					"mobile_number" => $user->mobile_number,
 					"email" => $user->email,
-					"reference_code" => $user->reference_code == null ? "" : $user->reference_code,
+					"uuid" => $user->uuid,
 					"coins" => $user->coins,
 					"image" => '/plugins/images/Logo/' . $user->image,
 					'badges' => $badges,
@@ -477,8 +473,7 @@ class Users_API extends REST_Controller
 		$this->response($response, REST_Controller::HTTP_OK);
 	}
 
-	private
-	function get_badges($res)
+	private	function get_badges($res)
 	{
 		$this->db->select('COUNT("user_id") as count');
 		$review = $this->db->get_where("reviews", array("user_id" => $res))->row();
@@ -499,8 +494,7 @@ class Users_API extends REST_Controller
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// change User Image
 
-	public
-	function change_image_post()
+	public function change_image_post()
 	{
 		$res = $this->verify_get_request();
 		if (gettype($res) != 'string') {
@@ -557,7 +551,7 @@ class Users_API extends REST_Controller
 					"date_of_birth" => $user->date_of_birth,
 					"mobile_number" => $user->mobile_number,
 					"email" => $user->email,
-					"reference_code" => $user->reference_code == null ? "" : $user->reference_code,
+					"uuid" => $user->uuid,
 					"coins" => $user->coins,
 					"image" => '/plugins/images/Logo/' . $user->image,
 					'badges' => $badges,
@@ -568,8 +562,7 @@ class Users_API extends REST_Controller
 		$this->response($response, REST_Controller::HTTP_OK);
 	}
 
-	private
-	function uploadImage($image)
+	private function uploadImage($image)
 	{
 		if (!is_dir(FCPATH . "/plugins/images/Logo")) {
 			mkdir(FCPATH . "/plugins/images/Logo", 0755, true);
@@ -594,8 +587,7 @@ class Users_API extends REST_Controller
 		}
 	}
 
-	private
-	function resizeImage($filename, $path)
+	private	function resizeImage($filename, $path)
 	{
 		$source_path = $path . "/" . $filename;
 		$target_path = $path . "/" . $filename;
@@ -621,8 +613,7 @@ class Users_API extends REST_Controller
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// change password
 
-	public
-	function change_password_put()
+	public	function change_password_put()
 	{
 		$res = $this->verify_get_request();
 		if (gettype($res) != 'string') {
@@ -692,8 +683,7 @@ class Users_API extends REST_Controller
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // get and use claimed offers
-	public
-	function coin_offers_get()
+	public	function coin_offers_get()
 	{
 		$res = $this->verify_get_request();
 		if (gettype($res) != 'string') {
@@ -721,8 +711,7 @@ class Users_API extends REST_Controller
 		$this->response($response, REST_Controller::HTTP_OK);
 	}
 
-	public
-	function use_offer_post()
+	public function use_offer_post()
 	{
 		$res = $this->verify_get_request();
 		if (gettype($res) != 'string') {
