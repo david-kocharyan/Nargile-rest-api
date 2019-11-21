@@ -128,8 +128,8 @@ class Users_API extends REST_Controller
 			$badges = $this->get_badges($auth_id);
 			$coins = "0";
 
-			if ($this->input->post("promo_code") != NULL OR $this->input->post("promo_code") != "") {
-				$promo_code = $this->input->post("promo_code");
+			if ($this->input->post("reference_code") != NULL OR $this->input->post("reference_code") != "") {
+				$promo_code = $this->input->post("reference_code");
 				$username_promo = $this->db->get_where("users", array("username" => $promo_code))->row();
 				if ($username_promo != NULL && $username_promo->username != $username) {
 					$this->db->trans_start();
