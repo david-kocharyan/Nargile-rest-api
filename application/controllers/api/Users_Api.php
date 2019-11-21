@@ -146,7 +146,7 @@ class Users_API extends REST_Controller
 
 					$this->db->trans_complete();
 					$coins = "10";
-				}else{
+				} else {
 					$check_reference = "false";
 				}
 
@@ -480,7 +480,34 @@ class Users_API extends REST_Controller
 		$this->response($response, REST_Controller::HTTP_OK);
 	}
 
-	private	function get_badges($res)
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//	get coins
+	public function get_coins_get()
+	{
+		$res = $this->verify_get_request();
+		if (gettype($res) != 'string') {
+			$data = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => $res['msg']
+			);
+			$this->response($data, $res['status']);
+			return;
+		}
+
+		$this->db->select("coins");
+		$data = $this->db->get_where("users", array("id" => $res))->row();
+
+		$response = array(
+			"success" => true,
+			"data" => $data != null ? $data : array(),
+			"msg" => '',
+		);
+		$this->response($response, self::HTTP_OK);
+	}
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	private function get_badges($res)
 	{
 		$this->db->select('COUNT("user_id") as count');
 		$review = $this->db->get_where("reviews", array("user_id" => $res))->row();
@@ -595,7 +622,7 @@ class Users_API extends REST_Controller
 		}
 	}
 
-	private	function resizeImage($filename, $path)
+	private function resizeImage($filename, $path)
 	{
 		$source_path = $path . "/" . $filename;
 		$target_path = $path . "/" . $filename;
@@ -621,7 +648,7 @@ class Users_API extends REST_Controller
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// change password
 
-	public	function change_password_put()
+	public function change_password_put()
 	{
 		$res = $this->verify_get_request();
 		if (gettype($res) != 'string') {
@@ -691,7 +718,7 @@ class Users_API extends REST_Controller
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // get and use claimed offers
-	public	function coin_offers_get()
+	public function coin_offers_get()
 	{
 		$res = $this->verify_get_request();
 		if (gettype($res) != 'string') {
