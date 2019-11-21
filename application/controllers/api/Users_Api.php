@@ -111,7 +111,7 @@ class Users_API extends REST_Controller
 			return;
 		} else {
 			$password = hash("sha512", $password);
-			$uuid = vsprintf('%s-%s', str_split(dechex(microtime(true) * 1000) . bin2hex(random_bytes(10)), 5));
+			$uuid = vsprintf('%s-%s', str_split(dechex(microtime(true) * 1000) . bin2hex(random_bytes(10)), 6));
 			$data = array(
 				"username" => $username,
 				"first_name" => $first_name,
@@ -127,6 +127,7 @@ class Users_API extends REST_Controller
 			$auth_id = $this->User->register($data);
 			$badges = $this->get_badges($auth_id);
 			$coins = "0";
+			$check_reference = "true";
 
 			if ($reference_code != NULL OR $reference_code != "") {
 				$promo = $this->db->get_where("users", array("uuid" => $reference_code))->row();
@@ -145,7 +146,10 @@ class Users_API extends REST_Controller
 
 					$this->db->trans_complete();
 					$coins = "10";
+				}else{
+					$check_reference = "false";
 				}
+
 			}
 
 			$token = $this->generateToken();
@@ -161,6 +165,7 @@ class Users_API extends REST_Controller
 					"mobile_number" => $mobile_number,
 					"email" => $email,
 					"uuid" => $uuid,
+					"check_reference" => $check_reference,
 					"coins" => $coins,
 					"image" => '/plugins/images/Logo/User_default.png',
 					'badges' => $badges,
@@ -319,6 +324,7 @@ class Users_API extends REST_Controller
 					"mobile_number" => $auth->mobile_number,
 					"email" => $auth->email,
 					"uuid" => $auth->uuid,
+					"check_reference" => "true",
 					"coins" => $auth->coins,
 					"image" => '/plugins/images/Logo/' . $auth->image,
 					'badges' => $badges,
@@ -463,6 +469,7 @@ class Users_API extends REST_Controller
 					"mobile_number" => $user->mobile_number,
 					"email" => $user->email,
 					"uuid" => $user->uuid,
+					"check_reference" => "true",
 					"coins" => $user->coins,
 					"image" => '/plugins/images/Logo/' . $user->image,
 					'badges' => $badges,
@@ -552,6 +559,7 @@ class Users_API extends REST_Controller
 					"mobile_number" => $user->mobile_number,
 					"email" => $user->email,
 					"uuid" => $user->uuid,
+					"check_reference" => "true",
 					"coins" => $user->coins,
 					"image" => '/plugins/images/Logo/' . $user->image,
 					'badges' => $badges,
