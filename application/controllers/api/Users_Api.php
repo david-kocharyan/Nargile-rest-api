@@ -115,20 +115,18 @@ class Users_API extends REST_Controller
 			$this->response($response, $status);
 			return;
 		} else {
-
-			$verif_code = rand(1000,9999);
-			$sid    = "AC6cffa9eadacc1e8eeffae00dbb3176d6";
-			$token  = "91ee41348baec6b730f01c9050ccec22";
-			$twilio = new Client($sid, $token);
-			$message = $twilio->messages
-				->create("+37499099248", // to
-					array(
-						"from" => "+19723629637",
-						"body" => "Nargile App verification code is: $verif_code"
-					)
-				);
-
-			print($message->sid);
+//			$verif_code = rand(1000,9999);
+//			$sid    = "AC6cffa9eadacc1e8eeffae00dbb3176d6";
+//			$token  = "91ee41348baec6b730f01c9050ccec22";
+//			$twilio = new Client($sid, $token);
+//			$message = $twilio->messages
+//				->create("+37499099248", // to
+//					array(
+//						"from" => "+19723629637",
+//						"body" => "Nargile App verification code is: $verif_code"
+//					)
+//				);
+//			print($message->sid);
 
 			$password = hash("sha512", $password);
 			$uuid = vsprintf('%s-%s', str_split(dechex(microtime(true) * 1000) . bin2hex(random_bytes(10)), 6));
