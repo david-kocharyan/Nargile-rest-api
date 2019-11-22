@@ -116,15 +116,19 @@ class Users_API extends REST_Controller
 			return;
 		} else {
 
-			$sid    = "AC209cf38ee3b13754783963f0fad1042d";
-			$token  = "3c76d78af1c7a0a3124f7841008d7f36";
+			$verif_code = rand(1000,9999);
+			$sid    = "AC6cffa9eadacc1e8eeffae00dbb3176d6";
+			$token  = "91ee41348baec6b730f01c9050ccec22";
 			$twilio = new Client($sid, $token);
-			$message = $twilio->messages->create("+37499990653", // to
+			$message = $twilio->messages
+				->create("+37499099248", // to
 					array(
-						"from" => "+15005550006", //from
-						"body" => "Your message " //body
+						"from" => "+19723629637",
+						"body" => "Nargile App verification code is: $verif_code"
 					)
 				);
+
+			print($message->sid);
 
 			$password = hash("sha512", $password);
 			$uuid = vsprintf('%s-%s', str_split(dechex(microtime(true) * 1000) . bin2hex(random_bytes(10)), 6));
@@ -238,7 +242,7 @@ class Users_API extends REST_Controller
 		}
 
 		$me = $this->db->get_where("users", array("id" => $res))->row();
-		$user = $this->db->get_where("users", array("username" => $promo_code))->row();
+		$user = $this->db->get_where("users", array("uuid" => $promo_code))->row();
 		if ($user == NULL OR $user->is_used_reference == 1) {
 			$data = array(
 				"success" => false,
