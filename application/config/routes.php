@@ -64,7 +64,7 @@ $route['api/users/change-password'] = 'api/Users_Api/change_password';
 $route['api/users/get-coin-offers'] = 'api/Users_Api/coin_offers';
 $route['api/users/use-offers'] = 'api/Users_Api/use_offer';
 $route['api/users/get-coins'] = 'api/Users_Api/get_coins';
-$route['api/users/promo-code'] = 'api/Users_Api/promo_code_post';
+$route['api/users/promo-code'] = 'api/Users_Api/promo_code';
 
 //facebook login Api
 $route['api/users/facebook/login'] = 'api/Facebook_Api/login';

@@ -2,6 +2,11 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 require(APPPATH . '/libraries/REST_Controller.php');
 
+// Required if your environment does not handle autoloading
+require FCPATH . '/vendor/autoload.php';
+
+// Use the REST API Client to make requests to the Twilio REST API
+use Twilio\Rest\Client;
 
 class Users_API extends REST_Controller
 {
@@ -110,6 +115,17 @@ class Users_API extends REST_Controller
 			$this->response($response, $status);
 			return;
 		} else {
+
+			$sid    = "AC209cf38ee3b13754783963f0fad1042d";
+			$token  = "3c76d78af1c7a0a3124f7841008d7f36";
+			$twilio = new Client($sid, $token);
+			$message = $twilio->messages->create("+37499990653", // to
+					array(
+						"from" => "+15005550006", //from
+						"body" => "Your message " //body
+					)
+				);
+
 			$password = hash("sha512", $password);
 			$uuid = vsprintf('%s-%s', str_split(dechex(microtime(true) * 1000) . bin2hex(random_bytes(10)), 6));
 			$data = array(
@@ -505,6 +521,7 @@ class Users_API extends REST_Controller
 		);
 		$this->response($response, self::HTTP_OK);
 	}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	private function get_badges($res)
