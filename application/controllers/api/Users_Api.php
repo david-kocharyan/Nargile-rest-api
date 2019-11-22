@@ -115,19 +115,8 @@ class Users_API extends REST_Controller
 			$this->response($response, $status);
 			return;
 		} else {
-//			$verif_code = rand(1000,9999);
-//			$sid    = "AC6cffa9eadacc1e8eeffae00dbb3176d6";
-//			$token  = "91ee41348baec6b730f01c9050ccec22";
-//			$twilio = new Client($sid, $token);
-//			$message = $twilio->messages
-//				->create("+37499099248", // to
-//					array(
-//						"from" => "+19723629637",
-//						"body" => "Nargile App verification code is: $verif_code"
-//					)
-//				);
-//			print($message->sid);
-
+			$verif_code = rand(1000, 9999);
+			$this->sms($verif_code, $mobile_number);
 			$password = hash("sha512", $password);
 			$uuid = vsprintf('%s-%s', str_split(dechex(microtime(true) * 1000) . bin2hex(random_bytes(10)), 6));
 			$data = array(
@@ -140,6 +129,7 @@ class Users_API extends REST_Controller
 				"email" => $email,
 				"password" => $password,
 				'image' => 'User_default.png',
+				"verify_code" => $verif_code
 			);
 
 			$auth_id = $this->User->register($data);
@@ -214,6 +204,160 @@ class Users_API extends REST_Controller
 		}
 	}
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	private function sms($code, $mobile)
+	{
+		$sid = "AC6cffa9eadacc1e8eeffae00dbb3176d6";
+		$token = "91ee41348baec6b730f01c9050ccec22";
+		$twilio = new Client($sid, $token);
+		$message = $twilio->messages
+			->create($mobile, // to
+				array(
+					"from" => "+19723629637", // from
+					"body" => "Nargile App verification code is: $code" //body
+				)
+			);
+	}
+
+	public function resend_post()
+	{
+		$mobile_number = $this->input->post("mobile_number");
+		if ($mobile_number == NULL) {
+			$data = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => "Please provide correct mobile number code."
+			);
+			$this->response($data, self::HTTP_UNPROCESSABLE_ENTITY);
+			return;
+		}
+
+		$user = $this->db->get_where("users", array("mobile_number" => $mobile_number))->row();
+		if ($user == NULL) {
+			$data = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => "Please provide correct mobile number code."
+			);
+			$this->response($data, self::HTTP_UNPROCESSABLE_ENTITY);
+			return;
+		}
+
+		$verif_code = rand(1000, 9999);
+		$this->db->set("verify_code", $verif_code);
+		$this->db->where("id", $user->id);
+		$this->db->update("users");
+
+		$this->sms($verif_code, $mobile_number);
+
+		$data = array(
+			"success" => false,
+			"data" => array(),
+			"msg" => "Verification code resend successfully."
+		);
+		$this->response($data, self::HTTP_OK);
+	}
+
+//	verification after registration
+	public function verification_post()
+	{
+		$code = $this->input->post("code");
+		$reference_code = $this->input->post("reference_code");
+		if ($code == NULL) {
+			$data = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => "Please provide verification code."
+			);
+			$this->response($data, self::HTTP_UNPROCESSABLE_ENTITY);
+			return;
+		}
+
+		$user_ver = $this->db->get_where("users", array("verify_code" => $code))->row();
+		if ($user_ver == NULL) {
+			$data = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => "Please provide verification code."
+			);
+			$this->response($data, self::HTTP_UNPROCESSABLE_ENTITY);
+			return;
+		}
+
+		$this->db->set("verify", 1);
+		$this->db->set("verify_code", 0);
+		$this->db->where("id", $user_ver->id);
+		$this->db->update("users");
+
+		$user = $this->db->get_where("users", array("id" => $user_ver->id))->row();
+		$badges = $this->get_badges($user->id);
+
+		$token = $this->generateToken();
+		$data['refresh_token'] = $this->generateToken();
+
+		$check_reference = "true";
+		if ($reference_code != NULL OR $reference_code != "") {
+			$promo = $this->db->get_where("users", array("uuid" => $reference_code))->row();
+
+			if ($promo != NULL && $promo->is_used_reference == 0) {
+				$this->db->trans_start();
+
+				$this->db->set("coins", 10);
+				$this->db->where("id", $user->id);
+				$this->db->update("users");
+
+				$this->db->set("coins", $promo->coins + 10);
+				$this->db->set("is_used_reference", 1);
+				$this->db->where("id", $promo->id);
+				$this->db->update("users");
+
+				$this->db->trans_complete();
+			} else {
+				$check_reference = "false";
+			}
+		}
+
+		$user_data = array(
+			"user" => array(
+				"id" => $user->id,
+				"first_name" => $user->first_name,
+				"last_name" => $user->last_name,
+				"date_of_birth" => $user->date_of_birth,
+				"mobile_number" => $user->mobile_number,
+				"email" => $user->email,
+				"uuid" => $user->uuid,
+				"check_reference" => $check_reference,
+				"coins" => $user->coins,
+				"image" => '/plugins/images/Logo/User_default.png',
+				'badges' => $badges,
+			),
+			"tokens" => array(
+				"token" => $token,
+				"refresh_token" => $data['refresh_token']
+			),
+		);
+
+		$data = array(
+			"token" => $token,
+			"time" => time() + 86400,
+			"user_id" => $user->id,
+			'refresh_token' => $data['refresh_token']
+		);
+		$this->db->insert('tokens', $data);
+		unset($data['user_id']);
+		unset($data['time']);
+
+		$response = array(
+			"msg" => '',
+			"data" => $user_data,
+			"success" => true
+		);
+		$this->response($response, self::HTTP_OK);
+	}
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //	reference code check
 	public function promo_code_post()
 	{
