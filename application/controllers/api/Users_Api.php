@@ -116,7 +116,18 @@ class Users_API extends REST_Controller
 			return;
 		} else {
 			$verif_code = rand(1000, 9999);
-			$this->sms($verif_code, $mobile_number);
+			$send_sms = $this->sms($verif_code, $mobile_number);
+
+			if ($send_sms == false){
+				$response = array(
+					"msg" => 'Please provide correct mobile number.',
+					"data" => array(),
+					"success" => true
+				);
+				$this->response($response, self::HTTP_UNPROCESSABLE_ENTITY);
+				return;
+			}
+
 			$uuid = vsprintf('%s-%s', str_split(dechex(microtime(true) * 1000) . bin2hex(random_bytes(10)), 6));
 
 			$password = hash("sha512", $password);
@@ -158,6 +169,7 @@ class Users_API extends REST_Controller
 						"body" => "Nargile App verification code is: $code" //body
 					)
 				);
+			return true;
 		} catch (Exception $e) {
 			$response = array(
 				"msg" => 'Please provide correct mobile number.',
@@ -165,7 +177,7 @@ class Users_API extends REST_Controller
 				"success" => true
 			);
 			$this->response($response, self::HTTP_UNPROCESSABLE_ENTITY);
-			return;
+			return false;
 		}
 	}
 
