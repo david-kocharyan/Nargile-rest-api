@@ -147,7 +147,6 @@ class Users_API extends REST_Controller
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	private function sms($code, $mobile)
 	{
-		try {
 			$sid = "AC6cffa9eadacc1e8eeffae00dbb3176d6";
 			$token = "91ee41348baec6b730f01c9050ccec22";
 			$twilio = new Client($sid, $token);
@@ -158,15 +157,17 @@ class Users_API extends REST_Controller
 						"body" => "Nargile App verification code is: $code" //body
 					)
 				);
-		} catch (Exception $e) {
-			$response = array(
-				"msg" => 'Please provide correct mobile number.',
-				"data" => array(),
-				"success" => true
-			);
-			$this->response($response, self::HTTP_UNPROCESSABLE_ENTITY);
-			return;
-		}
+//		try {
+//
+//		} catch (Exception $e) {
+//			$response = array(
+//				"msg" => 'Please provide correct mobile number.',
+//				"data" => array(),
+//				"success" => true
+//			);
+//			$this->response($response, self::HTTP_UNPROCESSABLE_ENTITY);
+//			return;
+//		}
 	}
 
 //	verification after registration
