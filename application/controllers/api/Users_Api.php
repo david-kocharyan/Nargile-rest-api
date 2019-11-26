@@ -136,7 +136,7 @@ class Users_API extends REST_Controller
 			$this->User->register($data);
 
 			$response = array(
-				"msg" => 'We sent verification code to your mobile number. lease Check',
+				"msg" => 'We sent verification code to your mobile number. please Check',
 				"data" => array(),
 				"success" => true
 			);
@@ -147,18 +147,18 @@ class Users_API extends REST_Controller
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	private function sms($code, $mobile)
 	{
-		$sid = "AC6cffa9eadacc1e8eeffae00dbb3176d6";
-		$token = "91ee41348baec6b730f01c9050ccec22";
-		$twilio = new Client($sid, $token);
 		try {
-		$message = $twilio->messages
-			->create($mobile, // to
-				array(
-					"from" => "+19723629637", // from
-					"body" => "Nargile App verification code is: $code" //body
-				)
-			);
-		} catch ( Exception $e ) {
+			$sid = "AC6cffa9eadacc1e8eeffae00dbb3176d6";
+			$token = "91ee41348baec6b730f01c9050ccec22";
+			$twilio = new Client($sid, $token);
+			$message = $twilio->messages
+				->create($mobile, // to
+					array(
+						"from" => "+19723629637", // from
+						"body" => "Nargile App verification code is: $code" //body
+					)
+				);
+		} catch (Exception $e) {
 			$response = array(
 				"msg" => 'Please provide correct mobile number.',
 				"data" => array(),
