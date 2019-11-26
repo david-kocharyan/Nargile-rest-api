@@ -117,8 +117,9 @@ class Users_API extends REST_Controller
 		} else {
 			$verif_code = rand(1000, 9999);
 			$this->sms($verif_code, $mobile_number);
-			$password = hash("sha512", $password);
 			$uuid = vsprintf('%s-%s', str_split(dechex(microtime(true) * 1000) . bin2hex(random_bytes(10)), 6));
+
+			$password = hash("sha512", $password);
 			$data = array(
 				"username" => $username,
 				"first_name" => $first_name,
@@ -132,75 +133,14 @@ class Users_API extends REST_Controller
 				"verify_code" => $verif_code
 			);
 
-			$auth_id = $this->User->register($data);
-			$badges = $this->get_badges($auth_id);
-			$coins = "0";
-			$check_reference = "true";
-
-			if ($reference_code != NULL OR $reference_code != "") {
-				$promo = $this->db->get_where("users", array("uuid" => $reference_code))->row();
-
-				if ($promo != NULL && $promo->is_used_reference == 0) {
-					$this->db->trans_start();
-
-					$this->db->set("coins", 10);
-					$this->db->where("id", $auth_id);
-					$this->db->update("users");
-
-					$this->db->set("coins", $promo->coins + 10);
-					$this->db->set("is_used_reference", 1);
-					$this->db->where("id", $promo->id);
-					$this->db->update("users");
-
-					$this->db->trans_complete();
-					$coins = "10";
-				} else {
-					$check_reference = "false";
-				}
-
-			}
-
-			$token = $this->generateToken();
-			$data['refresh_token'] = $this->generateToken();
-			$status = self::HTTP_OK;
-
-			$user_data = array(
-				"user" => array(
-					"id" => "$auth_id",
-					"first_name" => $first_name,
-					"last_name" => $last_name,
-					"date_of_birth" => $date_of_birth,
-					"mobile_number" => $mobile_number,
-					"email" => $email,
-					"uuid" => $uuid,
-					"check_reference" => $check_reference,
-					"coins" => $coins,
-					"image" => '/plugins/images/Logo/User_default.png',
-					'badges' => $badges,
-				),
-				"tokens" => array(
-					"token" => $token,
-					"refresh_token" => $data['refresh_token']
-				),
-			);
-
-			$data = array(
-				"token" => $token,
-				"time" => time() + 86400,
-				"user_id" => $auth_id,
-				'refresh_token' => $data['refresh_token']
-			);
-
-			$this->db->insert('tokens', $data);
-			unset($data['user_id']);
-			unset($data['time']);
+			$this->User->register($data);
 
 			$response = array(
-				"msg" => '',
-				"data" => $user_data,
+				"msg" => 'We sent verification code to your mobile number. lease Check',
+				"data" => array(),
 				"success" => true
 			);
-			$this->response($response, $status);
+			$this->response($response, self::HTTP_OK);
 		}
 	}
 
@@ -217,45 +157,6 @@ class Users_API extends REST_Controller
 					"body" => "Nargile App verification code is: $code" //body
 				)
 			);
-	}
-
-	public function resend_post()
-	{
-		$mobile_number = $this->input->post("mobile_number");
-		if ($mobile_number == NULL) {
-			$data = array(
-				"success" => false,
-				"data" => array(),
-				"msg" => "Please provide correct mobile number code."
-			);
-			$this->response($data, self::HTTP_UNPROCESSABLE_ENTITY);
-			return;
-		}
-
-		$user = $this->db->get_where("users", array("mobile_number" => $mobile_number))->row();
-		if ($user == NULL) {
-			$data = array(
-				"success" => false,
-				"data" => array(),
-				"msg" => "Please provide correct mobile number code."
-			);
-			$this->response($data, self::HTTP_UNPROCESSABLE_ENTITY);
-			return;
-		}
-
-		$verif_code = rand(1000, 9999);
-		$this->db->set("verify_code", $verif_code);
-		$this->db->where("id", $user->id);
-		$this->db->update("users");
-
-		$this->sms($verif_code, $mobile_number);
-
-		$data = array(
-			"success" => false,
-			"data" => array(),
-			"msg" => "Verification code resend successfully."
-		);
-		$this->response($data, self::HTTP_OK);
 	}
 
 //	verification after registration
@@ -355,6 +256,45 @@ class Users_API extends REST_Controller
 		$this->response($response, self::HTTP_OK);
 	}
 
+//resend verify code
+	public function resend_post()
+	{
+		$mobile_number = $this->input->post("mobile_number");
+		if ($mobile_number == NULL) {
+			$data = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => "Please provide correct mobile number code."
+			);
+			$this->response($data, self::HTTP_UNPROCESSABLE_ENTITY);
+			return;
+		}
+
+		$user = $this->db->get_where("users", array("mobile_number" => $mobile_number))->row();
+		if ($user == NULL) {
+			$data = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => "Please provide correct mobile number code."
+			);
+			$this->response($data, self::HTTP_UNPROCESSABLE_ENTITY);
+			return;
+		}
+
+		$verif_code = rand(1000, 9999);
+		$this->db->set("verify_code", $verif_code);
+		$this->db->where("id", $user->id);
+		$this->db->update("users");
+
+		$this->sms($verif_code, $mobile_number);
+
+		$data = array(
+			"success" => false,
+			"data" => array(),
+			"msg" => "Verification code resend successfully."
+		);
+		$this->response($data, self::HTTP_OK);
+	}
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
