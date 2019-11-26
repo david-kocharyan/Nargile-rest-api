@@ -122,7 +122,7 @@ class Users_API extends REST_Controller
 				$response = array(
 					"msg" => 'Please provide correct mobile number.',
 					"data" => array(),
-					"success" => true
+					"success" => false
 				);
 				$this->response($response, self::HTTP_UNPROCESSABLE_ENTITY);
 				return;
