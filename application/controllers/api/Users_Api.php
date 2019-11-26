@@ -165,6 +165,7 @@ class Users_API extends REST_Controller
 				"success" => true
 			);
 			$this->response($response, self::HTTP_UNPROCESSABLE_ENTITY);
+			return;
 		}
 	}
 
