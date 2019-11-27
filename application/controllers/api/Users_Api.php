@@ -300,7 +300,16 @@ class Users_API extends REST_Controller
 		$this->db->where("id", $user->id);
 		$this->db->update("users");
 
-		$this->sms($verif_code, $mobile_number);
+		$send_sms = $this->sms($verif_code, $mobile_number);
+		if ($send_sms == false){
+			$response = array(
+				"msg" => 'Please provide correct mobile number.',
+				"data" => array(),
+				"success" => false
+			);
+			$this->response($response, self::HTTP_UNPROCESSABLE_ENTITY);
+			return;
+		}
 
 		$data = array(
 			"success" => true,
