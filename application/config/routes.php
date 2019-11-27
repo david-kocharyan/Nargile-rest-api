@@ -102,6 +102,7 @@ $route['api/community'] = 'api/Community_Api';
 $route['api/community-friends'] = 'api/Community_Api/get_friends';
 $route['api/community/add-friend'] = 'api/Community_Api/add_friend';
 $route['api/community/claim-offers'] = 'api/Community_Api/claim';
+$route['api/community/get-all-users'] = 'api/Community_Api/get_all_users';
 
 //service
 $route['api/service'] = 'api/Service_Api';

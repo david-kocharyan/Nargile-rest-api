@@ -221,7 +221,7 @@ class Community_Api extends REST_Controller
 			return;
 		}
 
-//		check name
+		//check name
 		if ($this->input->get("name") != NULL OR $this->input->get("name") != "") {
 			$name_sql = "and (users.username LIKE '%" . $this->input->get("name") . "%' OR users.first_name LIKE '%" . $this->input->get("name") . "%' OR users.last_name LIKE '%" . $this->input->get("name") . "%')";
 		} else {
@@ -239,7 +239,7 @@ class Community_Api extends REST_Controller
 				ORDER BY friends_id LIMIT $limit OFFSET $offset");
 		$data = $this->db->query($sql)->result();
 
-//		get pages for friends
+//		get pages for all friends
 		$page_sql = ("SELECT COUNT(friends_id) as pages	FROM (SELECT friends.id as friends_id FROM friends JOIN users on users.id = friends.from_id where to_id = $res and status = 1 $name_sql
 						UNION (SELECT friends.id as friends_id FROM friends JOIN users on users.id = friends.to_id where from_id = $res and status = 1 $name_sql) ) as p");
 		$get_pages = $this->db->query($page_sql)->row();
@@ -260,6 +260,68 @@ class Community_Api extends REST_Controller
 		$this->response($response, REST_Controller::HTTP_OK);
 	}
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//	all users get
+	public function get_all_users_get()
+	{
+		$res = $this->verify_get_request();
+		if (gettype($res) != 'string') {
+			$data = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => $res['msg']
+			);
+			$this->response($data, $res['status']);
+			return;
+		}
+
+		//check name
+		if ($this->input->get("name") != NULL OR $this->input->get("name") != "") {
+			$name_sql = "and (users.username LIKE '%" . $this->input->get("name") . "%' OR users.first_name LIKE '%" . $this->input->get("name") . "%' OR users.last_name LIKE '%" . $this->input->get("name") . "%')";
+			$name_sql_2 = " ( users.username LIKE '%" . $this->input->get("name") . "%' OR users.first_name LIKE '%" . $this->input->get("name") . "%' OR users.last_name LIKE '%" . $this->input->get("name") . "%') and ";
+
+		} else {
+			$name_sql = "";
+			$name_sql_2 = "";
+		}
+
+		$limit = (null !== $this->input->get('limit') && is_numeric($this->input->get("limit"))) ? intval($this->input->get('limit')) : 10;
+		$offset = (null !== $this->input->get('offset') && is_numeric($this->input->get("offset"))) ? $this->input->get('offset') * $limit : 0;
+
+//		get all friends
+		$sql = ("SELECT users.id as user_id, users.username, users.first_name, users.last_name, concat('plugins/images/Logo/', users.image) as image, 1 as is_friend
+ 				FROM friends JOIN  users on users.id = friends.from_id where to_id = $res and status = 1  $name_sql
+ 				UNION
+				(SELECT users.id as user_id, users.username, users.first_name, users.last_name, concat('plugins/images/Logo/', users.image) as image, 1 as is_friend
+				FROM friends JOIN  users on users.id = friends.to_id where from_id = $res and status = 1  $name_sql ) 
+				UNION
+				SELECT users.id as user_id, users.username, users.first_name, users.last_name, concat('plugins/images/Logo/', users.image) as image, 0 as is_friend
+				from users where $name_sql_2 users.id not in
+				( SELECT users.id FROM friends JOIN  users on users.id = friends.from_id where to_id = $res and status = 1
+				UNION 
+				(SELECT users.id FROM friends JOIN  users on users.id = friends.to_id where from_id = $res and status = 1) )
+				ORDER BY user_id LIMIT $limit OFFSET $offset");
+		$data = $this->db->query($sql)->result();
+
+//		get pages for all friends
+		$page_sql = ("SELECT COUNT(users.id) as pages	FROM users WHERE verify = 1  $name_sql");
+		$get_pages = $this->db->query($page_sql)->row();
+		$pages = ($limit != 0 || null !== $limit) ? ceil($get_pages->pages / $limit) : 0;
+
+		$response = array(
+			"success" => true,
+			"data" => array(
+				"list" => isset($data) ? $data : array(),
+				"meta" => array(
+					"limit" => $limit,
+					"offset" => $offset,
+					"pages" => ($limit != 0 || null !== $limit) ? $pages : 0,
+				),
+			),
+			"msg" => ""
+		);
+		$this->response($response, REST_Controller::HTTP_OK);
+	}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //add friend
@@ -325,13 +387,13 @@ class Community_Api extends REST_Controller
 //		get the user whom is sent the request
 		$sent_to_user = $this->db->get_where("users", array("id" => $sent_to_id))->row();
 
-		if(null != $sent_to_user) {
+		if (null != $sent_to_user) {
 			$name = $sent_to_user->first_name . " " . $sent_to_user->last_name;
 
 //			get the user's fcm tokens whom is sent the request
 
 			$tokens = $this->get_fcm_tokens($sent_to_id);
-			Firebase::send($name." Has Sent You Friend Request", $tokens, self::FRIEND_REQUEST_EVENT );
+			Firebase::send($name . " Has Sent You Friend Request", $tokens, self::FRIEND_REQUEST_EVENT);
 		}
 
 	}
@@ -343,15 +405,15 @@ class Community_Api extends REST_Controller
 		$this->db->where("user_id", $user_id);
 		$data = $this->db->get("tokens")->result();
 		$result = array();
-		if(null != $data) {
+		if (null != $data) {
 			foreach ($data as $d) {
-				if($d->os == Firebase::IS_ANDROID) {
+				if ($d->os == Firebase::IS_ANDROID) {
 					$result[Firebase::ANDROID][] = $d->fcm_token;
 				} else {
 					$result[Firebase::IOS][] = $d->fcm_token;
 				}
 			}
-		} elseif(null == $data) {
+		} elseif (null == $data) {
 			return;
 		}
 	}
@@ -386,7 +448,7 @@ class Community_Api extends REST_Controller
 		$this->db->select('price');
 		$c_offer = $this->db->get_where("coin_offers", array("id" => $offer_id))->row();
 
-		if ($c_offer->count <= 0 ){
+		if ($c_offer->count <= 0) {
 			$response = array(
 				"success" => false,
 				"data" => array(),
