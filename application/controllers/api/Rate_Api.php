@@ -27,6 +27,8 @@ class Rate_Api extends REST_Controller
 			return;
 		}
 
+		$user = $this->db->get_where("users", array("id" => $res))->row();
+
 		$rate = array(
 			"user_id" => $res,
 			"restaurant_id" => $this->input->post("id"),
@@ -41,7 +43,15 @@ class Rate_Api extends REST_Controller
 		$review = $this->input->post("review");
 		$this->db->insert('rates', $rate);
 		if (NULL != $review){
+			$this->db->trans_start();
+
 			$this->db->insert('reviews', array("user_id" => $res, "restaurant_id" => $this->input->post("id"), "review" => $review));
+
+			$this->db->set('coins', $user->coins + 3);
+			$this->db->where('id', $user->id);
+			$this->db->update('users');
+
+			$this->db->trans_complete();
 		}
 
 //		calculate total rate
@@ -55,9 +65,17 @@ class Rate_Api extends REST_Controller
 		}
 		$total_rate = $total / $counter;
 
+		$this->db->trans_start();
+
 		$this->db->set('rate', $total_rate);
 		$this->db->where('id', $this->input->post("id"));
 		$this->db->update('restaurants');
+
+		$this->db->set('coins', $user->coins + 1);
+		$this->db->where('id', $user->id);
+		$this->db->update('users');
+
+		$this->db->trans_complete();
 
 //		response
 		$data = array(
