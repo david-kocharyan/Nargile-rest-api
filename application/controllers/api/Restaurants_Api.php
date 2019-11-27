@@ -141,6 +141,7 @@ class Restaurants_Api extends REST_Controller
         $this->limits();
         $this->join();
 		$this->db->where($filter);
+		$this->db->order_by("rate DESC");
 		$data = $this->db->get("restaurants")->result();
         return $data != null ? $data : array();
     }
@@ -263,7 +264,7 @@ class Restaurants_Api extends REST_Controller
 	{
 		$lat = deg2rad($latitudeInDegrees);
 		$lon = deg2rad($longitudeInDegrees);
-		$halfSide = 1000 * 5;
+		$halfSide = 1000 * 2;
 		# Radius of Earth at given latitude
 		$radius = $this->WGS84EarthRadius($lat);
 		# Radius of the parallel at given latitude
