@@ -303,7 +303,7 @@ class Users_API extends REST_Controller
 		$this->sms($verif_code, $mobile_number);
 
 		$data = array(
-			"success" => false,
+			"success" => true,
 			"data" => array(),
 			"msg" => "Verification code resend successfully."
 		);
