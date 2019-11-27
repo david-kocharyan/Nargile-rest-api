@@ -121,6 +121,7 @@ class Community_Api extends REST_Controller
 		$this->join();
 		$this->db->join("claimed_offers", "claimed_offers.coin_offer_id = coin_offers.id AND `claimed_offers`.`user_id` = $res", "left");
 		$this->where();
+		$this->db->where("coin_offers.count > 0");
 		$this->db->where("DATE(FROM_UNIXTIME(coin_offers.valid_date)) >= CURDATE()");
 		$this->db->where(" (claimed_offers.status != 1 OR claimed_offers.status is NULL )");
 		$data = $this->db->get_where("coin_offers", array("coin_offers.status" => 1))->result();
@@ -158,6 +159,7 @@ class Community_Api extends REST_Controller
 		$this->join();
 		$this->db->join("claimed_offers", "claimed_offers.coin_offer_id = coin_offers.id AND `claimed_offers`.`user_id` = $res", "left");
 		$this->where();
+		$this->db->where("coin_offers.count > 0");
 		$this->db->where("DATE(FROM_UNIXTIME(coin_offers.valid_date)) >= CURDATE()");
 		$this->db->where(" (claimed_offers.status != 1 OR claimed_offers.status is NULL )");
 		$data = $this->db->get_where('coin_offers', array("coin_offers.status" => 1))->row();
@@ -374,7 +376,19 @@ class Community_Api extends REST_Controller
 		$offer_id = $this->input->post("coin_id");
 
 		$this->db->select('price');
-		$price = $this->db->get_where("coin_offers", array("id" => $offer_id))->row()->price;
+		$c_offer = $this->db->get_where("coin_offers", array("id" => $offer_id))->row();
+
+		if ($c_offer->count <= 0 ){
+			$response = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => "Sorry, but the quantity of offers has ended."
+			);
+			$this->response($response, REST_Controller::HTTP_UNPROCESSABLE_ENTITY);
+			return;
+		}
+
+		$price = $c_offer->price;
 
 		$this->db->select('id, coins');
 		$user = $this->db->get_where("users", array("id" => $res))->row();
@@ -402,6 +416,10 @@ class Community_Api extends REST_Controller
 		$this->db->set("coins", $balance);
 		$this->db->where("id", $res);
 		$this->db->update("users");
+
+		$this->db->set("count", $c_offer->count - 1);
+		$this->db->where("id", $offer_id);
+		$this->db->update("coin_offers");
 
 		$this->db->insert("claimed_offers", $data);
 

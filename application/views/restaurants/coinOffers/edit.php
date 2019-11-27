@@ -43,6 +43,20 @@
 				</div>
 
 				<div class="form-group">
+					<label for="inputInfo" class="control-label">Count</label>
+					<input type="number" class="form-control" id="inputInfo" name="count"
+						   value="<?= $coins->count ?>"
+						   required>
+					<?php if (!empty(form_error('count'))) { ?>
+						<div class="help-block with-errors text-danger">
+							<?= form_error('count'); ?>
+						</div>
+					<?php } ?>
+				</div>
+
+
+
+				<div class="form-group">
 					<button type="submit" class="btn btn-primary">Submit</button>
 					<a href="<?= base_url("admin/restaurants/coin-offers/") ?><?= $coins->restaurant_id ?>">
 						<button type="button" class="btn btn-basic">Return</button>

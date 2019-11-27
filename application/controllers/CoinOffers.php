@@ -34,10 +34,11 @@ class CoinOffers extends CI_Controller
 		$price = $this->input->post('price');
 		$valid = $this->input->post('valid');
 		$desc = $this->input->post('desc');
+		$count = $this->input->post('count');
 
 		for ($i = 0; $i < count($price); $i++) {
-			if (trim($price[$i]) != '' && trim($valid[$i]) != '' && trim($desc[$i]) != '') {
-				$this->db->insert("coin_offers", array("price" => $price[$i], "valid_date" => strtotime($valid[$i]), "description" => $desc[$i], 'restaurant_id' => $id));
+			if (trim($price[$i]) != '' && trim($valid[$i]) != '' && trim($desc[$i]) != '' && trim($count[$i]) != '') {
+				$this->db->insert("coin_offers", array("price" => $price[$i], "valid_date" => strtotime($valid[$i]), "description" => $desc[$i], "count" => $count[$i], 'restaurant_id' => $id));
 			}
 		}
 		redirect("admin/restaurants/coin-offers/$id");
@@ -63,16 +64,18 @@ class CoinOffers extends CI_Controller
 		$price = $this->input->post('price');
 		$date = $this->input->post('date');
 		$desc = $this->input->post('desc');
+		$count = $this->input->post('count');
 
 		$this->form_validation->set_rules('price', 'Price', 'required');
 		$this->form_validation->set_rules('date', 'Date', 'required');
 		$this->form_validation->set_rules('desc', 'Description', 'required');
+		$this->form_validation->set_rules('count', 'Quantity ', 'required');
 
 		if ($this->form_validation->run() == FALSE) {
 			$this->edit($id);
 			return;
 		}
-		$this->CoinOffer->update($id, array("price" => $price, "valid_date" => strtotime($date), "description" => $desc));
+		$this->CoinOffer->update($id, array("price" => $price, "valid_date" => strtotime($date), "description" => $desc, "count" => $count));
 		$this->session->set_flashdata('success', 'You have change the offer successfully');
 		redirect("admin/restaurants/coin-offers/$res");
 	}
