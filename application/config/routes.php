@@ -67,6 +67,7 @@ $route['api/users/get-coins'] = 'api/Users_Api/get_coins';
 $route['api/users/promo-code'] = 'api/Users_Api/promo_code';
 $route['api/users/verification'] = 'api/Users_Api/verification';
 $route['api/users/resend'] = 'api/Users_Api/resend';
+$route['api/users/fcm-token'] = 'api/Users_Api/fcm_token';
 
 //facebook login Api
 $route['api/users/facebook/login'] = 'api/Facebook_Api/login';

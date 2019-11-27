@@ -523,6 +523,8 @@ class Users_API extends REST_Controller
 			$this->db->set('token', NULL);
 			$this->db->set('refresh_token', NULL);
 			$this->db->set('time', NULL);
+			$this->db->set('fcm_token', NULL);
+			$this->db->set('os', NULL);
 			$this->db->where('id', $res['id']);
 			$this->db->update('tokens');
 
@@ -905,6 +907,39 @@ class Users_API extends REST_Controller
 			"msg" => "Offers successfully used"
 		);
 		$this->response($response, REST_Controller::HTTP_OK);
+	}
+
+	public function fcm_token_post()
+	{
+		$res = $this->verify_get_request();
+		if (gettype($res) != 'string') {
+			$data = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => $res['msg']
+			);
+			$this->response($data, $res['status']);
+			return;
+		}
+		if(null == $this->input->post("fcm_token")) {
+			$data = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => "Provide FCM token !!!"
+			);
+			$this->response($data, REST_Controller::HTTP_UNPROCESSABLE_ENTITY);
+			return;
+		}
+		$headers = $this->input->request_headers();
+		$token = $headers['Authorize'];
+		$os = $headers['Os'];
+		$this->db->update('tokens', array("fcm_token" => $this->input->post("fcm_token"), "os" => $os), array("token" => $token));
+		$data = array(
+			"success" => true,
+			"data" => array(),
+			"msg" => "FCM token updated successfully"
+		);
+		$this->response($data, REST_Controller::HTTP_OK);
 	}
 
 }

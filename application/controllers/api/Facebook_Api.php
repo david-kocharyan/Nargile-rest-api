@@ -76,7 +76,7 @@ class Facebook_Api extends REST_Controller
 				"reference_code" => "",
 				'coins' => 0,
 				"image" => 'User_default.png',
-
+				""
 			);
 			$this->db->insert('users', $data);
 			$id = $this->db->insert_id();

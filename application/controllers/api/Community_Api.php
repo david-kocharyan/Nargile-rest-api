@@ -5,6 +5,8 @@ require FCPATH . "application/controllers/Firebase.php";
 
 class Community_Api extends REST_Controller
 {
+	const FRIEND_REQUEST_EVENT = "friend_request";
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -294,7 +296,7 @@ class Community_Api extends REST_Controller
 			$response = array(
 				"success" => false,
 				"data" => array(),
-				"msg" => "This user already your friends"
+				"msg" => "This user is already your friend"
 			);
 			$this->response($response, REST_Controller::HTTP_UNPROCESSABLE_ENTITY);
 			return;
@@ -307,45 +309,51 @@ class Community_Api extends REST_Controller
 		);
 
 		$this->db->insert('friends', $data);
-		$id = $this->db->insert_id();
 
-		$this->send_notif($id);
+		$this->send_notif($friend_id);
 
 		$response = array(
-			"success" => false,
+			"success" => true,
 			"data" => array(),
-			"msg" => "This user already your friends"
+			"msg" => "The Request Has Been Sent Successfully"
 		);
-		$this->response($response, REST_Controller::HTTP_UNPROCESSABLE_ENTITY);
+		$this->response($response, REST_Controller::HTTP_OK);
 	}
 
-	private function send_notif($id)
+	private function send_notif($sent_to_id)
 	{
-		$this->db->select("user_1.id as id_1, user_2.id as id_2, 
-		user_1.username as username_1, user_2.username as username_2");
-		$this->db->join('users as user_1', 'user_1.id = friends.from_id');
-		$this->db->join('users as user_2', 'user_2.id = friends.to_id');
-		$data = $this->db->get_where('friends', array("friends.id" => $id))->row();
+//		get the user whom is sent the request
+		$sent_to_user = $this->db->get_where("users", array("id" => $sent_to_id))->row();
 
-//		if($user_id->user_id != null) {
-//			$this->db->select("fcm_token, os");
-//			$this->db->join("users_api", "users_api.id = tokens.user_id AND users_api.notifications = 1");
-//			$this->db->where("tokens.fcm_token IS NOT NULL");
-//			$this->db->where("tokens.user_id", $user_id->user_id);
-//			$data = $this->db->get("tokens")->result();
-//			$result = array();
-//			if(null != $data) {
-//				foreach ($data as $d) {
-//					if($d->os == Firebase::IS_ANDROID) {
-//						$result[Firebase::IS_ANDROID][] = $d->fcm_token;
-//					} else {
-//						$result[Firebase::IS_IOS][] = $d->fcm_token;
-//					}
-//				}
-//				Firebase::send("New Receipt Registered !!!", $result, "invoice", $id);
-//			}
-//		}
-		Firebase::send("useri anun um uxarkum em", "friend_request", $id);
+		if(null != $sent_to_user) {
+			$name = $sent_to_user->first_name . " " . $sent_to_user->last_name;
+
+//			get the user's fcm tokens whom is sent the request
+
+			$tokens = $this->get_fcm_tokens($sent_to_id);
+			Firebase::send($name." Has Sent You Friend Request", $tokens, self::FRIEND_REQUEST_EVENT );
+		}
+
+	}
+
+	private function get_fcm_tokens($user_id)
+	{
+		$this->db->select("fcm_token, os");
+		$this->db->where("tokens.fcm_token IS NOT NULL");
+		$this->db->where("user_id", $user_id);
+		$data = $this->db->get("tokens")->result();
+		$result = array();
+		if(null != $data) {
+			foreach ($data as $d) {
+				if($d->os == Firebase::IS_ANDROID) {
+					$result[Firebase::ANDROID][] = $d->fcm_token;
+				} else {
+					$result[Firebase::IOS][] = $d->fcm_token;
+				}
+			}
+		} elseif(null == $data) {
+			return;
+		}
 	}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

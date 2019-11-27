@@ -9,12 +9,14 @@ use Kreait\Firebase\Messaging\Notification;
 class Firebase
 {
 
-	const IS_ANDROID = "android";
-	const IS_IOS = "ios";
+	const ANDROID = "android";
+	const IOS = "ios";
+	const IS_ANDROID = 1;
+	const IS_IOS = 0;
 
 //    send notification
 
-	public static function send($notif, $event = null, $id = null)
+	public static function send($notif, $ids, $event = null, $id = null)
 	{
 		$serviceAccount = ServiceAccount::fromJsonFile("./system/credentials/nargile-253210-firebase-adminsdk-9k5sd-7a61678992.json");
 		$firebase = (new Factory)
@@ -26,10 +28,11 @@ class Firebase
 			"title" => "notification",
 			"body" => $notif,
 			"click_action" => $event,
+			"id" => $id
 		);
 
 //  Notification for ios versions
-		if (isset($ids[self::IS_IOS]) && count($ids[self::IS_IOS]) > 1) {
+		if (isset($ids[self::IOS]) && count($ids[self::IOS]) > 1) {
 			$deviceTokens = $ids;
 			$message = CloudMessage::new()->withData($data)->withNotification(Notification::create($notif));
 			try {
@@ -38,8 +41,8 @@ class Firebase
 				var_dump($e);
 				die;
 			}
-		} elseif (isset($ids[self::IS_IOS]) && count($ids[self::IS_IOS]) == 1) {
-			$message = CloudMessage::withTarget('token', $ids[self::IS_IOS][0])
+		} elseif (isset($ids[self::IOS]) && count($ids[self::IOS]) == 1) {
+			$message = CloudMessage::withTarget('token', $ids[self::IOS][0])
 				->withData($data)->withNotification(Notification::create($notif));
 			try {
 				$messaging->send($message);
@@ -50,7 +53,7 @@ class Firebase
 		}
 
 //  Notification for android versions
-		if (isset($ids[self::IS_ANDROID]) && count($ids[self::IS_ANDROID]) > 1) {
+		if (isset($ids[self::ANDROID]) && count($ids[self::ANDROID]) > 1) {
 			$deviceTokens = $ids;
 			$message = CloudMessage::new()->withData($data);
 			try {
@@ -59,8 +62,8 @@ class Firebase
 				var_dump($e);
 				die;
 			}
-		} elseif (isset($ids[self::IS_ANDROID]) && count($ids[self::IS_ANDROID]) == 1) {
-			$message = CloudMessage::withTarget('token', $ids[self::IS_ANDROID][0])
+		} elseif (isset($ids[self::ANDROID]) && count($ids[self::ANDROID]) == 1) {
+			$message = CloudMessage::withTarget('token', $ids[self::ANDROID][0])
 				->withData($data);
 			try {
 				$messaging->send($message);
