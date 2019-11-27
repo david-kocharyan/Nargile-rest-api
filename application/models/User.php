@@ -48,7 +48,7 @@ class User extends CI_Model
 //	login
 	public function login($username, $password)
 	{
-		$getUser = $this->db->get_where($this->table, ["username" => $username])->row();
+		$getUser = $this->db->get_where($this->table, ["username" => $username, "verify" => 1])->row();
 		if (!$getUser) return false;
 
 		$password = hash("SHA512", $password);

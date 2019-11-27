@@ -117,7 +117,6 @@ class Users_API extends REST_Controller
 		} else {
 			$verif_code = rand(1000, 9999);
 			$send_sms = $this->sms($verif_code, $mobile_number);
-
 			if ($send_sms == false){
 				$response = array(
 					"msg" => 'Please provide correct mobile number.',
@@ -145,7 +144,6 @@ class Users_API extends REST_Controller
 			);
 
 			$this->User->register($data);
-
 			$response = array(
 				"msg" => 'We sent verification code to your mobile number. please Check',
 				"data" => array(),
@@ -171,12 +169,6 @@ class Users_API extends REST_Controller
 				);
 			return true;
 		} catch (Exception $e) {
-			$response = array(
-				"msg" => 'Please provide correct mobile number.',
-				"data" => array(),
-				"success" => true
-			);
-			$this->response($response, self::HTTP_UNPROCESSABLE_ENTITY);
 			return false;
 		}
 	}
