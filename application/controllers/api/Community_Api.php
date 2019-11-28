@@ -251,7 +251,7 @@ class Community_Api extends REST_Controller
 				"list" => isset($data) ? $data : array(),
 				"meta" => array(
 					"limit" => $limit,
-					"offset" => $offset,
+					"offset" => (null !== $this->input->get('offset') && is_numeric($this->input->get("offset"))) ? intval($this->input->get('offset')) : 0,
 					"pages" => ($limit != 0 || null !== $limit) ? $pages : 0,
 				),
 			),
@@ -286,7 +286,7 @@ class Community_Api extends REST_Controller
 		}
 
 		$limit = (null !== $this->input->get('limit') && is_numeric($this->input->get("limit"))) ? intval($this->input->get('limit')) : 10;
-		$offset = (null !== $this->input->get('offset') && is_numeric($this->input->get("offset"))) ? intval($this->input->get('offset')) : 0;
+		$offset = (null !== $this->input->get('offset') && is_numeric($this->input->get("offset"))) ? intval($this->input->get('offset')) * $limit: 0;
 
 //		get all friends
 		$sql = ("SELECT users.id as user_id, users.username, users.first_name, users.last_name, concat('plugins/images/Logo/', users.image) as image, 1 as is_friend
@@ -314,7 +314,7 @@ class Community_Api extends REST_Controller
 				"list" => isset($data) ? $data : array(),
 				"meta" => array(
 					"limit" => $limit,
-					"offset" => $offset,
+					"offset" => (null !== $this->input->get('offset') && is_numeric($this->input->get("offset"))) ? intval($this->input->get('offset')) : 0,
 					"pages" => ($limit != 0 || null !== $limit) ? $pages : 0,
 				),
 			),
