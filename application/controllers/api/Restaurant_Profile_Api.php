@@ -27,7 +27,7 @@ class Restaurant_Profile_Api extends REST_Controller
 			return;
 		}
 
-		if ($this->input->get("timezone") == NULL OR !is_numeric($this->input->get('id'))){
+		if ($this->input->get("timezone") == NULL OR !is_numeric($this->input->get('id'))) {
 			$data = array(
 				"success" => false,
 				"data" => array(),
@@ -187,17 +187,15 @@ class Restaurant_Profile_Api extends REST_Controller
 		$data = $this->db->get_where("restaurant_weeks", array("restaurant_id" => $this->input->get('id'), 'status' => 1))->result();
 		$dateTime = new DateTime('now', new DateTimeZone($timezone));
 		$day = $dateTime->format('N');
-		if ($data != null){
-			for ($i=2; $i <= $day ; $i++) {
+		if ($data != null) {
+			for ($i = 2; $i <= $day; $i++) {
 				array_push($data, array_shift($data));
 			}
 			return $data;
-		}
-		else{
+		} else {
 			return array();
 		}
 	}
-
 
 
 // restaurant reviews request
@@ -228,12 +226,24 @@ class Restaurant_Profile_Api extends REST_Controller
 		$offset = (null !== $this->input->get('offset') && is_numeric($this->input->get("offset"))) ? $this->input->get('offset') * $limit : 0;
 		$pages = ($limit != 0 || null !== $limit) ? ceil($this->reviews_page($res)->pages / $limit) : 0;
 
-		$this->db->select("reviews.review, users.id as user_id, concat('/plugins/images/Logo/', users.image) as user_image");
+		$this->db->select("users.id as user_id, concat('/plugins/images/Logo/', users.image) as user_image");
 		$this->db->join("users", 'users.id = reviews.user_id');
 		$this->reviews_were($res);
 		$this->db->limit($limit, $offset);
 		$this->db->order_by("reviews.id DESC");
+		if ($this->input->get('type') == "all") $this->db->group_by("reviews.user_id");
 		$data = $this->db->get("reviews")->result();
+
+		$arr = array();
+		foreach ($data as $key => $val){
+			$this->db->select("count(user_id) as count, reviews.review as r");
+			$this->db->order_by("reviews.id DESC");
+			$p = $this->db->get_where("reviews", array("user_id" => $val->user_id))->row();
+			$arr["text"] = $p->r;
+			$arr["count"] = $p->count;
+			$val->review = $arr;
+			unset($arr);
+		}
 
 		$response = array(
 			"success" => true,
@@ -259,10 +269,19 @@ class Restaurant_Profile_Api extends REST_Controller
 
 	private function reviews_page($res)
 	{
-		$this->db->select("count(id) as pages");
-		$this->reviews_were($res);
-		$data = $this->db->get("reviews")->row();
-		return $data != null ? $data : 0;
+		if ($this->input->get('type') == "all") {
+
+			$this->db->select(" count(page) as pages from ( SELECT count(id) as page");
+			$this->reviews_were($res);
+			$this->db->group_by("reviews.user_id ) as p");
+			$data = $this->db->get("reviews")->row();
+			return $data != null ? $data : 0;
+		} else {
+			$this->db->select("count(id) as pages");
+			$this->reviews_were($res);
+			$data = $this->db->get("reviews")->row();
+			return $data != null ? $data : 0;
+		}
 	}
 
 
