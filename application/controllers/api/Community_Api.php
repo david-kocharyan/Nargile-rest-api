@@ -445,7 +445,7 @@ class Community_Api extends REST_Controller
 
 		$offer_id = $this->input->post("coin_id");
 
-		$this->db->select('price');
+		$this->db->select('price, count');
 		$c_offer = $this->db->get_where("coin_offers", array("id" => $offer_id))->row();
 
 		if ($c_offer->count <= 0) {
@@ -494,6 +494,8 @@ class Community_Api extends REST_Controller
 		$this->db->insert("claimed_offers", $data);
 
 		$this->db->trans_complete();
+
+
 
 		$response = array(
 			"success" => true,
