@@ -296,7 +296,7 @@ class Community_Api extends REST_Controller
 				FROM friends JOIN  users on users.id = friends.to_id where from_id = $res and status = 1 and users.verify = 1  $name_sql ) 
 				UNION
 				SELECT users.id as user_id, users.username, users.first_name, users.last_name, concat('plugins/images/Logo/', users.image) as image, 0 as is_friend
-				from users where $name_sql_2 users.verify = 1 and users.id not in
+				from users where $name_sql_2 users.verify = 1 and users.id != $res and users.id not in
 				( SELECT users.id FROM friends JOIN  users on users.id = friends.from_id where to_id = $res and status = 1
 				UNION 
 				(SELECT users.id FROM friends JOIN  users on users.id = friends.to_id where from_id = $res and status = 1) )
@@ -304,7 +304,7 @@ class Community_Api extends REST_Controller
 		$data = $this->db->query($sql)->result();
 
 //		get pages for all friends
-		$page_sql = ("SELECT COUNT(users.id) as pages FROM users WHERE verify = 1  $name_sql");
+		$page_sql = ("SELECT COUNT(users.id) as pages FROM users WHERE verify = 1 and users.id != $res $name_sql");
 		$get_pages = $this->db->query($page_sql)->row();
 		$pages = ($limit != 0 || null !== $limit) ? ceil($get_pages->pages / $limit) : 0;
 
