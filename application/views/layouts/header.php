@@ -152,6 +152,13 @@
 								class="mdi mdi-apps fa-fw"></i> <span class="hide-menu">Restaurants</span></a>
 					</li>
 
+					<li><a href="<?= base_url('admin/loyalty') ?>" class="waves-effect"><i
+								class="mdi mdi-credit-card-plus fa-fw"></i> <span class="hide-menu">Loyalty Cards</span></a>
+					</li>
+
+					<li><a href="<?= base_url('admin/attach-card') ?>" class="waves-effect"><i
+								class="mdi mdi-wallet-giftcard fa-fw"></i> <span class="hide-menu">Loyalty card attach to user</span></a>
+					</li>
 				<?php } ?>
 			</ul>
 		</div>

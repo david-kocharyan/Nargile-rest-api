@@ -14,7 +14,8 @@
 		"php": ">=5.3.7",
 		"facebook/graph-sdk": "^5.7",
 		"kreait/firebase-php": "4.35",
-		"twilio/sdk": "^5.39"
+		"twilio/sdk": "^5.39",
+		"pendalff/phpqrcode": "^1.0"
 	},
 	"suggest": {
 		"paragonie/random_compat": "Provides better randomness in PHP 5.x"

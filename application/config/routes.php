@@ -221,3 +221,18 @@ $route["admin/badges/change-status/(:any)"] = 'Badges/change_status/$1';
 $route['admin/service'] = 'Service';
 $route["admin/service/edit/(:any)"] = 'Service/edit/$1';
 $route["admin/service/update/(:any)"] = 'Service/update/$1';
+
+//Loyalty
+$route['admin/loyalty'] = 'Loyalty_cards';
+$route['admin/loyalty/create'] = 'Loyalty_cards/create';
+$route['admin/loyalty/store'] = 'Loyalty_cards/store';
+$route["admin/loyalty/edit/(:any)"] = 'Loyalty_cards/edit/$1';
+$route["admin/loyalty/update/(:any)"] = 'Loyalty_cards/update/$1';
+$route["admin/loyalty/change-status/(:any)"] = 'Loyalty_cards/change_status/$1';
+
+//Attach to user (loyalty card)
+$route['admin/attach-card'] = 'Attach_cards';
+$route['admin/attach-card/store'] = 'Attach_cards/store';
+$route["admin/attach-card/edit/(:any)"] = 'Attach_cards/edit/$1';
+$route["admin/attach-card/update/(:any)"] = 'Attach_cards/update/$1';
+$route['admin/attach-card/change-status/(:any)'] = 'Attach_cards/change_status/$1';

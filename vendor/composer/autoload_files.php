@@ -16,4 +16,5 @@ return array(
     '6124b4c8570aa390c21fafd04a26c69f' => $vendorDir . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
     'c65d09b6820da036953a371c8c73a9b1' => $vendorDir . '/facebook/graph-sdk/src/Facebook/polyfills.php',
     'f7c6080b46f9fe41a46a657439674576' => $vendorDir . '/kreait/firebase-php/src/Firebase.php',
+    '12ffdfe2445fe0636f2687b75cd6c27f' => $vendorDir . '/pendalff/phpqrcode/qrlib.php',
 );
