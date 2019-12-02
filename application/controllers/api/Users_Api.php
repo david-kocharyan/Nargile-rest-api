@@ -117,7 +117,7 @@ class Users_API extends REST_Controller
 		} else {
 			$verif_code = rand(1000, 9999);
 			$send_sms = $this->sms($verif_code, $mobile_number);
-			if ($send_sms == false){
+			if ($send_sms == false) {
 				$response = array(
 					"msg" => 'Please provide correct mobile number.',
 					"data" => array(),
@@ -301,7 +301,7 @@ class Users_API extends REST_Controller
 		$this->db->update("users");
 
 		$send_sms = $this->sms($verif_code, $mobile_number);
-		if ($send_sms == false){
+		if ($send_sms == false) {
 			$response = array(
 				"msg" => 'Please provide correct mobile number.',
 				"data" => array(),
@@ -930,7 +930,7 @@ class Users_API extends REST_Controller
 			$this->response($data, $res['status']);
 			return;
 		}
-		if(null == $this->input->post("fcm_token")) {
+		if (null == $this->input->post("fcm_token")) {
 			$data = array(
 				"success" => false,
 				"data" => array(),
@@ -947,6 +947,35 @@ class Users_API extends REST_Controller
 			"success" => true,
 			"data" => array(),
 			"msg" => "FCM token updated successfully"
+		);
+		$this->response($data, REST_Controller::HTTP_OK);
+	}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// loyalty card
+
+	public function loyalty_get()
+	{
+		$res = $this->verify_get_request();
+		if (gettype($res) != 'string') {
+			$data = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => $res['msg']
+			);
+			$this->response($data, $res['status']);
+			return;
+		}
+
+		$this->db->select("user_loyalty_card.id as id, loyalty_card.desc as description, loyalty_card.valid_date as date, concat('plugins/images/QR/' ,qr) as qr");
+		$this->db->join('loyalty_card', 'user_loyalty_card.card_id = loyalty_card.id');
+		$this->db->where("DATE_FORMAT(FROM_UNIXTIME(loyalty_card.valid_date), '%Y-%m-%d') > DATE_FORMAT(curdate(), '%Y-%m-%d')");
+		$data = $this->db->get_where('user_loyalty_card', array("user_loyalty_card.status" => 1))->result();
+
+		$data = array(
+			"success" => true,
+			"data" => $data != null ? $data : array(),
+			"msg" => ""
 		);
 		$this->response($data, REST_Controller::HTTP_OK);
 	}

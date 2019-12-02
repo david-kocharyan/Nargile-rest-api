@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1452848590b2fcd0c4f4090432947fac",
+    "content-hash": "6298a4fa74d58a95f4aecabea5d79b72",
     "packages": [
         {
             "name": "facebook/graph-sdk",
@@ -1181,41 +1181,6 @@
                 "jsonpath"
             ],
             "time": "2016-12-03T22:08:25+00:00"
-        },
-        {
-            "name": "pendalff/phpqrcode",
-            "version": "1.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/pendalff/phpqrcode.git",
-                "reference": "09832825f4419fae034cc287e47009e518d4b9df"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/pendalff/phpqrcode/zipball/09832825f4419fae034cc287e47009e518d4b9df",
-                "reference": "09832825f4419fae034cc287e47009e518d4b9df",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3"
-            },
-            "type": "library",
-            "autoload": {
-                "files": [
-                    "qrlib.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "LGPL"
-            ],
-            "description": "A PHP class to generate QR Code. Fork of t0k4rt/phpqrcode with composer support ",
-            "homepage": "http://github.com/pendalff/phpqrcode",
-            "keywords": [
-                "php",
-                "qrcode"
-            ],
-            "time": "2016-08-23T03:55:41+00:00"
         },
         {
             "name": "psr/cache",
