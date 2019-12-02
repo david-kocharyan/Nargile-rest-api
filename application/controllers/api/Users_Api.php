@@ -860,7 +860,7 @@ class Users_API extends REST_Controller
 		}
 
 		$this->db->select("concat('You have claimed 1 free nargile at ', restaurants.name) as description, claimed_offers.coin_offer_id as offer_id,
-		concat('Valid until` ', DATE_FORMAT(FROM_UNIXTIME(`coin_offers`.`valid_date`), '%d.%m.%Y')) as date");
+		coin_offers.valid_date as date");
 		$this->db->join("coin_offers", "coin_offers.id = claimed_offers.coin_offer_id");
 		$this->db->join("restaurants", "restaurants.id = coin_offers.restaurant_id");
 		$this->db->where("DATE(FROM_UNIXTIME(coin_offers.valid_date)) >= CURDATE()");
