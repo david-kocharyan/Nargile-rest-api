@@ -370,7 +370,7 @@ class Community_Api extends REST_Controller
 			"status" => 1,
 		);
 
-//		$this->db->insert('friends', $data);
+		$this->db->insert('friends', $data);
 
 		try {
 			$this->send_notif($friend_id);
@@ -395,11 +395,8 @@ class Community_Api extends REST_Controller
 		if (null != $sent_to_user) {
 			$name = $sent_to_user->first_name . " " . $sent_to_user->last_name;
 
-
 //			get the user's fcm tokens whom is sent the request
-
 			$tokens = $this->get_fcm_tokens($sent_to_id);
-			var_dump($tokens);die;
 			Firebase::send($name . " Has Sent You Friend Request", $tokens, self::FRIEND_REQUEST_EVENT);
 		}
 
@@ -420,6 +417,7 @@ class Community_Api extends REST_Controller
 					$result[Firebase::IOS][] = $d->fcm_token;
 				}
 			}
+			return $result;
 		} elseif (null == $data) {
 			return;
 		}
