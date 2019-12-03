@@ -378,7 +378,6 @@ class Community_Api extends REST_Controller
 			var_dump($e);die;
 		}
 
-
 		$response = array(
 			"success" => true,
 			"data" => array(),
@@ -411,9 +410,9 @@ class Community_Api extends REST_Controller
 		$result = array();
 		if (null != $data) {
 			foreach ($data as $d) {
-				if ($d->os == Firebase::IS_ANDROID) {
+				if ($d->os == Firebase::IS_ANDROID && !empty($d->fcm_token)) {
 					$result[Firebase::ANDROID][] = $d->fcm_token;
-				} else {
+				} elseif($d->os == Firebase::IS_IOS && !empty($d->fcm_token)) {
 					$result[Firebase::IOS][] = $d->fcm_token;
 				}
 			}

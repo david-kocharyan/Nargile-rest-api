@@ -33,7 +33,7 @@ class Firebase
 
 //  Notification for ios versions
 		if (isset($ids[self::IOS]) && count($ids[self::IOS]) > 1) {
-			$deviceTokens = $ids;
+			$deviceTokens = $ids[self::IOS];
 			$message = CloudMessage::new()->withData($data)->withNotification(Notification::create($notif));
 			try {
 				$messaging->sendMulticast($message, $deviceTokens);
@@ -54,7 +54,7 @@ class Firebase
 
 //  Notification for android versions
 		if (isset($ids[self::ANDROID]) && count($ids[self::ANDROID]) > 1) {
-			$deviceTokens = $ids;
+			$deviceTokens = $ids[self::ANDROID];
 			$message = CloudMessage::new()->withData($data);
 			try {
 				$messaging->sendMulticast($message, $deviceTokens);
