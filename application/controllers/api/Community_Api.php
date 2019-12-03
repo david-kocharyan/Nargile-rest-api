@@ -286,7 +286,7 @@ class Community_Api extends REST_Controller
 		}
 
 		$limit = (null !== $this->input->get('limit') && is_numeric($this->input->get("limit"))) ? intval($this->input->get('limit')) : 10;
-		$offset = (null !== $this->input->get('offset') && is_numeric($this->input->get("offset"))) ? intval($this->input->get('offset')) * $limit: 0;
+		$offset = (null !== $this->input->get('offset') && is_numeric($this->input->get("offset"))) ? intval($this->input->get('offset')) * $limit : 0;
 
 //		get all friends
 		$sql = ("SELECT users.id as user_id, users.username, users.first_name, users.last_name, concat('plugins/images/Logo/', users.image) as image, 1 as is_friend
@@ -372,7 +372,12 @@ class Community_Api extends REST_Controller
 
 		$this->db->insert('friends', $data);
 
-		$this->send_notif($friend_id);
+		try {
+			$this->send_notif($friend_id);
+		} catch (Exception $e) {
+			var_dump($e);die;
+		}
+
 
 		$response = array(
 			"success" => true,
@@ -494,7 +499,6 @@ class Community_Api extends REST_Controller
 		$this->db->insert("claimed_offers", $data);
 
 		$this->db->trans_complete();
-
 
 
 		$response = array(
