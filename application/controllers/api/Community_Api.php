@@ -395,11 +395,12 @@ class Community_Api extends REST_Controller
 		if (null != $sent_to_user) {
 			$name = $sent_to_user->first_name . " " . $sent_to_user->last_name;
 
+
 //			get the user's fcm tokens whom is sent the request
 
 			$tokens = $this->get_fcm_tokens($sent_to_id);
-			$x = Firebase::send($name . " Has Sent You Friend Request", $tokens, self::FRIEND_REQUEST_EVENT);
-			var_dump($x);die;
+			var_dump($tokens);die;
+			Firebase::send($name . " Has Sent You Friend Request", $tokens, self::FRIEND_REQUEST_EVENT);
 		}
 
 	}
