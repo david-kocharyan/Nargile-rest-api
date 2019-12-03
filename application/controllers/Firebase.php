@@ -18,7 +18,7 @@ class Firebase
 
 	public static function send($notif, $ids, $event = null, $id = null)
 	{
-		$serviceAccount = ServiceAccount::fromJsonFile("./system/credentials/nargile-253210-firebase-adminsdk-9k5sd-7a61678992.json");
+		$serviceAccount = ServiceAccount::fromJsonFile("./system/credentials/go-narguile-firebase-adminsdk-xojjl-fbcc62d037.json");
 		$firebase = (new Factory)
 			->withServiceAccount($serviceAccount)
 			->create();
