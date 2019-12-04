@@ -4,6 +4,8 @@ require(APPPATH . '/libraries/REST_Controller.php');
 
 class Restaurant_Profile_Api extends REST_Controller
 {
+	const SHARE_REQUEST_EVENT = "share_request";
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -235,7 +237,7 @@ class Restaurant_Profile_Api extends REST_Controller
 		$data = $this->db->get("reviews")->result();
 
 		$arr = array();
-		foreach ($data as $key => $val){
+		foreach ($data as $key => $val) {
 			$this->db->select("count(user_id) as count, reviews.review as r");
 			$this->db->order_by("reviews.id DESC");
 			$p = $this->db->get_where("reviews", array("user_id" => $val->user_id))->row();
@@ -431,6 +433,94 @@ class Restaurant_Profile_Api extends REST_Controller
 		);
 		$this->response($data, REST_Controller::HTTP_OK);
 		return;
+	}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//share profile
+	public function share_post()
+	{
+		$res = $this->verify_get_request();
+		if (gettype($res) != 'string') {
+			$data = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => $res['msg']
+			);
+			$this->response($data, $res['status']);
+			return;
+		}
+
+		if ($this->input->post("restaurant_id") == NULL OR $this->input->post("restaurant_id") == "") {
+			$response = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => "Please provide Restaurant"
+			);
+			$this->response($response, REST_Controller::HTTP_UNPROCESSABLE_ENTITY);
+			return;
+		}
+
+		if ($this->input->post("user_id") == NULL OR $this->input->post("user_id") == "") {
+			$response = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => "Please provide User"
+			);
+			$this->response($response, REST_Controller::HTTP_UNPROCESSABLE_ENTITY);
+			return;
+		}
+
+		try {
+			$this->send_notif($this->input->post("user_id"), $res, $this->input->post("restaurant_id"));
+		} catch (Exception $e) {
+			var_dump($e);
+			die;
+		}
+
+		$response = array(
+			"success" => true,
+			"data" => array(),
+			"msg" => "The Request Has Been Sent Successfully"
+		);
+		$this->response($response, REST_Controller::HTTP_OK);
+	}
+
+	private function send_notif($sent_to_id, $sent_from_id, $restaurant_id)
+	{
+//		get the user whom is sent the request
+		$sent_to_user = $this->db->get_where("users", array("id" => $sent_to_id))->row();
+		$sent_from_user = $this->db->get_where("users", array("id" => $sent_from_id))->row();
+		$restaurant = $this->db->get_where("restaurants", array("id" => $restaurant_id))->row();
+
+		if (null != $sent_to_user) {
+			$name = $sent_from_user->first_name . " " . $sent_from_user->last_name;
+
+//			get the user's fcm tokens whom is sent the request
+			$tokens = $this->get_fcm_tokens($sent_to_id);
+			Firebase::send($name . " Will Share A " .$restaurant->name."  Restaurant With You!", $tokens, self::SHARE_REQUEST_EVENT, $restaurant_id);
+		}
+
+	}
+
+	private function get_fcm_tokens($user_id)
+	{
+		$this->db->select("fcm_token, os");
+		$this->db->where("tokens.fcm_token IS NOT NULL");
+		$this->db->where("user_id", $user_id);
+		$data = $this->db->get("tokens")->result();
+		$result = array();
+		if (null != $data) {
+			foreach ($data as $d) {
+				if ($d->os == Firebase::IS_ANDROID && !empty($d->fcm_token)) {
+					$result[Firebase::ANDROID][] = $d->fcm_token;
+				} elseif ($d->os == Firebase::IS_IOS && !empty($d->fcm_token)) {
+					$result[Firebase::IOS][] = $d->fcm_token;
+				}
+			}
+			return $result;
+		} elseif (null == $data) {
+			return;
+		}
 	}
 
 }
