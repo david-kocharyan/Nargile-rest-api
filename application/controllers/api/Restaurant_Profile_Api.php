@@ -1,6 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 require(APPPATH . '/libraries/REST_Controller.php');
+require FCPATH . "application/controllers/Firebase.php";
 
 class Restaurant_Profile_Api extends REST_Controller
 {
@@ -480,7 +481,7 @@ class Restaurant_Profile_Api extends REST_Controller
 		$response = array(
 			"success" => true,
 			"data" => array(),
-			"msg" => "The Request Has Been Sent Successfully"
+			"msg" => "The Share Has Been Sent Successfully"
 		);
 		$this->response($response, REST_Controller::HTTP_OK);
 	}
