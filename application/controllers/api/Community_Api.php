@@ -373,7 +373,7 @@ class Community_Api extends REST_Controller
 		$this->db->insert('friends', $data);
 
 		try {
-			$this->send_notif($friend_id);
+			$this->send_notif($friend_id, $res);
 		} catch (Exception $e) {
 			var_dump($e);die;
 		}
@@ -386,17 +386,18 @@ class Community_Api extends REST_Controller
 		$this->response($response, REST_Controller::HTTP_OK);
 	}
 
-	private function send_notif($sent_to_id)
+	private function send_notif($sent_to_id, $sent_from_id)
 	{
 //		get the user whom is sent the request
 		$sent_to_user = $this->db->get_where("users", array("id" => $sent_to_id))->row();
+		$sent_from_user = $this->db->get_where("users", array("id" => $sent_from_id))->row();
 
 		if (null != $sent_to_user) {
-			$name = $sent_to_user->first_name . " " . $sent_to_user->last_name;
+			$name = $sent_from_user->first_name . " " . $sent_from_user->last_name;
 
 //			get the user's fcm tokens whom is sent the request
 			$tokens = $this->get_fcm_tokens($sent_to_id);
-			Firebase::send($name . " Became Your Friend", $tokens, self::FRIEND_REQUEST_EVENT, $sent_to_id);
+			Firebase::send($name . " Became Your Friend", $tokens, self::FRIEND_REQUEST_EVENT, $sent_from_id);
 		}
 
 	}
