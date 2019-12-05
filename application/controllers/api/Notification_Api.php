@@ -28,7 +28,7 @@ class Notification_Api extends REST_Controller
 		$offset = (null !== $this->input->get('offset') && is_numeric($this->input->get("offset"))) ? $this->input->get('offset') * $limit : 0;
 
 		//get notifications
-		$this->db->select('user_id, body, click_action, action_id, status, created_at');
+		$this->db->select('body, click_action, action_id, status, created_at');
 		$this->db->order_by('created_at DESC');
 		$this->db->limit($limit, $offset);
 		$data = $this->db->get_where('notification', array("user_id" => $res))->result();
@@ -76,19 +76,14 @@ class Notification_Api extends REST_Controller
 		}
 		$action_id = $this->input->post("action_id");
 
-		$data = array(
-			"from_id" => $action_id,
-			"to_id" => $res,
-			"status" => 1,
-		);
-
 		if ($this->input->post("answer") == 1) {
 			$this->db->trans_start();
 			$this->db->update('notification', array("status" => 0), array("user_id" => $res, 'action_id' => $action_id, "status" => 1));
-			$this->db->insert('friends', $data);
+			$this->db->update('friends', array("status" => 1), array("to_id" => $res, 'from_id' => $action_id, "status" => 2));
 			$this->db->trans_complete();
 		} else {
 			$this->db->update('notification', array("status" => 0), array("user_id" => $res, 'action_id' => $action_id, "status" => 1));
+			$this->db->update('friends', array("status" => 0), array("to_id" => $res, 'from_id' => $action_id, "status" => 2));
 		}
 
 		$response = array(

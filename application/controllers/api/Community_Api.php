@@ -289,17 +289,17 @@ class Community_Api extends REST_Controller
 		$offset = (null !== $this->input->get('offset') && is_numeric($this->input->get("offset"))) ? intval($this->input->get('offset')) * $limit : 0;
 
 //		get all friends
-		$sql = ("SELECT users.id as user_id, users.username, users.first_name, users.last_name, concat('plugins/images/Logo/', users.image) as image, 1 as is_friend
+		$sql = ("SELECT users.id as user_id, users.username, users.first_name, users.last_name, concat('plugins/images/Logo/', users.image) as image, friends.status as is_friend
  				FROM friends JOIN  users on users.id = friends.from_id where to_id = $res and status = 1 and users.verify = 1  $name_sql
  				UNION
-				(SELECT users.id as user_id, users.username, users.first_name, users.last_name, concat('plugins/images/Logo/', users.image) as image, 1 as is_friend
+				(SELECT users.id as user_id, users.username, users.first_name, users.last_name, concat('plugins/images/Logo/', users.image) as image, friends.status as is_friend
 				FROM friends JOIN  users on users.id = friends.to_id where from_id = $res and status = 1 and users.verify = 1  $name_sql ) 
 				UNION
-				SELECT users.id as user_id, users.username, users.first_name, users.last_name, concat('plugins/images/Logo/', users.image) as image, 0 as is_friend
+				SELECT users.id as user_id, users.username, users.first_name, users.last_name, concat('plugins/images/Logo/', users.image) as image, friends.status as is_friend
 				from users where $name_sql_2 users.verify = 1 and users.id != $res and users.id not in
-				( SELECT users.id FROM friends JOIN  users on users.id = friends.from_id where to_id = $res and status = 1
+				( SELECT users.id FROM friends JOIN  users on users.id = friends.from_id where to_id = $res and (status = 1 OR status = 2)
 				UNION 
-				(SELECT users.id FROM friends JOIN  users on users.id = friends.to_id where from_id = $res and status = 1) )
+				(SELECT users.id FROM friends JOIN  users on users.id = friends.to_id where from_id = $res and (status = 1 OR status = 2)) )
 				ORDER BY user_id LIMIT $limit OFFSET $offset");
 		$data = $this->db->query($sql)->result();
 
@@ -370,6 +370,13 @@ class Community_Api extends REST_Controller
 			var_dump($e);
 			die;
 		}
+
+		$data = array(
+			"from_id" => $res,
+			"to_id" => $friend_id,
+			"status" => 2,
+		);
+		$this->db->insert('friends', $data);
 
 		$response = array(
 			"success" => true,
