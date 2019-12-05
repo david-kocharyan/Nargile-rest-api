@@ -78,12 +78,25 @@ class Notification_Api extends REST_Controller
 
 		if ($this->input->post("answer") == 1) {
 			$this->db->trans_start();
-			$this->db->update('notification', array("status" => 0), array("user_id" => $res, 'action_id' => $action_id, "status" => 1));
-			$this->db->update('friends', array("status" => 1), array("to_id" => $res, 'from_id' => $action_id, "status" => 2));
+
+			$this->db->set(array("status" => 0));
+			$this->db->where(array("user_id" => $res, 'action_id' => $action_id, "status" => 1));
+			$this->db->update('notification');
+
+			$this->db->set(array("status" => 1));
+			$this->db->where(array("to_id" => $res, 'from_id' => $action_id, "status" => 2));
+			$this->db->update('friends');
+
 			$this->db->trans_complete();
 		} else {
-			$this->db->update('notification', array("status" => 0), array("user_id" => $res, 'action_id' => $action_id, "status" => 1));
-			$this->db->update('friends', array("status" => 0, "to_id" => 0, "from_id" => 0), array("to_id" => $res, 'from_id' => $action_id, "status" => 2));
+
+			$this->db->set(array("status" => 0));
+			$this->db->where(array("user_id" => $res, 'action_id' => $action_id, "status" => 1));
+			$this->db->update('notification');
+
+			$this->db->set(array("status" => 0, "to_id" => 0, "from_id" => 0));
+			$this->db->where(array("to_id" => $res, 'from_id' => $action_id, "status" => 2));
+			$this->db->update('friends');
 		}
 
 		$response = array(
