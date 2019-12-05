@@ -39,11 +39,13 @@ class Notification_Api extends REST_Controller
 
 		$response = array(
 			"success" => true,
-			'data' => $data != NULL ? $data : array(),
-			"meta" => array(
-				"limit" => $limit,
-				"offset" => (null !== $this->input->get('offset') && is_numeric($this->input->get("offset"))) ? intval($this->input->get('offset')) : 0,
-				"pages" => ($limit != 0 || null !== $limit) ? ceil($page->pages / $limit) : 0,
+			'data' => array(
+				"notification" => $data != NULL ? $data : array(),
+				"meta" => array(
+					"limit" => $limit,
+					"offset" => (null !== $this->input->get('offset') && is_numeric($this->input->get("offset"))) ? intval($this->input->get('offset')) : 0,
+					"pages" => ($limit != 0 || null !== $limit) ? ceil($page->pages / $limit) : 0,
+				),
 			),
 			"msg" => "",
 		);
