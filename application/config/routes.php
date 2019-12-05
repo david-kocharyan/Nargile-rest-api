@@ -113,6 +113,9 @@ $route['api/service'] = 'api/Service_Api';
 //send coins
 $route['api/send-coins'] = 'api/Coins_Api';
 
+//notification page
+$route['api/notification'] = 'api/Notification_Api';
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //admin panel
 $route['admin'] = 'Admins';

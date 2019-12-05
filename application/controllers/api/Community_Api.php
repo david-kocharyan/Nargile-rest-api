@@ -398,6 +398,7 @@ class Community_Api extends REST_Controller
 
 //			add to database
 			$data = array(
+				"user_id" => $sent_to_id,
 				"body" => $body,
 				"click_action" => self::FRIEND_REQUEST_EVENT,
 				"action_id" => $sent_from_id

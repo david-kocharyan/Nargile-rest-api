@@ -498,6 +498,7 @@ class Restaurant_Profile_Api extends REST_Controller
 
 //			add to database
 			$data = array(
+				"user_id" => $sent_to_id,
 				"body" => $body,
 				"click_action" => self::SHARE_REQUEST_EVENT,
 				"action_id" => $restaurant_id
