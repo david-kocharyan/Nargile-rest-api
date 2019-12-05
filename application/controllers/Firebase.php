@@ -28,7 +28,7 @@ class Firebase
 			"title" => "notification",
 			"body" => $notif,
 			"click_action" => $event,
-			"id" => $id
+			"action_id" => $id
 		);
 
 //  Notification for ios versions

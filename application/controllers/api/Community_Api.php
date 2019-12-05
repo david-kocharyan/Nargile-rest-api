@@ -375,7 +375,8 @@ class Community_Api extends REST_Controller
 		try {
 			$this->send_notif($friend_id, $res);
 		} catch (Exception $e) {
-			var_dump($e);die;
+			var_dump($e);
+			die;
 		}
 
 		$response = array(
@@ -393,11 +394,19 @@ class Community_Api extends REST_Controller
 		$sent_from_user = $this->db->get_where("users", array("id" => $sent_from_id))->row();
 
 		if (null != $sent_to_user) {
-			$name = $sent_from_user->first_name . " " . $sent_from_user->last_name;
+			$body = $sent_from_user->first_name . " " . $sent_from_user->last_name . " Became Your Friend";
+
+//			add to database
+			$data = array(
+				"body" => $body,
+				"click_action" => self::FRIEND_REQUEST_EVENT,
+				"action_id" => $sent_from_id
+			);
+			$this->db->insert('notification', $data);
 
 //			get the user's fcm tokens whom is sent the request
 			$tokens = $this->get_fcm_tokens($sent_to_id);
-			Firebase::send($name . " Became Your Friend", $tokens, self::FRIEND_REQUEST_EVENT, $sent_from_id);
+			Firebase::send($body, $tokens, self::FRIEND_REQUEST_EVENT, $sent_from_id);
 		}
 
 	}
@@ -413,7 +422,7 @@ class Community_Api extends REST_Controller
 			foreach ($data as $d) {
 				if ($d->os == Firebase::IS_ANDROID && !empty($d->fcm_token)) {
 					$result[Firebase::ANDROID][] = $d->fcm_token;
-				} elseif($d->os == Firebase::IS_IOS && !empty($d->fcm_token)) {
+				} elseif ($d->os == Firebase::IS_IOS && !empty($d->fcm_token)) {
 					$result[Firebase::IOS][] = $d->fcm_token;
 				}
 			}

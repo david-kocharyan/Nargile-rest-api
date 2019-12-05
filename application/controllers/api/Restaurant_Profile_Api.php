@@ -494,11 +494,19 @@ class Restaurant_Profile_Api extends REST_Controller
 		$restaurant = $this->db->get_where("restaurants", array("id" => $restaurant_id))->row();
 
 		if (null != $sent_to_user) {
-			$name = $sent_from_user->first_name . " " . $sent_from_user->last_name;
+			$body = $sent_from_user->first_name . " " . $sent_from_user->last_name . " Will Share A " . $restaurant->name . "  Restaurant With You!";
+
+//			add to database
+			$data = array(
+				"body" => $body,
+				"click_action" => self::SHARE_REQUEST_EVENT,
+				"action_id" => $restaurant_id
+			);
+			$this->db->insert('notification', $data);
 
 //			get the user's fcm tokens whom is sent the request
 			$tokens = $this->get_fcm_tokens($sent_to_id);
-			Firebase::send($name . " Will Share A " .$restaurant->name."  Restaurant With You!", $tokens, self::SHARE_REQUEST_EVENT, $restaurant_id);
+			Firebase::send($body, $tokens, self::SHARE_REQUEST_EVENT, $restaurant_id);
 		}
 
 	}
