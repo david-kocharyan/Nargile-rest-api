@@ -88,7 +88,7 @@ class Notification_Api extends REST_Controller
 			$this->db->update('friends');
 
 			$this->db->trans_complete();
-		} else {
+		} else if ($this->input->post("answer") == 0) {
 
 			$this->db->set(array("status" => 0));
 			$this->db->where(array("user_id" => $res, 'action_id' => $action_id, "status" => 1));

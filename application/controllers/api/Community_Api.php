@@ -364,19 +364,19 @@ class Community_Api extends REST_Controller
 			return;
 		}
 
-		try {
-			$this->send_notif($friend_id, $res);
-		} catch (Exception $e) {
-			var_dump($e);
-			die;
-		}
-
 		$data = array(
 			"from_id" => $res,
 			"to_id" => $friend_id,
 			"status" => 2,
 		);
 		$this->db->insert('friends', $data);
+
+		try {
+			$this->send_notif($friend_id, $res);
+		} catch (Exception $e) {
+			var_dump($e);
+			die;
+		}
 
 		$response = array(
 			"success" => true,
