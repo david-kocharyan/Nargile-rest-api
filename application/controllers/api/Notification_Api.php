@@ -28,6 +28,7 @@ class Notification_Api extends REST_Controller
 		$offset = (null !== $this->input->get('offset') && is_numeric($this->input->get("offset"))) ? $this->input->get('offset') * $limit : 0;
 
 		//get notifications
+		$this->db->select('user_id, body, click_action, action_id, status, created_at');
 		$this->db->order_by('created_at DESC');
 		$this->db->limit($limit, $offset);
 		$data = $this->db->get_where('notification', array("user_id" => $res))->result();
@@ -48,4 +49,54 @@ class Notification_Api extends REST_Controller
 		);
 		$this->response($response, REST_Controller::HTTP_OK);
 	}
+
+
+	public function add_friend_post()
+	{
+		$res = $this->verify_get_request();
+		if (gettype($res) != 'string') {
+			$data = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => $res['msg']
+			);
+			$this->response($data, $res['status']);
+			return;
+		}
+
+		if ($this->input->post("action_id") == NULL OR $this->input->post("action_id") == "") {
+			$response = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => "Please provide User"
+			);
+			$this->response($response, REST_Controller::HTTP_UNPROCESSABLE_ENTITY);
+			return;
+		}
+		$action_id = $this->input->post("action_id");
+
+		$data = array(
+			"from_id" => $action_id,
+			"to_id" => $res,
+			"status" => 1,
+		);
+
+		if ($this->input->post("answer") == 1) {
+			$this->db->trans_start();
+			$this->db->update('notification', array("status" => 0), array("user_id" => $res, 'action_id' => $action_id, "status" => 1));
+			$this->db->insert('friends', $data);
+			$this->db->trans_complete();
+		} else {
+			$this->db->update('notification', array("status" => 0), array("user_id" => $res, 'action_id' => $action_id, "status" => 1));
+		}
+
+		$response = array(
+			"success" => true,
+			"data" => array(),
+			"msg" => "Success"
+		);
+		$this->response($response, REST_Controller::HTTP_OK);
+	}
+
+
 }
