@@ -353,7 +353,7 @@ class Community_Api extends REST_Controller
 		$this->db->where(array("from_id" => $res, "to_id" => $friend_id));
 		$this->db->or_where(array("from_id" => $friend_id));
 		$this->db->where(array("to_id" => $res));
-		$is_friends = $this->db->get_where('friends', array("status" => 0))->row();
+		$is_friends = $this->db->get('friends')->row();
 		if ($is_friends != NULL) {
 			$response = array(
 				"success" => false,

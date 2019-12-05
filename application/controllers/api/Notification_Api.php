@@ -83,7 +83,7 @@ class Notification_Api extends REST_Controller
 			$this->db->trans_complete();
 		} else {
 			$this->db->update('notification', array("status" => 0), array("user_id" => $res, 'action_id' => $action_id, "status" => 1));
-			$this->db->update('friends', array("status" => 0), array("to_id" => $res, 'from_id' => $action_id, "status" => 2));
+			$this->db->update('friends', array("status" => 0, "to_id" => NULL, "from_id" => NULL), array("to_id" => $res, 'from_id' => $action_id, "status" => 2));
 		}
 
 		$response = array(
