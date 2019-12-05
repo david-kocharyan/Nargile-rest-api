@@ -50,7 +50,6 @@ class Notification_Api extends REST_Controller
 		$this->response($response, REST_Controller::HTTP_OK);
 	}
 
-
 	public function add_friend_post()
 	{
 		$res = $this->verify_get_request();
