@@ -30,15 +30,15 @@ class Notification_Api extends REST_Controller
 		//get notifications
 		$this->db->order_by('created_at DESC');
 		$this->db->limit($limit, $offset);
-		$this->db->get_where('notification', array("user_id" => $res));
+		$data = $this->db->get_where('notification', array("user_id" => $res))->result();
 
 		//get notifications
 		$this->db->select('count(id) as pages');
-		$page = $this->db->get_where('notification', array("user_id" => $res));
+		$page = $this->db->get_where('notification', array("user_id" => $res))->row();
 
 		$response = array(
 			"success" => true,
-			'data' => array(),
+			'data' => $data != NULL ? $data : array(),
 			"meta" => array(
 				"limit" => $limit,
 				"offset" => (null !== $this->input->get('offset') && is_numeric($this->input->get("offset"))) ? intval($this->input->get('offset')) : 0,
