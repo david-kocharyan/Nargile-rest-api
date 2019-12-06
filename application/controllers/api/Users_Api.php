@@ -157,8 +157,8 @@ class Users_API extends REST_Controller
 	private function sms($code, $mobile)
 	{
 		try {
-			$sid = "AC6cffa9eadacc1e8eeffae00dbb3176d6";
-			$token = "91ee41348baec6b730f01c9050ccec22";
+			$sid = "ACebd2225620bc6dab7a56caa008d76fea";
+			$token = "0d6c50bd89eb41aff053b60a4a6fb8ff";
 			$twilio = new Client($sid, $token);
 			$message = $twilio->messages
 				->create($mobile, // to
