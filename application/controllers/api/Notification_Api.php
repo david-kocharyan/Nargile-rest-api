@@ -76,10 +76,12 @@ class Notification_Api extends REST_Controller
 		}
 		$action_id = $this->input->post("action_id");
 
+		var_dump($res, $action_id);
+die;
 		if ($this->input->post("answer") == 1) {
 			$this->db->trans_start();
 
-			$this->db->set("status", 1);
+			$this->db->set("status", 0);
 			$this->db->where(array("user_id" => $res, 'action_id' => $action_id, "status" => 1));
 			$this->db->update('notification');
 
@@ -91,7 +93,7 @@ class Notification_Api extends REST_Controller
 		} else if ($this->input->post("answer") == 0) {
 			$this->db->trans_start();
 
-			$this->db->set("status", 1);
+			$this->db->set("status", 0);
 			$this->db->where(array("user_id" => $res, 'action_id' => $action_id, "status" => 1));
 			$this->db->update('notification');
 
