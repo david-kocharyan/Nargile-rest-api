@@ -76,8 +76,6 @@ class Notification_Api extends REST_Controller
 		}
 		$action_id = $this->input->post("action_id");
 
-		var_dump($action_id, $this->input->post("answer"));die;
-
 		if ($this->input->post("answer") == 1) {
 			$this->db->trans_start();
 
