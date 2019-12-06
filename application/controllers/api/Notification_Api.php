@@ -76,35 +76,51 @@ class Notification_Api extends REST_Controller
 		}
 		$action_id = $this->input->post("action_id");
 
+		var_dump($action_id, $this->input->post("answer"));die;
+
 		if ($this->input->post("answer") == 1) {
 			$this->db->trans_start();
 
-			$this->db->set(array("status" => 0));
+			$this->db->set("status", 1);
 			$this->db->where(array("user_id" => $res, 'action_id' => $action_id, "status" => 1));
 			$this->db->update('notification');
 
-			$this->db->set(array("status" => 1));
+			$this->db->set("status", 1);
 			$this->db->where(array("to_id" => $res, 'from_id' => $action_id, "status" => 2));
 			$this->db->update('friends');
 
 			$this->db->trans_complete();
 		} else if ($this->input->post("answer") == 0) {
+			$this->db->trans_start();
 
-			$this->db->set(array("status" => 0));
+			$this->db->set("status", 1);
 			$this->db->where(array("user_id" => $res, 'action_id' => $action_id, "status" => 1));
 			$this->db->update('notification');
 
 			$this->db->set(array("status" => 0, "to_id" => 0, "from_id" => 0));
 			$this->db->where(array("to_id" => $res, 'from_id' => $action_id, "status" => 2));
 			$this->db->update('friends');
+
+			$this->db->trans_complete();
 		}
 
-		$response = array(
-			"success" => true,
-			"data" => array(),
-			"msg" => "Success"
-		);
-		$this->response($response, REST_Controller::HTTP_OK);
+		if ($this->db->trans_status() == true) {
+			$response = array(
+				"success" => true,
+				"data" => array(),
+				"msg" => "Success"
+			);
+			$this->response($response, REST_Controller::HTTP_OK);
+		} else {
+			$response = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => "Something Went Wrong. Please Try Again!"
+			);
+			$this->response($response, REST_Controller::HTTP_UNPROCESSABLE_ENTITY);
+		}
+
+
 	}
 
 
