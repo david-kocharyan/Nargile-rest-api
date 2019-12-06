@@ -194,7 +194,7 @@ class Users_API extends REST_Controller
 			$data = array(
 				"success" => false,
 				"data" => array(),
-				"msg" => "Please provide verification code."
+				"msg" => "Please provide correct verification code."
 			);
 			$this->response($data, self::HTTP_UNPROCESSABLE_ENTITY);
 			return;
