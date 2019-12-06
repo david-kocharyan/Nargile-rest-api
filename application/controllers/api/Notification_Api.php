@@ -95,7 +95,7 @@ class Notification_Api extends REST_Controller
 			$this->db->where(array("user_id" => $res, 'action_id' => $action_id, "status" => 1));
 			$this->db->update('notification');
 
-			$this->db->set(array("status" => 0, "to_id" => 0, "from_id" => 0));
+			$this->db->set(array("status" => NULL, "to_id" => NULL, "from_id" => NULL));
 			$this->db->where(array("to_id" => $res, 'from_id' => $action_id, "status" => 2));
 			$this->db->update('friends');
 
