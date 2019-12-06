@@ -74,10 +74,11 @@ class Facebook_Api extends REST_Controller
 				"mobile_number" => '',
 				"email" => $user['email'],
 				"password" => time() . '?' . rand(),
-				"reference_code" => "",
 				'coins' => 0,
 				"image" => 'User_default.png',
 				"uuid" => $uuid,
+				"logged_via_fb" => 1,
+				"verify" => 1,
 			);
 			$this->db->insert('users', $data);
 			$id = $this->db->insert_id();
@@ -121,12 +122,12 @@ class Facebook_Api extends REST_Controller
 				"last_name" => $auth->last_name,
 				"date_of_birth" => $auth->date_of_birth,
 				"mobile_number" => $auth->mobile_number,
+				'uuid' => $auth->uuid,
+				"check_reference" => "true",
 				"email" => $auth->email,
-				"reference_code" => $auth->reference_code == null ? "" : $auth->reference_code,
 				"coins" => $auth->coins,
 				"image" => '/plugins/images/Logo/' . $auth->image,
 				'badges' => $badges,
-				'uuid' => $auth->uuid,
 			),
 			"tokens" => array(
 				"token" => $token,
