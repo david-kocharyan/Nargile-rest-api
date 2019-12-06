@@ -64,6 +64,7 @@ class Facebook_Api extends REST_Controller
 		$username = $user['first_name'] . $user['last_name'] . time() . rand();
 
 		if (NULL == $user_data) {
+			$uuid = vsprintf('%s-%s', str_split(dechex(microtime(true) * 1000) . bin2hex(random_bytes(10)), 6));
 			$data = array(
 
 				"username" => $username,
@@ -76,7 +77,7 @@ class Facebook_Api extends REST_Controller
 				"reference_code" => "",
 				'coins' => 0,
 				"image" => 'User_default.png',
-				""
+				"uuid" => $uuid,
 			);
 			$this->db->insert('users', $data);
 			$id = $this->db->insert_id();
@@ -125,6 +126,7 @@ class Facebook_Api extends REST_Controller
 				"coins" => $auth->coins,
 				"image" => '/plugins/images/Logo/' . $auth->image,
 				'badges' => $badges,
+				'uuid' => $auth->uuid,
 			),
 			"tokens" => array(
 				"token" => $token,
