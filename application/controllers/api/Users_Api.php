@@ -982,5 +982,80 @@ class Users_API extends REST_Controller
 		$this->response($data, REST_Controller::HTTP_OK);
 	}
 
+	public function notification_get()
+	{
+		$res = $this->verify_get_request();
+		if (gettype($res) != 'string') {
+			$data = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => $res['msg']
+			);
+			$this->response($data, $res['status']);
+			return;
+		}
+		$this->db->select("notification_status");
+		$user = $this->db->get_where("users", array("id" => $res))->row();
+		if(null != $user) {
+			$data = array(
+				"success" => true,
+				"data" => array(
+					"notification_status" => $user->notification_status
+				),
+				"msg" => ""
+			);
+			$this->response($data, self::HTTP_OK);
+			return;
+		}
+
+		$data = array(
+			"success" => false,
+			"data" => array(),
+			"msg" => "Something Went Wrong, Please Try Again"
+		);
+		$this->response($data, self::HTTP_UNPROCESSABLE_ENTITY);
+	}
+
+	public function notification_post()
+	{
+		$res = $this->verify_get_request();
+		if (gettype($res) != 'string') {
+			$data = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => $res['msg']
+			);
+			$this->response($data, $res['status']);
+			return;
+		}
+		$notif_status = $this->input->post("notification_status");
+		if(null == $notif_status || !is_numeric($notif_status)) {
+			$data = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => "Please, Provide Notification Status"
+			);
+			$this->response($data, $res['status']);
+			return;
+		}
+		$status = $this->db->update("users", array("notification_status" => $notif_status), array("id" => $res));
+
+		if($status) {
+			$data = array(
+				"success" => true,
+				"data" => array(),
+				"msg" => "Notification Updated Successfully"
+			);
+			$this->response($data, self::HTTP_OK);
+			return;
+		}
+		$data = array(
+			"success" => false,
+			"data" => array(),
+			"msg" => "Something Went Wrong, Please Try Again Later."
+		);
+		$this->response($data, self::HTTP_UNPROCESSABLE_ENTITY);
+	}
+
 }
 
