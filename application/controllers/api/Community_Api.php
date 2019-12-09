@@ -372,7 +372,13 @@ class Community_Api extends REST_Controller
 		$this->db->insert('friends', $data);
 
 		try {
+
+
+
 			$this->send_notif($friend_id, $res);
+
+
+
 		} catch (Exception $e) {
 			var_dump($e);
 			die;
@@ -414,6 +420,7 @@ class Community_Api extends REST_Controller
 	private function get_fcm_tokens($user_id)
 	{
 		$this->db->select("fcm_token, os");
+		$this->db->join("users", "users.id = tokens.user_id AND users.notification_status = 1");
 		$this->db->where("tokens.fcm_token IS NOT NULL");
 		$this->db->where("user_id", $user_id);
 		$data = $this->db->get("tokens")->result();
