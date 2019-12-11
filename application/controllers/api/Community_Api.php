@@ -232,9 +232,9 @@ class Community_Api extends REST_Controller
 		$offset = (null !== $this->input->get('offset') && is_numeric($this->input->get("offset"))) ? $this->input->get('offset') * $limit : 0;
 
 //		get all friends
-		$sql = ("SELECT users.id as user_id, users.username, users.first_name, users.last_name, concat('plugins/images/Logo/', users.image) as image, friends.id as friends_id
+		$sql = ("SELECT users.id as user_id, users.username, users.first_name, users.last_name, concat('plugins/images/Logo/', users.image) as image, friends.id as friends_id, 1 as is_friend
  				FROM friends JOIN  users on users.id = friends.from_id where to_id = $res and status = 1  $name_sql UNION
-				(SELECT users.id as user_id, users.username, users.first_name, users.last_name, concat('plugins/images/Logo/', users.image) as image, friends.id as friends_id
+				(SELECT users.id as user_id, users.username, users.first_name, users.last_name, concat('plugins/images/Logo/', users.image) as image, friends.id as friends_id, 1 as is_friend
 				FROM friends JOIN  users on users.id = friends.to_id where from_id = $res and status = 1 $name_sql ) 
 				ORDER BY friends_id LIMIT $limit OFFSET $offset");
 		$data = $this->db->query($sql)->result();
