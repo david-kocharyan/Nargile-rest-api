@@ -112,6 +112,9 @@
 					<li><a href="<?= base_url('admin/dashboard') ?>" class="waves-effect"><i
 								class="mdi mdi-home fa-fw"></i> <span
 								class="hide-menu">Home</span></a></li>
+					<li><a href="<?= base_url('admin/owner-request') ?>" class="waves-effect"><i
+								class="mdi mdi-auto-fix fa-fw"></i> <span
+								class="hide-menu">Claim Business</span></a></li>
 					<li><a href="<?= base_url('admin/users-list') ?>" class="waves-effect"><i
 								class="mdi mdi-face-profile  fa-fw"></i>
 							<span class="hide-menu">Users</span></a></li>

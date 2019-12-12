@@ -79,6 +79,9 @@ $(document).ready(function() {
     });
 </script>
 
+<!-- Chart JS -->
+<script src="<?= base_url('public/') ?>plugins/bower_components/Chart.js/Chart.min.js"></script>
+
 </body>
 
 </html>

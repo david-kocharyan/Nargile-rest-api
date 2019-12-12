@@ -24,135 +24,11 @@ class Admins extends CI_Controller
 		$data['user'] = $this->session->userdata('user');
 		$data['title'] = "Home";
 
-		$this->db->select("claim_your_business.*, restaurants.name as restaurant_name");
-		$this->db->join('restaurants', 'restaurants.id =  claim_your_business.restaurant_id');
-		$this->db->where('claim_your_business.status != ', 2);
-		$this->db->order_by('id', 'DESC');
-		$data['business'] = $this->db->get('claim_your_business')->result();
 
 		$this->load->view('layouts/header.php', $data);
 		$this->load->view('admin/home.php');
 		$this->load->view('layouts/footer.php');
 	}
-
-	public function owner_index()
-	{
-		$data['user'] = $this->session->userdata('user');
-		$data['title'] = "Home";
-
-		$this->load->view('layouts/header.php', $data);
-		$this->load->view('layouts/footer.php');
-	}
-
-	public function change_status($id)
-	{
-		//	check user type
-		if ($this->session->userdata('user')['role'] != 'superAdmin') redirect('404');
-
-		$data = $this->db->get_where('claim_your_business', ["id" => $id])->row();
-		if (null == $data) {
-			return;
-		}
-		$status = $data->status == 1 ? 0 : 1;
-		$this->db->update('claim_your_business', array("status" => $status), ['id' => $id]);
-		redirect("admin/dashboard");
-	}
-
-	public function create_owner($id)
-	{
-		//	check user type
-		if ($this->session->userdata('user')['role'] != 'superAdmin') redirect('404');
-
-		$data['user'] = $this->session->userdata('user');
-		$data['title'] = "Home";
-		$data['restaurants'] = $this->db->get('restaurants')->result();
-
-		$this->db->select("claim_your_business.*, restaurants.id as restaurant_id");
-		$this->db->join('restaurants', 'restaurants.id =  claim_your_business.restaurant_id');
-		$owner = $this->db->get_where('claim_your_business', ["claim_your_business.id" => $id])->row();
-		$data['owner'] = $owner;
-		$data['owner']->password = $this->randomPassword();
-
-		$admin = $this->db->get_where('admins', ["email" => $owner->email])->row();
-
-		if ($admin != NULL) {
-			$this->db->trans_start();
-
-			$this->db->set('admin_id', $admin->id);
-			$this->db->where('restaurants.id', $owner->restaurant_id);
-			$this->db->update('restaurants');
-
-			$this->db->set('status', 2);
-			$this->db->where('id', $owner->id);
-			$this->db->update('claim_your_business');
-
-			$this->db->trans_complete();
-			redirect("admin/dashboard");
-			return;
-		}
-		$this->load->view('layouts/header.php', $data);
-		$this->load->view('admin/owner/create.php');
-		$this->load->view('layouts/footer.php');
-	}
-
-	public function store_owner($id)
-	{
-		//	check user type
-		if ($this->session->userdata('user')['role'] != 'superAdmin') redirect('404');
-
-		$username = $this->input->post('username');
-		$first_name = $this->input->post('first_name');
-		$last_name = $this->input->post('last_name');
-		$email = $this->input->post('email');
-		$mobile_number = $this->input->post('mobile_number');
-		$password = $this->input->post('password');
-		$restaurant = $this->input->post('restaurant');
-		$logo = 'User_default.png';
-
-		$this->form_validation->set_rules('username', 'Username', 'required|trim|max_length[30]|is_unique[admins.username]');
-		$this->form_validation->set_rules('first_name', 'First name', 'required|trim|regex_match[/^([a-z ])+$/i]');
-		$this->form_validation->set_rules('last_name', 'Last name', 'required|trim|regex_match[/^([a-z ])+$/i]');
-		$this->form_validation->set_rules('email', 'Email', 'required|trim|is_unique[admins.email]');
-		$this->form_validation->set_rules('mobile_number', 'Mobile Number', 'required|trim|is_unique[admins.mobile_number]');
-		$this->form_validation->set_rules('password', 'Password', 'required|min_length[8]');
-
-		if ($this->form_validation->run() == FALSE) {
-			$this->create_owner($id);
-		} else {
-			$password = hash("sha512", $password);
-			$user = array(
-				'username' => $username,
-				'first_name' => $first_name,
-				'last_name' => $last_name,
-				'email' => $email,
-				'mobile_number' => $mobile_number,
-				'role' => 'admin',
-				'password' => $password,
-				'active' => 1,
-				'logo' => $logo,
-			);
-
-
-			$this->db->trans_start();
-
-			$this->db->insert('admins', $user);
-			$last_id = $this->db->insert_id();
-
-			$this->db->set('admin_id', $last_id);
-			$this->db->where('restaurants.id', $restaurant);
-			$this->db->update('restaurants');
-
-			$this->db->set('status', 2);
-			$this->db->where('id', $id);
-			$this->db->update('claim_your_business');
-
-			$this->db->trans_complete();
-
-			$this->session->set_flashdata('success', 'You have stored the clients successfully');
-			redirect("admin/dashboard");
-		}
-	}
-
 
 //	super admin profile and settings
 	public function profile()
@@ -300,7 +176,8 @@ class Admins extends CI_Controller
 		$this->image_lib->clear();
 	}
 
-	private function randomPassword() {
+	private function randomPassword()
+	{
 		$alphabet = "abcdefghijklmnopqrstuwxyzABCDEFGHIJKLMNOPQRSTUWXYZ0123456789";
 		$pass = array();
 		$alphaLength = strlen($alphabet) - 1;
@@ -310,7 +187,6 @@ class Admins extends CI_Controller
 		}
 		return implode($pass);
 	}
-
 
 //	users list
 	public function users_list()
@@ -327,6 +203,210 @@ class Admins extends CI_Controller
 		$this->load->view('layouts/footer.php');
 	}
 
+//	create update or change owner part and request
+	public function owner_request()
+	{
+//		check user type
+		if ($this->session->userdata('user')['role'] != 'superAdmin') redirect('admin/home');
+
+		$data['user'] = $this->session->userdata('user');
+		$data['title'] = "Home";
+
+		$this->db->select("claim_your_business.*, restaurants.name as restaurant_name");
+		$this->db->join('restaurants', 'restaurants.id =  claim_your_business.restaurant_id');
+		$this->db->where('claim_your_business.status != ', 2);
+		$this->db->order_by('id', 'DESC');
+		$data['business'] = $this->db->get('claim_your_business')->result();
+
+		$this->load->view('layouts/header.php', $data);
+		$this->load->view('admin/owner_index.php');
+		$this->load->view('layouts/footer.php');
+	}
+
+	public function change_status($id)
+	{
+		//	check user type
+		if ($this->session->userdata('user')['role'] != 'superAdmin') redirect('404');
+
+		$data = $this->db->get_where('claim_your_business', ["id" => $id])->row();
+		if (null == $data) {
+			return;
+		}
+		$status = $data->status == 1 ? 0 : 1;
+		$this->db->update('claim_your_business', array("status" => $status), ['id' => $id]);
+		redirect("admin/owner-request");
+	}
+
+	public function create_owner($id)
+	{
+		//	check user type
+		if ($this->session->userdata('user')['role'] != 'superAdmin') redirect('404');
+
+		$data['user'] = $this->session->userdata('user');
+		$data['title'] = "Home";
+		$data['restaurants'] = $this->db->get('restaurants')->result();
+
+		$this->db->select("claim_your_business.*, restaurants.id as restaurant_id");
+		$this->db->join('restaurants', 'restaurants.id =  claim_your_business.restaurant_id');
+		$owner = $this->db->get_where('claim_your_business', ["claim_your_business.id" => $id])->row();
+		$data['owner'] = $owner;
+		$data['owner']->password = $this->randomPassword();
+
+		$admin = $this->db->get_where('admins', ["email" => $owner->email])->row();
+
+		if ($admin != NULL) {
+			$this->db->trans_start();
+
+			$this->db->set('admin_id', $admin->id);
+			$this->db->where('restaurants.id', $owner->restaurant_id);
+			$this->db->update('restaurants');
+
+			$this->db->set('status', 2);
+			$this->db->where('id', $owner->id);
+			$this->db->update('claim_your_business');
+
+			$this->db->trans_complete();
+			redirect("admin/owner-request");
+			return;
+		}
+		$this->load->view('layouts/header.php', $data);
+		$this->load->view('admin/owner/create.php');
+		$this->load->view('layouts/footer.php');
+	}
+
+	public function store_owner($id)
+	{
+		//	check user type
+		if ($this->session->userdata('user')['role'] != 'superAdmin') redirect('404');
+
+		$username = $this->input->post('username');
+		$first_name = $this->input->post('first_name');
+		$last_name = $this->input->post('last_name');
+		$email = $this->input->post('email');
+		$mobile_number = $this->input->post('mobile_number');
+		$password = $this->input->post('password');
+		$restaurant = $this->input->post('restaurant');
+		$logo = 'User_default.png';
+
+		$this->form_validation->set_rules('username', 'Username', 'required|trim|max_length[30]|is_unique[admins.username]');
+		$this->form_validation->set_rules('first_name', 'First name', 'required|trim|regex_match[/^([a-z ])+$/i]');
+		$this->form_validation->set_rules('last_name', 'Last name', 'required|trim|regex_match[/^([a-z ])+$/i]');
+		$this->form_validation->set_rules('email', 'Email', 'required|trim|is_unique[admins.email]');
+		$this->form_validation->set_rules('mobile_number', 'Mobile Number', 'required|trim|is_unique[admins.mobile_number]');
+		$this->form_validation->set_rules('password', 'Password', 'required|min_length[8]');
+
+		if ($this->form_validation->run() == FALSE) {
+			$this->create_owner($id);
+		} else {
+			$password = hash("sha512", $password);
+			$user = array(
+				'username' => $username,
+				'first_name' => $first_name,
+				'last_name' => $last_name,
+				'email' => $email,
+				'mobile_number' => $mobile_number,
+				'role' => 'admin',
+				'password' => $password,
+				'active' => 1,
+				'logo' => $logo,
+			);
+
+
+			$this->db->trans_start();
+
+			$this->db->insert('admins', $user);
+			$last_id = $this->db->insert_id();
+
+			$this->db->set('admin_id', $last_id);
+			$this->db->where('restaurants.id', $restaurant);
+			$this->db->update('restaurants');
+
+			$this->db->set('status', 2);
+			$this->db->where('id', $id);
+			$this->db->update('claim_your_business');
+
+			$this->db->trans_complete();
+
+			$this->session->set_flashdata('success', 'You have stored the clients successfully');
+			redirect("admin/owner-request");
+		}
+	}
+
+//	admin dashboard statistics page
+	public function owner_index()
+	{
+		$data['user'] = $this->session->userdata('user');
+		$data['title'] = "Home";
+
+		$data['widget'] = array(
+			'users' => $this->users_count(),
+			'restaurant' => $this->restaurant_count($data['user']['user_id']),
+			'share' => $this->share_count($data['user']['user_id']),
+			'reviews' => $this->reviews_count($data['user']['user_id']),
+		);
+		$data['restaurants'] = $this->my_restaurants($data['user']['user_id']);
+
+
+		$this->load->view('layouts/header.php', $data);
+		$this->load->view('admin/owner/home.php');
+		$this->load->view('layouts/footer.php');
+	}
+
+	private function users_count()
+	{
+		$this->db->select("count(id) as count");
+		$data = $this->db->get_where("users", array("verify" => 1))->row();
+		return $data != NULL ? $data->count : 0;
+	}
+
+	private function restaurant_count($id)
+	{
+		$this->db->select("count(id) as count");
+		$data = $this->db->get_where("restaurants", array("admin_id" => $id))->row();
+		return $data != NULL ? $data->count : 0;
+	}
+
+	private function share_count($id)
+	{
+		$this->db->select("count(notification.id) as count");
+		$this->db->join('notification', 'restaurants.id = notification.action_id');
+		$data = $this->db->get_where("restaurants", array("restaurants.admin_id" => $id, "notification.click_action" => 'share_request'))->row();
+		return $data != NULL ? $data->count : 0;
+	}
+
+	private function reviews_count($id)
+	{
+		$this->db->select("count(reviews.id) as count");
+		$this->db->join('reviews', 'restaurants.id = reviews.restaurant_id');
+		$data = $this->db->get_where("restaurants", array("restaurants.admin_id" => $id))->row();
+		return $data != NULL ? $data->count : 0;
+	}
+
+	private function my_restaurants($id)
+	{
+		$this->db->select("restaurants.id, restaurants.name");
+		$data = $this->db->get_where("restaurants", array("admin_id" => $id, 'status' => 1))->result();
+		return $data != NULL ? $data : array();
+	}
+
+	public function owner_chart()
+	{
+		$id = $this->input->post('id');
+
+		$this->db->select("AVG(overall) as overall, AVG(taste) as taste, AVG(charcoal) as charcoal,
+		 AVG(cleanliness) as cleanliness, AVG(staff) as staff, AVG(value_for_money) as value_for_money");
+		$rate = $this->db->get_where('rates', array("restaurant_id" => $id))->row();
+		$data['rate'] = $rate;
+
+		$this->db->select("FLOOR (DATEDIFF(CURDATE(),FROM_UNIXTIME(date_of_birth, '%Y-%m-%d'))/365) as age");
+		$this->db->join('users', 'rates.user_id = users.id');
+		$this->db->group_by('rates.user_id');
+		$rate_by_age = $this->db->get_where('rates', array("restaurant_id" => $id, 'users.verify' => 1))->result();
+		$data['rate_by_age'] = $rate_by_age;
+
+		$this->output->set_output(json_encode($data, JSON_PRETTY_PRINT))->_display();
+		exit;
+	}
 
 
 }
