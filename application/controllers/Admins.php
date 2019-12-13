@@ -31,6 +31,21 @@ class Admins extends CI_Controller
 		);
 		$data['restaurants'] = $this->Statistic->all_restaurants();
 
+
+		$this->db->select('name, lat ,lng');
+		$map_res = $this->db->get_where('restaurants', array('status' => 1))->result();
+
+		$map = array();
+		foreach ($map_res as $key => $val){
+			$v = array();
+			$v[] = $val->name;
+			$v[] = floatval($val->lat);
+			$v[] = floatval($val->lng);
+			$v[] = 2;
+			$map[] = $v;
+		}
+		$data['restaurants_map'] = $map != NULL ? json_encode($map) : array();
+
 		$this->load->view('layouts/header.php', $data);
 		$this->load->view('admin/home.php');
 		$this->load->view('layouts/footer.php');

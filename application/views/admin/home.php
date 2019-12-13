@@ -60,7 +60,8 @@
 
 	<div class="col-sm-12">
 		<div class="white-box">
-			<h3 class="box-title res_name text-center" style="letter-spacing: 0.5em; font-weight: bold; font-size: 27px;"></h3>
+			<h3 class="box-title res_name text-center"
+				style="letter-spacing: 0.5em; font-weight: bold; font-size: 27px;"></h3>
 		</div>
 	</div>
 
@@ -83,13 +84,48 @@
 	</div>
 </div>
 
+<div class="row map_part">
+	<div id="map" class="col-md-12" style="height: 500px;"></div>
+</div>
+
+<script src="http://maps.google.com/maps/api/js?v=3.exp&sensor=false&callback=initialize&key=AIzaSyDsz2KPO5FSf6PDx2YwCTtB1HBt2DkXFrY" type="text/javascript"></script>
+
+<script type="text/javascript">
+
+    var locations = <?php echo json_encode($restaurants_map); ?>;
+    locations = JSON.parse(locations)
+
+    var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 14,
+        center: new google.maps.LatLng(33.89, 35.50),
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    });
+
+    var infowindow = new google.maps.InfoWindow();
+
+    var marker, i;
+
+    for (i = 0; i < locations.length; i++) {
+        marker = new google.maps.Marker({
+            position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+            map: map
+        });
+
+        google.maps.event.addListener(marker, 'click', (function (marker, i) {
+            return function () {
+                infowindow.setContent(locations[i][0]);
+                infowindow.open(map, marker);
+            }
+        })(marker, i));
+    }
+</script>
 
 <script>
 
-    function send(_this){
+    function send(_this) {
         let val = _this.val();
         var name = $("#restaurants option:selected").text();
-        if(val != null || val != "") {
+        if (val != null || val != "") {
             $.ajax({
                 type: 'POST',
                 dataType: 'json',
@@ -139,15 +175,14 @@
                     $('.canvas_father_2').append(`<canvas id="chart3" height="150"></canvas>`);
 
                     var age_18 = 0, age_31 = 0, age_50 = 0, age_other = 0;
-                    for (i = 0; i < res.rate_by_age.length; i++){
-                        if (res.rate_by_age[i].age >= 18 && res.rate_by_age[i].age <= 30){
+                    for (i = 0; i < res.rate_by_age.length; i++) {
+                        if (res.rate_by_age[i].age >= 18 && res.rate_by_age[i].age <= 30) {
                             age_18 += 1;
-                        }else if (res.rate_by_age[i].age >= 31 && res.rate_by_age[i].age < 50){
+                        } else if (res.rate_by_age[i].age >= 31 && res.rate_by_age[i].age < 50) {
                             age_31 += 1;
-                        }else if(res.rate_by_age[i].age > 50){
+                        } else if (res.rate_by_age[i].age > 50) {
                             age_50 += 1;
-                        }
-                        else {
+                        } else {
                             age_other += 1;
                         }
                     }
@@ -177,7 +212,7 @@
     $(document).ready(function () {
         $('#restaurants').select2();
         let a = $('#restaurants').find("option").eq(1);
-        if(a.val() != undefined) {
+        if (a.val() != undefined) {
             $("#restaurants").val(a.val());
             $('#restaurants').trigger('change.select2');
             send(a);
