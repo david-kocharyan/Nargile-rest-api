@@ -13,17 +13,23 @@ class Admins extends CI_Controller
 		$this->load->model("Admin");
 	}
 
-	/**
-	 * Display a listing of the resource.
-	 */
 	public function index()
 	{
+		$this->load->model("Statistic");
+
 //		check user type
 		if ($this->session->userdata('user')['role'] != 'superAdmin') redirect('admin/home');
 
 		$data['user'] = $this->session->userdata('user');
 		$data['title'] = "Home";
 
+		$data['widget'] = array(
+			'users' => $this->Statistic->all_users_count(),
+			'restaurant' => $this->Statistic->all_restaurant_count(),
+			'share' => $this->Statistic->all_share_count(),
+			'reviews' => $this->Statistic->all_reviews_count(),
+		);
+		$data['restaurants'] = $this->Statistic->all_restaurants();
 
 		$this->load->view('layouts/header.php', $data);
 		$this->load->view('admin/home.php');
@@ -332,61 +338,26 @@ class Admins extends CI_Controller
 		}
 	}
 
+
 //	admin dashboard statistics page
 	public function owner_index()
 	{
+		$this->load->model("Statistic");
+
 		$data['user'] = $this->session->userdata('user');
 		$data['title'] = "Home";
 
 		$data['widget'] = array(
-			'users' => $this->users_count(),
-			'restaurant' => $this->restaurant_count($data['user']['user_id']),
-			'share' => $this->share_count($data['user']['user_id']),
-			'reviews' => $this->reviews_count($data['user']['user_id']),
+			'users' => $this->Statistic->users_count(),
+			'restaurant' => $this->Statistic->restaurant_count($data['user']['user_id']),
+			'share' => $this->Statistic->share_count($data['user']['user_id']),
+			'reviews' => $this->Statistic->reviews_count($data['user']['user_id']),
 		);
-		$data['restaurants'] = $this->my_restaurants($data['user']['user_id']);
-
+		$data['restaurants'] = $this->Statistic->my_restaurants($data['user']['user_id']);
 
 		$this->load->view('layouts/header.php', $data);
 		$this->load->view('admin/owner/home.php');
 		$this->load->view('layouts/footer.php');
-	}
-
-	private function users_count()
-	{
-		$this->db->select("count(id) as count");
-		$data = $this->db->get_where("users", array("verify" => 1))->row();
-		return $data != NULL ? $data->count : 0;
-	}
-
-	private function restaurant_count($id)
-	{
-		$this->db->select("count(id) as count");
-		$data = $this->db->get_where("restaurants", array("admin_id" => $id))->row();
-		return $data != NULL ? $data->count : 0;
-	}
-
-	private function share_count($id)
-	{
-		$this->db->select("count(notification.id) as count");
-		$this->db->join('notification', 'restaurants.id = notification.action_id');
-		$data = $this->db->get_where("restaurants", array("restaurants.admin_id" => $id, "notification.click_action" => 'share_request'))->row();
-		return $data != NULL ? $data->count : 0;
-	}
-
-	private function reviews_count($id)
-	{
-		$this->db->select("count(reviews.id) as count");
-		$this->db->join('reviews', 'restaurants.id = reviews.restaurant_id');
-		$data = $this->db->get_where("restaurants", array("restaurants.admin_id" => $id))->row();
-		return $data != NULL ? $data->count : 0;
-	}
-
-	private function my_restaurants($id)
-	{
-		$this->db->select("restaurants.id, restaurants.name");
-		$data = $this->db->get_where("restaurants", array("admin_id" => $id, 'status' => 1))->result();
-		return $data != NULL ? $data : array();
 	}
 
 	public function owner_chart()
