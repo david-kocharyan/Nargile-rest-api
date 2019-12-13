@@ -147,6 +147,7 @@ class Community_Api extends REST_Controller
 		DATE_FORMAT(FROM_UNIXTIME(date_of_birth), '%M %D %Y') as date_of_birth");
 		$this->db->where("DAYOFYEAR(FROM_UNIXTIME(date_of_birth)) BETWEEN DAYOFYEAR(NOW()) + 1 AND DAYOFYEAR(NOW()) + 31");
 		$this->db->where("users.id != $res");
+		$this->db->where(" ( users.date_of_birth != 0 OR users.date_of_birth != '' ) ");
 		$this->db->order_by("users.id DESC");
 		$this->limits();
 		$data = $this->db->get('users')->result();
@@ -183,6 +184,7 @@ class Community_Api extends REST_Controller
 		$this->db->select("COUNT(users.id) as pages");
 		$this->db->where("DAYOFYEAR(FROM_UNIXTIME(date_of_birth)) BETWEEN DAYOFYEAR(NOW())  AND DAYOFYEAR(NOW()) + 31");
 		$this->db->where("users.id != $res");
+		$this->db->where(" ( users.date_of_birth != 0 OR users.date_of_birth != '' ) ");
 		$this->db->order_by("users.id DESC");
 		$data = $this->db->get('users')->row();
 		return $data != null ? $data : 0;
