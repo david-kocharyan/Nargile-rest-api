@@ -115,7 +115,13 @@ class Users_API extends REST_Controller
 			$this->response($response, $status);
 			return;
 		} else {
-			$verif_code = rand(1000, 9999);
+
+
+
+
+
+
+			$verif_code = rand(100000, 999999);
 			$send_sms = $this->sms($verif_code, $mobile_number);
 			if ($send_sms == false) {
 				$response = array(
@@ -295,7 +301,7 @@ class Users_API extends REST_Controller
 			return;
 		}
 
-		$verif_code = rand(1000, 9999);
+		$verif_code = rand(100000, 999999);
 		$this->db->set("verify_code", $verif_code);
 		$this->db->where("id", $user->id);
 		$this->db->update("users");
