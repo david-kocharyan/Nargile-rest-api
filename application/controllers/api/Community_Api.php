@@ -199,9 +199,9 @@ class Community_Api extends REST_Controller
 	{
 		$page_sql = ("SELECT COUNT(friends_id) as pages	
 					FROM 
-					(SELECT friends.id as friends_id FROM friends JOIN users on users.id = friends.from_id where to_id = $res and status = 1 and DAYOFYEAR(FROM_UNIXTIME(date_of_birth)) BETWEEN DAYOFYEAR(NOW()) + 5  AND DAYOFYEAR(NOW()) + 31 and ( users.date_of_birth != 0 OR users.date_of_birth != '' )
+					(SELECT friends.id as friends_id FROM friends JOIN users on users.id = friends.from_id where to_id = $res and status = 1 and DAYOFYEAR(DATE_FORMAT(DATE_ADD(FROM_UNIXTIME(0), interval date_of_birth second),'%Y-%m-%d')) BETWEEN DAYOFYEAR(NOW()) + 5  AND DAYOFYEAR(NOW()) + 31 and ( users.date_of_birth != 0 OR users.date_of_birth != '' )
 					UNION 
-					(SELECT friends.id as friends_id FROM friends JOIN users on users.id = friends.to_id where from_id = $res and status = 1 and DAYOFYEAR(FROM_UNIXTIME(date_of_birth)) BETWEEN DAYOFYEAR(NOW()) + 5  AND DAYOFYEAR(NOW()) + 31 and ( users.date_of_birth != 0 OR users.date_of_birth != '' ) ) ) as p");
+					(SELECT friends.id as friends_id FROM friends JOIN users on users.id = friends.to_id where from_id = $res and status = 1 and DAYOFYEAR(DATE_FORMAT(DATE_ADD(FROM_UNIXTIME(0), interval date_of_birth second),'%Y-%m-%d')) BETWEEN DAYOFYEAR(NOW()) + 5  AND DAYOFYEAR(NOW()) + 31 and ( users.date_of_birth != 0 OR users.date_of_birth != '' ) ) ) as p");
 		$data = $this->db->query($page_sql)->row();
 		return $data != null ? $data : 0;
 	}
