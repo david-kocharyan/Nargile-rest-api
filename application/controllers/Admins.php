@@ -215,8 +215,7 @@ class Admins extends CI_Controller
 		$data['user'] = $this->session->userdata('user');
 		$data['title'] = "Users List";
 
-		$this->db->select('username, first_name, last_name, date_of_birth, mobile_number, email, coins, concat("/plugins/images/Logo/", image) as image');
-
+		$this->db->select('username, first_name, last_name, DATE_FORMAT(DATE_ADD(FROM_UNIXTIME(0), interval date_of_birth second),"%Y-%m-%d") as date_of_birth, mobile_number, email, coins, concat("/plugins/images/Logo/", image) as image');
 		$data['users'] = $this->db->get_where('users', array('verify' => 1))->result();
 
 		$this->load->view('layouts/header.php', $data);
