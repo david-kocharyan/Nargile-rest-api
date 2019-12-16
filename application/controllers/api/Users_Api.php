@@ -163,13 +163,13 @@ class Users_API extends REST_Controller
 			$message = $twilio->messages
 				->create($mobile, // to
 					array(
-						"from" => "+19723629637", // from
+						"from" => "+12562978706", // from
 						"body" => "Nargile App verification code is: $code" //body
 					)
 				);
 			return true;
 		} catch (Exception $e) {
-			return false;
+			var_dump($e);die;
 		}
 	}
 
