@@ -127,10 +127,11 @@ class Users_API extends REST_Controller
 				$this->response($response, self::HTTP_UNPROCESSABLE_ENTITY);
 				return;
 			}
-
 			$uuid = vsprintf('%s-%s', str_split(dechex(microtime(true) * 1000) . bin2hex(random_bytes(10)), 6));
 
-			if ($check == 'partial') {
+			$check_partial = $this->User->check_partial();
+
+			if ($check_partial == 1) {
 				$user_partial = $this->db->get_where($this->table, ["username" => $username, "verify" => 0])->row();
 
 				$password = hash("sha512", $password);

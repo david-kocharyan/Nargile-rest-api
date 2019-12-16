@@ -17,7 +17,7 @@ class User extends CI_Model
 		$this->db->insert($this->table, $data);
 		$insert_id = $this->db->insert_id();
 
-		return  $insert_id;
+		return $insert_id;
 	}
 
 //	register
@@ -31,24 +31,32 @@ class User extends CI_Model
 //	check username for unique
 	public function check_unique($username, $mobile_number, $email)
 	{
-		$checkPartialReg = $this->db->get_where($this->table, ["username" => $username, "verify" => 0])->row();
-
 		$checkUsername = $this->db->get_where($this->table, ["username" => $username, "verify" => 1])->row();
-		$checkMobile = $this->db->get_where($this->table, ["mobile_number" =>  $mobile_number, "verify" => 1])->row();
+		$checkMobile = $this->db->get_where($this->table, ["mobile_number" => $mobile_number, "verify" => 1])->row();
 		$checkEmail = $this->db->get_where($this->table, ["email" => $email, "verify" => 1])->row();
 
 		if ($checkUsername != NULL) {
 			return 'username';
-		}
-		elseif ($checkMobile != NULL){
+		} elseif ($checkMobile != NULL) {
 			return 'mobile number';
-		}
-		elseif ($checkEmail != NULL){
+		} elseif ($checkEmail != NULL) {
 			return "email";
-		}elseif ($checkPartialReg != NULL){
+		} elseif ($checkPartialReg != NULL) {
 			return 'partial';
 		}
 		return 2;
+	}
+
+	public function check_partial()
+	{
+		$checkPartialReg = $this->db->get_where($this->table, ["username" => $username, "verify" => 0])->row();
+
+		if ($checkPartialReg != NULL){
+			return 1;
+		}
+		else{
+			return 0;
+		}
 	}
 
 //	selectAll data from users table
