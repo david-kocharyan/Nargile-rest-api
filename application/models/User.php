@@ -20,6 +20,14 @@ class User extends CI_Model
 		return  $insert_id;
 	}
 
+//	register
+	public function register_update($data, $id)
+	{
+		$this->db->set($data);
+		$this->db->where('id', $id);
+		$this->db->update($this->table, $data);
+	}
+
 //	check username for unique
 	public function check_unique($username, $mobile_number, $email)
 	{

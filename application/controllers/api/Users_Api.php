@@ -96,14 +96,6 @@ class Users_API extends REST_Controller
 			);
 			$this->response($response, $status);
 			return;
-		} elseif ($check != 'partial') {
-			$response = array(
-				"msg" => 'We sent verification code to your mobile number. Please Check',
-				"data" => array(),
-				"success" => true
-			);
-			$this->response($response, self::HTTP_OK);
-			return;
 		} elseif (null == $this->input->post('password')) {
 			$status = self::HTTP_UNPROCESSABLE_ENTITY;
 			$response = array(
@@ -124,7 +116,6 @@ class Users_API extends REST_Controller
 			return;
 		} else {
 
-
 			$verif_code = rand(100000, 999999);
 			$send_sms = $this->sms($verif_code, $mobile_number);
 			if ($send_sms == false) {
@@ -139,27 +130,57 @@ class Users_API extends REST_Controller
 
 			$uuid = vsprintf('%s-%s', str_split(dechex(microtime(true) * 1000) . bin2hex(random_bytes(10)), 6));
 
-			$password = hash("sha512", $password);
-			$data = array(
-				"username" => $username,
-				"first_name" => $first_name,
-				"last_name" => $last_name,
-				"date_of_birth" => $date_of_birth,
-				"mobile_number" => $mobile_number,
-				"uuid" => $uuid,
-				"email" => $email,
-				"password" => $password,
-				'image' => 'User_default.png',
-				"verify_code" => $verif_code
-			);
+			if ($check != 'partial') {
+				$user_partial = $this->db->get_where($this->table, ["username" => $username, "verify" => 0])->row();
 
-			$this->User->register($data);
-			$response = array(
-				"msg" => 'We sent verification code to your mobile number. Please Check',
-				"data" => array(),
-				"success" => true
-			);
-			$this->response($response, self::HTTP_OK);
+				$password = hash("sha512", $password);
+				$data = array(
+					"username" => $username,
+					"first_name" => $first_name,
+					"last_name" => $last_name,
+					"date_of_birth" => $date_of_birth,
+					"mobile_number" => $mobile_number,
+					"uuid" => $uuid,
+					"email" => $email,
+					"password" => $password,
+					'image' => 'User_default.png',
+					"verify_code" => $verif_code
+				);
+
+				$this->User->register_update($data, $user_partial->id);
+
+				$response = array(
+					"msg" => 'We sent verification code to your mobile number. Please Check',
+					"data" => array(),
+					"success" => true
+				);
+				$this->response($response, self::HTTP_OK);
+				return;
+			}
+			else{
+
+				$password = hash("sha512", $password);
+				$data = array(
+					"username" => $username,
+					"first_name" => $first_name,
+					"last_name" => $last_name,
+					"date_of_birth" => $date_of_birth,
+					"mobile_number" => $mobile_number,
+					"uuid" => $uuid,
+					"email" => $email,
+					"password" => $password,
+					'image' => 'User_default.png',
+					"verify_code" => $verif_code
+				);
+
+				$this->User->register($data);
+				$response = array(
+					"msg" => 'We sent verification code to your mobile number. Please Check',
+					"data" => array(),
+					"success" => true
+				);
+				$this->response($response, self::HTTP_OK);
+			}
 		}
 	}
 
