@@ -129,10 +129,10 @@ class Users_API extends REST_Controller
 			}
 			$uuid = vsprintf('%s-%s', str_split(dechex(microtime(true) * 1000) . bin2hex(random_bytes(10)), 6));
 
-			$check_partial = $this->User->check_partial();
+			$check_partial = $this->User->check_partial($username);
 
 			if ($check_partial == 1) {
-				$user_partial = $this->db->get_where($this->table, ["username" => $username, "verify" => 0])->row();
+				$user_partial = $this->db->get_where('users', ["username" => $username, "verify" => 0])->row();
 
 				$password = hash("sha512", $password);
 				$data = array(

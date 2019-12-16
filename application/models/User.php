@@ -45,7 +45,7 @@ class User extends CI_Model
 		return 2;
 	}
 
-	public function check_partial()
+	public function check_partial($username)
 	{
 		$checkPartialReg = $this->db->get_where($this->table, ["username" => $username, "verify" => 0])->row();
 
