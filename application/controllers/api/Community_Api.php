@@ -155,12 +155,12 @@ class Community_Api extends REST_Controller
 		$limit = (null !== $this->input->get('limit') && is_numeric($this->input->get("limit"))) ? $this->input->get('limit') : 10;
 		$offset = (null !== $this->input->get('offset') && is_numeric($this->input->get("offset"))) ? $this->input->get('offset') * $limit : 0;
 
-		$sql = ("SELECT users.id as id, concat('/plugins/images/Logo/', users.image) as image, username, first_name, last_name, date_of_birth as date_of_birth
+		$sql = ("SELECT users.id as id, concat('/plugins/images/Logo/', users.image) as image, username, first_name, last_name, DATE_ADD(FROM_UNIXTIME(0), interval date_of_birth second),'%M %D %YY') as date_of_birth
 				FROM friends 
 				JOIN  users on users.id = friends.from_id 
 				where to_id = $res and status = 1 and (users.date_of_birth != 0 OR users.date_of_birth != '') and DAYOFYEAR(DATE_FORMAT(DATE_ADD(FROM_UNIXTIME(0), interval date_of_birth second),'%Y-%m-%d')) BETWEEN DAYOFYEAR(NOW()) + 5 AND DAYOFYEAR(NOW()) + 31
 				UNION
-				(SELECT users.id as id, concat('/plugins/images/Logo/', users.image) as image, username, first_name, last_name, date_of_birth as date_of_birth
+				(SELECT users.id as id, concat('/plugins/images/Logo/', users.image) as image, username, first_name, last_name, DATE_ADD(FROM_UNIXTIME(0), interval date_of_birth second),'%M %D %YY') as date_of_birth
 				FROM friends 
 				JOIN  users on users.id = friends.to_id 
 				where from_id = $res and status = 1 and (users.date_of_birth != 0 OR users.date_of_birth != '') and DAYOFYEAR(DATE_FORMAT(DATE_ADD(FROM_UNIXTIME(0), interval date_of_birth second),'%Y-%m-%d')) BETWEEN DAYOFYEAR(NOW()) + 5 AND DAYOFYEAR(NOW()) + 31  ) 
