@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 13, 2019 at 01:53 AM
+-- Generation Time: Dec 16, 2019 at 09:26 AM
 -- Server version: 5.6.41-84.1
 -- PHP Version: 7.2.7
 
@@ -353,7 +353,12 @@ INSERT INTO `claimed_offers` (`id`, `user_id`, `coin_offer_id`, `time`, `status`
 (268, 0, 0, 1575293397, 0),
 (269, 0, 0, 1575579318, 0),
 (270, 0, 0, 1575579977, 0),
-(271, 0, 0, 1575619278, 0);
+(271, 0, 0, 1575619278, 0),
+(272, 0, 0, 1576233238, 0),
+(273, 0, 0, 1576242104, 0),
+(274, 0, 0, 1576413658, 0),
+(275, 0, 0, 1576413661, 0),
+(276, 54, 66, 1576413705, 1);
 
 -- --------------------------------------------------------
 
@@ -415,8 +420,8 @@ INSERT INTO `coin_offers` (`id`, `restaurant_id`, `price`, `valid_date`, `descri
 (63, 4, 30, 1575352800, 'Keif is offering 1 freenargile in Achrafieh branch.', 0, 1),
 (64, 4, 40, 1575612000, 'Keif is offering 1 freenargile in Achrafieh branch.', 0, 1),
 (65, 4, 50, 1575871200, 'Keif is offering 1 freenargile in Achrafieh branch.', 0, 1),
-(66, 4, 60, 1577253600, 'Keif is offering 1 freenargile in Achrafieh branch.', 5, 1),
-(67, 4, 70, 1577253600, 'Keif is offering 1 freenargile in Achrafieh branch.', 1, 1);
+(66, 4, 60, 1577253600, 'Keif is offering 1 freenargile in Achrafieh branch.', 1, 1),
+(67, 4, 70, 1577253600, 'Keif is offering 1 freenargile in Achrafieh branch.', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -449,17 +454,6 @@ CREATE TABLE `favorites` (
   `restaurant_id` int(11) NOT NULL,
   `status` int(11) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `favorites`
---
-
-INSERT INTO `favorites` (`id`, `user_id`, `restaurant_id`, `status`) VALUES
-(21, 54, 17, 0),
-(22, 54, 1, 1),
-(24, 52, 1, 0),
-(26, 91, 19, 1),
-(27, 103, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -501,32 +495,18 @@ CREATE TABLE `friends` (
 --
 
 INSERT INTO `friends` (`id`, `from_id`, `to_id`, `status`) VALUES
-(6, 30, 47, 1),
-(9, 37, 54, 1),
 (56, NULL, NULL, NULL),
-(57, 48, 30, 2),
-(58, 30, 50, 2),
 (60, NULL, NULL, NULL),
 (61, NULL, NULL, NULL),
-(62, 91, 54, 1),
-(63, 54, 96, 1),
-(64, 91, 104, 1),
-(65, 104, 30, 2),
-(66, 104, 106, 2),
-(67, 91, 93, 2),
-(68, 91, 39, 2),
-(69, 54, 39, 2),
-(70, 91, 36, 2),
-(71, 108, 30, 2),
-(72, 108, 33, 2),
-(73, 54, 30, 2),
-(74, 108, 34, 2),
-(75, 108, 35, 2),
-(76, 108, 36, 2),
-(77, 103, 30, 2),
-(78, 103, 96, 1),
-(79, 103, 33, 1),
-(80, 109, 103, 2);
+(82, 136, 124, 2),
+(83, 136, 135, 1),
+(84, 136, 118, 1),
+(85, 136, 120, 1),
+(86, 136, 119, 1),
+(87, 123, 118, 1),
+(88, 136, 123, 2),
+(90, 138, 120, 2),
+(91, 120, 123, 1);
 
 -- --------------------------------------------------------
 
@@ -914,44 +894,30 @@ CREATE TABLE `notification` (
   `action_id` int(11) NOT NULL,
   `status` int(1) NOT NULL DEFAULT '1',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `notification`
 --
 
 INSERT INTO `notification` (`id`, `user_id`, `body`, `click_action`, `action_id`, `status`, `created_at`) VALUES
-(22, 54, 'test test Became Your Friend', 'friend_request', 91, 0, '2019-12-06 04:36:59'),
 (23, 30, 'Super22 Admin22 Became Your Friend', 'friend_request', 48, 1, '2019-12-06 04:44:32'),
-(24, 50, 'Super22 Admin22 Became Your Friend', 'friend_request', 30, 1, '2019-12-06 04:53:07'),
 (26, 30, 'test test Became Your Friend', 'friend_request', 54, 0, '2019-12-06 04:57:55'),
-(29, 96, 'test test Became Your Friend', 'friend_request', 54, 0, '2019-12-06 06:04:36'),
-(30, 91, 'test test Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', 1, 1, '2019-12-06 06:19:26'),
-(31, 91, 'test test Will Share A Afandina  Restaurant With You!', 'share_request', 13, 1, '2019-12-06 06:21:11'),
-(32, 91, 'test test Will Share A El Brimo  Restaurant With You!', 'share_request', 19, 1, '2019-12-06 06:21:49'),
-(33, 54, 'test test Will Share A El Brimo  Restaurant With You!', 'share_request', 19, 1, '2019-12-06 06:22:19'),
-(34, 104, 'test test Became Your Friend', 'friend_request', 91, 0, '2019-12-09 08:02:56'),
-(35, 104, 'test test Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', 1, 1, '2019-12-09 08:08:28'),
-(36, 104, 'test test Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', 1, 1, '2019-12-09 08:08:47'),
-(37, 104, 'test test Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', 1, 1, '2019-12-09 08:08:48'),
 (38, 30, 'hshsj bsjsjs Became Your Friend', 'friend_request', 104, 1, '2019-12-09 08:41:05'),
-(39, 106, 'hshsj bsjsjs Became Your Friend', 'friend_request', 104, 1, '2019-12-09 08:41:51'),
-(40, 93, 'test test Became Your Friend', 'friend_request', 91, 1, '2019-12-09 08:43:20'),
-(41, 39, 'test test Became Your Friend', 'friend_request', 91, 1, '2019-12-10 00:47:17'),
-(42, 39, 'test test Became Your Friend', 'friend_request', 54, 1, '2019-12-10 00:51:15'),
-(43, 36, 'test test Became Your Friend', 'friend_request', 91, 1, '2019-12-10 00:56:28'),
 (44, 30, 'cszzzzz cdsvdsv2 Became Your Friend', 'friend_request', 108, 1, '2019-12-10 05:31:47'),
-(45, 33, 'cszzzzz cdsvdsv2 Became Your Friend', 'friend_request', 108, 1, '2019-12-10 05:38:21'),
 (46, 30, 'test test Became Your Friend', 'friend_request', 54, 1, '2019-12-10 05:40:24'),
-(47, 34, 'cszzzzz cdsvdsv2 Became Your Friend', 'friend_request', 108, 1, '2019-12-10 07:16:18'),
-(48, 35, 'cszzzzz cdsvdsv2 Became Your Friend', 'friend_request', 108, 1, '2019-12-10 08:10:29'),
-(49, 36, 'cszzzzz cdsvdsv2 Became Your Friend', 'friend_request', 108, 1, '2019-12-10 08:12:03'),
 (50, 30, 'Zara Tunyan Became Your Friend', 'friend_request', 103, 1, '2019-12-11 03:57:26'),
-(51, 96, 'Zara Tunyan Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', 1, 1, '2019-12-12 12:42:19'),
-(52, 96, 'Zara Tunyan Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', 1, 1, '2019-12-12 12:43:32'),
-(53, 96, 'Zara Tunyan Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', 1, 1, '2019-12-12 12:44:16'),
-(54, 96, 'Zara Tunyan Will Share A Abo Waseem  Restaurant With You!', 'share_request', 2, 1, '2019-12-12 12:48:25'),
-(55, 103, 'szxdfgh azsxdcfvg Became Your Friend', 'friend_request', 109, 1, '2019-12-12 13:17:26');
+(56, 30, 'test test Became Your Friend', 'friend_request', 91, 1, '2019-12-13 06:41:55'),
+(57, 124, 'Marat Mkrtchyan Became Your Friend', 'friend_request', 136, 1, '2019-12-16 06:18:33'),
+(58, 135, 'Marat Mkrtchyan Became Your Friend', 'friend_request', 136, 0, '2019-12-16 06:18:43'),
+(59, 118, 'Marat Mkrtchyan Became Your Friend', 'friend_request', 136, 0, '2019-12-16 06:18:57'),
+(60, 120, 'Marat Mkrtchyan Became Your Friend', 'friend_request', 136, 0, '2019-12-16 06:18:59'),
+(61, 119, 'Marat Mkrtchyan Became Your Friend', 'friend_request', 136, 0, '2019-12-16 06:19:05'),
+(62, 118, 'Ani Mkrtchyan Became Your Friend', 'friend_request', 123, 0, '2019-12-16 06:24:41'),
+(63, 123, 'Marat Mkrtchyan Became Your Friend', 'friend_request', 136, 1, '2019-12-16 06:39:49'),
+(65, 120, 'Արմենուհի Մկրտչյան Sent You Friend Request', 'friend_request', 138, 1, '2019-12-16 08:47:20'),
+(66, 123, 'Armen Mkrtchyan Sent You Friend Request', 'friend_request', 120, 0, '2019-12-16 09:23:19'),
+(67, 123, 'Armen Mkrtchyan Will Share A Alturki  Restaurant With You!', 'share_request', 23, 1, '2019-12-16 09:24:22');
 
 -- --------------------------------------------------------
 
@@ -981,42 +947,13 @@ INSERT INTO `rates` (`id`, `user_id`, `restaurant_id`, `overall`, `taste`, `char
 (26, 30, 1, 3, 3, 3, 3, 3, 3),
 (27, 30, 5, 3, 3, 3, 3, 3, 3),
 (28, 30, 6, 3, 3, 3, 3, 3, 3),
-(29, 54, 4, 3, 3, 3, 3, 3, 3),
-(30, 54, 1, 3, 3, 3, 3, 3, 3),
-(31, 54, 4, 3, 3, 3, 3, 3, 3),
-(32, 54, 5, 3, 3, 3, 3, 3, 3),
-(33, 54, 2, 3, 3, 3, 3, 3, 3),
-(34, 54, 2, 3, 3, 3, 3, 3, 3),
-(35, 54, 1, 3, 3, 3, 3, 3, 3),
-(36, 54, 4, 3, 3, 3, 3, 3, 3),
-(37, 54, 10, 3, 3, 3, 3, 3, 3),
-(38, 54, 10, 3, 3, 3, 3, 3, 3),
-(39, 54, 5, 3, 3, 3, 3, 3, 3),
-(40, 54, 4, 3, 3, 3, 3, 3, 3),
-(41, 54, 10, 3, 3, 3, 3, 3, 3),
-(42, 46, 2, 3, 2, 4, 4, 3, 3),
-(43, 46, 1, 2, 1, 2, 4, 3, 3),
-(44, 46, 17, 4, 4, 4, 4, 5, 5),
-(45, 46, 2, 4, 5, 5, 5, 3, 3),
-(46, 54, 5, 1, 1, 1, 1, 1, 1),
-(48, 91, 1, 4, 4, 4, 5, 5, 3),
-(49, 91, 5, 3, 3, 3, 3, 3, 3),
-(50, 91, 12, 3, 3, 3, 3, 3, 3),
-(51, 103, 2, 4, 4, 4, 4, 4, 4),
-(52, 108, 2, 2, 2, 2, 2, 2, 2),
-(53, 108, 5, 3, 3, 3, 5, 3, 3),
-(54, 108, 1, 5, 5, 5, 5, 5, 3),
-(55, 108, 2, 5, 5, 5, 5, 5, 3),
-(56, 108, 1, 5, 5, 5, 5, 5, 5),
-(57, 108, 2, 5, 5, 5, 5, 5, 4),
-(58, 54, 1, 3, 3, 3, 3, 3, 3),
-(59, 54, 1, 3, 3, 3, 3, 3, 3),
-(60, 54, 1, 3, 3, 3, 3, 3, 3),
-(61, 54, 5, 3, 3, 3, 3, 3, 3),
-(62, 54, 1, 2, 2, 3, 2, 2, 2),
-(63, 54, 1, 3, 3, 3, 3, 3, 3),
-(64, 54, 1, 3, 2, 2, 4, 4, 4),
-(65, 54, 1, 4, 5, 4, 4, 4, 3);
+(72, 120, 1, 4, 4, 4, 2, 4, 5),
+(73, 120, 1, 4, 4, 5, 4, 5, 4),
+(74, 120, 1, 4, 4, 5, 4, 4, 4),
+(75, 120, 1, 4, 5, 1, 5, 5, 5),
+(76, 120, 1, 4, 4, 3, 4, 3, 4),
+(77, 120, 1, 4, 5, 4, 4, 4, 3),
+(78, 120, 1, 3, 3, 4, 3, 4, 4);
 
 -- --------------------------------------------------------
 
@@ -1044,8 +981,8 @@ CREATE TABLE `restaurants` (
 --
 
 INSERT INTO `restaurants` (`id`, `name`, `area_id`, `logo`, `phone_number`, `type`, `address`, `lat`, `lng`, `status`, `rate`, `admin_id`) VALUES
-(1, 'Cafe Em Nazih', 23, 'Logo_1569932559_1320868044.jpg', '9611745442', 'Cafe', 'Saifi Urban Gardens, Pasteur Street', '33.896025', '35.516406', 1, '3.4545454545455', 32),
-(2, 'Abo Waseem', 23, 'Logo_1569932569_1241077901.jpg', '9611745442', 'Resto-Cafe', 'Main Street, Hamra', '33.896189', '35.477883', 1, '3', 32),
+(1, 'Cafe Em Nazih', 23, 'Logo_1569932559_1320868044.jpg', '9611745442', 'Cafe', 'Saifi Urban Gardens, Pasteur Street', '33.896025', '35.516406', 1, '3.6666666666667', 32),
+(2, 'Abo Waseem', 23, 'Logo_1569932569_1241077901.jpg', '9611745442', 'Resto-Cafe', 'Main Street, Hamra', '33.896189', '35.477883', 1, '3.2307692307692', 32),
 (3, 'Toot Beirut', 23, 'Logo_1569932577_1638295637.jpg', '9611756166', 'Restaurant', 'Makdessi Street, Facing Liban Post', '33.896447', '35.482184', 1, '0', NULL),
 (4, 'Barjees Cafe', 23, 'Logo_1569932588_1476692797.jpg', '9611745356', 'Cafe', 'Main Street, Hamra', '33.896320', '35.477650', 1, '0', NULL),
 (5, 'Dar Al Sultani', 23, 'Logo_1569932610_1500670266.jpg', '9611741466', 'Restaurant', 'Sadat Street', '33.896430', '35.477017', 1, '0', 32),
@@ -1282,21 +1219,13 @@ CREATE TABLE `reviews` (
 --
 
 INSERT INTO `reviews` (`id`, `user_id`, `restaurant_id`, `review`) VALUES
-(18, 30, 6, 'aasdasdasdasdasd'),
-(19, 30, 8, 'asdasd'),
-(20, 30, 8, 'asdasdasd'),
-(22, 30, 5, '85858587848748dscas'),
-(23, 30, 5, 'asdasdasdas'),
-(24, 30, 8, 'asdasdasdasdasd'),
-(25, 46, 17, 'U'),
-(26, 46, 17, 'Vsbsj'),
-(28, 91, 1, 'Thanks'),
-(29, 91, 17, 'Hi'),
-(30, 91, 12, 'Hello'),
-(31, 108, 2, 'cfhgvbjknml;'),
-(32, 108, 1, 'vghjbnkl'),
-(33, 108, 12, 'bhbnjk'),
-(34, 54, 1, 'Good');
+(1, 120, 1, 'rate arecinq'),
+(2, 120, 1, 'rate 2 arecina'),
+(3, 120, 1, 'Test'),
+(4, 120, 1, 'Dddddf\n'),
+(5, 120, 1, 'es'),
+(6, 120, 1, 'haha'),
+(7, 120, 1, 'Ftfffdxz');
 
 -- --------------------------------------------------------
 
@@ -1382,162 +1311,42 @@ INSERT INTO `tokens` (`id`, `token`, `time`, `user_id`, `refresh_token`, `os`, `
 (143, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkYjgyN2YxY2UyZDIi.iaBKVBRDJ6iC3DDLdmvPJEpZzmLTd8j8eldjpReVsP4', '1572436337', 30, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkYjgyN2YxY2U2YmUi.kl_Kkt5RdgK-jbJSrq6ZmPpc5TpTEXyP1oXmwWN_Qy0', NULL, NULL),
 (144, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkYjkzNmVmOTI1ZWUi.J4D-lg8zOIOuloeo3Um2_xLwwSetmNRKArhNa1DKOjY', '1572505711', 30, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkYjkzNmVmOTJhZjIi.o9jtlvoVMojn1yx971mvTh3U3VEPQDcFpx9QXE7uTlA', NULL, NULL),
 (145, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkYjk2Y2E4MTlkNjQi.bGhEPoavGu1AMj9iOEwpQdvhxmnk9FnNzOTzq2mew3I', '1572519464', 30, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkYjk2Y2E4MTlkN2Ii.ilgKAo2WfvbGs4oq6y6r1xCMz7HS2XqLRB5X-1i-2V8', NULL, NULL),
-(146, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkYjk3MDc3MTJiYzki.mk3EtIG79XpmZexbRuXjkPgTzRr3lkqMAofhqXNdSp0', '1572520439', 46, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkYjk3MDc3MTJjNWYi.QYDEm1uE5KYfj9mg9fI__5yVwpGQAXeY1t99fk_ycF4', NULL, NULL),
-(147, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkYjk3MWUzMDliYjAi.gM2rJuS3HcuoG8J6LM2-20tKVHLPsXonmgSXkUOXyPM', '1572520803', 47, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkYjk3MWUzMDljNGEi.HEuKLG0OzAHfugqmQ-L5wG7G1ECb-ZMD6BsAj9paULo', NULL, NULL),
-(148, '', '', 48, '', NULL, NULL),
-(149, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkYjk3Mjk0ZWM2NWMi.qZIyPXbfobss11whs09dpZY356sEEIeMHQFK9nJrHRM', '1572520980', 49, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkYjk3Mjk0ZWM2Yzci.t9Dy7LMW18C7A_Ju85c4IlkXj27_a-sC9znAMMaoIL8', NULL, NULL),
-(150, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkYjk3MmRhMTdmYTIi.WaP6FBn6TwF-W8PnmbZrICDPwecxq7BkWOBajSiuaSM', '1572521050', 50, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkYjk3MmRhMTgwMmMi.lZ9sUEuAVYFjYR-JNHINetgSOY2AtfkKWXcMzBWaJjk', NULL, NULL),
-(151, '', '', 51, '', NULL, NULL),
-(152, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkYjk3ODQyNTVlZmIi.3FaROodGKMn3Qi9xLXllpIq1LgB07htE6iK-bHEGDZ0', '1572522434', 52, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkYjk3ODQyNTVmNzMi.Vf4av_TPQe9QRvSWoRtQdxmQ0LuXdW4FxKZpcCCLfNw', NULL, NULL),
-(153, '', '', 53, '', NULL, NULL),
-(154, '', '', 46, '', NULL, NULL),
-(155, '', '', 46, '', NULL, NULL),
-(156, '', '', 54, '', NULL, NULL),
-(157, '', '', 54, '', NULL, NULL),
-(158, '', '', 54, '', NULL, NULL),
-(159, '', '', 54, '', NULL, NULL),
-(160, '', '', 46, '', NULL, NULL),
-(161, '', '', 46, '', NULL, NULL),
-(162, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkYjk5ODM1NTA3NWIi.BsTlAw-f8IO_JxWU41oHoip0cnuiIgnyThOJFMz6OcU', '1572530613', 54, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkYjk5ODM1NTA3ZDIi.VLSfX9xZ3WSyuhBo8xn01E1_9bdbPZ0UO50lWY212fI', NULL, NULL),
-(163, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkYjk5YWE4MTgzOWUi.0IX1LA2HQzzHkMl8Em_9fwPNvIDWgjGGL9c7Em4ihiw', '1572531240', 54, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkYjk5YWE4MTg0MWQi.Au99Npt4DqFIy-89WKhO9MeZx4C8Z7D5TBHTeAJTBa0', NULL, NULL),
-(164, '', '', 55, '', NULL, NULL),
-(167, '', '', 54, '', NULL, NULL),
-(169, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkYzAxNWRjNGY3M2Yi.qcomZLeZ-W90iDft_t2uaVHeTbQh-1RKsxQ0gwWE064', '1572955996', 54, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkYzAxNWRjNGY3ZDci.VByr3w8jeCmE0IvO5HMbBm6zrH5wl7umuaEJLOepgIY', NULL, NULL),
 (175, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkYmM4ZDY0ZDM4Mzgi.tGTOsipLdVCPFjngKRqc5PJKAR6RjmYoRmLlkahWbuc', '1572724452', 30, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkYmM4ZDY0ZDM5NTIi.FOypiAvNn9UnarxDx5dOhlpqHlSPLfCAFJO545sEPTE', NULL, NULL),
-(176, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZDNiMmU4MWQzYWUi.uyRql_ynXlz1KezTvGZnrPX6UM-iIhatAdSjT62XNJg', '1574241384', 54, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZDNiMmU4MWQ0Mjki._JwOhC2tFaJ5ItjE2pqoOGjEKfzx-0uyIjVEpQTFlt4', NULL, NULL),
-(177, '', '', 54, '', NULL, NULL),
 (178, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkYzAyNjJjNDgzOGUi.XKlP1o2biCy752UR-XyOczjKqBIGRPHt5qsKtDBxCGo', '1572960172', 30, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkYzAyNjJjNDg0MTYi.Piks7845wo4m6-5kMpS0qOXlkclo0_gUgdstpuqUodg', NULL, NULL),
-(179, '', '', 55, '', NULL, NULL),
-(181, '', '', 54, '', NULL, NULL),
-(182, '', '', 54, '', NULL, NULL),
-(183, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkYzgzMzk0MTAzMjQi.5oKCYX1FODgY4NIPktUma2RRqQaElVwZP5gegk9GHeE', '1573487892', 54, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkYzgzMzk0MTA0NGEi.AFkFUV0g5ZwhVigI__XFJBqXEAV6Y4wLWfQVUPXytgU', NULL, NULL),
-(184, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZGQ1MzQ4OTI3MTki.dtcjFFeCqZZGHJagic5pRdLX-DIjW0NnkbmlQnl6upc', '1574872264', 57, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZGQ1MzQ4OTI3OWMi.eIicjpXqUwGcLFTisKQO-c1LQ44y4W9PqiHbA1RyZ_g', NULL, NULL),
 (185, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkY2E2MjY5ODkyYmEi.WtJg4alsF4wWZKC2cdes2GiSevhc_0USuE6bg0L3HlM', '1573630953', 30, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkY2E2MjY5ODkzM2Mi.BPto1wpLzy0PX-TE2Xpr6-ECnC9MDXg4KhQj36YxkHk', NULL, NULL),
 (186, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkY2MxZTUwYzlhMTMi.EdzvHIj0YLqw6fqMVcPBihJH0TA_Kp8DFVSORBSvqws', '1573744592', 30, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkY2MxZTUwYzlhODci.tP1ka1uBKz5Yt6FM9hQ6TD5ltG2kCfP_FlEg0q00Uik', NULL, NULL),
-(189, '', '', 54, '', NULL, NULL),
-(190, '', '', 54, '', NULL, NULL),
-(191, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZDI2N2U3OTcwMTci.dkH9dsUf7JoeK6QiP9oEOBtaS_HAzSW6tau7ni9fvTM', '1574156647', 54, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZDI2N2U3OTcwOGMi.72-PZiNZ6LpvbOjnuQytOhS9e3kE4536QAiOCgfcXsw', NULL, NULL),
-(192, '', '', 54, '', NULL, NULL),
-(193, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZDUzOWRjOTQwYjEi.BFgH6eTZQCuSgHYYzxrqntuHEeDkYhx-uBIg_FStCC4', '1574341468', 54, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZDUzOWRjOTQxYmIi.m73q0dGTVnsVKBxOIsnN26iJvarT3FdWB6DlILP619c', NULL, NULL),
-(194, '', '', 54, '', NULL, NULL),
-(195, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZDQ0NTg1MWIyNmMi.ryu6G5Xc0EEaZHt-nfIoZwnaSaJJG-cCYHcG2wW53SE', '1574278917', 54, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZDQ0NTg1MWIyZDIi.FhyN9kPSLOrxp-JHRgzjmeO85fUD8hPWyGW9GpJtEAA', NULL, NULL),
-(196, '', '', 54, '', NULL, NULL),
-(198, '', '', 54, '', NULL, NULL),
-(199, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZDRlNTBjMGRkZDUi.nYEazbm0AergPELUJy7_6dGZOVqlfsUjdpQOthvmclo', '1574319756', 54, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZDRlNTBjMGRlNDgi.ni3Xfei8QKGt4myAR1Pk-sqvgercvFlZ5inHNsDMx8w', NULL, NULL),
-(201, '', '', 54, '', NULL, NULL),
-(202, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZDUwNzYwOWUzNDMi.4uoFDmR5RTnPf27gIs7VyTJp-KCAejfNVtUZdE06PUM', '1574328544', 52, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZDUwNzYwOWUzYzci.tdT0AgRRjRl6upuwYL8AHAjgFt8FPlExorOzRcQPBJc', NULL, NULL),
-(203, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZDUyM2VjNWE1ODIi.abNkqZ6_0MPCD-MW3fWd3NXs42a4XiojbysYkl0CQOM', '1574335852', 52, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZDUyM2VjNWE1ZjYi.yeip0RWoaKzcuWdTh14jY2RIIru_P97hh-oGW6eyOv0', NULL, NULL),
-(204, '', '', 54, '', NULL, NULL),
-(205, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZDUzZTFhMzZjZTki.FEd0aXmaIGBsb5XtyUR-6mCeHiPHg1qSygOnK_WPFWY', '1574342554', 54, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZDUzZTFhMzZkNjki.nvHQsg5LcVhMyPnjvQ8KZHPDqreqBXyvw7tqO69oEUg', NULL, NULL),
-(206, '', '', 58, '', NULL, NULL),
-(207, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZDU0NzM1MmZjZDAi.SRCdKM94Pxl08KrHZwQnXgv-YzTIuhgJDJl7qa4WtRs', '1574344885', 58, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZDU0NzM1MmZkNTQi.PJhP_wzmYvFr-tdnEr3UCMs_iTfP3NGnp2EEOEkCpUs', NULL, NULL),
-(210, '', '', 54, '', NULL, NULL),
-(211, '', '', 54, '', NULL, NULL),
-(213, '', '', 54, '', NULL, NULL),
-(214, '', '', 54, '', NULL, NULL),
-(215, '', '', 54, '', NULL, NULL),
-(223, '', '', 54, '', NULL, NULL),
-(224, '', '', 54, '', NULL, NULL),
-(233, '', '', 54, '', NULL, NULL),
-(241, '', '', 54, '', NULL, NULL),
-(245, '', '', 54, '', NULL, NULL),
-(246, '', '', 54, '', NULL, NULL),
-(248, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZGU4MDE2MWQwZjUi.44dHfqhODVqZpbvHyxTm4PaTTzRN41rB6B3hmVZdL8w', '1574949270', 54, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZGU4MDE2MWQxNzEi.5pLi4RZY5J7PtSxiZfmWR1phK9ePs_Ltuf6AbDKrdPU', NULL, NULL),
-(249, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZGUxODZmYjk4MWIi.kif4H57rmCvGdeIS93n7FVqX384qE422SnWZyDrza9M', '1574922735', 54, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZGUxODZmYjk4OTYi.Ktn3NDdW_HdfJVhc1_4ZVuwGjSWve27UKi_va-HwMyA', NULL, NULL),
-(250, '', '', 54, '', NULL, NULL),
-(253, '', '', 91, '', NULL, NULL),
-(254, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZGU3YzJkNjFiY2Ii.W4Nss9u3mPFijPqyZn-VL2nIUrm-_CL5xi784NvHbB8', '1574948269', 91, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZGU3YzJkNjFjNTQi.GKKZO0Ur1i7fEe9YkU4o5F0LF4FfsL6R9a8N92DSYgk', NULL, NULL),
-(255, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZGU4MDA4NjU4YTgi.XBIoogQQdK3d_FG7H0I2sxCzDE2pJBpOZPEUQ4htMqg', '1574949256', 91, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZGU4MDA4NjU5MjUi.v28X1Hh0cB8TJ3bZvLH9HtGVf-TPEDBfXh9pcBS4NZs', NULL, NULL),
-(256, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZGU4MDMzNTM1ZTki.DmpeTCfUUQLTGPDT_Zzimis22gKAbb6HAa_hya-bTms', '1574949299', 91, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZGU4MDMzNTM2N2Ii.Y7HFBJSMUTX4V-DUDcXvNCFhnypWCM-Oi9jlqnePd7g', NULL, NULL),
-(257, '', '', 91, '', NULL, NULL),
-(258, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZTBjYTMzMWI1ZDci.psPb_ik4FAm6kuppbCnnXU0mpGaEBxdryYwS5xuLGwg', '1575099315', 91, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZTBjYTMzMWI2NTci.Pa1YydeUbSGr-1fLNrxIBIDOltjCAzyWBEtKH4mMkcM', NULL, NULL),
-(259, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZTBkM2QwMTIzYWIi.kWNX4843Qo5Pjnc0hHdNWGRXI4BX4bmeEGS6-wAehQ8', '1575101776', 91, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZTBkM2QwMTI0MmUi.c3IS8w7_efcDQSrCV_blK1o1jvc3a3wYrv77QBap6oE', NULL, NULL),
-(260, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZGY4ODUyMTk5MTYi.-ojXKWSt43TfOQHtvvOwLRoN-X5XWZT4Vt1W_hB7bM4', '1575016914', 91, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZGY4ODUyMTk5N2Ei.4iD91doC5W7Dld5p9ACmNmNTaWVqvRgIWM3Wu9eHLLM', NULL, NULL),
-(261, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZTRhZTQyODFlYWQi.YzlxM48-YfwyvTVV3zvOj8IsMLQb1ClDkfwq89sGA54', '1575354306', 91, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZTRhZTQyODFmMmIi.biQl9WesVy1SUF8Y-DK_stOAEMBiQ6E4a55tKJwJBAg', NULL, NULL),
-(262, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZTRiOTFmMjBlZGMi.ZFVQycu-yeMRvKRv-fJ1OkOsfywARdnuWUxvMnJXDRM', '1575357087', 91, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZTRiOTFmMjBmNWMi.6DKdk3Xj9q9GNBQiIHprhBoG7TrlsnmYs33VXsU1OI8', NULL, NULL),
-(263, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZTkwNWMzODBkMTYi.UWAXByflC7IwBAbvjdPk97BkenbyGXOT4E_9BSPGTFo', '1575638851', 91, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZTkwNWMzODBkOWIi.vSZVFPTV8a5ScWA3bjjjUDLbD49Cnq3Azgpc3W1JAtw', NULL, NULL),
-(265, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZTRiOTM2OWEzYjAi.6PZhXVuYoFkBGi6_juNOhWyDwyZCeLCpq36tHI1bAdE', '1575357110', 91, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZTRiOTM2OWE0MmQi.OPv9_FD2_oSpDxdjtcn4IKYFWDS6XHjQY-omWDeGU80', NULL, NULL),
-(266, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZTUwZDRiMzE4ZWUi.X5u3yfS6onX3f08pUBt-F1jjBCKqq9vunFtNfCqJ2bs', '1575378635', 91, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZTUwZDRiMzE5NjMi.CP8n5rtERImElFvr4A_x2L1YeBB98agOxV_FMbRA-S8', NULL, NULL),
-(268, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZTYwNTQxYTFmNjki.55dX-gn7T616JUCCFAMRq1HtmOyQH003jQFmBXOg1ok', '1575442113', 91, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZTYwNTQxYTFmYWIi.Pj8E571xY-kLs-WDsfYLqbS0PUKNXD_8mnENP3lanV4', NULL, NULL),
-(269, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZTYwYTA3MDA5ZmUi.7Ik39Be5NP8i2di8dePvBs8-rR-sTNj07WlE7pHO5kE', '1575443335', 91, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZTYwYTA3MDBhODci.v0CXS3JjxaYO91d7zl247TbMd-PhapUPUP_LIIqxtoM', NULL, NULL),
-(270, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZTYwZGZlNGFkYTci.QZZOzzHAtEU3NxiNZp51pHPHk8YZBdiISQjQiYvFIWw', '1575444350', 91, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZTYwZGZlNGFlMmYi.lnOD0jklspoDv7tiW4AZrUUVBC6v3DDFFmNG_0g2aGA', NULL, NULL),
-(271, '', '', 91, '', NULL, NULL),
 (272, '', '', 30, '', NULL, NULL),
-(273, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZTc5YWE1OGY3ODki.BEygbOXQOFdSAEnANMTlKjRp9SdEy450UdJRZC-atGs', '1575545893', 54, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZTc5YWE1OGY4MDUi.TBhsWg-ai-3ZOTTsw4AWD2sYh43wR-bCRuUqaFvWnLM', 0, 'cgnfZ-MeZxE:APA91bEZPWY3w1Rw-Ocq07lZ62MDOtjLQ4mVil_q2IbAqokECgjt1HKtX-ZbBhYNKiBpPOrE3mzT9YEdG8h21KNL8XZnlPUFrPBUVxstPfqC3wEBT0ro0fn7GtiB_F7q_cGMYWLtYter'),
-(274, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZTYxMzU0NDVlYTAi.ta9zRct6JsLXWYImCLt8L6jsr2swejlJNUc_zpo0_vA', '1575445716', 54, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZTYxMzU0NDVmMDMi.mdZUE9JiwaOCt_yS9ZSjEiFYWP9Xwyd6jT3ApYnsOHI', 0, 'dkUt1pPZFrU:APA91bFnp4p4TrORMpbf-2grf6EJwvmt5H7WCuRpA9qidQoMUjFHfOcXfNxIjaKAoTJ9foHRhYtXQaRr06csyhGLwGQcIjIBIlLryyF_PMJ_Yykt-k0hJw5SLq7Uum_tg3CDCXrthhil'),
 (275, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZTYxYjZjMjM0ZDMi.-_Ks937VkjrBkGEBJOvoLXAkVHR1ODe3EM2IVd21V34', '1575447788', 30, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZTYxYjZjMjM1NGQi.lVeNpGCsv06n8l3OMvdPd0ARklOEnoDjVUcti-k6QVY', 0, 'fJBeKYgCcCY:APA91bGSLw5WQ-mueJBG-hPH0k7XL2ffpIr3qgcu6G7lE8gnodb9RKWGHOKhYNZ6SCgPUGXaqPpxEo2poKRRkDdmfua8oPyStej97CN8Q5sLq9cUZ47iNCwa8KbFU2sEoFsO3wOxMPpD'),
-(276, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZTYxYmMyMDVlMmMi.EzWsFELDaHDfAjdW9Dg0OVHcV1XPCcIMmjlxTibxYRo', '1575447874', 91, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZTYxYmMyMDVlYTYi.ItE6PWrQ5Qmt106tfnnK31M01OKTp-AS1Y9cYnaI47Q', 0, ''),
 (277, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZTYzMWRlZGE3ODgi.DiNbjDEea3Bi-QKjtMgXEGyY-Kro2G_riaGky_-8LnA', '1575453534', 30, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZTYzMWRlZGE3Zjgi.KIPztZJD_Q9Ot2RjmyBok0p5ja2pGXmmASy5nYJ1bS8', 0, ''),
-(278, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZTYzMWYxNmJkN2Ui.hVyaPD8UlePy632X-hwrqw9meZUtiOgTynS3C1DALzU', '1575453553', 91, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZTYzMWYxNmJkZWUi.DM7LJzi6eHTEGbE5fa2nFdRLGrij13xFGWsTAkRG1V8', 0, 'feHksYtUO-w:APA91bH2mARLaH8TS2gR1ruHvUUkMVg-vMZcFsQFJfkWaybydaUMhgUVXA98GsWCeu7e_ofYolY4JwchzUm2RofLBuOSKmBDAUMDvyoCc2wSHafriCEZyNSAc0bFI5sNzzNHXIe8T2f4'),
 (279, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZTYzOWVjM2M5YzUi.9UC2HhsfXZoMDlQcyV6F7gu7E0GT0nIADBaZjxMgMjs', '1575455596', 30, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZTYzOWVjM2NhMzIi.F8N1PrEOBb7xZ4GrOeN2E0pOMsxUl5t_vK3se4Kpn-w', NULL, NULL),
-(280, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZTYzOWZjNTk2Zjki.RbmaODWn4uNqWBVAt5YJ5r8RGCZ7mX0tMKmpAIbNNSA', '1575455612', 91, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZTYzOWZjNTk3OGMi.qdfZms1mYUofowqvXcG7sVcdB6Ob7-r0DWnCao6yegc', 0, 'erqsqFwOmP8:APA91bG4kHiyM8W8axh-vcyftMJysyRrThyW_EyOmZcIk5BzKEDUw7qWCHX3w_9hVPE2tWtFB_Dx4AyKTEj6t81HoDJjBWoEC3v_Xp8rtBvQfcDi8nmaCdrpnny95TKqB1mHnRbr1My3'),
-(281, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZTY0MGFiNGFlY2Ei.ocBo52ymk6Z9p9D4MrZfmshnq9E9aSOqEpPuvCh3F0I', '1575457323', 91, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZTY0MGFiNGFmNDMi.-rvTzIaT0iyc0WJ7mUSXl44lNrP9LXqARuDnP8KXXZM', 0, 'coVqC6j_aP4:APA91bHUiw7vzYg58FlKRUlE-phttMvK5tMtoBC8DocuhQ1a7_0bwzEQw2LPIILIV_Gcg_eGQ5wxTQ690joWHe8-w9M3PNoEWsT67ASfRduizCTQ24iAO6diE90rsZ4U7nnjYyNlBFjt'),
-(282, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZTY0MGY4NmFjZjgi.kNqYIthByQOtr18sMMGzR9HQNrhN-31uK3cyBy9cccQ', '1575457400', 54, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZTY0MGY4NmFkNjci.1XS2jKQ093_i-zuAoYj4o_2XfPzyzkXp_PjNYymzlvI', 0, 'ffrCWgc36wA:APA91bHD5L5fvMDXTW9xEWlcmDhoNxZmc41hCTQdOBQ3x0k76vZuS8sD7BCh3n7KzAABcbxUeZ4Ur2KnhmFSl2B6bHQ0JrL_LZ9NslKwGolK9FQ6cRWLFvBRsLIcF7AeQhycz5GJFWyX'),
-(283, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZTc1N2M3M2ZlOWYi.M3WUjygLC29vxVqjAcACVlTso_SrXGR8SvGd08g37mA', '1575528775', 91, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZTc1N2M3M2ZmMTki.yMbS7bB-yFXN2_5QnsjprDFhMRjeBt2w84o9TNOzzkI', 0, 'c39Q9UM_pbo:APA91bHzNX-ReqZAj4ZtwZ-DIrWkXGgK72jtX-S5NC1o98BSXJtSUMBjmYn0dgbcDhp-xo7BDmwm8f9cQfX2N-BvyNg3H4Lj94aKb1mGNfyTQmuzFpYfA5uFRUwK51kY42VKnbtuHOnt'),
 (284, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZTc1YmMxMzNhMjki.xZkg5y3BJAUY_TBqtm_xnazbO3AWmiaI2yBztS2asAc', '1575529793', 30, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZTc1YmMxMzNhZjIi.6U9cHhly9MQMUiQGtzoip2ixfC4xa8GRceOcQ54S4H4', NULL, NULL),
-(285, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZTc3MDdmNzAxYTMi.Kzl7FGUm3Tq27CWqa1lJO9iM2JLqjlZWE_B9ipv7jiU', '1575535103', 54, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZTc3MDdmNzAyMDci.UKP-FNcabGBWmE4wHXeTlIjvrVOskRLvZ0ifQlnZxvA', 0, 'cHI5ic-mBJw:APA91bE2QxozQh3_rpSDYh-zTcQ-cP0fcL4MNx_DTPdSOxvAoRbZ0WP0-Sx7CehnOl_wovoEObqqj6oNmlMCiEldPdEgMiJlC33UufWQ7Se3zmn_xTvKzgZjoHfH4y6f2yOK1hby0L4h'),
-(286, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZTc4YTIzZGRkZmMi.SVHcaxQsIo_kNzcLT-VWo21cdN4neyLNc2roraUSO_g', '1575541667', 91, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZTc4YTIzZGRlNzQi.ercSSS6NxU0Y-aQXtrVjRyFyPDnqKfaCTzWm3yeZx68', 0, 'dz59wa6TNU4:APA91bHQ5H-9UmxYQMDs7aUtyLC2Z-NpdLT_UvrsCnNxdvUFm3fWGcqRBilR2-4zPZIcPHcgVn9QHKerReM3ktD3lsJf_5BW3utcJWoHLcDoS0_AM14srcXR8h3jUxaOVfS98M9Tyg4h'),
-(287, '', '', 54, '', NULL, NULL),
 (288, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZTdhNDk3ZDQ5MWIi.NQMZK49jnVqqOxjh4b8Mnf9KESHqjU1NJ4RrubxfQOg', '1575548439', 30, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZTdhNDk3ZDQ5YjAi.zLZ6TUyl9zM21XpK4ZpF0ZYCIZFHl7rMKx4Xd6cgGBo', NULL, NULL),
-(289, '', '', 54, '', NULL, NULL),
-(290, '', '', 91, '', NULL, NULL),
-(291, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZTdiOTRmYzhiYWEi.bflMmAqsOb6MxWqUGoxjhnQvYsm0rs3MjaudKtwlRnA', '1575553743', 91, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZTdiOTRmYzhkN2Ui.JVVnGpspqMXZ05_tKLwGvNsEFSRGCg8_IZL4xT5Rmws', 0, 'dXn7zz4iGfs:APA91bGI4HcAw_iq0F5KM12PUap29ak3o2k67BwotfX9kG_UAppUgwRbiiRhrHGQjteyaqqmdvihNbDXtixhKRtTGIgJH7vwbWzY1keW8ZJDgKIyaCaaBYmiQCM8Evg7phtqyiadfV5z'),
-(292, '', '', 54, '', NULL, NULL),
-(294, '', '', 54, '', NULL, NULL),
-(296, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZThkMjBmMGM4MjAi.R-dk98IhCXfSrgGkLQnesGsnGGbjZLG-61t9Olfh5eY', '1575625615', 91, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZThkMjBmMGM4ODYi.zqm1NeozubtDle_HN08MNOQVb6MskkFkP5hdMFwjQkI', 0, 'f7G46WMja6k:APA91bGMcCEY_zKgRGlz0Xf9K3rfxq6u11eWkuFqjaIkKr9OCCPKMyuwQMhwqq3gQ6AGwm6x4hdNMQPiXw92sjMCSOLpLmaMfk8YrNf8UyvsYxC12CiurGenueEZP-C_ZPyXraNY4gXe'),
-(297, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZTkwNWNkODdhZTci.fBiFjaHpa1Efzb__C6OajE9BGsBqAXUsJUgzaa01JpQ', '1575638861', 91, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZTkwNWNkODdiNWIi.SeXjGeEbtwWNFUe-KM2o5TypMTP8x1mXL6Soh1Yj9T0', NULL, NULL),
-(298, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZTkwNWY5M2I2ODgi.c73GRaOC0ZbPkoS63izdvOUVnqpXn9DfeL6Xr_Q7umc', '1575638905', 91, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZTkwNWY5M2I2ZWUi.urTzHwxEfb89ZH3Odsbl7u8E-tYVEzQwG3lJILBFsUU', 0, 'cgnfZ-MeZxE:APA91bEZPWY3w1Rw-Ocq07lZ62MDOtjLQ4mVil_q2IbAqokECgjt1HKtX-ZbBhYNKiBpPOrE3mzT9YEdG8h21KNL8XZnlPUFrPBUVxstPfqC3wEBT0ro0fn7GtiB_F7q_cGMYWLtYter'),
-(299, '', '', 54, '', NULL, NULL),
-(300, '', '', 91, '', NULL, NULL),
-(301, '', '', 54, '', NULL, NULL),
-(302, '', '', 54, '', NULL, NULL),
-(303, '', '', 91, '', NULL, NULL),
 (304, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZWEyYWVmZDExMDci.q1nuzh4OR_iDaCwba25tN0hm1jOVE3Hqyv7kECeNmE8', '1575713903', 30, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZWEyYWVmZDExNzQi.qGvMYMs77z_IYJyp5EPkxIOlqik_nHBCTLoycVOEkSI', 0, 'dWp1NpQXu5c:APA91bGApvmcbTKKCC6PoaOKFwxl3sz2oyxWXhlW3tpgxvV307MF1EMx42L6L5dsw_ZzRPpEjiIBkt-THpp7_fjBnjYUjjngxtcWazqNXTHiol719JOmRad6TbXfOvm1pi0ojeDi3O-Q\r\n'),
-(305, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZWEyZGE4NDg4NjYi.t3UK6xBSNYv8Nb6q-lMqafcoe4PlP0Ghf01fh5K_ht4', '1575714600', 91, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZWEyZGE4NDg4ZDMi.VFeTwNFkqnXkiEGoaoNcRr8V0d5_85fnUWaCaAHLQlc', NULL, NULL),
-(306, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZWEyZmUxMjJlMWIi.pPvzlLaj0R6q7jDAmlXJyW10phJx1RDzEH4dZ3EijLw', '1575715169', 54, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZWEyZmUxMjJlOTIi.joKDp8EsO1Ic1AOwOFY-ywj_G2r0ZV3yOiV4PPt23jc', 0, 'e14ohTnRTs0:APA91bHiOtYn55fsjmQ47gbfWegKkMiOMXUHrgSwsaLJiXSKiR3f4lnO0kIpbfpcxWS4jVkw6Dgc9mPnNwVit3XBd4G3sqZzd_EvkDaSk2nLeBMmknNJMkIThZZ09-SuqkbJNYa1oagJ'),
-(307, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZWEyZmUxMjNmM2Ii.riSeumPD-NoVUz5Se7uexUhq_YufOdwU7TPpnOVnvIM', '1575715169', 54, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZWEyZmUxMjNmYjMi.p8PY1RTL8zSBPOzI0HV6owe6dQQUuivoGxIqpPDjhD8', 0, 'e14ohTnRTs0:APA91bHiOtYn55fsjmQ47gbfWegKkMiOMXUHrgSwsaLJiXSKiR3f4lnO0kIpbfpcxWS4jVkw6Dgc9mPnNwVit3XBd4G3sqZzd_EvkDaSk2nLeBMmknNJMkIThZZ09-SuqkbJNYa1oagJ'),
-(308, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZWEzMDRlNDU4OGUi.eu7JiqmiBLzfSebz87KyCJrgIjUqZnI7E305D305XXU', '1575715278', 91, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZWEzMDRlNDU5MDki.hEIn3A_7d2PFMdzh8e6qVBIzOektdtzhcRiXx3RQfCM', 0, 'd5mtjo2D7bU:APA91bGerQZT8i-8JKzV7TDwz8vGlqJKn8j1JeHf94FYur0p2ZpjlD2TQGKOg8cQbfPs0AFzs1SO9tPghkRzAseJuXwxldR-Ny-MpVLxKP00bK4-k-H2iUTUSdbTlnH_Git0I9n1IhHH'),
-(309, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZWEzMTQwZDBjNTYi.Ur0Y0iv_-lI0xwlwlvI43jAHMdNvNLP-oXFErlc0qHo', '1575715520', 54, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZWEzMTQwZDBjYzYi.Y4MtQftkmowDNTWgstnamcYfJugfq74HdP-m-_aiquI', 0, 'cCVTsiEYnGc:APA91bEIdrsshV3K-7ohftNCRYNxSWCmPgKd_mINzSJ7lvENrQyUeBArQppD9ARzHLjZa7__8hxLzNUe06LOECeIfGIyuIeaJ9GDMmhEuBWgrSmvnFelFJCc4VCGoadw3UHpIKcJi0n4'),
-(310, '', '', 91, '', NULL, NULL),
-(311, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZWEzMmI1OTc3ZDMi.Qi_BdyWPxrM1711ax865V4i4snUkRziCJ_hgGklujYg', '1575715893', 54, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZWEzMmI1OTc4ZDki.oX3vqv8gj2BjTTeolKpfjBqwqwbdCzDR-eZryIcCjcE', 0, 'feb-c2pAhM4:APA91bGWJewO0aH3WVrbPEd_lMhkcY9Em0a4mK8FRCrOKadSyhKBhoGYa1RT57J2RTdDt465Xm7bCqtrMGnWJr_5YsH6nz6-fDJEXcPZ3NLQL9Vahp6ggIRnCz6pLbLSJLEHAOYjcrIQ'),
-(312, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZWEzMzU4NTY4N2Qi.P3l_9v4SKjvJp-s6ceR87Y40DWHJ9HG2eVD7OLmr7mk', '1575716056', 54, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZWEzMzU4NTY5Mjgi.Doq_ekqH-7F6AbemuaKt_A0C-e2IAMtMcoMKVwzVcA8', NULL, NULL),
-(313, '', '', 54, '', NULL, NULL),
-(314, '', '', 91, '', NULL, NULL),
-(315, '', '', 54, '', NULL, NULL),
-(316, '', '', 54, '', NULL, NULL),
-(317, '', '', 92, '', NULL, NULL),
-(318, '', '', 94, '', NULL, NULL),
-(319, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZWE0MTcxMTA2YTci.nwvOiX-czfT_cUVEYR2D3Wj0yHA87JYjhFYq9wzm_xk', '1575719665', 96, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZWE0MTcxMTA3MmYi.thyf1MA-b0N3Y4kPX3LKrUNEpkY07dFYa4g9uunq_KE', 0, 'cNTO0aN_N4Y:APA91bFlyZgB5TJZtqwaH6TNTvTwgX4MF68ppoFR0NkySFlDjL3aqyZiGvGoJZqHMPl4qy1Dd1tDe_2vXTR2a2o9nxQ2JyftcCrVw3lIqs9YcKO_HbjxTZhXMZkC85oYyF4ye6qKKSMb'),
-(320, '', '', 54, '', NULL, NULL),
-(321, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZjBlMzg0MWNjMzEi.5cGhQaz6rGEVh6tiu8OjM8gjTzvvjHpqYO09XfiQh0Q', '1576154372', 91, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZjBlMzg0MWNkM2Ui.fDb--qKm4M9-tE1aDI4u3GXgIfJSUgidfqWTqnGEKkM', 0, 'dWp1NpQXu5c:APA91bGApvmcbTKKCC6PoaOKFwxl3sz2oyxWXhlW3tpgxvV307MF1EMx42L6L5dsw_ZzRPpEjiIBkt-THpp7_fjBnjYUjjngxtcWazqNXTHiol719JOmRad6TbXfOvm1pi0ojeDi3O-Q'),
-(322, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZWE0ZDg3NTM1MWIi.AzloN6siXRt_HnCDzwXYx0MKrZNBwqDECU_bXMv0Mjg', '1575722759', 95, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZWE0ZDg3NTM1YWQi.xVtjoq1sIlx-55ZmvfSLTEiA0WbLa1AphShPGGRMxNI', NULL, NULL),
-(323, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZWE0ZDk1YmRmOTYi.lGNjWk8cWmNlXfm5IWalqQe2OLR-m-vpqT1vMjVwzAE', '1575722773', 100, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZWE0ZDk1YmUwODEi.oILJLOuxVLTpQfzRwA4rPNra_JPxbPuAgDo4R8e_MIc', NULL, NULL),
-(324, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZWE0ZTgxNTdhZGQi.1kIFPdZWIqZh-Ftykgu_FriqBr5g8q-FIrdW2H20B_s', '1575723009', 93, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZWE0ZTgxNTdiNmIi.ErnMZ_zsccsFWsIeaaekngeGpIBVk3WXU10u-IOpIkQ', NULL, NULL),
-(325, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZWE0ZWExN2E1Nzci.7NlrsnlynUXv_6YPwDObIIPQk40bXQJf5e-qt6xmWVc', '1575723041', 97, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZWE0ZWExN2E1ZWUi.nmMVMkgNq5Wn3KRf8Ldqj1tZsexeyD5_xkabV4P_zLc', NULL, NULL),
-(326, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZWE0ZmJlMGJjM2Qi.MyKhckkFmwIYupQ_XfMy_e8RpwQEzur96HUGYp1yxbE', '1575723326', 98, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZWE0ZmJlMGJkZGMi.52mroJEmDbGT9dk6H6Y21AcfmPT11O9q8dEXEuBP2w4', NULL, NULL),
-(327, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZWE1MGMwNzM5MWIi.wvINmm068G8GKg-tEAHYVF-DwgVyWDgDnKsNVW5LhPE', '1575723584', 99, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZWE1MGMwNzM5YTci.8zs64szHCpoT8uw2cHRB5ldjfpCkSBc5-MspHUZdxAM', NULL, NULL),
-(328, '', '', 101, '', NULL, NULL),
-(329, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZWE1MjJlN2Y0NTEi.LT1h174iP_wWfEYg3nuz1SWM1JlYc67VCEuXr_Jsqxs', '1575723950', 102, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZWE1MjJlN2Y0Yzki.B-LTW0srrGR5DE0TZxF8wyk-i79-aGEh_q2_-ne8azQ', NULL, NULL),
-(330, '', '', 103, '', NULL, NULL),
-(331, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZWRlZDVlZGUwOWYi.BVx26_HMgFUR2DLpiQDDk3lwL9FawXce8o1yzpT5xxs', '1575960286', 54, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZWRlZDVlZGUxMmYi.yLKTqIkqAY59cAQ5P2x4z0jtzvaibKqg_M2qykuX1uk', 0, 'dtPmSfPNY4o:APA91bG02qCBFJhdH8dxvTTa7MOQr77tx5sOu4QjlUuwFaYKw_K1P0Bmb4OOU3INrQeq3woR0MAkYQVIOXaolRtHE1F54w9PnJOMZQVJ6Gl7DMpIyF6kgsnjghaZ1oo023xnIs2deZ7U'),
-(332, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZWYzZTM3MmQyYzEi.2TfM5VDkr8j1HIfLiy8iChGOBd6eBCQTIUbexJplXCo', '1576046519', 104, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZWYzZTM3MmQzM2Ei.5FZIyCMLPoRoeJC7ihXrE-7p03j5X2b2A3OftSxriHk', 0, 'dFH1C0aY_qw:APA91bHw6mJJhOanDpXWp0ADDPtkPbYc7ZCTEMX4DSycprYVCJCnxHxau-xSA3P3A3Dk0XtZiTbQdg_e0t7tpBIoN5hzF6WkemqQw3wJw13RZX92O-Ga6WMdoPI5DPrkJwj8kbUe3s3V'),
-(333, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZWE1NzZhNTg3YWYi.8WKX2PshB4zBr16gsPMyzvfWiMSUu9MV7RST0MOvcLU', '1575725290', 54, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZWE1NzZhNTg4NDIi.bjAY40HAK2UiwxOcN235gpWQDz4ZOdl3yYLkecojp6A', 0, 'fYUtnKpX4q4:APA91bEz5Ex2y__qoSxXtfdD-6BjEw5QSoUAV5be7KAz_9-LliTaYQb6_OW1JtOx0O_YEpP866B6SOqfQ9M2I0kk1rNPw7PuhGC3ZkN20fBzwraVoGto8K-Xe_9BcNWOZhzkuoXI6L0I'),
-(334, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZWE1N2U0YTFkYmQi.ZBsbW2NwNmLq0uCZYIedAZvfgJpKmMplWV2doq2KhTY', '1575725412', 54, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZWE1N2U0YTFlMjci.gtGcdo_n7ULt-9dALU-G6N96G6u1wOikReeMF8qKNJo', 0, 'eOoYGyi5i6g:APA91bF8iXW-8B3JzFDTmD4aLrvrhlhwW3naDVnUPXybGb0d9WTxEu3_43wB9mDJaanIOAZyCG0S3NE3OBR09TBvz18DzQ5Mi2Xv_3QDE8SEQwP-W0E2zSPm_K-RVqtUw6iqAD5uudnp'),
-(335, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZWE1ODM0ODZkMzci.KzbetSRoo2eP7aGfVK9iSbzU3HOOTUdspCxdNP9zqn4', '1575725492', 54, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZWE1ODM0ODZkYjci.PzSB0QwpYjC5dLG0xAIAl_Vvij4IY4qDZUKpyAcLmt8', 0, 'c2zchd_a94s:APA91bHiEbyXvXI_7o05LhPklXulBg21k3RokkKI8kE5PkWiC52gqdNNrkkMcsDo6nZr2teu4SC0Yf0mR6IXoFMfPp1PQXGFtiU27yIwqzs9ksRH-kUXDWbEI_m1zLEQSKJqmClEGvMR'),
-(336, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZWE4ODk4Y2I3YmQi.Ml6_gtdkNogpuYt0DOq740g93Xukiy3zmhdr2HTULW0', '1575737880', 103, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZWE4ODk4Y2I4NDMi.IGVyheSRBy3-PnWhNFDiGjG706zZbmEYIfcN9fLuF3U', NULL, NULL),
-(337, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZjI5MjRhMDBhZDEi.zXuje6aQTINtn29aeGhw5Qe2IcYVJdn625O_41d8qBI', '1576264650', 103, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZjI5MjRhMDBiNjci.Y-PBVAfbRFV3Dts0awaE2FkG_tyOKthp4YFpBBb7c28', 1, 'cE6golVTnF4:APA91bGs3bwujlU2PiSyfhydNHsFoFaQfY3H6wDSEy0Yq7Hra_Nc8-R3AIrmUPHpkPPqh0aFNU0_y3D4W-MozkvceO9KlJJsK8bqvVzuOkFsbk1XF4k5oikbEhY3GIQW7eRbAJNc3wFO'),
-(338, '', '', 54, '', NULL, NULL),
-(339, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZjIxNjczNzU4YTAi.B5puGd-ybpU7jKdqGq3Kthrnh_Agy2woIt9w_XleHHk', '1576232947', 54, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZjIxNjczNzU5MzMi.Fm7gFHw_1-w60CVwZQU3rzQ4OTGDYH7LLgapgfwKH78', 0, 'dtPmSfPNY4o:APA91bG02qCBFJhdH8dxvTTa7MOQr77tx5sOu4QjlUuwFaYKw_K1P0Bmb4OOU3INrQeq3woR0MAkYQVIOXaolRtHE1F54w9PnJOMZQVJ6Gl7DMpIyF6kgsnjghaZ1oo023xnIs2deZ7U'),
-(340, '', '', 105, '', NULL, NULL),
-(341, '', '', 106, '', NULL, NULL),
-(342, '', '', 107, '', NULL, NULL),
-(343, '', '', 108, '', NULL, NULL),
-(344, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZjBiNjQzMWQzZWIi.r2vncfZgy4bg58YWEih6BO5Ll_2Zx_hNxSoePxoGp88', '1576142787', 54, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZjBiNjQzMWQ0N2Yi.TMhfMpb0DUI1D8phhuZ4-E6GFkB0BmxoBxVSYn8L06Y', 0, 'dFH1C0aY_qw:APA91bHw6mJJhOanDpXWp0ADDPtkPbYc7ZCTEMX4DSycprYVCJCnxHxau-xSA3P3A3Dk0XtZiTbQdg_e0t7tpBIoN5hzF6WkemqQw3wJw13RZX92O-Ga6WMdoPI5DPrkJwj8kbUe3s3V'),
-(345, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZjI1M2M0Mzc3YWQi.f_YtVOxbfacMlX37svkW7PNkS-O-Zy6g_DjH5YvMJvI', '1576248644', 103, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZjI1M2M0Mzc4MjQi.ABPaHNKQUl2SKuAlnQ7f9j_aeR6gLAKrpTsPEVOsMJk', 1, 'eisIXvroWe8:APA91bFbxo071u2MNEf7SmKA64caH4voKBHACAp3abx1owrqs9LrViS4UN2HM0r9RH83W6a34xSGrqZHiMSp1iEo5mC34Vfofbc3w7IR6GKOot5B1oFrFudyFPG53QA2F18C3uCt_r46'),
-(346, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZjIxMTVlMWM1MWUi.DIevLtk9nE9FBOI0XyS9hMIzQ2pcFJh0EZY_SZ5LMb4', '1576231646', 91, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZjIxMTVlMWM1OTUi.BAyaht5XdojThWR9cmaHlEGOtvpCio0SONw9v4y-BfI', 0, 'dnTaufOiTnA:APA91bGDf2uDxfKi4y9SQAwTAKM3V4UTDdETfIeebOU_uTikPs3B8f8FxRxtJ1fVBGSe240RjyUCZeog6lY_5ZCOPNvLditzMp7-YqMUAgKMfIE3AVoqxRx4soxumFQUvstOnh9iKHR2'),
-(347, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZjIxMTc4MThhYWUi.AScVFeJvu5tJPhQ8nQkbjlgAV0R4Q-O-OaSWLfqEFmc', '1576231672', 54, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZjIxMTc4MThiOTAi.TxiA60KVe8M9LPlJScd_OH1CMHAP3icvx0OGL2KjAcY', 0, 'dnTaufOiTnA:APA91bGDf2uDxfKi4y9SQAwTAKM3V4UTDdETfIeebOU_uTikPs3B8f8FxRxtJ1fVBGSe240RjyUCZeog6lY_5ZCOPNvLditzMp7-YqMUAgKMfIE3AVoqxRx4soxumFQUvstOnh9iKHR2'),
-(348, '', '', 54, '', NULL, NULL),
-(349, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZjI5MjM3MDYyZDEi.iF1o2rYsi3QIgsknAg0zTkq51_O3PDFj4LwLXsPkZw0', '1576264631', 109, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZjI5MjM3MDYzZWYi.SVJEocVD_7jpIrbAdjMx114Jk2W9tkHF5tLe-MgzUe4', 1, 'eGJevKAMmIw:APA91bGMFeKn1KLyPj8ilAGqQ8CO0Pt6D8-mRp5b7w4aRBNifWI0O7G1YaRfKMqDaNRa2BkjHa_WzgoXB8QJsWay2L9dxNx3hm2e5GJrq-NnGKwNLNTgaA1giO9HaZ7yphmjTTxaD36x');
+(362, '', '', 118, '', NULL, NULL),
+(363, '', '', 119, '', NULL, NULL),
+(364, '', '', 120, '', NULL, NULL),
+(365, '', '', 123, '', NULL, NULL),
+(366, '', '', 124, '', NULL, NULL),
+(369, '', '', 118, '', NULL, NULL),
+(370, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZjc2ZWUyZDIxMGEi.whpd6OzPAJeIKFQg2slvFDfWHHAkiiVKqV7mPen_dFw', '1576583266', 135, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZjc2ZWUyZDIyMmQi.xL7qNVbrYubKbOreyUZ4RJBCat_2PcLF_zBpsZGFN5k', 0, 'dtPmSfPNY4o:APA91bG02qCBFJhdH8dxvTTa7MOQr77tx5sOu4QjlUuwFaYKw_K1P0Bmb4OOU3INrQeq3woR0MAkYQVIOXaolRtHE1F54w9PnJOMZQVJ6Gl7DMpIyF6kgsnjghaZ1oo023xnIs2deZ7U'),
+(371, '', '', 136, '', NULL, NULL),
+(372, '', '', 119, '', NULL, NULL),
+(373, '', '', 118, '', NULL, NULL),
+(374, '', '', 123, '', NULL, NULL),
+(375, '', '', 118, '', NULL, NULL),
+(376, '', '', 118, '', NULL, NULL),
+(377, '', '', 136, '', NULL, NULL),
+(378, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZjc3YjI5NDFmMTci.dxmV2dMaGS9I36A8oJmBJGVtmmHnOuoHnQClI0wm-Ro', '1576586409', 120, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZjc3YjI5NDFmOGMi.w1nFtLoiLdOa2urgrLjzFI-LzKYJl03mPMptdvs_ioQ', 0, 'dBGN4zcILek:APA91bH209IPYca6lmN5_Q165IcRc7pprV9jJBiHlI9tYU1SLYcp_fTVAUFjKoB6-8GdiZaqRRGv39YuZgHqJ4PSc8p4Cm_9_m3yF3dWOCVM14Rf5MkIxOnWoQtSSIPIrj-HGZn-rf86'),
+(379, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZjc4NTkwNjNkOWMi.aoy-dbB9ly1UEqTgMKrAThcYvRNgB7FnJuyxlc2q5lE', '1576589072', 136, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZjc4NTkwNjNlMGEi.VxYEMxVBH6Tq5_BHEcEiwJd5ALrUyAwNVGOwHKl9OHA', NULL, NULL),
+(380, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZjc4YjU5MjcxYzYi.DGuNUc8x0PNc6pAIXGEFR98X-JlsbYFN8ufvrA7aFyU', '1576590553', 120, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZjc4YjU5MjcyMzgi.9PuQXmQes54J6heDSl5uuqbFhIGqUkjeGKah8oRvyvk', 0, 'e-qMvuHnZwM:APA91bE8PqvV1MPbl3XUGfoVU6hJD5gQM_WdlJdVkIGWuRkBZTkUZgya06cWEqCK7Znlj0OeTGdJ7_jhrySXo9MBuwlIXXY61VMOwEMOz3jsoTaQ_QKC90DnyCnv6lOhccDFYQ2S3ndy'),
+(381, '', '', 120, '', NULL, NULL),
+(383, '', '', 120, '', NULL, NULL),
+(384, '', '', 138, '', NULL, NULL),
+(385, '', '', 120, '', NULL, NULL),
+(386, '', '', 120, '', NULL, NULL),
+(387, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZjc5YWJlOTYwMTgi.UEcitdGjlaHmsC2Zh1wqFq_r6qO1x4Tj0yVDi-TnNsY', '1576594494', 120, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZjc5YWJlOTYxOTUi.8D87fqP_IBQqDv74k_uSM0ptbiT4_zOM2e9R6W6hzLA', 1, 'fOwX53ayWJU:APA91bGjPfO3TMJZxOC5x1fZWLoqJbqT806zicwpQC-tVgyzBGadLcCPFsYN4Imb4rRJKtOR7NQ8wA3-e8JpYDdqylQ9Uecu_E0fdrVQrW7w-kOW4F-fYaUT6Ap97bXDPoI8AIg83JiJ'),
+(388, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZjc5YWQ0YzhlOWMi.nXsIgDeJvYVi_qSoQ0gjqqqmL9_AULip_06f-81Fo7E', '1576594516', 120, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZjc5YWQ0YzhmMGMi.5D6DnO7lYrZvQT64rVbsiSzxBLypBS1LpvELXEbqH7k', 0, 'danpkki-3pM:APA91bGLczm1ZM0i6g8WgfZ-yY884hzPs9yHaVFZopzQxBwc-407M-76q4yRgDMjXMcEPEvlG6jO0NT5eBa_FRw2HB4IUpoPkk5sGbrQ1ecK-ZN7unkSSk-tJG0vRg7d_xZw2IuF0ZfU'),
+(389, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZjdhMTU1YmNjNWUi._bytZ2FXVJyG8faobNbv5rwKA_RtivCfpJ35jZQ00qw', '1576596181', 123, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZjdhMTU1YmNjZDci.jMtK-uOdGziUwyQNrP9XKyq9cTzg1CIJ3uaSIEnU85w', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1552,240 +1361,6 @@ CREATE TABLE `used_offers` (
   `time` int(11) DEFAULT NULL,
   `status` int(1) DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `used_offers`
---
-
-INSERT INTO `used_offers` (`id`, `user_id`, `coin_offer_id`, `time`, `status`) VALUES
-(6, 54, 11, 1574255284, 1),
-(7, 54, 12, 1574255361, 1),
-(8, 54, 11, 1574255362, 1),
-(9, 54, 13, 1574255451, 1),
-(10, 54, 11, 1574255561, 1),
-(11, 54, 12, 1574255562, 1),
-(12, 54, 13, 1574255796, 1),
-(13, 54, 12, 1574255797, 1),
-(14, 54, 11, 1574255798, 1),
-(15, 54, 13, 1574255943, 1),
-(16, 54, 12, 1574255944, 1),
-(17, 54, 12, 1574256017, 1),
-(18, 54, 12, 1574257103, 1),
-(19, 54, 12, 1574259121, 1),
-(20, 54, 12, 1574259122, 1),
-(21, 54, 13, 1574260125, 1),
-(22, 54, 12, 1574260126, 1),
-(23, 54, 11, 1574260127, 1),
-(24, 54, 11, 1574260347, 1),
-(25, 54, 12, 1574260349, 1),
-(26, 54, 12, 1574260350, 1),
-(27, 54, 13, 1574260371, 1),
-(28, 54, 11, 1574260400, 1),
-(29, 54, 11, 1574260402, 1),
-(30, 54, 13, 1574260404, 1),
-(31, 54, 12, 1574260405, 1),
-(32, 54, 12, 1574260407, 1),
-(33, 54, 12, 1574260437, 1),
-(34, 54, 11, 1574260440, 1),
-(35, 54, 13, 1574260442, 1),
-(36, 54, 13, 1574260443, 1),
-(37, 54, 11, 1574318606, 1),
-(38, 54, 13, 1574318609, 1),
-(39, 54, 12, 1574318610, 1),
-(40, 54, 12, 1574318612, 1),
-(41, 54, 11, 1574318839, 1),
-(42, 54, 12, 1574318840, 1),
-(43, 54, 12, 1574318842, 1),
-(44, 54, 13, 1574318846, 1),
-(45, 54, 13, 1574318881, 1),
-(46, 54, 12, 1574318882, 1),
-(47, 54, 11, 1574318883, 1),
-(48, 54, 12, 1574319115, 1),
-(49, 54, 12, 1574319150, 1),
-(50, 54, 13, 1574319275, 1),
-(51, 54, 11, 1574319394, 1),
-(52, 54, 11, 1574319417, 1),
-(53, 54, 11, 1574319698, 1),
-(54, 54, 12, 1574320078, 1),
-(55, 54, 13, 1574320082, 1),
-(56, 54, 12, 1574320103, 1),
-(57, 54, 13, 1574320460, 1),
-(58, 54, 12, 1574320461, 1),
-(59, 54, 12, 1574320645, 1),
-(60, 54, 11, 1574320658, 1),
-(61, 54, 13, 1574320727, 1),
-(62, 54, 11, 1574321622, 1),
-(63, 54, 13, 1574321625, 1),
-(64, 54, 13, 1574321628, 1),
-(65, 54, 12, 1574321696, 1),
-(66, 54, 11, 1574322031, 1),
-(67, 54, 12, 1574322247, 1),
-(68, 54, 13, 1574322273, 1),
-(69, 54, 12, 1574322429, 1),
-(70, 54, 13, 1574322435, 1),
-(71, 54, 11, 1574322439, 1),
-(72, 54, 12, 1574322603, 1),
-(73, 54, 12, 1574323068, 1),
-(74, 54, 11, 1574323105, 1),
-(75, 54, 12, 1574323107, 1),
-(76, 54, 13, 1574323114, 1),
-(77, 54, 12, 1574323292, 1),
-(78, 54, 12, 1574323368, 1),
-(79, 54, 11, 1574323372, 1),
-(80, 54, 11, 1574327760, 1),
-(81, 54, 12, 1574327762, 1),
-(82, 54, 11, 1574327835, 1),
-(83, 54, 12, 1574327838, 1),
-(84, 54, 13, 1574327842, 1),
-(85, 54, 11, 1574328149, 1),
-(86, 54, 12, 1574328152, 1),
-(87, 54, 13, 1574328153, 1),
-(88, 54, 13, 1574328949, 1),
-(89, 54, 11, 1574328951, 1),
-(90, 54, 12, 1574328952, 1),
-(91, 54, 13, 1574329256, 1),
-(92, 54, 12, 1574329262, 1),
-(93, 54, 11, 1574329264, 1),
-(94, 54, 12, 1574330699, 1),
-(95, 54, 11, 1574330700, 1),
-(96, 54, 13, 1574330702, 1),
-(97, 54, 12, 1574330863, 1),
-(98, 54, 11, 1574330865, 1),
-(99, 54, 13, 1574330866, 1),
-(100, 54, 12, 1574330911, 1),
-(101, 54, 11, 1574330912, 1),
-(102, 54, 12, 1574332641, 1),
-(103, 54, 11, 1574332643, 1),
-(104, 54, 11, 1574333374, 1),
-(105, 54, 12, 1574333376, 1),
-(106, 54, 13, 1574333378, 1),
-(107, 54, 12, 1574333982, 1),
-(108, 54, 13, 1574333984, 1),
-(109, 54, 11, 1574334024, 1),
-(110, 54, 12, 1574334026, 1),
-(111, 54, 12, 1574334087, 1),
-(112, 54, 11, 1574334090, 1),
-(113, 54, 13, 1574334091, 1),
-(114, 54, 13, 1574334103, 1),
-(115, 54, 12, 1574334265, 1),
-(116, 54, 11, 1574334286, 1),
-(117, 54, 12, 1574334288, 1),
-(118, 54, 13, 1574334293, 1),
-(119, 54, 12, 1574334391, 1),
-(120, 54, 11, 1574334392, 1),
-(121, 54, 13, 1574334394, 1),
-(122, 54, 12, 1574334716, 1),
-(123, 54, 11, 1574334717, 1),
-(124, 54, 13, 1574334720, 1),
-(125, 54, 11, 1574335563, 1),
-(126, 54, 12, 1574335567, 1),
-(127, 54, 13, 1574335569, 1),
-(128, 54, 11, 1574335667, 1),
-(129, 54, 12, 1574335802, 1),
-(130, 54, 11, 1574336178, 1),
-(131, 54, 12, 1574336181, 1),
-(132, 54, 13, 1574336183, 1),
-(133, 54, 12, 1574336302, 1),
-(134, 54, 13, 1574336707, 1),
-(135, 54, 11, 1574336761, 1),
-(136, 54, 12, 1574336765, 1),
-(137, 54, 13, 1574336767, 1),
-(138, 54, 11, 1574337537, 1),
-(139, 54, 12, 1574337539, 1),
-(140, 54, 13, 1574337541, 1),
-(141, 54, 11, 1574337644, 1),
-(142, 54, 13, 1574337646, 1),
-(143, 54, 13, 1574337667, 1),
-(144, 54, 12, 1574337789, 1),
-(145, 54, 11, 1574337791, 1),
-(146, 54, 12, 1574337891, 1),
-(147, 54, 13, 1574337980, 1),
-(148, 54, 11, 1574338023, 1),
-(149, 54, 13, 1574338210, 1),
-(150, 54, 12, 1574338440, 1),
-(151, 54, 12, 1574340035, 1),
-(152, 54, 12, 1574340143, 1),
-(153, 54, 12, 1574340303, 1),
-(154, 54, 12, 1574340441, 1),
-(155, 54, 12, 1574340582, 1),
-(156, 54, 11, 1574341857, 1),
-(157, 54, 12, 1574341971, 1),
-(158, 54, 12, 1574342040, 1),
-(159, 54, 12, 1574342249, 1),
-(160, 54, 12, 1574342406, 1),
-(161, 54, 12, 1574342507, 1),
-(162, 54, 12, 1574342666, 1),
-(163, 54, 11, 1574342954, 1),
-(164, 54, 12, 1574343054, 1),
-(165, 54, 12, 1574343124, 1),
-(166, 54, 12, 1574343181, 1),
-(167, 54, 12, 1574343200, 1),
-(168, 54, 13, 1574343202, 1),
-(169, 54, 12, 1574343267, 1),
-(170, 54, 13, 1574343342, 1),
-(171, 54, 11, 1574343345, 1),
-(172, 54, 12, 1574343560, 1),
-(173, 54, 12, 1574343699, 1),
-(174, 54, 11, 1574343701, 1),
-(175, 54, 12, 1574343771, 1),
-(176, 54, 12, 1574344030, 1),
-(177, 54, 11, 1574344036, 1),
-(178, 54, 13, 1574344042, 1),
-(179, 54, 11, 1574344063, 1),
-(180, 54, 12, 1574344082, 1),
-(181, 54, 12, 1574346468, 1),
-(182, 54, 12, 1574346976, 1),
-(183, 54, 13, 1574347962, 1),
-(184, 54, 11, 1574347963, 1),
-(185, 54, 12, 1574347965, 1),
-(186, 54, 56, 1574348038, 1),
-(187, 54, 12, 1574348318, 1),
-(188, 54, 59, 1574348322, 1),
-(189, 54, 57, 1574348330, 1),
-(190, 54, 56, 1574348338, 1),
-(191, 54, 11, 1574348339, 1),
-(192, 54, 13, 1574348340, 1),
-(193, 54, 65, 1574348341, 1),
-(194, 54, 63, 1574348342, 1),
-(195, 54, 62, 1574348344, 1),
-(196, 54, 66, 1574348352, 1),
-(197, 54, 60, 1574348353, 1),
-(198, 54, 58, 1574348354, 1),
-(199, 54, 64, 1574348363, 1),
-(200, 54, 61, 1574348365, 1),
-(201, 54, 66, 1574360659, 1),
-(202, 54, 11, 1574775943, 1),
-(203, 54, 64, 1574854731, 1),
-(204, 54, 63, 1574854732, 1),
-(205, 54, 63, 1574854733, 1),
-(206, 54, 62, 1574854734, 1),
-(207, 54, 62, 1574854735, 1),
-(208, 54, 12, 1574855609, 1),
-(209, 54, 62, 1574856041, 1),
-(210, 54, 11, 1574856467, 1),
-(211, 54, 61, 1574856669, 1),
-(212, 54, 65, 1574856671, 1),
-(213, 54, 60, 1574856672, 1),
-(214, 54, 66, 1574856690, 1),
-(215, 54, 63, 1574856692, 1),
-(216, 54, 63, 1574856693, 1),
-(217, 54, 59, 1574856694, 1),
-(218, 54, 11, 1574856695, 1),
-(219, 54, 62, 1574857008, 1),
-(220, 91, 56, 1574942733, 1),
-(221, 91, 63, 1574942758, 1),
-(222, 91, 60, 1575290668, 1),
-(223, 91, 61, 1575291401, 1),
-(224, 91, 64, 1575291475, 1),
-(225, 91, 62, 1575291712, 1),
-(226, 91, 59, 1575291795, 1),
-(227, 91, 57, 1575292287, 1),
-(228, 91, 66, 1575292495, 1),
-(229, 91, 66, 1575292533, 1),
-(230, 54, 66, 1575372030, 1),
-(231, 91, 66, 1575539250, 1),
-(239, 54, 64, 1575634716, 1),
-(240, 54, 60, 1576147908, 1);
 
 -- --------------------------------------------------------
 
@@ -1819,49 +1394,15 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `first_name`, `last_name`, `date_of_birth`, `mobile_number`, `email`, `password`, `uuid`, `image`, `coins`, `is_used_reference`, `created_at`, `updated_at`, `verify_code`, `verify`, `logged_via_fb`, `notification_status`) VALUES
-(30, 'super22', 'Super22', 'Admin22', 787233800, '+656565651466622', 'kakaka@gmail.com12222', 'c9cc24ffa63b25bb52b9d5fa288c2921a5190acd2ad461e2ece7b7d74af0fa53c86b783a066fc1ad3694313345702e69f57d70a597f7fbbf78dfc957d3bcdea9', '', 'Logo_1573544631_1428740283.png', 135, 0, '2019-10-01 03:14:51', '2019-10-01 03:14:51', '', 1, 0, 1),
-(33, 'adminSuper', 'Su', 'A', 787233800, '+656565651466622s', 'kakaka@gmail.com12222s', 'c7ad44cbad762a5da0a452f9e854fdc1e0e7a52a38015f23f3eab1d80b931dd472634dfac71cd34ebc35d16ab7fb8a90c81f975113d6c7538dc69dd8de9077ec', '', 'User_default.png', 115, 0, '2019-10-02 14:31:04', '2019-10-02 14:31:04', '', 1, 0, 1),
-(34, 'user', 'developer', 'develop', 787233800, '876767', 'test@mail.ru', 'ee26b0dd4af7e749aa1a8ee3c10ae9923f618980772e473f8819a5d4940e0db27ac185f8a0e1d5f84f88bc887fd67b143732c304cc5fa9ad8e6f57f50028a8ff', '', 'User_default.png', 530, 0, '2019-10-02 16:06:48', '2019-10-02 16:06:48', '', 1, 0, 1),
-(35, 'testuser', 'test', 'test', 127904719, '846464', 'testuser@mail.ru', 'ee26b0dd4af7e749aa1a8ee3c10ae9923f618980772e473f8819a5d4940e0db27ac185f8a0e1d5f84f88bc887fd67b143732c304cc5fa9ad8e6f57f50028a8ff', '', 'User_default.png', 0, 0, '2019-10-02 16:14:45', '2019-10-02 16:14:45', '', 1, 0, 1),
-(36, 'usertest', 'test', 'test', 787233800, '9467646', 'testtest@mail.ru', 'ee26b0dd4af7e749aa1a8ee3c10ae9923f618980772e473f8819a5d4940e0db27ac185f8a0e1d5f84f88bc887fd67b143732c304cc5fa9ad8e6f57f50028a8ff', '', 'User_default.png', 0, 0, '2019-10-02 16:38:14', '2019-10-02 16:38:14', '', 1, 0, 1),
-(37, 'MiledAoun15700188621825521286', 'Miled', 'Aoun', 787233800, '', 'miled.ha21@gmail.com', '1570018862?1518581949', '', 'User_default.png', 0, 0, '2019-10-02 17:21:02', '2019-10-02 17:21:02', '', 1, 0, 1),
-(38, 'miles', 'miled', 'sounds', 787233800, '111111', 'aaa@aaa.aaaa', 'ba3253876aed6bc22d4a6ff53d8406c6ad864195ed144ab5c87621b6c233b548baeae6956df346ec8c17f5ea10f35ee3cbc514797ed7ddd3145464e2a0bab413', '', 'User_default.png', 0, 0, '2019-10-02 17:22:21', '2019-10-02 17:22:21', '', 1, 0, 1),
-(39, 'ttt', 'ttt', 'ttt', 787233800, '45345345', 'tttt@mail.ryu', '99f97d455d5d62b24f3a942a1abc3fa8863fc0ce2037f52f09bd785b22b800d4f2e7b2b614cb600ffc2a4fe24679845b24886d69bb776fcfa46e54d188889c6f', '', 'User_default.png', 0, 0, '2019-10-04 15:08:08', '2019-10-04 15:08:08', '', 1, 0, 1),
-(40, 'ggg', 'gggg', 'gggg', 787233800, '656565', 'tttt@mail.ru', 'ee26b0dd4af7e749aa1a8ee3c10ae9923f618980772e473f8819a5d4940e0db27ac185f8a0e1d5f84f88bc887fd67b143732c304cc5fa9ad8e6f57f50028a8ff', '', 'User_default.png', 14, 0, '2019-10-04 15:36:00', '2019-10-04 15:36:00', '', 1, 0, 1),
-(41, 'cggg', 'cfff', 'cggg', 787233800, '22888', 'yyy@mail.ru', 'ee26b0dd4af7e749aa1a8ee3c10ae9923f618980772e473f8819a5d4940e0db27ac185f8a0e1d5f84f88bc887fd67b143732c304cc5fa9ad8e6f57f50028a8ff', '', 'User_default.png', 4, 0, '2019-10-04 15:52:13', '2019-10-04 15:52:13', '', 1, 0, 1),
-(46, 'dev', 'ddd', 'ddd', 787233800, '7577557', 'test1111@mail.ru', 'ee26b0dd4af7e749aa1a8ee3c10ae9923f618980772e473f8819a5d4940e0db27ac185f8a0e1d5f84f88bc887fd67b143732c304cc5fa9ad8e6f57f50028a8ff', '', 'User_default.png', 0, 0, '2019-10-30 11:13:59', '2019-10-30 11:13:59', '', 1, 0, 1),
-(47, 'devv', 'ddd', 'ddd', 787233800, '444444', 'ttt@mail.ru', 'ee26b0dd4af7e749aa1a8ee3c10ae9923f618980772e473f8819a5d4940e0db27ac185f8a0e1d5f84f88bc887fd67b143732c304cc5fa9ad8e6f57f50028a8ff', '', 'User_default.png', 0, 0, '2019-10-30 11:20:02', '2019-10-30 11:20:02', '', 1, 0, 1),
-(48, 'developer', 'ddd', 'ddd', 127904719, '453453', 'rrr@mail.ru', 'ee26b0dd4af7e749aa1a8ee3c10ae9923f618980772e473f8819a5d4940e0db27ac185f8a0e1d5f84f88bc887fd67b143732c304cc5fa9ad8e6f57f50028a8ff', '', 'User_default.png', 0, 0, '2019-10-30 11:21:25', '2019-10-30 11:21:25', '', 1, 0, 1),
-(49, 'adminSuperas', 'Super22as', 'Admin22asd', 787233800, '+656565651466622sas', 'kakaka@gmail.com12222sas', 'c7ad44cbad762a5da0a452f9e854fdc1e0e7a52a38015f23f3eab1d80b931dd472634dfac71cd34ebc35d16ab7fb8a90c81f975113d6c7538dc69dd8de9077ec', '', 'User_default.png', 0, 0, '2019-10-30 11:23:00', '2019-10-30 11:23:00', '', 1, 0, 1),
-(50, 'adminSuperasas', 'Super22asas', 'Admin22asd', 787233800, '+656565651466622sasas', 'kakaka@gmail.com12222sasas', 'c7ad44cbad762a5da0a452f9e854fdc1e0e7a52a38015f23f3eab1d80b931dd472634dfac71cd34ebc35d16ab7fb8a90c81f975113d6c7538dc69dd8de9077ec', '', 'User_default.png', 0, 0, '2019-10-30 11:24:10', '2019-10-30 11:24:10', '', 1, 0, 1),
-(51, 'test data', 'test', 'test', 127904719, '745638745683', 'rrriiiii@mail.ru', 'ee26b0dd4af7e749aa1a8ee3c10ae9923f618980772e473f8819a5d4940e0db27ac185f8a0e1d5f84f88bc887fd67b143732c304cc5fa9ad8e6f57f50028a8ff', '', 'User_default.png', 8, 0, '2019-10-30 11:30:19', '2019-10-30 11:30:19', '', 1, 0, 1),
-(52, 'miled', 'miled', 'aoun', 127904719, '111111999999', 'miled@miled.miled', 'ba3253876aed6bc22d4a6ff53d8406c6ad864195ed144ab5c87621b6c233b548baeae6956df346ec8c17f5ea10f35ee3cbc514797ed7ddd3145464e2a0bab413', NULL, 'User_default.png', 0, 0, '2019-10-30 11:47:14', '2019-10-30 11:47:14', '', 1, 0, 1),
-(53, 'testt', 'ttttt', 'fffff', 1572292800, '2222', 'ffffff@mail.ru', 'ee26b0dd4af7e749aa1a8ee3c10ae9923f618980772e473f8819a5d4940e0db27ac185f8a0e1d5f84f88bc887fd67b143732c304cc5fa9ad8e6f57f50028a8ff', '', 'User_default.png', 0, 0, '2019-10-30 12:09:52', '2019-10-30 12:09:52', '', 1, 0, 1),
-(54, 'test1', 'test', 'test', 1509307200, '21212124', 'testtt@mail.ru', '125d6d03b32c84d492747f79cf0bf6e179d287f341384eb5d6d3197525ad6be8e6df0116032935698f99a09e265073d1d6c32c274591bf1d0a20ad67cba921bc', '', 'Logo_1574233402_631642950.jpeg', 90491, 0, '2019-10-30 12:16:38', '2019-10-30 12:16:38', '', 1, 0, 1),
-(55, 'aaa', 'aaa', 'aaa', 127904719, '000', 'ckymarra@gmail.com', 'd6f644b19812e97b5d871658d6d3400ecd4787faeb9b8990c1e7608288664be77257104a58d033bcf1a0e0945ff06468ebe53e2dff36e248424c7273117dac09', NULL, 'User_default.png', 0, 0, '2019-10-30 15:56:20', '2019-10-30 15:56:20', '', 0, 0, 1),
-(57, 'VaskenBakkalian15733258621951140152', 'Vasken', 'Bakkalian', 127904719, '', 'engerochvasken@hotmail.com', '1573325862?1717654752', '', 'User_default.png', 0, 0, '2019-11-09 18:57:42', '2019-11-09 18:57:42', '', 0, 0, 1),
-(58, 'AliMansour15742581181230913061', 'Ali', 'Mansour', 127904719, '', 'suprenoo@hotmail.com', '1574258118?1299941546', '', 'User_default.png', 0, 0, '2019-11-20 13:55:18', '2019-11-20 13:55:18', '', 0, 0, 1),
-(91, 'test2', 'test', 'test', 127904719, '626516516', 'gggg@mail.ru', '125d6d03b32c84d492747f79cf0bf6e179d287f341384eb5d6d3197525ad6be8e6df0116032935698f99a09e265073d1d6c32c274591bf1d0a20ad67cba921bc', '16ead1-2f0de6', 'Logo_1575291073_1795403588.jpeg', 95, 0, '2019-11-27 13:35:30', '2019-11-27 13:35:30', '0', 1, 0, 1),
-(92, 'hhhhhh', 'bhcv f', ' g g g ', 1449345600, '+37495616200', 'bbbbhhh@msil.ru', '125d6d03b32c84d492747f79cf0bf6e179d287f341384eb5d6d3197525ad6be8e6df0116032935698f99a09e265073d1d6c32c274591bf1d0a20ad67cba921bc', '16edaf-51f777', 'User_default.png', 0, 0, '2019-12-06 11:25:27', '2019-12-06 11:25:27', '0', 1, 0, 1),
-(93, 'userr', 'fgggg', 'cvvvggh', 1480968000, '+16848855666', 'vgggggh@mail.ru', '125d6d03b32c84d492747f79cf0bf6e179d287f341384eb5d6d3197525ad6be8e6df0116032935698f99a09e265073d1d6c32c274591bf1d0a20ad67cba921bc', '16edaf-8a7013', 'User_default.png', 0, 0, '2019-12-06 11:29:19', '2019-12-06 11:29:19', '0', 1, 0, 1),
-(94, 'zzz', 'zz', 'zz', 1575631722323, 'AL 999999', 'za@vf.jnh', 'b0412597dcea813655574dc54a5b74967cf85317f0332a2591be7953a016f8de56200eb37d5ba593b1e4aa27cea5ca27100f94dccd5b04bae5cadd4454dba67d', '16edaf-957354', 'User_default.png', 0, 0, '2019-12-06 11:30:04', '2019-12-06 11:30:04', '0', 1, 0, 1),
-(95, 'zzz', 'zz', 'zz', 1575631722323, 'AL 999999', 'za@vf.jnh', 'b0412597dcea813655574dc54a5b74967cf85317f0332a2591be7953a016f8de56200eb37d5ba593b1e4aa27cea5ca27100f94dccd5b04bae5cadd4454dba67d', '16edaf-995056', 'User_default.png', 0, 0, '2019-12-06 11:30:20', '2019-12-06 11:30:20', '0', 1, 0, 1),
-(96, 'ԱրմենուհիՄկրտչյան15756332651906305329', 'Արմենուհի', 'Մկրտչյան', 0, '', 'mkrtchyanarmenuhi89@gmail.com', '1575633265?698871210', '16edb0-fa1a70', 'User_default.png', 0, 0, '2019-12-06 11:54:25', '2019-12-06 11:54:25', '0', 1, 1, 1),
-(97, 'zzzzzz', 'zzz', 'zzz', 1575634779378, '+213111111', 'zara.tunyan@gmail.codcfvdf', 'b0412597dcea813655574dc54a5b74967cf85317f0332a2591be7953a016f8de56200eb37d5ba593b1e4aa27cea5ca27100f94dccd5b04bae5cadd4454dba67d', '16edb2-72c1df', 'User_default.png', 0, 0, '2019-12-06 12:20:07', '2019-12-06 12:20:07', '0', 1, 0, 1),
-(98, 'zaz', 'za', 'zaza', 1575634950441, '+192992', 'zara.tunyan@gmail.comza', 'b0412597dcea813655574dc54a5b74967cf85317f0332a2591be7953a016f8de56200eb37d5ba593b1e4aa27cea5ca27100f94dccd5b04bae5cadd4454dba67d', '16edb2-9ab903', 'User_default.png', 0, 0, '2019-12-06 12:22:51', '2019-12-06 12:22:51', '0', 1, 0, 1),
-(99, 'zaza', 'zaxsa', 'sxasc', 1575635227520, '+17929', 'xsa@csd.vds', 'b0412597dcea813655574dc54a5b74967cf85317f0332a2591be7953a016f8de56200eb37d5ba593b1e4aa27cea5ca27100f94dccd5b04bae5cadd4454dba67d', '16edb2-e20a49', 'User_default.png', 0, 0, '2019-12-06 12:27:43', '2019-12-06 12:27:43', '0', 1, 0, 1),
-(100, 'za', 'za', 'zaz', 1575636336032, '+19292', 'zara.tunyan@gmail.comsdfg', '27a7e950096f8944110dbd99a141aaa29430051622abe0316aa1827af84a68b10e5e87b6e6781f8605ac354ff67c022672877c6d46eca40ba820a44fd24d5694', '16edb3-ec2179', 'User_default.png', 0, 0, '2019-12-06 12:45:53', '2019-12-06 12:45:53', '0', 1, 0, 1),
-(101, '23', '12ws', 'aef', 1575636882814, '+2443393', 'zara.tunyan@gmail.comefef', 'b0412597dcea813655574dc54a5b74967cf85317f0332a2591be7953a016f8de56200eb37d5ba593b1e4aa27cea5ca27100f94dccd5b04bae5cadd4454dba67d', '16edb4-73c774', 'User_default.png', 0, 0, '2019-12-06 12:55:09', '2019-12-06 12:55:09', '0', 1, 0, 1),
-(102, 'xsdxc', 'csdc', 'csd', 1575637146776, '+2442738', 'zara.tunyan@gmail.comcsd', 'b0412597dcea813655574dc54a5b74967cf85317f0332a2591be7953a016f8de56200eb37d5ba593b1e4aa27cea5ca27100f94dccd5b04bae5cadd4454dba67d', '16edb4-b3ee15', 'User_default.png', 0, 0, '2019-12-06 12:59:31', '2019-12-06 12:59:31', '0', 1, 0, 1),
-(103, 'zara', 'Zara', 'Tunyan', 1575637422438, '+37495777443', 'zara.tunyan@gmail.com', 'b0412597dcea813655574dc54a5b74967cf85317f0332a2591be7953a016f8de56200eb37d5ba593b1e4aa27cea5ca27100f94dccd5b04bae5cadd4454dba67d', '16edb4-f54407', 'User_default.png', 1, 0, '2019-12-06 13:03:59', '2019-12-06 13:03:59', '0', 1, 0, 1),
-(104, 'hshs', 'hshsj', 'bsjsjs', 1544040000, '+35584646494', 'bsjsjsjs@nail.ru', '125d6d03b32c84d492747f79cf0bf6e179d287f341384eb5d6d3197525ad6be8e6df0116032935698f99a09e265073d1d6c32c274591bf1d0a20ad67cba921bc', '16edb5-080759', 'User_default.png', 10, 1, '2019-12-06 13:05:16', '2019-12-06 13:05:16', '0', 1, 0, 1),
-(105, 'asdwe', 'dscfv', 'cvad', 1575637655798, '+376322732', 'dcas@cvdsf.vgrfd', 'b0412597dcea813655574dc54a5b74967cf85317f0332a2591be7953a016f8de56200eb37d5ba593b1e4aa27cea5ca27100f94dccd5b04bae5cadd4454dba67d', '16edb5-2bfd9e', 'User_default.png', 0, 0, '2019-12-06 13:07:43', '2019-12-06 13:07:43', '0', 1, 0, 1),
-(106, 'hsjsjs', 'hjsksj', 'bsjsjsn', 1544040000, '+374879767', 'bzbzjzkxj@mail.ru', '125d6d03b32c84d492747f79cf0bf6e179d287f341384eb5d6d3197525ad6be8e6df0116032935698f99a09e265073d1d6c32c274591bf1d0a20ad67cba921bc', '16edb5-6346fb', 'User_default.png', 0, 0, '2019-12-06 13:11:30', '2019-12-06 13:11:30', '0', 1, 0, 1),
-(107, 'ZAZAza', 'AZzaa', 'zax', 1575896109209, '+3763233456', 'zsdc@dre.vr', 'b0412597dcea813655574dc54a5b74967cf85317f0332a2591be7953a016f8de56200eb37d5ba593b1e4aa27cea5ca27100f94dccd5b04bae5cadd4454dba67d', '16eeab-b8c416', 'User_default.png', 0, 0, '2019-12-09 12:56:30', '2019-12-09 12:56:30', '0', 1, 0, 1),
-(108, 'zzzzadv', 'cszzzzz', 'cdsvdsv2', 1575901543663, '+37623782378', 'cds@cdfv.reav', 'c45a0a774bd38ffd4634ca52b568934686286911216a22d8b85df262e8acea07f190e9d4470fde92e67ccef462a849f24713b310c58ac992fba4bbae9b0b3a86', '16eeb0-e1f4b9', 'User_default.png', 25, 0, '2019-12-09 14:26:41', '2019-12-09 14:26:41', '0', 1, 0, 1),
-(109, 'asderfbh', 'szxdfgh', 'azsxdcfvg', 1575903062606, '+24423978', 'zara.tunyan@gmail.comvfdb', 'b0412597dcea813655574dc54a5b74967cf85317f0332a2591be7953a016f8de56200eb37d5ba593b1e4aa27cea5ca27100f94dccd5b04bae5cadd4454dba67d', '16eeb2-4c4d9b', 'User_default.png', 0, 0, '2019-12-09 14:51:25', '2019-12-09 14:51:25', '0', 1, 0, 1),
-(110, 'adcscf', 'dfvfd', 'vfdv', 1575904411313, '+2448333833', 'vfd@cfarb.kiu', 'b0412597dcea813655574dc54a5b74967cf85317f0332a2591be7953a016f8de56200eb37d5ba593b1e4aa27cea5ca27100f94dccd5b04bae5cadd4454dba67d', '16eeb3-931608', 'User_default.png', 0, 0, '2019-12-09 15:13:44', '2019-12-09 15:13:44', '2000', 0, 0, 1),
-(111, 'zzzbzb', 'bdbdn', 'hdhdj', 1576178205029, '+37665656', 'gdh@fav.ndn', 'b0412597dcea813655574dc54a5b74967cf85317f0332a2591be7953a016f8de56200eb37d5ba593b1e4aa27cea5ca27100f94dccd5b04bae5cadd4454dba67d', '16efb8-b0a4cf', 'User_default.png', 0, 0, '2019-12-12 19:17:03', '2019-12-12 19:17:03', '2000', 0, 0, 1);
+(30, 'super22', 'Super22', 'Admin22', -1105875963, '+37499099247', 'kakaka@gmail.com12222', 'c9cc24ffa63b25bb52b9d5fa288c2921a5190acd2ad461e2ece7b7d74af0fa53c86b783a066fc1ad3694313345702e69f57d70a597f7fbbf78dfc957d3bcdea9', '16f0e2-890d1t', 'Logo_1573544631_1428740283.png', 135, 0, '2019-10-01 03:14:51', '2019-10-01 03:14:51', '', 1, 0, 1),
+(118, 'armenuhi', 'Armenuhi', 'Mkrtchyan', 1197748800, '+37495616201', 'armenuhi@mail.ru', '125d6d03b32c84d492747f79cf0bf6e179d287f341384eb5d6d3197525ad6be8e6df0116032935698f99a09e265073d1d6c32c274591bf1d0a20ad67cba921bc', '16f0e2-6a9ad5', 'User_default.png', 10, 1, '2019-12-16 10:00:12', '2019-12-16 10:00:12', '0', 1, 0, 1),
+(119, 'Anna', 'Anna', 'Mkrtchyan', 1513368000, '+37495616202', 'anna@mail.ru', '125d6d03b32c84d492747f79cf0bf6e179d287f341384eb5d6d3197525ad6be8e6df0116032935698f99a09e265073d1d6c32c274591bf1d0a20ad67cba921bc', '16f0e2-890d1e', 'User_default.png', 0, 0, '2019-12-16 10:02:17', '2019-12-16 10:02:17', '0', 1, 0, 1),
+(120, 'armen', 'Armen', 'Mkrtchyan', -1105094429, '+37495616203', 'armen@mail.ru', '125d6d03b32c84d492747f79cf0bf6e179d287f341384eb5d6d3197525ad6be8e6df0116032935698f99a09e265073d1d6c32c274591bf1d0a20ad67cba921bc', '16f0e2-ae29a7', 'User_default.png', 28, 0, '2019-12-16 10:04:49', '2019-12-16 10:04:49', '0', 1, 0, 1),
+(123, 'ani', 'Ani', 'Mkrtchyan', 503524800, '+37495616205', 'ani@mail.ru', '125d6d03b32c84d492747f79cf0bf6e179d287f341384eb5d6d3197525ad6be8e6df0116032935698f99a09e265073d1d6c32c274591bf1d0a20ad67cba921bc', '16f0e2-dbdf6e', 'User_default.png', 10, 0, '2019-12-16 10:07:56', '2019-12-16 10:07:56', '0', 1, 0, 1),
+(124, 'zuza', 'zax', 'csdvsed', -1105094429, '+37495777448', 'zara.tunyan@gmail.com43', 'b0412597dcea813655574dc54a5b74967cf85317f0332a2591be7953a016f8de56200eb37d5ba593b1e4aa27cea5ca27100f94dccd5b04bae5cadd4454dba67d', '16f0e3-6c9dde', 'User_default.png', 0, 0, '2019-12-16 10:17:49', '2019-12-16 10:17:49', '0', 1, 0, 1),
+(135, 'Samuel', 'Samuel', 'Mkrtchyan', -1105930800, '+37495616209', 'samvel@mail.ru', '125d6d03b32c84d492747f79cf0bf6e179d287f341384eb5d6d3197525ad6be8e6df0116032935698f99a09e265073d1d6c32c274591bf1d0a20ad67cba921bc', '16f0e8-8957be', 'User_default.png', 0, 0, '2019-12-16 11:46:13', '2019-12-16 11:46:13', '0', 1, 0, 1),
+(136, 'marat', 'Marat', 'Mkrtchyan', -1105094429, '+37495616200', 'ggg@mail.ru', '125d6d03b32c84d492747f79cf0bf6e179d287f341384eb5d6d3197525ad6be8e6df0116032935698f99a09e265073d1d6c32c274591bf1d0a20ad67cba921bc', '16f0e8-d254b7', 'User_default.png', 0, 0, '2019-12-16 11:52:08', '2019-12-16 11:52:08', '0', 1, 0, 1),
+(138, 'ԱրմենուհիՄկրտչյան7919', 'Արմենուհի', 'Մկրտչյան', 0, '', 'mkrtchyanarmenuhi89@gmail.com', '1576505907?349894528', '16f0f1-317cfb', 'User_default.png', 0, 0, '2019-12-16 14:18:27', '2019-12-16 14:18:27', '', 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -1875,14 +1416,6 @@ CREATE TABLE `user_loyalty_card` (
   `card_id` int(11) NOT NULL,
   `status` int(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
-
---
--- Dumping data for table `user_loyalty_card`
---
-
-INSERT INTO `user_loyalty_card` (`id`, `user_id`, `card_id`, `status`) VALUES
-(4, 91, 11, 1),
-(5, 91, 10, 1);
 
 -- --------------------------------------------------------
 
@@ -2140,7 +1673,7 @@ ALTER TABLE `badges`
 -- AUTO_INCREMENT for table `claimed_offers`
 --
 ALTER TABLE `claimed_offers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=272;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=277;
 
 --
 -- AUTO_INCREMENT for table `claim_your_business`
@@ -2164,7 +1697,7 @@ ALTER TABLE `countries`
 -- AUTO_INCREMENT for table `favorites`
 --
 ALTER TABLE `favorites`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `featured_offers`
@@ -2176,7 +1709,7 @@ ALTER TABLE `featured_offers`
 -- AUTO_INCREMENT for table `friends`
 --
 ALTER TABLE `friends`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=92;
 
 --
 -- AUTO_INCREMENT for table `hour_offers`
@@ -2212,13 +1745,13 @@ ALTER TABLE `more_infos`
 -- AUTO_INCREMENT for table `notification`
 --
 ALTER TABLE `notification`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
 
 --
 -- AUTO_INCREMENT for table `rates`
 --
 ALTER TABLE `rates`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
 
 --
 -- AUTO_INCREMENT for table `restaurants`
@@ -2242,7 +1775,7 @@ ALTER TABLE `restaurant_weeks`
 -- AUTO_INCREMENT for table `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `service`
@@ -2260,19 +1793,19 @@ ALTER TABLE `sliders`
 -- AUTO_INCREMENT for table `tokens`
 --
 ALTER TABLE `tokens`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=350;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=390;
 
 --
 -- AUTO_INCREMENT for table `used_offers`
 --
 ALTER TABLE `used_offers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=241;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=245;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=112;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=139;
 
 --
 -- AUTO_INCREMENT for table `user_loyalty_card`
