@@ -23,6 +23,8 @@ class User extends CI_Model
 //	check username for unique
 	public function check_unique($username, $mobile_number, $email)
 	{
+		$checkPartialReg = $this->db->get_where($this->table, ["username" => $username, "verify" => 0])->row();
+
 		$checkUsername = $this->db->get_where($this->table, ["username" => $username, "verify" => 1])->row();
 		$checkMobile = $this->db->get_where($this->table, ["mobile_number" =>  $mobile_number, "verify" => 1])->row();
 		$checkEmail = $this->db->get_where($this->table, ["email" => $email, "verify" => 1])->row();
@@ -35,6 +37,8 @@ class User extends CI_Model
 		}
 		elseif ($checkEmail != NULL){
 			return "email";
+		}elseif ($checkPartialReg != NULL){
+			return 'partial';
 		}
 		return 2;
 	}

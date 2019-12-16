@@ -96,6 +96,14 @@ class Users_API extends REST_Controller
 			);
 			$this->response($response, $status);
 			return;
+		} elseif ($check != 'partial') {
+			$response = array(
+				"msg" => 'We sent verification code to your mobile number. Please Check',
+				"data" => array(),
+				"success" => true
+			);
+			$this->response($response, self::HTTP_OK);
+			return;
 		} elseif (null == $this->input->post('password')) {
 			$status = self::HTTP_UNPROCESSABLE_ENTITY;
 			$response = array(
@@ -115,10 +123,6 @@ class Users_API extends REST_Controller
 			$this->response($response, $status);
 			return;
 		} else {
-
-
-
-
 
 
 			$verif_code = rand(100000, 999999);
@@ -151,7 +155,7 @@ class Users_API extends REST_Controller
 
 			$this->User->register($data);
 			$response = array(
-				"msg" => 'We sent verification code to your mobile number. please Check',
+				"msg" => 'We sent verification code to your mobile number. Please Check',
 				"data" => array(),
 				"success" => true
 			);
@@ -175,7 +179,8 @@ class Users_API extends REST_Controller
 				);
 			return true;
 		} catch (Exception $e) {
-			var_dump($e);die;
+			var_dump($e);
+			die;
 		}
 	}
 
@@ -1000,7 +1005,7 @@ class Users_API extends REST_Controller
 		}
 		$this->db->select("notification_status");
 		$user = $this->db->get_where("users", array("id" => $res))->row();
-		if(null != $user) {
+		if (null != $user) {
 			$data = array(
 				"success" => true,
 				"data" => array(
@@ -1033,7 +1038,7 @@ class Users_API extends REST_Controller
 			return;
 		}
 		$notif_status = $this->input->post("notification_status");
-		if(null == $notif_status || !is_numeric($notif_status)) {
+		if (null == $notif_status || !is_numeric($notif_status)) {
 			$data = array(
 				"success" => false,
 				"data" => array(),
@@ -1044,7 +1049,7 @@ class Users_API extends REST_Controller
 		}
 		$status = $this->db->update("users", array("notification_status" => $notif_status), array("id" => $res));
 
-		if($status) {
+		if ($status) {
 			$data = array(
 				"success" => true,
 				"data" => array(),
