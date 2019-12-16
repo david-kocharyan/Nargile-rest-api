@@ -41,8 +41,6 @@ class User extends CI_Model
 			return 'mobile number';
 		} elseif ($checkEmail != NULL) {
 			return "email";
-		} elseif ($checkPartialReg != NULL) {
-			return 'partial';
 		}
 		return 2;
 	}
@@ -51,10 +49,9 @@ class User extends CI_Model
 	{
 		$checkPartialReg = $this->db->get_where($this->table, ["username" => $username, "verify" => 0])->row();
 
-		if ($checkPartialReg != NULL){
+		if ($checkPartialReg != NULL) {
 			return 1;
-		}
-		else{
+		} else {
 			return 0;
 		}
 	}
