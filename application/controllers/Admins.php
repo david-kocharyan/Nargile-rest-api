@@ -217,7 +217,7 @@ class Admins extends CI_Controller
 
 		$this->db->select('username, first_name, last_name, date_of_birth, mobile_number, email, coins, concat("/plugins/images/Logo/", image) as image');
 
-		$data['users'] = $this->db->get('users')->result();
+		$data['users'] = $this->db->get_where('users', array('verify' => 1))->result();
 
 		$this->load->view('layouts/header.php', $data);
 		$this->load->view('users/index.php');
