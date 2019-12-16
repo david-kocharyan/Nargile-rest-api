@@ -415,7 +415,7 @@ class Community_Api extends REST_Controller
 		$sent_from_user = $this->db->get_where("users", array("id" => $sent_from_id))->row();
 
 		if (null != $sent_to_user) {
-			$body = $sent_from_user->first_name . " " . $sent_from_user->last_name . " Send You Friend Request";
+			$body = $sent_from_user->first_name . " " . $sent_from_user->last_name . " Sent You Friend Request";
 
 //			add to database
 			$data = array(
