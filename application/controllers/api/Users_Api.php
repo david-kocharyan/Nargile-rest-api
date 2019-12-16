@@ -115,18 +115,17 @@ class Users_API extends REST_Controller
 			$this->response($response, $status);
 			return;
 		} else {
-//			$verif_code = rand(1000, 9999);
-			$verif_code = 2000;
-//			$send_sms = $this->sms($verif_code, $mobile_number);
-//			if ($send_sms == false) {
-//				$response = array(
-//					"msg" => 'Please provide correct mobile number.',
-//					"data" => array(),
-//					"success" => false
-//				);
-//				$this->response($response, self::HTTP_UNPROCESSABLE_ENTITY);
-//				return;
-//			}
+			$verif_code = rand(1000, 9999);
+			$send_sms = $this->sms($verif_code, $mobile_number);
+			if ($send_sms == false) {
+				$response = array(
+					"msg" => 'Please provide correct mobile number.',
+					"data" => array(),
+					"success" => false
+				);
+				$this->response($response, self::HTTP_UNPROCESSABLE_ENTITY);
+				return;
+			}
 
 			$uuid = vsprintf('%s-%s', str_split(dechex(microtime(true) * 1000) . bin2hex(random_bytes(10)), 6));
 
@@ -158,8 +157,8 @@ class Users_API extends REST_Controller
 	private function sms($code, $mobile)
 	{
 		try {
-			$sid = "ACebd2225620bc6dab7a56caa008d76fea";
-			$token = "0d6c50bd89eb41aff053b60a4a6fb8ff";
+			$sid = "AC69395251cb94fb19ee4f47b60c496148";
+			$token = "df25fc37a4d10d4f8adee56218323bf6";
 			$twilio = new Client($sid, $token);
 			$message = $twilio->messages
 				->create($mobile, // to
@@ -296,22 +295,21 @@ class Users_API extends REST_Controller
 			return;
 		}
 
-//		$verif_code = rand(1000, 9999);
-		$verif_code = 2001;
+		$verif_code = rand(1000, 9999);
 		$this->db->set("verify_code", $verif_code);
 		$this->db->where("id", $user->id);
 		$this->db->update("users");
 
-//		$send_sms = $this->sms($verif_code, $mobile_number);
-//		if ($send_sms == false) {
-//			$response = array(
-//				"msg" => 'Please provide correct mobile number.',
-//				"data" => array(),
-//				"success" => false
-//			);
-//			$this->response($response, self::HTTP_UNPROCESSABLE_ENTITY);
-//			return;
-//		}
+		$send_sms = $this->sms($verif_code, $mobile_number);
+		if ($send_sms == false) {
+			$response = array(
+				"msg" => 'Please provide correct mobile number.',
+				"data" => array(),
+				"success" => false
+			);
+			$this->response($response, self::HTTP_UNPROCESSABLE_ENTITY);
+			return;
+		}
 
 		$data = array(
 			"success" => true,
