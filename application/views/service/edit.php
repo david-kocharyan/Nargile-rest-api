@@ -65,7 +65,7 @@
 
 			<div class="text-right">
 				<button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Submit</button>
-				<a href="<?= base_url("admin/area") ?>">
+				<a href="<?= base_url("admin/service") ?>">
 					<button type="button" class="btn btn-inverse waves-effect waves-light">Return</button>
 				</a>
 			</div>

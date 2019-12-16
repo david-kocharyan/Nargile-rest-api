@@ -61,7 +61,7 @@ class Facebook_Api extends REST_Controller
 		}
 
 		$user_data = $this->db->get_where('users', array('email' => $user['email']))->row();
-		$username = $user['first_name'] . $user['last_name'] . time() . rand();
+		$username = $user['first_name'] . $user['last_name'] . rand(1000, 9999);
 
 		if (NULL == $user_data) {
 			$uuid = vsprintf('%s-%s', str_split(dechex(microtime(true) * 1000) . bin2hex(random_bytes(10)), 6));
