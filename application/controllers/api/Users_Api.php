@@ -491,7 +491,7 @@ class Users_API extends REST_Controller
 					"refresh_token" => $data['refresh_token']
 				),
 			);
-
+			$this->logout_same_users($auth->id);
 			$this->db->insert('tokens', $data);
 			unset($data['user_id']);
 			unset($data['time']);
@@ -502,6 +502,19 @@ class Users_API extends REST_Controller
 			);
 			$this->response($response, $status);
 		}
+	}
+
+//	Logout the same user in another devices
+
+	private function logout_same_users($id)
+	{
+		$this->db->set('token', NULL);
+		$this->db->set('refresh_token', NULL);
+		$this->db->set('time', NULL);
+		$this->db->set('fcm_token', NULL);
+		$this->db->set('os', NULL);
+		$this->db->where('user_id', $id);
+		$this->db->update('tokens');
 	}
 
 	public function refresh_token_post()
