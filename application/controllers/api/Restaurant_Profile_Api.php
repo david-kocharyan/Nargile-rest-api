@@ -323,7 +323,6 @@ class Restaurant_Profile_Api extends REST_Controller
 					"offset" => $offset,
 					"pages" => $pages,
 				),
-				"type" => $this->input->get('type'),
 			),
 			"msg" => "",
 		);
