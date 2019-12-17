@@ -237,7 +237,7 @@ class Restaurant_Profile_Api extends REST_Controller
 		if ($this->input->get('type') == "all") $this->db->group_by("reviews.user_id");
 		$data = $this->db->get("reviews")->result();
 
-		if ($this->input->get('type') == "all"){
+		if ($this->input->get('type') == "all") {
 			$arr = array();
 			foreach ($data as $key => $val) {
 				$this->db->select("count(user_id) as count, reviews.review as r");
@@ -289,6 +289,55 @@ class Restaurant_Profile_Api extends REST_Controller
 		}
 	}
 
+//	review all view page part
+	public function review_all_get()
+	{
+		$res = $this->verify_get_request();
+		if (gettype($res) != 'string') {
+			$data = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => $res['msg']
+			);
+			$this->response($data, $res['status']);
+			return;
+		}
+
+		$limit = (null !== $this->input->get('limit') && is_numeric($this->input->get("limit"))) ? intval($this->input->get('limit')) : 10;
+		$offset = (null !== $this->input->get('offset') && is_numeric($this->input->get("offset"))) ? $this->input->get('offset') * $limit : 0;
+		$pages = ($limit != 0 || null !== $limit) ? ceil($this->review_all_page($res)->pages / $limit) : 0;
+
+		$this->db->select("users.id as user_id, concat('/plugins/images/Logo/', users.image) as user_image, reviews.review as review");
+		$this->db->join("users", 'users.id = reviews.user_id');
+		$this->db->where(array("restaurant_id" => $this->input->get("id")));
+		$this->db->limit($limit, $offset);
+		$this->db->order_by("reviews.id DESC");
+		$data = $this->db->get("reviews")->result();
+
+		$response = array(
+			"success" => true,
+			"data" => array(
+				"reviews" => $data,
+				"meta" => array(
+					"limit" => $limit,
+					"offset" => $offset,
+					"pages" => $pages,
+				),
+				"type" => $this->input->get('type'),
+			),
+			"msg" => "",
+		);
+		$this->response($response, REST_Controller::HTTP_OK);
+	}
+
+	private function review_all_page()
+	{
+		$this->db->select("count(id) as pages");
+		$this->db->where(array("restaurant_id" => $this->input->get("id")));
+		$data = $this->db->get("reviews")->row();
+		return $data != null ? $data : array();
+	}
+//	end review all pages part
 
 //	choose restaurant my favorite
 	public function choose_favorite_post()
@@ -476,9 +525,7 @@ class Restaurant_Profile_Api extends REST_Controller
 		try {
 
 
-
 			$this->send_notif($this->input->post("user_id"), $res, $this->input->post("restaurant_id"));
-
 
 
 		} catch (Exception $e) {

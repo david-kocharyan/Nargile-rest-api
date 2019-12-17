@@ -89,6 +89,7 @@ $route['api/restaurants/share'] = 'api/Restaurant_Profile_Api/share';
 $route['api/restaurant/claim-your-business'] = 'api/Restaurant_Profile_Api/claim_your_business';
 //get current restaurant menu
 $route['api/restaurant/menu'] = 'api/Restaurant_Profile_Api/getMenu';
+$route['api/restaurant/all-reviews'] = 'api/Restaurant_Profile_Api/review_all';
 
 //search Api
 $route['api/restaurants/search'] = 'api/Search_Api';
