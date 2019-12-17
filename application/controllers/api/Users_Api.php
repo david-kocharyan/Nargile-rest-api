@@ -201,8 +201,7 @@ class Users_API extends REST_Controller
 				);
 			return true;
 		} catch (Exception $e) {
-			var_dump($e);
-			die;
+			return false;
 		}
 	}
 
