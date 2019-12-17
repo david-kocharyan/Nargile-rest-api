@@ -390,15 +390,8 @@ class Community_Api extends REST_Controller
 		$this->db->insert('friends', $data);
 
 		try {
-
-
 			$this->send_notif($friend_id, $res);
-
-
-		} catch (Exception $e) {
-			var_dump($e);
-			die;
-		}
+		} catch (Exception $e) {}
 
 		$response = array(
 			"success" => true,
