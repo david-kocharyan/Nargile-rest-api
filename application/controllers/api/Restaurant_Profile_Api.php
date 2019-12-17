@@ -229,7 +229,7 @@ class Restaurant_Profile_Api extends REST_Controller
 		$offset = (null !== $this->input->get('offset') && is_numeric($this->input->get("offset"))) ? $this->input->get('offset') * $limit : 0;
 		$pages = ($limit != 0 || null !== $limit) ? ceil($this->reviews_page($res)->pages / $limit) : 0;
 
-		$this->db->select("users.id as user_id, concat('/plugins/images/Logo/', users.image) as user_image");
+		$this->db->select("users.id as user_id, concat('/plugins/images/Logo/', users.image) as user_image, reviews.review as review");
 		$this->db->join("users", 'users.id = reviews.user_id');
 		$this->reviews_were($res);
 		$this->db->limit($limit, $offset);
@@ -237,15 +237,17 @@ class Restaurant_Profile_Api extends REST_Controller
 		if ($this->input->get('type') == "all") $this->db->group_by("reviews.user_id");
 		$data = $this->db->get("reviews")->result();
 
-		$arr = array();
-		foreach ($data as $key => $val) {
-			$this->db->select("count(user_id) as count, reviews.review as r");
-			$this->db->order_by("reviews.id DESC");
-			$p = $this->db->get_where("reviews", array("user_id" => $val->user_id))->row();
-			$arr["text"] = $p->r;
-			$arr["count"] = $p->count;
-			$val->review = $arr;
-			unset($arr);
+		if ($this->input->get('type') == "all"){
+			$arr = array();
+			foreach ($data as $key => $val) {
+				$this->db->select("count(user_id) as count, reviews.review as r");
+				$this->db->order_by("reviews.id DESC");
+				$p = $this->db->get_where("reviews", array("user_id" => $val->user_id))->row();
+				$arr["text"] = $p->r;
+				$arr["count"] = $p->count;
+				$val->review = $arr;
+				unset($arr);
+			}
 		}
 
 		$response = array(
