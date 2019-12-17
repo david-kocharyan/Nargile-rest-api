@@ -11,12 +11,12 @@
 				<div class="form-group">
 					<label>Region Name</label>
 					<div>
-						<input type="text" class="form-control" placeholder="Please enter region name" required>
+						<input type="text" class="form-control name" placeholder="Please enter region name" required>
 					</div>
 				</div>
 
 				<div class="text-right">
-					<button type="button" class="btn btn-success waves-effect waves-light m-r-10">Submit</button>
+					<button type="button" class="btn btn-success waves-effect waves-light m-r-10 save">Submit</button>
 					<a href="<?= base_url("admin/regions") ?>">
 						<button type="button" class="btn btn-inverse waves-effect waves-light">Return</button>
 					</a>
@@ -31,6 +31,7 @@
 		type="text/javascript"></script>
 
 <script type="text/javascript">
+    var local = 0;
 
     function initialize() {
         // Map Center
@@ -82,9 +83,26 @@
             arr = [lat, lng];
             arr_latlng.push(arr);
         }
-        console.log(arr_latlng);
-
+        local = arr_latlng;
     }
+
+    $(".save").click(function () {
+        var coordinates = local;
+        var name = $(".name").val();
+        console.log(coordinates, name);
+        $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            url: "<?= base_url('admin/regions/store')?>",
+            data: {coordinates, name},
+            success: function(data){
+                console.log(success);
+            },
+        });
+
+    });
+
+
 
 
 </script>
