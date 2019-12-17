@@ -107,6 +107,8 @@ class Restaurant extends CI_Model
 
 	public function show_reviews($id)
 	{
+		$this->db->select("reviews.*, users.first_name, users.last_name");
+		$this->db->join('users','users.id = reviews.user_id');
 		return $this->db->get_where("reviews", array("restaurant_id" => $id))->result();
 	}
 

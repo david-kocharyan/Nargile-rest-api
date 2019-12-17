@@ -138,7 +138,11 @@
 										class="hide-menu">Countries</span></a>
 							</li>
 							<li><a href="<?= base_url('admin/area') ?>"><i class=" fa-fw">A</i><span
-										class="hide-menu">Area</span></a></li>
+										class="hide-menu">Area</span></a>
+							</li>
+							<li><a href="<?= base_url('admin/regions') ?>"><i class=" fa-fw">R</i><span
+										class="hide-menu">Regions</span></a>
+							</li>
 						</ul>
 					</li>
 					<li><a href="<?= base_url('admin/badges') ?>" class="waves-effect"><i

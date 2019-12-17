@@ -116,17 +116,18 @@ class Users_API extends REST_Controller
 			return;
 		} else {
 
-			$verif_code = rand(100000, 999999);
-			$send_sms = $this->sms($verif_code, $mobile_number);
-			if ($send_sms == false) {
-				$response = array(
-					"msg" => 'Please provide correct mobile number.',
-					"data" => array(),
-					"success" => false
-				);
-				$this->response($response, self::HTTP_UNPROCESSABLE_ENTITY);
-				return;
-			}
+//			$verif_code = rand(100000, 999999);
+			$verif_code = 2000;
+//			$send_sms = $this->sms($verif_code, $mobile_number);
+//			if ($send_sms == false) {
+//				$response = array(
+//					"msg" => 'Please provide correct mobile number.',
+//					"data" => array(),
+//					"success" => false
+//				);
+//				$this->response($response, self::HTTP_UNPROCESSABLE_ENTITY);
+//				return;
+//			}
 			$uuid = vsprintf('%s-%s', str_split(dechex(microtime(true) * 1000) . bin2hex(random_bytes(10)), 6));
 
 			$check_partial = $this->User->check_partial($username);
@@ -327,21 +328,22 @@ class Users_API extends REST_Controller
 			return;
 		}
 
-		$verif_code = rand(100000, 999999);
+//		$verif_code = rand(100000, 999999);
+		$verif_code = 2001;
 		$this->db->set("verify_code", $verif_code);
 		$this->db->where("id", $user->id);
 		$this->db->update("users");
 
-		$send_sms = $this->sms($verif_code, $mobile_number);
-		if ($send_sms == false) {
-			$response = array(
-				"msg" => 'Please provide correct mobile number.',
-				"data" => array(),
-				"success" => false
-			);
-			$this->response($response, self::HTTP_UNPROCESSABLE_ENTITY);
-			return;
-		}
+//		$send_sms = $this->sms($verif_code, $mobile_number);
+//		if ($send_sms == false) {
+//			$response = array(
+//				"msg" => 'Please provide correct mobile number.',
+//				"data" => array(),
+//				"success" => false
+//			);
+//			$this->response($response, self::HTTP_UNPROCESSABLE_ENTITY);
+//			return;
+//		}
 
 		$data = array(
 			"success" => true,

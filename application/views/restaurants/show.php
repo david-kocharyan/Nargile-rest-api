@@ -117,7 +117,11 @@
 			<div class="row">
 				<div class="col-sm-9" id="reviews">
 					<?php foreach ($reviews as $key => $value) { ?>
-						<p><?= $value->review ?></p>
+						<div class="col-md-12">
+							<h4><strong><?= $value->first_name . " " . $value->first_name ?></strong></h4>
+							<p><?= $value->review ?></p>
+							<hr/>
+						</div>
 					<?php } ?>
 				</div>
 			</div>

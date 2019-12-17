@@ -139,7 +139,6 @@ $route['admin/owner/create/(:any)'] = 'Admins/create_owner/$1';
 $route['admin/owner/store/(:any)'] = 'Admins/store_owner/$1';
 
 
-
 //ajax statistics
 $route['admin/statistics'] = 'Admins/owner_chart';
 
@@ -167,6 +166,12 @@ $route["admin/area/store"] = 'Areas/store';
 $route["admin/area/edit/(:any)"] = 'Areas/edit/$1';
 $route["admin/area/update/(:any)"] = 'Areas/update/$1';
 $route["admin/area/change-status/(:any)"] = 'Areas/change_status/$1';
+
+//Custom Regions
+$route['admin/regions'] = 'Regions';
+$route["admin/regions/create"] = 'Regions/create';
+$route["admin/regions/store"] = 'Regions/store';
+$route["admin/regions/change-status/(:any)"] = 'Regions/change_status/$1';
 
 //Restaurants
 $route['admin/restaurants'] = 'Restaurants';
