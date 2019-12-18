@@ -24,18 +24,93 @@ class Sliders extends CI_Controller
 		$this->load->view('layouts/footer.php');
 	}
 
+	public function create()
+	{
+		$data['user'] = $this->session->userdata('user');
+		$data['region'] = $this->Slider->get_regions();
+		$data['title'] = "Image upload page";
+
+		$this->load->view('layouts/header.php', $data);
+		$this->load->view('sliders/create.php');
+		$this->load->view('layouts/footer.php');
+	}
+
 	public function store()
 	{
-		if (!empty($_FILES['image']['name'][0]) || null != $_FILES['images']['name'][0]) {
-			$images = $this->upload_files($_FILES['images'], $this->input->post('id'));
-			if (isset($images['err'])) {
-				$this->errors = $images['err'];
-				$this->index();
+		$region = $this->input->post("region");
+		$link = $this->input->post("link");
+		$start = $this->input->post("start");
+		$end = $this->input->post("end");
+
+		if (!empty($_FILES['image']['name']) || null != $_FILES['image']['name']) {
+			$image = $this->uploadImage('image');
+			if (isset($image['error'])) {
+				$this->session->set_flashdata('error', $image['error']);
+				$this->create();
 				return;
-			} else {
-				$this->db->insert_batch('sliders', $images);
 			}
+			$logo = isset($image['data']['file_name']) ? $image['data']['file_name'] : "";
+		} else {
+			$this->session->set_flashdata('error', 'Image was required');
+			$this->create();
+			return;
 		}
+
+		$data = array(
+			"region_id" => $region != NULL ? $region : NULL,
+			"image" => $logo,
+			"link" => $link != NULL ? $link : NULL,
+			"start" => $start != NULL ? $start : NULL,
+			"end" => $end != NULL ? $end : NULL,
+		);
+
+		$this->Slider->insert($data);
+		redirect('sliders');
+	}
+
+
+	public function edit($id)
+	{
+		$data['user'] = $this->session->userdata('user');
+		$data['region'] = $this->Slider->get_regions();
+		$data['slider'] = $this->Slider->selectById($id);
+		$data['title'] = "Slider Edit page";
+
+//		var_dump($data['slider']);die;
+		$this->load->view('layouts/header.php', $data);
+		$this->load->view('sliders/edit.php');
+		$this->load->view('layouts/footer.php');
+	}
+
+	public function update($id)
+	{
+		$region = $this->input->post("region");
+		$link = $this->input->post("link");
+		$start = $this->input->post("start");
+		$end = $this->input->post("end");
+
+		$slider = $this->Slider->selectById($id);
+
+		if (!empty($_FILES['image']['name']) || null != $_FILES['image']['name']) {
+			$image = $this->uploadImage('image');
+			if (isset($image['error'])) {
+				$this->session->set_flashdata('error', $image['error']);
+				$this->edit($id);
+				return;
+			}
+			$logo = isset($image['data']['file_name']) ? $image['data']['file_name'] : "";
+			unlink(FCPATH . "/plugins/images/Slider/" . $slider->image);
+		}
+
+		$data = array(
+			"region_id" => $region != NULL ? $region : NULL,
+			"link" => $link != NULL ? $link : NULL,
+			"start" => $start != NULL ? $start : NULL,
+			"end" => $end != NULL ? $end : NULL,
+		);
+		if (isset($logo)) $data['image'] = $logo;
+
+		$this->Slider->update($data, $id);
 		redirect('sliders');
 	}
 
@@ -49,64 +124,52 @@ class Sliders extends CI_Controller
 		redirect("admin/sliders");
 	}
 
-	//  uploading multiple images
-	private function upload_files($files, $id)
+	private function uploadImage($image)
 	{
 		if (!is_dir(FCPATH . "/plugins/images/Slider")) {
 			mkdir(FCPATH . "/plugins/images/Slider", 0755, true);
 		}
-		$config = array(
-			'upload_path' => FCPATH . "/plugins/images/Slider",
-			'allowed_types' => 'jpg|jpeg|png',
-			'max_size' => 100000000000,
-			'overwrite' => 1
-		);
 
+		$path = FCPATH . "/plugins/images/Slider";
+		$config['upload_path'] = $path;
+		$config['file_name'] = 'Slider_' . time() . '_' . rand();
+		$config['allowed_types'] = 'jpg|png|jpeg';
+		$config['max_size'] = 100000;
 		$this->load->library('upload', $config);
 
-		$images = array();
-
-		foreach ($files['name'] as $key => $image) {
-			$_FILES['images[]']['name'] = $files['name'][$key];
-			$_FILES['images[]']['type'] = $files['type'][$key];
-			$_FILES['images[]']['tmp_name'] = $files['tmp_name'][$key];
-			$_FILES['images[]']['error'] = $files['error'][$key];
-			$_FILES['images[]']['size'] = $files['size'][$key];
-			$ext = explode(".", $image)[1];
-			$fileName = 'Res_Image_' . time() . '_' . uniqid() . ".$ext";
-
-			$images[$key]['image'] = $fileName;
-
-			$config['file_name'] = $fileName;
-
-			$this->upload->initialize($config);
-
-			if ($this->upload->do_upload('images[]')) {
-				$this->resizeImage($fileName, $config['upload_path']);
-				$this->upload->data();
-			} else {
-				$data['err'] = $this->upload->display_errors() . $image;
-				return $data;
-			}
+		if (!$this->upload->do_upload($image)) {
+			$errorStrings = strip_tags($this->upload->display_errors());
+			$error = array('error' => $errorStrings, 'image' => $image);
+			return $error;
+		} else {
+			$uploadedImage = $this->upload->data();
+			$this->resizeImage($uploadedImage['file_name'], $path);
+			$data = array('data' => $uploadedImage);
+			return $data;
 		}
-		return $images;
 	}
 
-	//resize image
 	private function resizeImage($filename, $path)
 	{
-		$config['image_library'] = 'GD2';
-		$config['source_image'] = $path."/".$filename;
-		$config['create_thumb'] = FALSE;
-		$config['maintain_ratio'] = true;
-		$config['quality'] = '50%';
-		$config['width'] = '800';
-		$config['height'] = '800';
-		$config['new_image'] = $path."/".$filename;
+		$source_path = $path . "/" . $filename;
+		$target_path = $path . "/" . $filename;
+		$config_manip = array(
+			'image_library' => 'gd2',
+			'source_image' => $source_path,
+			'new_image' => $target_path,
+			'maintain_ratio' => TRUE,
+			'create_thumb' => FALSE,
+			'width' => 800,
+			'height' => 800,
+		);
 		$this->load->library('image_lib');
+		$this->image_lib->initialize($config_manip);
+
+		if (!$this->image_lib->resize()) {
+			echo $this->image_lib->display_errors();
+		}
 		$this->image_lib->clear();
-		$this->image_lib->initialize($config);
-		$this->image_lib->resize();
 	}
+
 
 }

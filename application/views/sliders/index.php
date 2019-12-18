@@ -1,32 +1,9 @@
-<!--page content-->
-<div class="col-sm-12">
-	<div class="white-box">
-		<form action="<?= base_url("admin/sliders/store") ?>" method="post" enctype="multipart/form-data">
-
-			<div class="col-md-12">
-				<?php if (isset($this->errors)) { ?>
-					<div class="alert-danger alert-dismissable">
-						<?= $this->errors; ?>
-					</div>
-				<?php } ?>
-				<div class="form-group">
-					<label>Images (Choose Multiple) </label>
-					<br>
-					<input type="file" name="images[]" class="form-control" multiple>
-				</div>
-			</div>
-
-			<div class="text-right">
-				<button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Submit</button>
-			</div>
-		</form>
-	</div>
-</div>
-
 <div class="col-sm-12">
 	<div class="white-box">
 		<h3 class="box-title m-b-0">sliders Table</h3>
-		<p class="text-muted m-b-15">All sliders in 1 place!!</p>
+
+		<p class="box-title m-b-30 btn btn-success btn-outline"><a
+				href="<?= base_url("admin/sliders/create") ?>" class="text-success">Add New Image </a></p>
 
 		<div class="table-responsive">
 			<table id="myTable" class="table table-striped">
@@ -34,6 +11,10 @@
 				<tr>
 					<th>ID</th>
 					<th>Image</th>
+					<th>Region</th>
+					<th>Link</th>
+					<th>Start</th>
+					<th>End</th>
 					<th>Status</th>
 					<th>Options</th>
 				</tr>
@@ -45,8 +26,16 @@
 						<td><img src="<?= base_url('plugins/images/Slider/') ?><?= $value->image; ?>" alt="" width="200"
 								 height="100" class="img-responsive">
 						</td>
+						<td><?= $value->region_id ?></td>
+						<td><?= $value->link ?></td>
+						<td><?= $value->start ?></td>
+						<td><?= $value->end ?></td>
 						<td><?= $value->status ?></td>
 						<td>
+							<a href="<?= base_url("admin/sliders/edit/$value->id") ?>" data-toggle="tooltip"
+							   data-placement="top" title="Edit" class="btn btn-info btn-circle tooltip-info"> <i
+									class="fas fa-pencil-alt"></i> </a>
+
 							<?php if ($value->status == 1) { ?>
 								<a href="<?= base_url("admin/sliders/change-status/$value->id") ?>"
 								   data-toggle="tooltip"

@@ -15,9 +15,9 @@ class Slider extends CI_Model
 		return $this->db->get($this->table)->result();
 	}
 
-	public function SelectById($id)
+	public function get_regions()
 	{
-		return $this->db->get_where($this->table, array("id" => $id))->row();
+		return $this->db->get_where('regions', array("status" => 1 ))->result();
 	}
 
 	public function insert($data)
@@ -25,10 +25,15 @@ class Slider extends CI_Model
 		$this->db->insert($this->table, $data);
 	}
 
-	///////////////////////////////////
-	public function delete($id)
+	public function selectById($id)
 	{
-		$this->db->delete($this->table, array('id' => $id));
+		$data = $this->db->get_where($this->table,["id" => $id])->row();
+		return $data ;
+	}
+
+	public function update($data, $id)
+	{
+		$this->db->update($this->table, $data, ["id" => $id]);
 	}
 
 	public function changeStatus($id)
