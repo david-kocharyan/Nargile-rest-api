@@ -1,6 +1,9 @@
 <div class="col-md-12">
 	<div class="white-box">
 		<h3 class="box-title m-b-30">Create Regions</h3>
+
+		<h5 class="err text-danger"></h5>
+
 		<div class="row">
 			<div class="col-sm-12 col-xs-12">
 
@@ -80,7 +83,7 @@
             arr = [];
             lat = paths[i].lat();
             lng = paths[i].lng();
-            arr = [lat, lng];
+            arr = {lat, lng};
             arr_latlng.push(arr);
         }
         local = arr_latlng;
@@ -89,17 +92,25 @@
     $(".save").click(function () {
         var coordinates = local;
         var name = $(".name").val();
-        console.log(coordinates, name);
-        $.ajax({
-            type: 'POST',
-            dataType: 'json',
-            url: "<?= base_url('admin/regions/store')?>",
-            data: {coordinates, name},
-            success: function(data){
-                console.log(success);
-            },
-        });
-
+        if (name == "" || coordinates.length == 0){
+            $('.err').empty();
+            $('.err').html("Please enter name or choose coordinates for regions.");
+		}else{
+            $.ajax({
+                type: 'POST',
+                dataType: 'json',
+                url: "<?= base_url('admin/regions/store')?>",
+                data: {coordinates, name},
+                success: function(data){
+                    if (data == "success"){
+                        window.location.replace("<?= base_url('admin/regions'); ?>");
+					}else {
+                        $('.err').empty();
+                        $('.err').html("Something went wrong please try again");
+					}
+                },
+            });
+        }
     });
 
 

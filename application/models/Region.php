@@ -10,33 +10,31 @@ class Region extends CI_Model
 		parent:: __construct();
 	}
 
-	public function insert($data)
-	{
-		$this->db->insert($this->table, $data);
-		$insert_id = $this->db->insert_id();
-		return  $insert_id;
-	}
-
 	public function selectAll()
 	{
-		$this->db->select("area.id, area.status as area_status, area.name as area_name, countries.id as country_id, countries.name as country_name ");
-		$this->db->join("countries", "countries.id = area.country_id", "left");
-		return $this->db->get_where($this->table, array('countries.status' => 1 ))->result();
+		return $this->db->get($this->table)->result();
 	}
 
-	public function select($id)
+	public function insert_region($name)
 	{
-		$data = $this->db->get_where($this->table,["id" => $id])->row();
-		return $data ;
+		$this->db->insert($this->table, array("name" => $name));
+		$insert_id = $this->db->insert_id();
+		return $insert_id;
 	}
+
+	public function insert_coordinate($data)
+	{
+		$this->db->insert("regions_coordinates", $data);
+	}
+
 
 	public function changeStatus($id)
 	{
 		$data = $this->db->get_where($this->table, ["id" => $id])->row();
-		if(null == $data) {
+		if (null == $data) {
 			return;
 		}
 		$status = $data->status == 1 ? 0 : 1;
-		$this->db->update($this->table, array("status" => $status), ['id' => $id] );
+		$this->db->update($this->table, array("status" => $status), ['id' => $id]);
 	}
 }

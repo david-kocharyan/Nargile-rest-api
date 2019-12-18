@@ -16,7 +16,7 @@ class Regions extends CI_Controller
 	public function index()
 	{
 		$data['user'] = $this->session->userdata('user');
-//		$data['area'] = $this->Region->selectAll();
+		$data['region'] = $this->Region->selectAll();
 		$data['title'] = "Regions";
 
 		$this->load->view('layouts/header.php', $data);
@@ -36,22 +36,23 @@ class Regions extends CI_Controller
 
 	public function store()
 	{
-		$area = $this->input->post('area');
-		$country_id = $this->input->post('country');
+		$name = $this->input->post('name');
+		$coordinates = $this->input->post('coordinates');
 
-		$this->form_validation->set_rules('area', 'Area', 'required|trim|max_length[30]');
+		$this->db->trans_start();
+		$id = $this->Region->insert_region($name);
+		foreach ($coordinates as $key) {
+			$key['region_id'] = $id;
+			$this->Region->insert_coordinate($key);
+		}
+		$this->db->trans_complete();
 
-		if ($this->form_validation->run() == FALSE) {
-			$this->create();
+		if ($this->db->trans_status() === FALSE) {
+			$this->output->set_output(json_encode("error", JSON_PRETTY_PRINT))->_display();
+			exit;
 		} else {
-			$data = array(
-				"name" => $area,
-				"country_id" => $country_id,
-				"status" => 1,
-			);
-			$this->Area->insert($data);
-			$this->session->set_flashdata('success', 'You have stored the area successfully');
-			redirect("admin/area/create");
+			$this->output->set_output(json_encode("success", JSON_PRETTY_PRINT))->_display();
+			exit;
 		}
 	}
 
@@ -61,8 +62,8 @@ class Regions extends CI_Controller
 	 */
 	public function change_status($id)
 	{
-		$this->Area->changeStatus($id);
-		redirect("admin/area");
+		$this->Region->changeStatus($id);
+		redirect("admin/regions");
 	}
 
 
