@@ -29,7 +29,7 @@
 
 			<div class="form-group">
 				<label for="inputUsername" class="control-label">Link</label>
-				<input type="text" class="form-control" id="inputUsername" placeholder="aimtech.am" name="link"
+				<input type="text" class="form-control" id="inputUsername" placeholder="www.aimtech.am" name="link"
 					   value="<?= $this->input->post('link'); ?>">
 			</div>
 
