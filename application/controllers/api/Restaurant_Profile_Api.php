@@ -249,6 +249,15 @@ class Restaurant_Profile_Api extends REST_Controller
 				unset($arr);
 			}
 		}
+		else{
+			$arr = array();
+			foreach ($data as $key => $val) {
+				$arr["text"] = $val->review;
+				$arr["count"] = "0";
+				$val->review = $arr;
+				unset($arr);
+			}
+		}
 
 		$response = array(
 			"success" => true,
