@@ -211,6 +211,14 @@ $route["admin/restaurants/coin-offers/edit/(:any)"] = 'CoinOffers/edit/$1';
 $route["admin/restaurants/coin-offers/update/(:any)"] = 'CoinOffers/update/$1';
 $route["admin/restaurants/coin-offers/change-status/(:any)"] = 'CoinOffers/change_status/$1';
 
+//All Offers
+$route["admin/offers"] = 'Offers/index';
+$route["admin/offers/change-status/(:any)"] = 'Offers/change_status/$1';
+$route["admin/offers/change-status-featured/(:any)"] = 'Offers/change_status_featured/$1';
+$route["admin/offers/change-status-hour/(:any)"] = 'Offers/change_status_hour/$1';
+$route["admin/offers/change-status-coins/(:any)"] = 'Offers/change_status_coins/$1';
+
+
 //Restaurant Weeks
 $route["admin/restaurants/weeks/(:any)"] = 'Weeks/index/$1';
 $route["admin/restaurants/weeks/store/(:any)"] = 'Weeks/store/$1';

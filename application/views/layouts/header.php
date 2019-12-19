@@ -130,6 +130,9 @@
 					<li><a href="<?= base_url('admin/sliders') ?>" class="waves-effect"><i
 								class="mdi mdi-google-photos fa-fw"></i> <span class="hide-menu">Sliders</span></a>
 					</li>
+					<li><a href="<?= base_url('admin/offers') ?>" class="waves-effect"><i
+								class="mdi mdi-coin fa-fw"></i> <span class="hide-menu">All Offers</span></a>
+					</li>
 					<li><a href="javascript:void(0)" class="waves-effect"><i data-icon="&#xe008;"
 																			 class="mdi mdi-google-maps fa-fw"></i><span
 								class="hide-menu">Location</span><span class="fa arrow"></span></a>
