@@ -80,7 +80,6 @@
 						<th>Close</th>
 						<th>Status</th>
 						<th>Options</th>
-						s
 					</tr>
 					</thead>
 					<tbody>

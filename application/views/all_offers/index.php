@@ -5,13 +5,14 @@
 			<h3 class="box-title m-b-0">Featured Offers</h3>
 
 			<div class="table-responsive">
-				<table id="myTable" class="table table-striped">
+				<table id="featured_table" class="table table-striped">
 					<thead>
 					<tr>
 						<th>ID</th>
 						<th>Restaurant</th>
 						<th>Featured offer text</th>
 						<th>Status</th>
+						<th>Options</th>
 					</tr>
 					</thead>
 					<tbody>
@@ -51,13 +52,14 @@
 			<h3 class="box-title m-b-0">Hour Offers</h3>
 
 			<div class="table-responsive">
-				<table id="myTable" class="table table-striped">
+				<table id="hour_table" class="table table-striped">
 					<thead>
 					<tr>
 						<th>ID</th>
 						<th>Restaurant</th>
 						<th>Hour offer text</th>
 						<th>Status</th>
+						<th>Options</th>
 					</tr>
 					</thead>
 					<tbody>
@@ -98,7 +100,7 @@
 			<h3 class="box-title m-b-0">Coin Offers</h3>
 
 			<div class="table-responsive">
-				<table id="myTable" class="table table-striped">
+				<table id="coin_table" class="table table-striped">
 					<thead>
 					<tr>
 						<th>ID</th>
@@ -143,3 +145,5 @@
 		</div>
 	</div>
 </div>
+
+
