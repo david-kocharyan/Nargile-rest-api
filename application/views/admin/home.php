@@ -1,6 +1,5 @@
 <div class="row">
-
-	<div class="col-lg-3 col-sm-6 col-xs-12">
+	<div class="col-lg-3 col-sm-12 col-xs-12">
 		<div class="white-box">
 			<h3 class="box-title">Total Users</h3>
 			<ul class="list-inline two-part">
@@ -10,7 +9,7 @@
 		</div>
 	</div>
 
-	<div class="col-lg-3 col-sm-6 col-xs-12">
+	<div class="col-lg-2 col-sm-6 col-xs-12">
 		<div class="white-box">
 			<h3 class="box-title">Restaurants Count</h3>
 			<ul class="list-inline two-part">
@@ -20,12 +19,22 @@
 		</div>
 	</div>
 
-	<div class="col-lg-3 col-sm-6 col-xs-12">
+	<div class="col-lg-2 col-sm-6 col-xs-12">
 		<div class="white-box">
 			<h3 class="box-title">Total Share</h3>
 			<ul class="list-inline two-part">
 				<li><i class="ti-wallet text-success"></i></li>
 				<li class="text-right"><span class=""><?= $widget['share'] ?></span></li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="col-lg-2 col-sm-6 col-xs-12">
+		<div class="white-box">
+			<h3 class="box-title">Total Rate</h3>
+			<ul class="list-inline two-part">
+				<li><i class="icon-trophy text-info"></i></li>
+				<li class="text-right"><span class="counter"><?= $widget['rates'] ?></span></li>
 			</ul>
 		</div>
 	</div>
@@ -65,6 +74,27 @@
 		</div>
 	</div>
 
+		<div class="col-lg-6 col-sm-6 col-xs-12">
+			<div class="white-box">
+				<h3 class="box-title">Share</h3>
+				<ul class="list-inline two-part">
+					<li><i class=" icon-share text-purple"></i></li>
+					<li class="text-right"><span class="counter share_ajax"></span></li>
+				</ul>
+			</div>
+		</div>
+
+		<div class="col-lg-6 col-sm-6 col-xs-12">
+			<div class="white-box">
+				<h3 class="box-title">Favorite</h3>
+				<ul class="list-inline two-part">
+					<li><i class=" icon-heart text-purple"></i></li>
+					<li class="text-right"><span class="counter favorite_ajax"></span></li>
+				</ul>
+			</div>
+		</div>
+
+
 	<div class="col-sm-6">
 		<div class="white-box">
 			<h3 class="box-title">Rate Chart</h3>
@@ -79,6 +109,24 @@
 			<h3 class="box-title">Rate By Users Age Chart</h3>
 			<div class="canvas_father_2">
 				<canvas id="chart3" height="150"></canvas>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-lg-6">
+		<div class="white-box">
+			<h3 class="box-title">Rate By Users Gender Chart</h3>
+			<div class="canvas_father_3">
+				<canvas id="chart4" height="150"></canvas>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-lg-6">
+		<div class="white-box">
+			<h3 class="box-title">Review By Users Gender Chart</h3>
+			<div class="canvas_father_4">
+				<canvas id="chart5" height="150"></canvas>
 			</div>
 		</div>
 	</div>
@@ -204,6 +252,49 @@
                         });
                     age_chart.update();
                     // chart end
+
+					// pie chart rate by gender
+					$('#chart4').remove();
+					$('.canvas_father_3').append(`<canvas id="chart4" height="150"></canvas>`);
+					age_chart = new Chart(
+						document.getElementById("chart4"),
+						{
+							"type": "pie",
+							"data": {
+								"labels": ["Male", "Female"],
+								"datasets": [{
+									"label": "Rate By Users Gender",
+									"data": [res.rate_by_gender.male, res.rate_by_gender.female],
+									"backgroundColor": ["rgb(255, 118, 118)", "rgb(255, 205, 86)"]
+								}
+								]
+							}
+						});
+					age_chart.update();
+					// chart end
+
+					// pie chart reviews by gender
+					$('#chart5').remove();
+					$('.canvas_father_4').append(`<canvas id="chart5" height="150"></canvas>`);
+					age_chart = new Chart(
+						document.getElementById("chart5"),
+						{
+							"type": "pie",
+							"data": {
+								"labels": ["Male", "Female"],
+								"datasets": [{
+									"label": "Review By Users Gender",
+									"data": [res.review_by_gender.male, res.review_by_gender.female],
+									"backgroundColor": ["rgb(44, 171, 227)", "rgb(255, 118, 118)"]
+								}
+								]
+							}
+						});
+					age_chart.update();
+					// chart end
+
+					$(".favorite_ajax").html(res.favorite);
+					$(".share_ajax").html(res.share);
                     $(".res_name").html(name);
                 }
             });

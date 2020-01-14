@@ -40,6 +40,14 @@ class Statistic extends CI_Model
 		return $data != NULL ? $data->count : 0;
 	}
 
+	public function rates_count($id)
+	{
+		$this->db->select("count(rates.id) as count");
+		$this->db->join('rates', 'restaurants.id = rates.restaurant_id');
+		$data = $this->db->get_where("restaurants", array("restaurants.admin_id" => $id))->row();
+		return $data != NULL ? $data->count : 0;
+	}
+
 	public function my_restaurants($id)
 	{
 		$this->db->select("restaurants.id, restaurants.name");
@@ -73,6 +81,13 @@ class Statistic extends CI_Model
 	{
 		$this->db->select("count(reviews.id) as count");
 		$data = $this->db->get_where("reviews")->row();
+		return $data != NULL ? $data->count : 0;
+	}
+
+	public function all_rates_count()
+	{
+		$this->db->select("count(rates.id) as count");
+		$data = $this->db->get("rates")->row();
 		return $data != NULL ? $data->count : 0;
 	}
 

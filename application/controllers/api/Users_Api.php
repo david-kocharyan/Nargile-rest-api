@@ -29,6 +29,7 @@ class Users_API extends REST_Controller
 		$mobile_number = $this->input->post('mobile_number');
 		$email = $this->input->post('email');
 		$password = $this->input->post('password');
+		$gender = $this->input->post('gender');
 		$reference_code = $this->input->post('reference_code');
 
 		$check = $this->User->check_unique($username, $mobile_number, $email);
@@ -57,6 +58,15 @@ class Users_API extends REST_Controller
 				'success' => false,
 				'data' => array(),
 				'msg' => 'Please, provide last name',
+			);
+			$this->response($response, $status);
+			return;
+		} elseif (null == $this->input->post('gender')) {
+			$status = self::HTTP_UNPROCESSABLE_ENTITY;
+			$response = array(
+				'success' => false,
+				'data' => array(),
+				'msg' => 'Please, provide gender',
 			);
 			$this->response($response, $status);
 			return;
@@ -140,6 +150,7 @@ class Users_API extends REST_Controller
 					"username" => $username,
 					"first_name" => $first_name,
 					"last_name" => $last_name,
+					"gender" => $gender,
 					"date_of_birth" => $date_of_birth,
 					"mobile_number" => $mobile_number,
 					"uuid" => $uuid,
@@ -158,14 +169,14 @@ class Users_API extends REST_Controller
 				);
 				$this->response($response, self::HTTP_OK);
 				return;
-			}
-			else{
+			} else {
 
 				$password = hash("sha512", $password);
 				$data = array(
 					"username" => $username,
 					"first_name" => $first_name,
 					"last_name" => $last_name,
+					"gender" => $gender,
 					"date_of_birth" => $date_of_birth,
 					"mobile_number" => $mobile_number,
 					"uuid" => $uuid,
@@ -270,6 +281,7 @@ class Users_API extends REST_Controller
 				"id" => $user->id,
 				"first_name" => $user->first_name,
 				"last_name" => $user->last_name,
+				"gender" => $user->gender,
 				"date_of_birth" => $user->date_of_birth,
 				"mobile_number" => $user->mobile_number,
 				"email" => $user->email,
@@ -479,6 +491,7 @@ class Users_API extends REST_Controller
 					"id" => $auth->id,
 					"first_name" => $auth->first_name,
 					"last_name" => $auth->last_name,
+					"gender" => $auth->gender,
 					"date_of_birth" => $auth->date_of_birth,
 					"mobile_number" => $auth->mobile_number,
 					"email" => $auth->email,
@@ -618,7 +631,7 @@ class Users_API extends REST_Controller
 			$user_id = $res;
 		}
 
-		$this->db->select('id, username, first_name, last_name, date_of_birth, mobile_number, email, coins, uuid, image');
+		$this->db->select('id, username, first_name, last_name, gender, date_of_birth, mobile_number, email, coins, uuid, image');
 		$user = $this->db->get_where("users", ['id' => $user_id])->row();
 
 		if (null == $user) {
@@ -639,6 +652,7 @@ class Users_API extends REST_Controller
 					"id" => $user->id,
 					"first_name" => $user->first_name,
 					"last_name" => $user->last_name,
+					"gender" => $user->gender,
 					"date_of_birth" => $user->date_of_birth,
 					"mobile_number" => $user->mobile_number,
 					"email" => $user->email,
@@ -746,7 +760,7 @@ class Users_API extends REST_Controller
 			return;
 		}
 
-		$this->db->select('id, username, first_name, last_name, date_of_birth, mobile_number, email, coins, uuid, image');
+		$this->db->select('id, username, first_name, last_name, gender, date_of_birth, mobile_number, email, coins, uuid, image');
 		$user = $this->db->get_where("users", array('id' => $res))->row();
 		$badges = $this->get_badges($res);
 
@@ -757,6 +771,7 @@ class Users_API extends REST_Controller
 					"id" => $user->id,
 					"first_name" => $user->first_name,
 					"last_name" => $user->last_name,
+					"gender" => $user->gender,
 					"date_of_birth" => $user->date_of_birth,
 					"mobile_number" => $user->mobile_number,
 					"email" => $user->email,
