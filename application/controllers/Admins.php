@@ -443,6 +443,16 @@ class Admins extends CI_Controller
 		$share = $this->db->get_where('notification', array("action_id" => $id, 'click_action' => "share_request"))->row();
 		$data['share'] = $share->share;
 
+//		total rate
+		$this->db->select("count(id) as rate_count");
+		$rate = $this->db->get_where('rates', array("restaurant_id" => $id))->row();
+		$data['rate_count'] = $rate->rate_count;
+
+//		total reviews
+		$this->db->select("count(id) as review");
+		$review = $this->db->get_where('reviews', array("restaurant_id" => $id))->row();
+		$data['review_count'] = $review->review;
+
 //		click on offers
 		$this->db->select("type");
 		$offers = $this->db->get_where('offers_click', array("restaurant_id" => $id))->result();
