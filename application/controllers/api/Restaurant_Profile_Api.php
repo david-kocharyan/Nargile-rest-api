@@ -40,6 +40,15 @@ class Restaurant_Profile_Api extends REST_Controller
 			return;
 		}
 
+		if (!is_numeric($this->input->get('id')) OR $this->input->get("type") == NULL){
+			$data = array(
+				"user_id" => $res,
+				"restaurant_id" => $this->input->get('id'),
+				"type" => $this->input->get("type"),
+			);
+			$this->db->insert('offers_click', $data);
+		}
+
 		$restaurant = $this->find();
 
 		$restaurant->reviews = $this->get_reviews_count($this->input->get('id'))->reviews;
@@ -248,8 +257,7 @@ class Restaurant_Profile_Api extends REST_Controller
 				$val->review = $arr;
 				unset($arr);
 			}
-		}
-		else{
+		} else {
 			$arr = array();
 			foreach ($data as $key => $val) {
 				$arr["text"] = $val->review;

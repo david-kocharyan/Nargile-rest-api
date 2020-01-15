@@ -259,7 +259,7 @@
 					age_chart = new Chart(
 						document.getElementById("chart4"),
 						{
-							"type": "pie",
+							"type": "doughnut",
 							"data": {
 								"labels": ["Male", "Female"],
 								"datasets": [{
@@ -279,7 +279,7 @@
 					age_chart = new Chart(
 						document.getElementById("chart5"),
 						{
-							"type": "pie",
+							"type": "doughnut",
 							"data": {
 								"labels": ["Male", "Female"],
 								"datasets": [{
