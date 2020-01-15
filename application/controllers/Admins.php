@@ -450,7 +450,7 @@ class Admins extends CI_Controller
 		$featured = 0;
 		$hour = 0;
 		foreach ($offers as $key=>$value){
-			if ($value->gender == 1){
+			if ($value->type == 1){
 				$hour = $hour + 1;
 			}else{
 				$featured = $featured + 1;

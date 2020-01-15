@@ -135,7 +135,7 @@
 		<div class="white-box">
 			<h3 class="box-title">Users Click on Offers</h3>
 			<div class="canvas_father_5">
-				<canvas id="chart6" height="150"></canvas>
+				<canvas id="chart6" height="80"></canvas>
 			</div>
 		</div>
 	</div>
@@ -304,11 +304,11 @@
 
 					// doughnut chart offers click
 					$('#chart6').remove();
-					$('.canvas_father_5').append(`<canvas id="chart6" height="150"></canvas>`);
+					$('.canvas_father_5').append(`<canvas id="chart6" height="80"></canvas>`);
 					age_chart = new Chart(
-						document.getElementById("chart5"),
+						document.getElementById("chart6"),
 						{
-							"type": "doughnut",
+							"type": "pie",
 							"data": {
 								"labels": ["Featured Offers", "Hour Offers"],
 								"datasets": [{
