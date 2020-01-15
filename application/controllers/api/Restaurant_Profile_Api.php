@@ -40,7 +40,7 @@ class Restaurant_Profile_Api extends REST_Controller
 			return;
 		}
 
-		if (!is_numeric($this->input->get('id')) OR $this->input->get("type") == NULL){
+		if (is_numeric($this->input->get('id')) OR $this->input->get("type") != NULL){
 			$data = array(
 				"user_id" => $res,
 				"restaurant_id" => $this->input->get('id'),

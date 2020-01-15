@@ -130,6 +130,15 @@
 			</div>
 		</div>
 	</div>
+
+	<div class="col-lg-12">
+		<div class="white-box">
+			<h3 class="box-title">Users Click on Offers</h3>
+			<div class="canvas_father_5">
+				<canvas id="chart6" height="150"></canvas>
+			</div>
+		</div>
+	</div>
 </div>
 
 <div class="row map_part">
@@ -286,6 +295,26 @@
 									"label": "Review By Users Gender",
 									"data": [res.review_by_gender.male, res.review_by_gender.female],
 									"backgroundColor": ["rgb(44, 171, 227)", "rgb(255, 118, 118)"]
+								}
+								]
+							}
+						});
+					age_chart.update();
+					// chart end
+
+					// doughnut chart offers click
+					$('#chart6').remove();
+					$('.canvas_father_5').append(`<canvas id="chart6" height="150"></canvas>`);
+					age_chart = new Chart(
+						document.getElementById("chart5"),
+						{
+							"type": "doughnut",
+							"data": {
+								"labels": ["Featured Offers", "Hour Offers"],
+								"datasets": [{
+									"label": "Users Click On Offers",
+									"data": [res.offers.featured, res.offers.hour],
+									"backgroundColor": ["rgb(0, 173, 133)", "rgb(105, 0, 105)"]
 								}
 								]
 							}

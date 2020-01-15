@@ -443,6 +443,23 @@ class Admins extends CI_Controller
 		$share = $this->db->get_where('notification', array("action_id" => $id, 'click_action' => "share_request"))->row();
 		$data['share'] = $share->share;
 
+//		click on offers
+		$this->db->select("type");
+		$offers = $this->db->get_where('offers_click', array("restaurant_id" => $id))->result();
+
+		$featured = 0;
+		$hour = 0;
+		foreach ($offers as $key=>$value){
+			if ($value->gender == 1){
+				$hour = $hour + 1;
+			}else{
+				$featured = $featured + 1;
+			}
+		}
+		$data['offers'] = array(
+			'hour' => $hour,
+			'featured' => $featured,
+		);
 
 		$this->output->set_output(json_encode($data, JSON_PRETTY_PRINT))->_display();
 		exit;
