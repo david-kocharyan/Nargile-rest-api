@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 23, 2019 at 07:24 AM
+-- Generation Time: Jan 15, 2020 at 07:53 AM
 -- Server version: 5.6.41-84.1
 -- PHP Version: 7.2.7
 
@@ -359,7 +359,7 @@ INSERT INTO `claimed_offers` (`id`, `user_id`, `coin_offer_id`, `time`, `status`
 (274, 0, 0, 1576413658, 0),
 (275, 0, 0, 1576413661, 0),
 (276, 54, 66, 1576413705, 1),
-(277, 142, 66, 1576830722, 1);
+(277, 0, 0, 1576830722, 0);
 
 -- --------------------------------------------------------
 
@@ -422,7 +422,9 @@ INSERT INTO `coin_offers` (`id`, `restaurant_id`, `price`, `valid_date`, `descri
 (64, 4, 40, 1575612000, 'Keif is offering 1 freenargile in Achrafieh branch.', 0, 1),
 (65, 4, 50, 1575871200, 'Keif is offering 1 freenargile in Achrafieh branch.', 0, 1),
 (66, 4, 60, 1577253600, 'Keif is offering 1 freenargile in Achrafieh branch.', 0, 1),
-(67, 4, 70, 1577253600, 'Keif is offering 1 freenargile in Achrafieh branch.', 0, 1);
+(67, 4, 70, 1577253600, 'Keif is offering 1 freenargile in Achrafieh branch.', 0, 1),
+(68, 1, 3000, 1649307600, 'Keif is offering 1 freenargile in Achrafieh branch.', 10, 1),
+(69, 1, 1000, 1670824800, 'Keif is offering 1 freenargile in Achrafieh branch1.', 15, 1);
 
 -- --------------------------------------------------------
 
@@ -466,7 +468,8 @@ INSERT INTO `favorites` (`id`, `user_id`, `restaurant_id`, `status`) VALUES
 (31, 140, 7, 1),
 (32, 142, 2, 0),
 (33, 142, 1, 1),
-(34, 147, 2, 1);
+(34, 147, 2, 1),
+(35, 153, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -488,7 +491,11 @@ CREATE TABLE `featured_offers` (
 
 INSERT INTO `featured_offers` (`id`, `restaurant_id`, `text`, `status`, `created_at`) VALUES
 (1, 1, 'Nargile for 3000 LBP Tuesdays - Wednesdays Thurdays Ladies ONLY', '1', NULL),
-(2, 1, 'Free Nargile From 13:00 PM Till 16:00PM Mon-Fri', '1', NULL);
+(2, 1, 'Free Nargile From 13:00 PM Till 16:00PM Mon-Fri', '1', NULL),
+(3, 1, 'Lorem', '1', NULL),
+(4, 1, 'Lorem', '1', NULL),
+(5, 1, 'Lorem', '1', NULL),
+(6, 1, 'Lorem', '1', NULL);
 
 -- --------------------------------------------------------
 
@@ -541,7 +548,12 @@ CREATE TABLE `hour_offers` (
 
 INSERT INTO `hour_offers` (`id`, `restaurant_id`, `text`, `status`) VALUES
 (1, 2, 'Nargile for 3000 LBP Tuesdays - Wednesdays Thurdays Ladies ONLY', 1),
-(2, 2, 'Free Nargile From 13:00 PM Till 16:00PM Mon-Fri', 1);
+(2, 2, 'Free Nargile From 13:00 PM Till 16:00PM Mon-Fri', 1),
+(3, 1, 'Lorem', 1),
+(4, 1, 'Lorem', 1),
+(5, 1, 'Lorem', 1),
+(6, 1, 'Lorem', 1),
+(7, 1, 'Lorem', 1);
 
 -- --------------------------------------------------------
 
@@ -700,7 +712,10 @@ INSERT INTO `menus` (`id`, `restaurant_id`, `name`, `price`, `status`) VALUES
 (154, 23, 'Ajami', 16000, 1),
 (155, 23, ' Special Nargile', 14000, 1),
 (156, 23, 'Zaghloul', 20000, 1),
-(157, 23, ' Babli ', 11000, 1);
+(157, 23, ' Babli ', 11000, 1),
+(158, 1, 'Nargile 1', 5000, 1),
+(159, 1, 'Nargile 2', 6000, 1),
+(160, 1, 'Nargile 3', 7000, 1);
 
 -- --------------------------------------------------------
 
@@ -714,6 +729,15 @@ CREATE TABLE `menu_images` (
   `image` varchar(255) DEFAULT NULL,
   `status` int(2) DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `menu_images`
+--
+
+INSERT INTO `menu_images` (`id`, `restaurant_id`, `image`, `status`) VALUES
+(1, 1, 'Menu_image_1577277487_5e03582f85ab1.jpg', 1),
+(2, 1, 'Menu_image_1577277488_5e035830e1fcf.jpg', 1),
+(3, 1, 'Menu_image_1577277490_5e03583255ed6.jpg', 1);
 
 -- --------------------------------------------------------
 
@@ -975,6 +999,36 @@ INSERT INTO `notification` (`id`, `user_id`, `body`, `click_action`, `action_id`
 (123, 140, 'bdbd jdjdn Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', 1, 1, '2019-12-19 08:39:52'),
 (124, 140, 'bdbd jdjdn Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', 1, 1, '2019-12-19 08:40:02'),
 (125, 140, 'bdbd jdjdn Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', 1, 1, '2019-12-19 08:42:59');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `offers_click`
+--
+
+CREATE TABLE `offers_click` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `restaurant_id` int(11) NOT NULL,
+  `type` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `offers_click`
+--
+
+INSERT INTO `offers_click` (`id`, `user_id`, `restaurant_id`, `type`) VALUES
+(1, 153, 1, 0),
+(2, 153, 1, 0),
+(3, 153, 1, 0),
+(4, 153, 1, 0),
+(5, 153, 1, 0),
+(6, 153, 1, 0),
+(7, 153, 1, 1),
+(8, 153, 1, 0),
+(9, 153, 1, 0),
+(10, 153, 1, 1),
+(11, 153, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -1378,7 +1432,8 @@ CREATE TABLE `sliders` (
 
 INSERT INTO `sliders` (`id`, `region_id`, `image`, `link`, `start`, `end`, `status`) VALUES
 (67, NULL, 'Slider_1576671582_1721931862.jpg', 'http://new.aimtech.am', '2019-12-17 06:00:00', '2019-12-31 06:00:00', 1),
-(68, NULL, 'Slider_1576671090_1545236810.jpg', 'http://new.aimtech.am', NULL, NULL, 1);
+(68, NULL, 'Slider_1576671090_1545236810.jpg', 'http://new.aimtech.am', NULL, NULL, 1),
+(69, NULL, 'Slider_1577278189_1051811543.jpg', 'http://new.aimtech.am', NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -1481,11 +1536,11 @@ INSERT INTO `tokens` (`id`, `token`, `time`, `user_id`, `refresh_token`, `os`, `
 (442, '', '', 142, '', NULL, NULL),
 (443, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZmI3YWUxMGE0ODUi.xk6Wsg7zlpaGD4VRsykEnytN5jWQ6nYB4SLZFmIk4i0', '1576848481', 148, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZmI3YWUxMGE3MDMi.EXdtb9eU7uBu-rxmgXAdWytnbYfdB4BzSXqdkUxm9mM', 1, 'fB429ifaaDc:APA91bHDLW8fz9_dL3YPseQI5jgld-zMbj01-VN55X59kqo_dj5wForqcgDxbxMiHcS19cTfwskv9ka2btWn4GubqQQ39UMLVg_zMbkLrwxMNWzapJh9iHy_V1ztk5NM482t5Zx8x0eo'),
 (444, '', '', 142, '', NULL, NULL),
-(445, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZmI3ZmExMThiZWEi.ymwsXeqMSuBzUHX9tY63O7W3fRfipK0YHCE_N5vbWBk', '1576849697', 149, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZmI3ZmExMThjNzIi.08dz_JI9t2Pxy83aV0HsKRrQt-xE7ylqSMFwjBpvcm8', 1, 'fv29IhrZw88:APA91bFge-VyYkyIqGXEZj5n6ITovMd7UDpvZVo6MiF2rG0E97ftlNFa7rSPX5FmL-o-S0aYQ4LXBd4i-3uo7FDfEfFTuP-bxFSe43RFfhN3vPxHyjV-UrJ6FC6XVwCfG86ziwjWpL5i'),
+(445, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlMDM0Zjg3M2Y0YTAi.YGev8G_54vc3-5Vprf37LPQmrvIDCKIZ9v7jqPq--Ts', '1577361671', 149, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlMDM0Zjg3M2Y1MTki.QfVRDEgPkW_3nqmb5CRYnS6EUwl8qEcBTC_8U7E0YWU', 1, 'fv29IhrZw88:APA91bFge-VyYkyIqGXEZj5n6ITovMd7UDpvZVo6MiF2rG0E97ftlNFa7rSPX5FmL-o-S0aYQ4LXBd4i-3uo7FDfEfFTuP-bxFSe43RFfhN3vPxHyjV-UrJ6FC6XVwCfG86ziwjWpL5i'),
 (446, '', '', 142, '', NULL, NULL),
 (447, '', '', 142, '', NULL, NULL),
 (448, '', '', 142, '', NULL, NULL),
-(449, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZmJhNjczNzllYzki.qgA4sTa15uWUMwGUnQNcHGcEz-5dB-G6IVUspy0Svb4', '1576859635', 140, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZmJhNjczNzlmMTIi.IkJRLcWELVtzm8SOFu6gfepvcBkw2LntNMN5F29ZpDI', 1, 'cE6golVTnF4:APA91bGs3bwujlU2PiSyfhydNHsFoFaQfY3H6wDSEy0Yq7Hra_Nc8-R3AIrmUPHpkPPqh0aFNU0_y3D4W-MozkvceO9KlJJsK8bqvVzuOkFsbk1XF4k5oikbEhY3GIQW7eRbAJNc3wFO'),
+(449, '', '', 140, '', NULL, NULL),
 (450, '', '', 142, '', NULL, NULL),
 (451, '', '', 142, '', NULL, NULL),
 (452, '', '', 142, '', NULL, NULL),
@@ -1496,12 +1551,26 @@ INSERT INTO `tokens` (`id`, `token`, `time`, `user_id`, `refresh_token`, `os`, `
 (457, '', '', 142, '', NULL, NULL),
 (458, '', '', 147, '', NULL, NULL),
 (459, '', '', 142, '', NULL, NULL),
-(460, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZmUxMjA2NjU4Yjci.CNebkfaBcSC_zNFj4pI1ZXBi0-aGk1ZsgxjTGTXc3O0', '1577018246', 142, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZmUxMjA2NjU5Mzgi.vbmrV_a1FMOPVfQIq195C7hHKx8_EqvbTeNMr2vK2n4', 0, 'fOekufyea3E:APA91bEnrV2nPaGL65THmDUDJNIzC5hstQvIRHEmWC0Wz2G3jnev4g3OHcx8PVM8k_tGRsmjNV4S4p7yuMDv-ZtGMhjoqm3Ie2fSaHAWf-VBuluqjU9pB1ysIlSmyeOgZIeVaZxMLdv6'),
+(460, '', '', 142, '', NULL, NULL),
 (461, '', '', 147, '', NULL, NULL),
 (462, '', '', 147, '', NULL, NULL),
 (463, '', '', 147, '', NULL, NULL),
 (464, '', '', 147, '', NULL, NULL),
-(465, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlMDBiYjIzNmRkNmQi.hkH91fNAaxIVfz4CgnJvpoWg2l8rIku1mCUm1FkSn2c', '1577192611', 147, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlMDBiYjIzNmRlNWIi.QAntfQRLwQefw-_uTk-R3kRZ-xdDtxlcSqw0X8qhvQQ', 0, 'cGmiPfiia5w:APA91bHWrepY3xk5B_nd8S-kEFLEk07bm-AniBQ03Ukk1uXHJHSj186bAiehhuATMzpJSRk1d_4L4XWazUOJhS99dhu37aYRuE8GBTk5_476D6h8Tr_7LuYv5-bKb8-XvKdt68y_roj7');
+(465, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlMGRkMDU1MWIyYzMi.84mte7fv2tGjd_aBwvLNd1OOP0JDUEX1X6GPw2gq4jA', '1578050005', 147, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlMGRkMDU1MWIzMzQi.o8rDDJ2YRy4CoiGggesxmk66IXssCzPBjgjuIMjwhj0', 0, 'cGmiPfiia5w:APA91bHWrepY3xk5B_nd8S-kEFLEk07bm-AniBQ03Ukk1uXHJHSj186bAiehhuATMzpJSRk1d_4L4XWazUOJhS99dhu37aYRuE8GBTk5_476D6h8Tr_7LuYv5-bKb8-XvKdt68y_roj7'),
+(466, '', '', 142, '', NULL, NULL),
+(467, '', '', 142, '', NULL, NULL),
+(468, '', '', 142, '', NULL, NULL),
+(469, '', '', 142, '', NULL, NULL),
+(470, '', '', 142, '', NULL, NULL),
+(471, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlMDFjZDExMTllNTUi.m5_APgabqW3k2W7tnj7R8uSF9r4fQa3cpNbQcv0K8I0', '1577262737', 150, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlMDFjZDExMTllZDci.W_oqdijOTIkT6T1_HBq8RfsObO6N4RIQfmVrrhCPY3Y', 0, 'dBhQTejihNo:APA91bH1SoJDLajZFgth6AteDoGSaXY3Wad3hrQyEcKCbiyh-7Rg3QDMaEi9VnWu6_QA6qVULOabN8WFQ0tvAno2HYig8xqM7P2iE7CO76dhg_-6vtHUyHFGeJ-CJ-DZCcDNLK4bdt8D'),
+(472, '', '', 140, '', NULL, NULL),
+(473, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlMGM5ZDhmOTgwNDEi.YQWwY1rwSL2gU5nwYy2zGqPbJyS0lMJRML5CERdpCWc', '1577971471', 140, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlMGM5ZDhmOTgwYWMi.06CmAkdISUbdDTTDyJzrZ0Q3IKvuNNfhjWntRdLJiuM', 1, 'cE6golVTnF4:APA91bGs3bwujlU2PiSyfhydNHsFoFaQfY3H6wDSEy0Yq7Hra_Nc8-R3AIrmUPHpkPPqh0aFNU0_y3D4W-MozkvceO9KlJJsK8bqvVzuOkFsbk1XF4k5oikbEhY3GIQW7eRbAJNc3wFO'),
+(474, '', '', 142, '', NULL, NULL),
+(475, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlMWRhMDEwNzRiZTci.n_7v5osRN0qApKKAJeRq01PP8SaCaRz0M1_3QtUtCJo', '1579086224', 142, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlMWRhMDEwNzRjNmEi.7x8N9viJvU-kfrTiyN_bXlJCrv58DR1tgx_E2Te-oEk', NULL, NULL),
+(477, '', '', 153, '', NULL, NULL),
+(478, '', '', 153, '', NULL, NULL),
+(479, '', '', 153, '', NULL, NULL),
+(480, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlMWVlMTU4MGRiMzYi.HEZ5Eyf3fAloIP26Ab1FC8uii4qIXRCkFecpIc-az0w', '1579168472', 153, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlMWVlMTU4MGRjMmIi.EJfKqNzQ7J13qmX3jXxCAyhGcf-JBmpbAVhQa_AEAg8', 0, 'fVmduCgS-S8:APA91bE-YOWEQekDtJUGd8R0NpXhp03d7M3y77tjkfh_432qClOhjBx1TqHFReB-3D8MpHjAcVBJt1MaZNz84197p4lpaILdJel1qWSnRS9i9kCWiI-hxmJF5U5Yn5f1Y7ZJjWKOo_q8');
 
 -- --------------------------------------------------------
 
@@ -1517,6 +1586,13 @@ CREATE TABLE `used_offers` (
   `status` int(1) DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `used_offers`
+--
+
+INSERT INTO `used_offers` (`id`, `user_id`, `coin_offer_id`, `time`, `status`) VALUES
+(245, 142, 66, 1577111670, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -1528,6 +1604,7 @@ CREATE TABLE `users` (
   `username` varchar(255) CHARACTER SET utf8 NOT NULL,
   `first_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `last_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `gender` int(11) NOT NULL DEFAULT '1',
   `date_of_birth` bigint(20) DEFAULT NULL,
   `mobile_number` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -1548,19 +1625,21 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `first_name`, `last_name`, `date_of_birth`, `mobile_number`, `email`, `password`, `uuid`, `image`, `coins`, `is_used_reference`, `created_at`, `updated_at`, `verify_code`, `verify`, `logged_via_fb`, `notification_status`) VALUES
-(30, 'super22', 'Super22', 'Admin22', -1105875963, '+37499099247', 'kakaka@gmail.com12222', 'c9cc24ffa63b25bb52b9d5fa288c2921a5190acd2ad461e2ece7b7d74af0fa53c86b783a066fc1ad3694313345702e69f57d70a597f7fbbf78dfc957d3bcdea9', '16f0e2-890d1t', 'Logo_1573544631_1428740283.png', 136, 0, '2019-10-01 03:14:51', '2019-10-01 03:14:51', '', 1, 0, 1),
-(124, 'zuza', 'zax', 'csdvsed', -1105094429, '+37495777448', 'zara.tunyan@gmail.com43', 'b0412597dcea813655574dc54a5b74967cf85317f0332a2591be7953a016f8de56200eb37d5ba593b1e4aa27cea5ca27100f94dccd5b04bae5cadd4454dba67d', '16f0e3-6c9dde', 'User_default.png', 0, 0, '2019-12-16 10:17:49', '2019-12-16 10:17:49', '0', 1, 0, 1),
-(140, 'zara', 'zara', 'tati', 1576579222686, '+37495777443', 'zara.tunyan@gmail.com', 'b0412597dcea813655574dc54a5b74967cf85317f0332a2591be7953a016f8de56200eb37d5ba593b1e4aa27cea5ca27100f94dccd5b04bae5cadd4454dba67d', '16f137-228762', 'User_default.png', 22, 0, '2019-12-17 10:40:46', '2019-12-17 10:40:46', '0', 1, 0, 1),
-(141, 'testuser', 'user', 'user', 1008532800, '+37495616207', 'user@mail.ru', '125d6d03b32c84d492747f79cf0bf6e179d287f341384eb5d6d3197525ad6be8e6df0116032935698f99a09e265073d1d6c32c274591bf1d0a20ad67cba921bc', '16f138-07af3a', 'User_default.png', 6, 0, '2019-12-17 10:56:24', '2019-12-17 10:56:24', '0', 1, 0, 1),
-(142, 'armen', 'Armen', 'Mkrtchyan ', 598305600, '+37495616200', 'armen@mail.ru', '2f078ff4f34a3c1d59a3dd1eac85e629c92800814bb442e81aa366849e59f0088b880af3ab2e1ff1dfc2e5c15217044bec27b61a15d259a7fcb413e5067aa5e8', '16f138-9b3995', 'Logo_1576830813_898417965.jpeg', 799940, 0, '2019-12-17 11:06:29', '2019-12-17 11:06:29', '0', 1, 0, 1),
-(143, 'alligator', 'parsec', 'aghabekyan', 758754000, '+37499099249', 'fdfd@gmail.com', '7f3e318ee2905f855404a707bc0324d588e1515bae3b4475038c5b8e34d94731b1cf3ed1266244cd081237d547d5a149f1fdf28863d11b2ef68c37e0b5a4e0d0', '16f142-f92de3', 'User_default.png', 0, 0, '2019-12-17 14:07:39', '2019-12-17 14:07:39', '0', 1, 0, 1),
-(144, 'popcorn', 'Vatche', 'Panosyan', 630705600, '+374990992465', 'datahs@gmail.com', '7f3e318ee2905f855404a707bc0324d588e1515bae3b4475038c5b8e34d94731b1cf3ed1266244cd081237d547d5a149f1fdf28863d11b2ef68c37e0b5a4e0d0', '16f143-1cd067', 'User_default.png', 0, 0, '2019-12-17 14:10:05', '2019-12-17 14:10:05', '0', 1, 0, 1),
-(145, 'Pnduk', 'GeV', 'Mihrabyan', -347428800, '+37499099248', 'davkdg@gmail.com', 'a7e41d754033a511f81ca6cba343a7c60bc166ff3315894cc6387788eabd5dd7c18be1607cae7a90a1f4e8782b93819b15d950c98230602f394dfd9b16a9eaff', '16f143-367ec9', 'User_default.png', 0, 0, '2019-12-17 14:11:50', '2019-12-17 14:11:50', '0', 1, 0, 1),
-(146, 'localhost', 'Dav', 'key', 503611200, '+374645386458', 'dfse@gmail.com', '756a1475d9e583cdb80920b6350f5c8e31c38d444e1b584f05640492933f6049de47172c577896f28c3e9ad17799eae5af52e5c505297eff55b8c205ddf38fcd', '16f143-8c034d', 'User_default.png', 4, 0, '2019-12-17 14:17:41', '2019-12-17 14:17:41', '0', 1, 0, 1),
-(147, 'miledaoun', 'miled', 'aoun', 1261173600, '+96171576202', 'miled@nova4lb.com', '0dd3e512642c97ca3f747f9a76e374fbda73f9292823c0313be9d78add7cdd8f72235af0c553dd26797e78e1854edee0ae002f8aba074b066dfce1af114e32f8', '16f1e2-e484f5', 'Logo_1576759528_800525868.jpeg', 0, 0, '2019-12-19 12:42:27', '2019-12-19 12:42:27', '0', 1, 0, 0),
-(148, 'lichaa', 'lichaa', 'tarabay', 1575379620983, '+96170455133', 'lichaa@nova4lb.com', '0dd3e512642c97ca3f747f9a76e374fbda73f9292823c0313be9d78add7cdd8f72235af0c553dd26797e78e1854edee0ae002f8aba074b066dfce1af114e32f8', '16f1e5-7c1430', 'User_default.png', 0, 0, '2019-12-19 13:27:45', '2019-12-19 13:27:45', '0', 1, 0, 1),
-(149, 'fhfj', 'bdbd', 'jdjdn', 1576763267537, '+244989595', 'cbcbbf@nddn.hfb', 'b0412597dcea813655574dc54a5b74967cf85317f0332a2591be7953a016f8de56200eb37d5ba593b1e4aa27cea5ca27100f94dccd5b04bae5cadd4454dba67d', '16f1e6-a5d66e', 'User_default.png', 0, 0, '2019-12-19 13:48:04', '2019-12-19 13:48:04', '0', 1, 0, 1);
+INSERT INTO `users` (`id`, `username`, `first_name`, `last_name`, `gender`, `date_of_birth`, `mobile_number`, `email`, `password`, `uuid`, `image`, `coins`, `is_used_reference`, `created_at`, `updated_at`, `verify_code`, `verify`, `logged_via_fb`, `notification_status`) VALUES
+(30, 'super22', 'Super22', 'Admin22', 1, 788360736, '+37499099247', 'kakaka@gmail.com12222', 'c9cc24ffa63b25bb52b9d5fa288c2921a5190acd2ad461e2ece7b7d74af0fa53c86b783a066fc1ad3694313345702e69f57d70a597f7fbbf78dfc957d3bcdea9', '16f0e2-890d1t', 'Logo_1573544631_1428740283.png', 136, 0, '2019-10-01 03:14:51', '2019-10-01 03:14:51', '', 1, 0, 1),
+(124, 'zuza', 'zax', 'csdvsed', 0, -1105094429, '+37495777448', 'zara.tunyan@gmail.com43', 'b0412597dcea813655574dc54a5b74967cf85317f0332a2591be7953a016f8de56200eb37d5ba593b1e4aa27cea5ca27100f94dccd5b04bae5cadd4454dba67d', '16f0e3-6c9dde', 'User_default.png', 0, 0, '2019-12-16 10:17:49', '2019-12-16 10:17:49', '0', 1, 0, 1),
+(140, 'zara', 'zara', 'tati', 0, 1576579222686, '+37495777443', 'zara.tunyan@gmail.com', 'b0412597dcea813655574dc54a5b74967cf85317f0332a2591be7953a016f8de56200eb37d5ba593b1e4aa27cea5ca27100f94dccd5b04bae5cadd4454dba67d', '16f137-228762', 'User_default.png', 22, 0, '2019-12-17 10:40:46', '2019-12-17 10:40:46', '0', 1, 0, 0),
+(141, 'testuser', 'user', 'user', 1, 1008532800, '+37495616207', 'user@mail.ru', '125d6d03b32c84d492747f79cf0bf6e179d287f341384eb5d6d3197525ad6be8e6df0116032935698f99a09e265073d1d6c32c274591bf1d0a20ad67cba921bc', '16f138-07af3a', 'User_default.png', 6, 0, '2019-12-17 10:56:24', '2019-12-17 10:56:24', '0', 1, 0, 1),
+(142, 'armen', 'Armen', 'Mkrtchyan ', 1, 788360736, '+37495616200', 'armen@mail.ru', '2f078ff4f34a3c1d59a3dd1eac85e629c92800814bb442e81aa366849e59f0088b880af3ab2e1ff1dfc2e5c15217044bec27b61a15d259a7fcb413e5067aa5e8', '16f138-9b3995', 'Logo_1576830813_898417965.jpeg', 799940, 0, '2019-12-17 11:06:29', '2019-12-17 11:06:29', '0', 1, 0, 1),
+(143, 'alligator', 'parsec', 'aghabekyan', 1, 758754000, '+37499099249', 'fdfd@gmail.com', '7f3e318ee2905f855404a707bc0324d588e1515bae3b4475038c5b8e34d94731b1cf3ed1266244cd081237d547d5a149f1fdf28863d11b2ef68c37e0b5a4e0d0', '16f142-f92de3', 'User_default.png', 0, 0, '2019-12-17 14:07:39', '2019-12-17 14:07:39', '0', 1, 0, 1),
+(144, 'popcorn', 'Vatche', 'Panosyan', 1, 788879136, '+374990992465', 'datahs@gmail.com', '7f3e318ee2905f855404a707bc0324d588e1515bae3b4475038c5b8e34d94731b1cf3ed1266244cd081237d547d5a149f1fdf28863d11b2ef68c37e0b5a4e0d0', '16f143-1cd067', 'User_default.png', 0, 0, '2019-12-17 14:10:05', '2019-12-17 14:10:05', '0', 1, 0, 1),
+(145, 'Pnduk', 'GeV', 'Mihrabyan', 1, -347428800, '+37499099248', 'davkdg@gmail.com', 'a7e41d754033a511f81ca6cba343a7c60bc166ff3315894cc6387788eabd5dd7c18be1607cae7a90a1f4e8782b93819b15d950c98230602f394dfd9b16a9eaff', '16f143-367ec9', 'User_default.png', 0, 0, '2019-12-17 14:11:50', '2019-12-17 14:11:50', '0', 1, 0, 1),
+(146, 'localhost', 'Dav', 'dav', 1, 788879136, '+374645386458', 'dfse@gmail.com', '756a1475d9e583cdb80920b6350f5c8e31c38d444e1b584f05640492933f6049de47172c577896f28c3e9ad17799eae5af52e5c505297eff55b8c205ddf38fcd', '16f143-8c034d', 'User_default.png', 4, 0, '2019-12-17 14:17:41', '2019-12-17 14:17:41', '0', 1, 0, 1),
+(147, 'miledaoun', 'miled', 'aoun', 1, 1261173600, '+96171576202', 'miled@nova4lb.com', '0dd3e512642c97ca3f747f9a76e374fbda73f9292823c0313be9d78add7cdd8f72235af0c553dd26797e78e1854edee0ae002f8aba074b066dfce1af114e32f8', '16f1e2-e484f5', 'Logo_1576759528_800525868.jpeg', 0, 0, '2019-12-19 12:42:27', '2019-12-19 12:42:27', '0', 1, 0, 0),
+(148, 'lichaa', 'lichaa', 'tarabay', 1, 1575379620983, '+96170455133', 'lichaa@nova4lb.com', '0dd3e512642c97ca3f747f9a76e374fbda73f9292823c0313be9d78add7cdd8f72235af0c553dd26797e78e1854edee0ae002f8aba074b066dfce1af114e32f8', '16f1e5-7c1430', 'User_default.png', 0, 0, '2019-12-19 13:27:45', '2019-12-19 13:27:45', '0', 1, 0, 1),
+(149, 'fhfj', 'bdbd', 'jdjdn', 1, 788879136, '+244989595', 'cbcbbf@nddn.hfb', 'b0412597dcea813655574dc54a5b74967cf85317f0332a2591be7953a016f8de56200eb37d5ba593b1e4aa27cea5ca27100f94dccd5b04bae5cadd4454dba67d', '16f1e6-a5d66e', 'User_default.png', 0, 0, '2019-12-19 13:48:04', '2019-12-19 13:48:04', '0', 1, 0, 1),
+(150, 'AliMansour4813', 'Ali', 'Mansour', 1, 788879136, '', 'suprenoo@hotmail.com', '1577176337?1562207831', '16f370-90acc1', 'User_default.png', 0, 0, '2019-12-24 08:32:17', '2019-12-24 08:32:17', '', 1, 1, 1),
+(153, 'test1', 'test1', 'test1', 0, 1263412800, '+37676876868768768768', 'gjdhfgjsf@mail.ru', '125d6d03b32c84d492747f79cf0bf6e179d287f341384eb5d6d3197525ad6be8e6df0116032935698f99a09e265073d1d6c32c274591bf1d0a20ad67cba921bc', '16fa40-35cb97', 'User_default.png', 0, 0, '2020-01-14 12:24:21', '2020-01-14 12:24:21', '0', 1, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -1717,6 +1796,14 @@ ALTER TABLE `notification`
   ADD KEY `user_id` (`user_id`) USING BTREE;
 
 --
+-- Indexes for table `offers_click`
+--
+ALTER TABLE `offers_click`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `restaurant_id` (`restaurant_id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
 -- Indexes for table `rates`
 --
 ALTER TABLE `rates`
@@ -1857,7 +1944,7 @@ ALTER TABLE `claim_your_business`
 -- AUTO_INCREMENT for table `coin_offers`
 --
 ALTER TABLE `coin_offers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
 
 --
 -- AUTO_INCREMENT for table `countries`
@@ -1869,13 +1956,13 @@ ALTER TABLE `countries`
 -- AUTO_INCREMENT for table `favorites`
 --
 ALTER TABLE `favorites`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `featured_offers`
 --
 ALTER TABLE `featured_offers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `friends`
@@ -1887,7 +1974,7 @@ ALTER TABLE `friends`
 -- AUTO_INCREMENT for table `hour_offers`
 --
 ALTER TABLE `hour_offers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `loyalty_card`
@@ -1899,13 +1986,13 @@ ALTER TABLE `loyalty_card`
 -- AUTO_INCREMENT for table `menus`
 --
 ALTER TABLE `menus`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=158;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=161;
 
 --
 -- AUTO_INCREMENT for table `menu_images`
 --
 ALTER TABLE `menu_images`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `more_infos`
@@ -1918,6 +2005,12 @@ ALTER TABLE `more_infos`
 --
 ALTER TABLE `notification`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=126;
+
+--
+-- AUTO_INCREMENT for table `offers_click`
+--
+ALTER TABLE `offers_click`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `rates`
@@ -1971,25 +2064,25 @@ ALTER TABLE `service`
 -- AUTO_INCREMENT for table `sliders`
 --
 ALTER TABLE `sliders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
 
 --
 -- AUTO_INCREMENT for table `tokens`
 --
 ALTER TABLE `tokens`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=466;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=481;
 
 --
 -- AUTO_INCREMENT for table `used_offers`
 --
 ALTER TABLE `used_offers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=245;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=246;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=150;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=154;
 
 --
 -- AUTO_INCREMENT for table `user_loyalty_card`
@@ -2074,6 +2167,13 @@ ALTER TABLE `more_infos`
 --
 ALTER TABLE `notification`
   ADD CONSTRAINT `notification_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `offers_click`
+--
+ALTER TABLE `offers_click`
+  ADD CONSTRAINT `offers_click_ibfk_1` FOREIGN KEY (`restaurant_id`) REFERENCES `restaurants` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `offers_click_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `rates`
