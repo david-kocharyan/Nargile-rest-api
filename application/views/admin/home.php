@@ -150,11 +150,20 @@
 		</div>
 	</div>
 
-	<div class="col-lg-12">
+	<div class="col-lg-6">
 		<div class="white-box">
 			<h3 class="box-title">Users Click on Offers</h3>
 			<div class="canvas_father_5">
-				<canvas id="chart6" height="80"></canvas>
+				<canvas id="chart6" height="150"></canvas>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-lg-6">
+		<div class="white-box">
+			<h3 class="box-title">Gender Range Male vs Female of all users</h3>
+			<div class="canvas_father_6">
+				<canvas id="chart7" height="150"></canvas>
 			</div>
 		</div>
 	</div>
@@ -324,7 +333,7 @@
 
 					// doughnut chart offers click
 					$('#chart6').remove();
-					$('.canvas_father_5').append(`<canvas id="chart6" height="80"></canvas>`);
+					$('.canvas_father_5').append(`<canvas id="chart6" height="150"></canvas>`);
 					age_chart = new Chart(
 						document.getElementById("chart6"),
 						{
@@ -335,6 +344,26 @@
 									"label": "Users Click On Offers",
 									"data": [res.offers.featured, res.offers.hour],
 									"backgroundColor": ["rgb(0, 173, 133)", "rgb(105, 0, 105)"]
+								}
+								]
+							}
+						});
+					age_chart.update();
+					// chart end
+
+					// doughnut chart offers click
+					$('#chart7').remove();
+					$('.canvas_father_6').append(`<canvas id="chart7" height="150"></canvas>`);
+					age_chart = new Chart(
+						document.getElementById("chart7"),
+						{
+							"type": "pie",
+							"data": {
+								"labels": ["Male", "Female"],
+								"datasets": [{
+									"label": "Gender",
+									"data": [res.gender_all.male, res.gender_all.female],
+									"backgroundColor": ["rgb(0, 80, 133)", "rgb(180, 30, 105)"]
 								}
 								]
 							}

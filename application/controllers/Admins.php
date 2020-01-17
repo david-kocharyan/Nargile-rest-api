@@ -471,6 +471,24 @@ class Admins extends CI_Controller
 			'featured' => $featured,
 		);
 
+//		all users gender
+		$this->db->select("gender");
+		$gender_all = $this->db->get_where('users', array("verify" => 1))->result();
+
+		$male = 0;
+		$female = 0;
+		foreach ($gender_all as $key=>$value){
+			if ($value->gender == 1){
+				$male = $male + 1;
+			}else{
+				$female = $female + 1;
+			}
+		}
+		$data['gender_all'] = array(
+			'male' => $male,
+			'female' => $female,
+		);
+
 		$this->output->set_output(json_encode($data, JSON_PRETTY_PRINT))->_display();
 		exit;
 	}
