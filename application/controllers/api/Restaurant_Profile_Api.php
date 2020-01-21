@@ -251,7 +251,7 @@ class Restaurant_Profile_Api extends REST_Controller
 			foreach ($data as $key => $val) {
 				$this->db->select("count(user_id) as count, reviews.review as r");
 				$this->db->order_by("reviews.id DESC");
-				$p = $this->db->get_where("reviews", array("user_id" => $val->user_id))->row();
+				$p = $this->db->get_where("reviews", array("user_id" => $val->user_id, "restaurant_id" => $this->input->get("id")))->row();
 				$arr["text"] = $p->r;
 				$arr["count"] = $p->count;
 				$val->review = $arr;
