@@ -75,11 +75,16 @@ class Notification_Api extends REST_Controller
 			return;
 		}
 		$action_id = $this->input->post("action_id");
+		$fr = $this->db->get_where("users", array('id' => $action_id))->row();
+
+		$name = $fr->first_name ?? "";
+		$surname = $fr->surname ?? "";
 
 		if ($this->input->post("answer") == 1) {
 			$this->db->trans_start();
 
 			$this->db->set("status", 0);
+			$this->db->set("body", "$name $surname is now your friend");
 			$this->db->where(array("user_id" => $res, 'action_id' => $action_id, "status" => 1));
 			$this->db->update('notification');
 
@@ -92,6 +97,7 @@ class Notification_Api extends REST_Controller
 			$this->db->trans_start();
 
 			$this->db->set("status", 0);
+			$this->db->set("body", "You have canceled the $name $surname");
 			$this->db->where(array("user_id" => $res, 'action_id' => $action_id, "status" => 1));
 			$this->db->update('notification');
 

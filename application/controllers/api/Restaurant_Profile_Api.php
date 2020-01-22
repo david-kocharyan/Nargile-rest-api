@@ -565,7 +565,7 @@ class Restaurant_Profile_Api extends REST_Controller
 		$restaurant = $this->db->get_where("restaurants", array("id" => $restaurant_id))->row();
 
 		if (null != $sent_to_user) {
-			$body = $sent_from_user->first_name . " " . $sent_from_user->last_name . " Will Share A " . $restaurant->name . "  Restaurant With You!";
+			$body = $sent_from_user->first_name . " " . $sent_from_user->last_name . " SHARED " . $restaurant->name . " RESTAURANT!";
 
 //			add to database
 			$data = array(
