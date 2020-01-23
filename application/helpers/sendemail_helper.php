@@ -11,7 +11,7 @@ if (!function_exists('send_email')) {
 		$mail_config['smtp_user'] = 'aimtech.project@gmail.com';
 		$mail_config['_smtp_auth'] = TRUE;
 		$mail_config['smtp_pass'] = 'ncp847m3w';
-		$mail_config['smtp_crypto'] = 'tcp';
+		$mail_config['smtp_crypto'] = 'tls';
 		$mail_config['protocol'] = 'smtp';
 		$mail_config['mailtype'] = 'html';
 		$mail_config['send_multipart'] = FALSE;

@@ -1161,6 +1161,7 @@ class Users_API extends REST_Controller
 				"msg" => 'Your New Password was sent to your email.',
 			);
 			$this->response($response, REST_Controller::HTTP_OK);
+			return;
 		} else {
 			$data = array(
 				"success" => false,
