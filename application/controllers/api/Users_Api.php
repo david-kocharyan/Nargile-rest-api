@@ -1121,17 +1121,6 @@ class Users_API extends REST_Controller
 
 	public function forgot_password_post()
 	{
-		$res = $this->verify_get_request();
-		if (gettype($res) != 'string') {
-			$data = array(
-				"success" => false,
-				"data" => array(),
-				"msg" => $res['msg']
-			);
-			$this->response($data, $res['status']);
-			return;
-		}
-
 		$email = $this->input->post("email");
 		if (null == $email) {
 			$data = array(
@@ -1139,7 +1128,7 @@ class Users_API extends REST_Controller
 				"data" => array(),
 				"msg" => "Please, Provide Email"
 			);
-			$this->response($data, $res['status']);
+			$this->response($data, self::HTTP_UNPROCESSABLE_ENTITY);
 			return;
 		}
 
@@ -1150,7 +1139,7 @@ class Users_API extends REST_Controller
 				"data" => array(),
 				"msg" => "User not found, please provide correct email"
 			);
-			$this->response($data, $res['status']);
+			$this->response($data, self::HTTP_UNPROCESSABLE_ENTITY);
 			return;
 		}
 

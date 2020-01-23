@@ -11,7 +11,7 @@ if (!function_exists('send_email')) {
 		$mail_config['smtp_user'] = 'aimtech.project@gmail.com';
 		$mail_config['_smtp_auth'] = TRUE;
 		$mail_config['smtp_pass'] = 'ncp847m3w';
-		$mail_config['smtp_crypto'] = 'tls';
+		$mail_config['smtp_crypto'] = 'tcp';
 		$mail_config['protocol'] = 'smtp';
 		$mail_config['mailtype'] = 'html';
 		$mail_config['send_multipart'] = FALSE;
@@ -20,7 +20,7 @@ if (!function_exists('send_email')) {
 		$ci->email->initialize($mail_config);
 
 		$ci->email->set_newline("\r\n");
-		$ci->email->from("MEHE", "MEHE App");
+		$ci->email->from("Go Nargile", "Go Nargile App");
 		$ci->email->to($to);
 
 		$ci->email->subject($subject);

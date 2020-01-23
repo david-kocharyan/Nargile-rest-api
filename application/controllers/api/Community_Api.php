@@ -391,7 +391,8 @@ class Community_Api extends REST_Controller
 
 		try {
 			$this->send_notif($friend_id, $res);
-		} catch (Exception $e) {}
+		} catch (Exception $e) {
+		}
 
 		$response = array(
 			"success" => true,
@@ -447,6 +448,44 @@ class Community_Api extends REST_Controller
 			return;
 		}
 	}
+
+//	delete friend
+	public function delete_friend_post()
+	{
+		$res = $this->verify_get_request();
+		if (gettype($res) != 'string') {
+			$data = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => $res['msg']
+			);
+			$this->response($data, $res['status']);
+			return;
+		}
+
+		$friend_id = $this->input->post("friend_id");
+		if ($friend_id == NUll OR is_numeric($friend_id) == FALSE) {
+			$response = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => "Please provide valid friend id."
+			);
+			$this->response($response, REST_Controller::HTTP_UNPROCESSABLE_ENTITY);
+		}
+
+		$friend = $this->db->get_where('users', array("id" => $friend_id))->row();
+		if (null == $friend OR empty($friend)) {
+			$data = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => "User not found, please provide correct email"
+			);
+			$this->response($data, $res['status']);
+			return;
+		}
+
+	}
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// claim coin offers
