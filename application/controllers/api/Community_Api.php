@@ -480,10 +480,25 @@ class Community_Api extends REST_Controller
 				"data" => array(),
 				"msg" => "User not found, please provide correct email"
 			);
-			$this->response($data, $res['status']);
+			$this->response($data, self::HTTP_UNPROCESSABLE_ENTITY);
 			return;
 		}
 
+		$sql = ("SELECT * FROM friends where to_id = $res and from_id = $friend_id and status = 1 UNION
+				(SELECT * FROM friends where from_id = $res and to_id = $friend_id and status = 1 ) ");
+		$data = $this->db->query($sql)->row();
+
+		$this->db->set('status', 0);
+		$this->db->where('id', $data->id);
+		$this->db->update('friends');
+
+		$response = array(
+			"success" => true,
+			"data" => array(),
+			"msg" => 'Yor deleted user successfully',
+		);
+		$this->response($response, REST_Controller::HTTP_OK);
+		return;
 	}
 
 
