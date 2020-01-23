@@ -1117,5 +1117,82 @@ class Users_API extends REST_Controller
 		$this->response($data, self::HTTP_UNPROCESSABLE_ENTITY);
 	}
 
+//forgot_password
+
+	public function forgot_password_post()
+	{
+		$res = $this->verify_get_request();
+		if (gettype($res) != 'string') {
+			$data = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => $res['msg']
+			);
+			$this->response($data, $res['status']);
+			return;
+		}
+
+		$email = $this->input->post("email");
+		if (null == $email) {
+			$data = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => "Please, Provide Email"
+			);
+			$this->response($data, $res['status']);
+			return;
+		}
+
+		$user = $this->db->get_where('users', array("email" => $email))->row();
+		if (null == $user OR empty($user)) {
+			$data = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => "User not found, please provide correct email"
+			);
+			$this->response($data, $res['status']);
+			return;
+		}
+
+		$new_password = $this->randomPassword();
+
+		$this->load->helper('sendemail');
+		$message = "Your changed password is` " . $new_password . " ";
+		$subject = 'Go Nargile forgot password';
+		$send = send_email($email, $message, $subject);
+
+		if ($send == True) {
+			$this->db->set('password', hash("sha512", $new_password));
+			$this->db->where('email', $email);
+			$this->db->update('users');
+
+			$response = array(
+				"success" => true,
+				"data" => array(),
+				"msg" => 'Your New Password was sent to your email.',
+			);
+			$this->response($response, REST_Controller::HTTP_OK);
+		} else {
+			$data = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => "Server error, try again."
+			);
+			$this->response($data, REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
+			return;
+		}
+	}
+
+	private function randomPassword()
+	{
+		$alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+		$pass = array(); //remember to declare $pass as an array
+		$alphaLength = strlen($alphabet) - 1; //put the length -1 in cache
+		for ($i = 0; $i < 8; $i++) {
+			$n = rand(0, $alphaLength);
+			$pass[] = $alphabet[$n];
+		}
+		return implode($pass); //turn the array into a string
+	}
 }
 
