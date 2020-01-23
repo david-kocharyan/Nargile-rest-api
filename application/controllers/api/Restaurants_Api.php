@@ -154,7 +154,7 @@ class Restaurants_Api extends REST_Controller
 		$this->join();
 		$this->db->order_by('restaurants.rate', 'Desc');
 		$this->where();
-		$data = $this->db->get("restaurants")->result();
+		$data = $this->db->get_where("restaurants", array('rate' >= 3))->result();
 		return $data != null ? $data : array();
 	}
 
@@ -208,7 +208,7 @@ class Restaurants_Api extends REST_Controller
 
 		$radius = $this->boundingBox($this->input->get("lat"), $this->input->get("lng"));
 		$filter = array('lat >' => $radius["latMin"], 'lng >' => $radius["lngMin"], 'lat <' => $radius["latMax"], 'lng <' => $radius["lngMax"]);
-		if ($type == "top") $this->db->where("restaurants.rate = 5");
+		if ($type == "top") $this->db->where("restaurants.rate >= 3");
 		if ($type == "nearest") $this->db->where($filter);
 		$data = $this->db->get("restaurants")->row();
 		return $data != null ? $data : 0;
