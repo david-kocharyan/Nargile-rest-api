@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jan 15, 2020 at 07:53 AM
+-- Generation Time: Jan 24, 2020 at 07:41 AM
 -- Server version: 5.6.41-84.1
 -- PHP Version: 7.2.7
 
@@ -359,7 +359,8 @@ INSERT INTO `claimed_offers` (`id`, `user_id`, `coin_offer_id`, `time`, `status`
 (274, 0, 0, 1576413658, 0),
 (275, 0, 0, 1576413661, 0),
 (276, 54, 66, 1576413705, 1),
-(277, 0, 0, 1576830722, 0);
+(277, 0, 0, 1576830722, 0),
+(278, 0, 0, 1579764992, 0);
 
 -- --------------------------------------------------------
 
@@ -424,7 +425,7 @@ INSERT INTO `coin_offers` (`id`, `restaurant_id`, `price`, `valid_date`, `descri
 (66, 4, 60, 1577253600, 'Keif is offering 1 freenargile in Achrafieh branch.', 0, 1),
 (67, 4, 70, 1577253600, 'Keif is offering 1 freenargile in Achrafieh branch.', 0, 1),
 (68, 1, 3000, 1649307600, 'Keif is offering 1 freenargile in Achrafieh branch.', 10, 1),
-(69, 1, 1000, 1670824800, 'Keif is offering 1 freenargile in Achrafieh branch1.', 15, 1);
+(69, 1, 1000, 1670824800, 'Keif is offering 1 freenargile in Achrafieh branch1.', 14, 1);
 
 -- --------------------------------------------------------
 
@@ -466,10 +467,15 @@ INSERT INTO `favorites` (`id`, `user_id`, `restaurant_id`, `status`) VALUES
 (29, 140, 1, 1),
 (30, 140, 2, 1),
 (31, 140, 7, 1),
-(32, 142, 2, 0),
-(33, 142, 1, 1),
+(32, 142, 2, 1),
+(33, 142, 1, 0),
 (34, 147, 2, 1),
-(35, 153, 2, 1);
+(35, 153, 2, 1),
+(36, 157, 1, 1),
+(37, 147, 20, 0),
+(38, 155, 1, 0),
+(39, 153, 1, 0),
+(40, 153, 12, 1);
 
 -- --------------------------------------------------------
 
@@ -492,10 +498,10 @@ CREATE TABLE `featured_offers` (
 INSERT INTO `featured_offers` (`id`, `restaurant_id`, `text`, `status`, `created_at`) VALUES
 (1, 1, 'Nargile for 3000 LBP Tuesdays - Wednesdays Thurdays Ladies ONLY', '1', NULL),
 (2, 1, 'Free Nargile From 13:00 PM Till 16:00PM Mon-Fri', '1', NULL),
-(3, 1, 'Lorem', '1', NULL),
-(4, 1, 'Lorem', '1', NULL),
-(5, 1, 'Lorem', '1', NULL),
-(6, 1, 'Lorem', '1', NULL);
+(3, 1, 'Lorem', '0', '2020-01-24 06:58:17'),
+(4, 1, 'Lorem', '0', '2020-01-24 06:58:19'),
+(5, 1, 'Lorem', '0', '2020-01-24 06:58:22'),
+(6, 1, 'Lorem', '0', '2020-01-24 06:58:24');
 
 -- --------------------------------------------------------
 
@@ -515,19 +521,29 @@ CREATE TABLE `friends` (
 --
 
 INSERT INTO `friends` (`id`, `from_id`, `to_id`, `status`) VALUES
-(103, 142, 141, 1),
-(104, 142, 140, 1),
+(103, 142, 141, 0),
+(104, 142, 140, 0),
 (110, 146, 140, 1),
 (111, 146, 124, 2),
 (112, 146, 30, 2),
-(113, 146, 142, 1),
+(113, 146, 142, 0),
 (114, 140, 124, 1),
 (115, 140, 141, 1),
 (116, 140, 143, 1),
 (117, 140, 144, 1),
 (118, 140, 145, 1),
 (119, 148, 147, 1),
-(120, 149, 140, 1);
+(120, 149, 140, 1),
+(121, 157, 147, 1),
+(122, 158, 140, 1),
+(123, 153, 142, 0),
+(124, 153, 142, 0),
+(125, 140, 153, 0),
+(126, 171, 153, 0),
+(127, 171, 140, 1),
+(128, 171, 153, 0),
+(129, 142, 153, 0),
+(130, 140, 142, 0);
 
 -- --------------------------------------------------------
 
@@ -550,10 +566,10 @@ INSERT INTO `hour_offers` (`id`, `restaurant_id`, `text`, `status`) VALUES
 (1, 2, 'Nargile for 3000 LBP Tuesdays - Wednesdays Thurdays Ladies ONLY', 1),
 (2, 2, 'Free Nargile From 13:00 PM Till 16:00PM Mon-Fri', 1),
 (3, 1, 'Lorem', 1),
-(4, 1, 'Lorem', 1),
-(5, 1, 'Lorem', 1),
-(6, 1, 'Lorem', 1),
-(7, 1, 'Lorem', 1);
+(4, 1, 'Lorem2', 1),
+(5, 1, 'Lorem3', 1),
+(6, 1, 'Lorem4', 1),
+(7, 1, 'Lorem5', 1);
 
 -- --------------------------------------------------------
 
@@ -929,6 +945,7 @@ CREATE TABLE `notification` (
   `user_id` int(11) DEFAULT NULL,
   `body` varchar(255) NOT NULL,
   `click_action` varchar(255) NOT NULL,
+  `coins` int(255) DEFAULT NULL,
   `action_id` int(11) NOT NULL,
   `status` int(1) NOT NULL DEFAULT '1',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
@@ -938,67 +955,90 @@ CREATE TABLE `notification` (
 -- Dumping data for table `notification`
 --
 
-INSERT INTO `notification` (`id`, `user_id`, `body`, `click_action`, `action_id`, `status`, `created_at`) VALUES
-(23, 30, 'Super22 Admin22 Became Your Friend', 'friend_request', 48, 1, '2019-12-06 04:44:32'),
-(26, 30, 'test test Became Your Friend', 'friend_request', 54, 0, '2019-12-06 04:57:55'),
-(38, 30, 'hshsj bsjsjs Became Your Friend', 'friend_request', 104, 1, '2019-12-09 08:41:05'),
-(44, 30, 'cszzzzz cdsvdsv2 Became Your Friend', 'friend_request', 108, 1, '2019-12-10 05:31:47'),
-(46, 30, 'test test Became Your Friend', 'friend_request', 54, 1, '2019-12-10 05:40:24'),
-(50, 30, 'Zara Tunyan Became Your Friend', 'friend_request', 103, 1, '2019-12-11 03:57:26'),
-(56, 30, 'test test Became Your Friend', 'friend_request', 91, 1, '2019-12-13 06:41:55'),
-(57, 124, 'Marat Mkrtchyan Became Your Friend', 'friend_request', 136, 1, '2019-12-16 06:18:33'),
-(68, 30, 'zara tunyabn Sent You Friend Request', 'friend_request', 140, 1, '2019-12-17 04:49:20'),
-(75, 141, 'Armen Mkrtchyan  Sent You Friend Request', 'friend_request', 142, 0, '2019-12-17 05:07:28'),
-(76, 142, 'user user Sent You Friend Request', 'friend_request', 141, 0, '2019-12-17 05:09:55'),
-(77, 142, 'user user Sent You Friend Request', 'friend_request', 141, 0, '2019-12-17 05:46:15'),
-(78, 141, 'Armen Mkrtchyan  Sent You Friend Request', 'friend_request', 142, 0, '2019-12-17 05:47:40'),
-(79, 141, 'Armen Mkrtchyan  Sent You Friend Request', 'friend_request', 142, 0, '2019-12-17 05:48:18'),
-(80, 142, 'user user Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', 1, 0, '2019-12-17 05:49:27'),
-(81, 140, 'Armen Mkrtchyan  Sent You Friend Request', 'friend_request', 142, 0, '2019-12-17 07:59:31'),
-(82, 142, 'Dav key Sent You Friend Request', 'friend_request', 146, 0, '2019-12-17 08:18:52'),
-(83, 145, 'Dav key Sent You Friend Request', 'friend_request', 146, 1, '2019-12-17 08:19:01'),
-(84, 144, 'Dav key Sent You Friend Request', 'friend_request', 146, 1, '2019-12-17 08:19:03'),
-(85, 143, 'Dav key Sent You Friend Request', 'friend_request', 146, 1, '2019-12-17 08:19:03'),
-(86, 141, 'Dav key Sent You Friend Request', 'friend_request', 146, 0, '2019-12-17 08:19:05'),
-(87, 140, 'Dav key Sent You Friend Request', 'friend_request', 146, 0, '2019-12-17 08:19:06'),
-(88, 124, 'Dav key Sent You Friend Request', 'friend_request', 146, 1, '2019-12-17 08:19:10'),
-(89, 30, 'Dav key Sent You Friend Request', 'friend_request', 146, 1, '2019-12-17 08:19:10'),
-(90, 142, 'Dav key Sent You Friend Request', 'friend_request', 146, 0, '2019-12-17 08:20:09'),
-(91, 124, 'zara tati Sent You Friend Request', 'friend_request', 140, 1, '2019-12-17 08:23:11'),
-(92, 141, 'zara tati Sent You Friend Request', 'friend_request', 140, 1, '2019-12-17 08:23:13'),
-(93, 143, 'zara tati Sent You Friend Request', 'friend_request', 140, 1, '2019-12-17 08:23:14'),
-(94, 144, 'zara tati Sent You Friend Request', 'friend_request', 140, 1, '2019-12-17 08:23:15'),
-(95, 145, 'zara tati Sent You Friend Request', 'friend_request', 140, 1, '2019-12-17 08:23:16'),
-(96, 142, 'zara tati Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', 1, 0, '2019-12-17 11:12:47'),
-(97, 142, 'zara tati Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', 1, 0, '2019-12-17 11:13:42'),
-(98, 145, 'zara tati Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', 1, 1, '2019-12-17 11:21:36'),
-(99, 144, 'zara tati Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', 1, 1, '2019-12-17 11:21:38'),
-(100, 144, 'zara tati Will Share A Bliss Hall  Restaurant With You!', 'share_request', 7, 1, '2019-12-18 10:05:49'),
-(101, 147, 'lichaa tarabay Sent You Friend Request', 'friend_request', 148, 0, '2019-12-19 07:30:05'),
-(102, 140, 'bdbd jdjdn Sent You Friend Request', 'friend_request', 149, 0, '2019-12-19 07:48:44'),
-(103, 140, 'bdbd jdjdn Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', 1, 1, '2019-12-19 07:51:39'),
-(104, 140, 'bdbd jdjdn Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', 1, 1, '2019-12-19 08:23:17'),
-(105, 140, 'bdbd jdjdn Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', 1, 1, '2019-12-19 08:23:30'),
-(106, 140, 'bdbd jdjdn Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', 1, 1, '2019-12-19 08:23:42'),
-(107, 140, 'bdbd jdjdn Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', 1, 1, '2019-12-19 08:25:44'),
-(108, 140, 'bdbd jdjdn Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', 1, 1, '2019-12-19 08:26:23'),
-(109, 140, 'bdbd jdjdn Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', 1, 1, '2019-12-19 08:26:41'),
-(110, 140, 'bdbd jdjdn Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', 1, 1, '2019-12-19 08:28:25'),
-(111, 140, 'bdbd jdjdn Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', 1, 1, '2019-12-19 08:28:41'),
-(112, 140, 'bdbd jdjdn Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', 1, 1, '2019-12-19 08:30:15'),
-(113, 140, 'bdbd jdjdn Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', 1, 1, '2019-12-19 08:33:38'),
-(114, 140, 'bdbd jdjdn Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', 1, 1, '2019-12-19 08:33:59'),
-(115, 140, 'bdbd jdjdn Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', 1, 1, '2019-12-19 08:34:14'),
-(116, 140, 'bdbd jdjdn Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', 1, 1, '2019-12-19 08:35:30'),
-(117, 140, 'bdbd jdjdn Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', 1, 1, '2019-12-19 08:36:42'),
-(118, 140, 'bdbd jdjdn Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', 1, 1, '2019-12-19 08:38:14'),
-(119, 140, 'bdbd jdjdn Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', 1, 1, '2019-12-19 08:38:33'),
-(120, 140, 'bdbd jdjdn Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', 1, 1, '2019-12-19 08:38:50'),
-(121, 140, 'bdbd jdjdn Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', 1, 1, '2019-12-19 08:39:05'),
-(122, 140, 'bdbd jdjdn Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', 1, 1, '2019-12-19 08:39:18'),
-(123, 140, 'bdbd jdjdn Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', 1, 1, '2019-12-19 08:39:52'),
-(124, 140, 'bdbd jdjdn Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', 1, 1, '2019-12-19 08:40:02'),
-(125, 140, 'bdbd jdjdn Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', 1, 1, '2019-12-19 08:42:59');
+INSERT INTO `notification` (`id`, `user_id`, `body`, `click_action`, `coins`, `action_id`, `status`, `created_at`) VALUES
+(23, 30, 'Super22 Admin22 Became Your Friend', 'friend_request', NULL, 48, 1, '2019-12-06 04:44:32'),
+(26, 30, 'test test Became Your Friend', 'friend_request', NULL, 54, 0, '2019-12-06 04:57:55'),
+(38, 30, 'hshsj bsjsjs Became Your Friend', 'friend_request', NULL, 104, 1, '2019-12-09 08:41:05'),
+(44, 30, 'cszzzzz cdsvdsv2 Became Your Friend', 'friend_request', NULL, 108, 1, '2019-12-10 05:31:47'),
+(46, 30, 'test test Became Your Friend', 'friend_request', NULL, 54, 1, '2019-12-10 05:40:24'),
+(50, 30, 'Zara Tunyan Became Your Friend', 'friend_request', NULL, 103, 1, '2019-12-11 03:57:26'),
+(56, 30, 'test test Became Your Friend', 'friend_request', NULL, 91, 1, '2019-12-13 06:41:55'),
+(57, 124, 'Marat Mkrtchyan Became Your Friend', 'friend_request', NULL, 136, 1, '2019-12-16 06:18:33'),
+(68, 30, 'zara tunyabn Sent You Friend Request', 'friend_request', NULL, 140, 1, '2019-12-17 04:49:20'),
+(75, 141, 'Armen Mkrtchyan  Sent You Friend Request', 'friend_request', NULL, 142, 0, '2019-12-17 05:07:28'),
+(76, 142, 'user user Sent You Friend Request', 'friend_request', NULL, 141, 0, '2019-12-17 05:09:55'),
+(78, 141, 'Armen Mkrtchyan  Sent You Friend Request', 'friend_request', NULL, 142, 0, '2019-12-17 05:47:40'),
+(79, 141, 'Armen Mkrtchyan  Sent You Friend Request', 'friend_request', NULL, 142, 0, '2019-12-17 05:48:18'),
+(80, 142, 'user user Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', NULL, 1, 0, '2019-12-17 05:49:27'),
+(81, 140, 'Armen Mkrtchyan  Sent You Friend Request', 'friend_request', NULL, 142, 0, '2019-12-17 07:59:31'),
+(82, 142, 'Dav key Sent You Friend Request', 'friend_request', NULL, 146, 0, '2019-12-17 08:18:52'),
+(83, 145, 'Dav key Sent You Friend Request', 'friend_request', NULL, 146, 1, '2019-12-17 08:19:01'),
+(84, 144, 'Dav key Sent You Friend Request', 'friend_request', NULL, 146, 1, '2019-12-17 08:19:03'),
+(85, 143, 'Dav key Sent You Friend Request', 'friend_request', NULL, 146, 1, '2019-12-17 08:19:03'),
+(86, 141, 'Dav key Sent You Friend Request', 'friend_request', NULL, 146, 0, '2019-12-17 08:19:05'),
+(87, 140, 'Dav key Sent You Friend Request', 'friend_request', NULL, 146, 0, '2019-12-17 08:19:06'),
+(88, 124, 'Dav key Sent You Friend Request', 'friend_request', NULL, 146, 1, '2019-12-17 08:19:10'),
+(89, 30, 'Dav key Sent You Friend Request', 'friend_request', NULL, 146, 1, '2019-12-17 08:19:10'),
+(90, 142, 'Dav key Sent You Friend Request', 'friend_request', NULL, 146, 0, '2019-12-17 08:20:09'),
+(91, 124, 'zara tati Sent You Friend Request', 'friend_request', NULL, 140, 1, '2019-12-17 08:23:11'),
+(92, 141, 'zara tati Sent You Friend Request', 'friend_request', NULL, 140, 1, '2019-12-17 08:23:13'),
+(93, 143, 'zara tati Sent You Friend Request', 'friend_request', NULL, 140, 1, '2019-12-17 08:23:14'),
+(94, 144, 'zara tati Sent You Friend Request', 'friend_request', NULL, 140, 1, '2019-12-17 08:23:15'),
+(95, 145, 'zara tati Sent You Friend Request', 'friend_request', NULL, 140, 1, '2019-12-17 08:23:16'),
+(96, 142, 'zara tati Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', NULL, 1, 0, '2019-12-17 11:12:47'),
+(97, 142, 'zara tati Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', NULL, 1, 0, '2019-12-17 11:13:42'),
+(98, 145, 'zara tati Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', NULL, 1, 1, '2019-12-17 11:21:36'),
+(99, 144, 'zara tati Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', NULL, 1, 1, '2019-12-17 11:21:38'),
+(100, 144, 'zara tati Will Share A Bliss Hall  Restaurant With You!', 'share_request', NULL, 7, 1, '2019-12-18 10:05:49'),
+(101, 147, 'lichaa tarabay Sent You Friend Request', 'friend_request', NULL, 148, 0, '2019-12-19 07:30:05'),
+(102, 140, 'bdbd jdjdn Sent You Friend Request', 'friend_request', NULL, 149, 0, '2019-12-19 07:48:44'),
+(103, 140, 'bdbd jdjdn Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', NULL, 1, 1, '2019-12-19 07:51:39'),
+(104, 140, 'bdbd jdjdn Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', NULL, 1, 1, '2019-12-19 08:23:17'),
+(105, 140, 'bdbd jdjdn Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', NULL, 1, 1, '2019-12-19 08:23:30'),
+(106, 140, 'bdbd jdjdn Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', NULL, 1, 1, '2019-12-19 08:23:42'),
+(107, 140, 'bdbd jdjdn Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', NULL, 1, 1, '2019-12-19 08:25:44'),
+(108, 140, 'bdbd jdjdn Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', NULL, 1, 1, '2019-12-19 08:26:23'),
+(109, 140, 'bdbd jdjdn Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', NULL, 1, 1, '2019-12-19 08:26:41'),
+(110, 140, 'bdbd jdjdn Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', NULL, 1, 1, '2019-12-19 08:28:25'),
+(111, 140, 'bdbd jdjdn Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', NULL, 1, 1, '2019-12-19 08:28:41'),
+(112, 140, 'bdbd jdjdn Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', NULL, 1, 1, '2019-12-19 08:30:15'),
+(113, 140, 'bdbd jdjdn Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', NULL, 1, 1, '2019-12-19 08:33:38'),
+(114, 140, 'bdbd jdjdn Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', NULL, 1, 1, '2019-12-19 08:33:59'),
+(115, 140, 'bdbd jdjdn Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', NULL, 1, 1, '2019-12-19 08:34:14'),
+(116, 140, 'bdbd jdjdn Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', NULL, 1, 1, '2019-12-19 08:35:30'),
+(117, 140, 'bdbd jdjdn Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', NULL, 1, 1, '2019-12-19 08:36:42'),
+(118, 140, 'bdbd jdjdn Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', NULL, 1, 1, '2019-12-19 08:38:14'),
+(119, 140, 'bdbd jdjdn Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', NULL, 1, 1, '2019-12-19 08:38:33'),
+(120, 140, 'bdbd jdjdn Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', NULL, 1, 1, '2019-12-19 08:38:50'),
+(121, 140, 'bdbd jdjdn Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', NULL, 1, 1, '2019-12-19 08:39:05'),
+(122, 140, 'bdbd jdjdn Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', NULL, 1, 1, '2019-12-19 08:39:18'),
+(123, 140, 'bdbd jdjdn Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', NULL, 1, 1, '2019-12-19 08:39:52'),
+(124, 140, 'bdbd jdjdn Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', NULL, 1, 1, '2019-12-19 08:40:02'),
+(125, 140, 'bdbd jdjdn Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', NULL, 1, 1, '2019-12-19 08:42:59'),
+(126, 147, 'Bakalian Bakalian Sent You Friend Request', 'friend_request', NULL, 157, 0, '2020-01-20 07:29:40'),
+(127, 148, 'miled aoun Will Share A Abo Waseem  Restaurant With You!', 'share_request', NULL, 2, 1, '2020-01-20 08:27:35'),
+(128, 157, 'miled aoun Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', NULL, 1, 1, '2020-01-21 05:13:47'),
+(129, 157, 'miled aoun Will Share A Cafe Em Nazih  Restaurant With You!', 'share_request', NULL, 1, 1, '2020-01-21 05:13:48'),
+(130, 140, 'David  is now your friend', 'friend_request', NULL, 158, 0, '2020-01-22 02:10:25'),
+(131, 158, 'zara12 tati SHARED Cafe Em Nazih RESTAURANT!', 'share_request', NULL, 1, 1, '2020-01-22 02:12:41'),
+(132, 140, 'David Bond SHARED Cafe Em Nazih RESTAURANT!', 'share_request', NULL, 1, 1, '2020-01-22 03:27:05'),
+(133, 140, 'David Bond SHARED Cafe Em Nazih RESTAURANT!', 'share_request', NULL, 1, 1, '2020-01-22 03:27:22'),
+(134, 140, 'David Bond SHARED Cafe Em Nazih RESTAURANT!', 'share_request', NULL, 1, 1, '2020-01-22 03:27:55'),
+(135, 140, 'David Bond SHARED Cafe Em Nazih RESTAURANT!', 'share_request', NULL, 1, 1, '2020-01-22 03:28:18'),
+(136, 142, 'test1  is now your friend', 'friend_request', NULL, 153, 0, '2020-01-23 00:25:31'),
+(138, 153, 'zara12  is now your friend', 'friend_request', NULL, 140, 0, '2020-01-24 05:37:22'),
+(139, 153, 'Արմենուհի  is now your friend', 'friend_request', NULL, 171, 0, '2020-01-24 05:38:33'),
+(140, 140, 'Արմենուհի  is now your friend', 'friend_request', NULL, 171, 0, '2020-01-24 05:45:15'),
+(141, 153, 'Արմենուհի  is now your friend', 'friend_request', NULL, 171, 0, '2020-01-24 05:56:15'),
+(142, 140, 'Արմենուհի  is now your friend', 'coin_request', 20, 171, 0, '2020-01-24 05:56:35'),
+(143, 153, 'Armen  is now your friend', 'friend_request', NULL, 142, 0, '2020-01-24 05:59:42'),
+(144, 142, 'zara12  is now your friend', 'friend_request', NULL, 140, 0, '2020-01-24 06:28:31'),
+(145, 142, 'You have confirmed receipt of 5 coins from the zara12 ', 'coin_request', 0, 140, 0, '2020-01-24 06:29:37'),
+(146, 142, 'You have confirmed receipt of 2 coins from the zara12 ', 'coin_request', 0, 140, 0, '2020-01-24 06:33:25'),
+(147, 142, 'You have confirmed receipt of 10 coins from the zara12 ', 'coin_request', 0, 140, 0, '2020-01-24 06:36:30'),
+(148, 142, 'You have confirmed receipt of 5 coins from the zara12 ', 'coin_request', 0, 140, 0, '2020-01-24 06:41:20'),
+(149, 142, 'You have confirmed receipt of 7 coins from the zara12 ', 'coin_request', 0, 140, 0, '2020-01-24 06:53:46'),
+(150, 142, 'You have confirmed receipt of 5 coins from the zara12 ', 'coin_request', 0, 140, 0, '2020-01-24 06:58:09');
 
 -- --------------------------------------------------------
 
@@ -1028,7 +1068,249 @@ INSERT INTO `offers_click` (`id`, `user_id`, `restaurant_id`, `type`) VALUES
 (8, 153, 1, 0),
 (9, 153, 1, 0),
 (10, 153, 1, 1),
-(11, 153, 1, 1);
+(11, 153, 1, 1),
+(12, 155, 1, 0),
+(13, 155, 1, 1),
+(14, 157, 1, 0),
+(15, 157, 1, 0),
+(16, 157, 1, 0),
+(17, 157, 2, 0),
+(18, 157, 2, 0),
+(19, 157, 2, 0),
+(20, 157, 1, 1),
+(21, 147, 1, 0),
+(22, 157, 1, 0),
+(23, 157, 1, 0),
+(24, 157, 1, 0),
+(25, 157, 1, 0),
+(26, 157, 1, 0),
+(27, 157, 1, 0),
+(28, 157, 1, 0),
+(29, 147, 1, 0),
+(30, 155, 1, 0),
+(31, 155, 1, 0),
+(32, 155, 1, 0),
+(33, 155, 1, 0),
+(34, 155, 1, 0),
+(35, 155, 1, 0),
+(36, 155, 1, 0),
+(37, 155, 1, 0),
+(38, 153, 1, 1),
+(39, 155, 1, 0),
+(40, 155, 1, 0),
+(41, 153, 1, 0),
+(42, 155, 1, 0),
+(43, 153, 1, 0),
+(44, 155, 1, 0),
+(45, 155, 1, 0),
+(46, 155, 1, 0),
+(47, 155, 1, 0),
+(48, 155, 1, 0),
+(49, 155, 2, 0),
+(50, 155, 2, 0),
+(51, 153, 1, 0),
+(52, 155, 2, 0),
+(53, 153, 1, 0),
+(54, 153, 1, 0),
+(55, 153, 1, 0),
+(56, 153, 1, 0),
+(57, 155, 2, 0),
+(58, 155, 1, 0),
+(59, 153, 1, 0),
+(60, 153, 1, 0),
+(61, 153, 1, 0),
+(62, 140, 1, 0),
+(63, 140, 1, 0),
+(64, 153, 1, 0),
+(65, 153, 1, 0),
+(66, 153, 1, 0),
+(67, 140, 1, 0),
+(68, 140, 1, 0),
+(69, 153, 1, 0),
+(70, 140, 1, 0),
+(71, 153, 1, 0),
+(72, 140, 1, 0),
+(73, 153, 1, 0),
+(74, 153, 1, 0),
+(75, 153, 1, 0),
+(76, 140, 1, 0),
+(77, 153, 1, 0),
+(78, 140, 1, 0),
+(79, 140, 1, 0),
+(80, 153, 1, 0),
+(81, 153, 1, 0),
+(82, 140, 1, 0),
+(83, 153, 1, 0),
+(84, 153, 1, 0),
+(85, 153, 1, 0),
+(86, 153, 1, 0),
+(87, 153, 1, 0),
+(88, 153, 1, 0),
+(89, 153, 1, 0),
+(90, 153, 1, 0),
+(91, 153, 1, 0),
+(92, 153, 1, 0),
+(93, 153, 1, 0),
+(94, 153, 1, 0),
+(95, 153, 1, 0),
+(96, 153, 1, 0),
+(97, 153, 1, 0),
+(98, 153, 1, 0),
+(99, 153, 1, 0),
+(100, 153, 1, 0),
+(101, 153, 1, 0),
+(102, 153, 1, 0),
+(103, 153, 1, 0),
+(104, 153, 1, 0),
+(105, 153, 1, 0),
+(106, 153, 1, 0),
+(107, 140, 1, 0),
+(108, 153, 1, 0),
+(109, 140, 1, 0),
+(110, 140, 1, 0),
+(111, 153, 1, 0),
+(112, 153, 1, 1),
+(113, 140, 1, 1),
+(114, 153, 1, 0),
+(115, 153, 1, 0),
+(116, 153, 1, 0),
+(117, 153, 1, 0),
+(118, 153, 1, 0),
+(119, 153, 1, 0),
+(120, 153, 1, 0),
+(121, 153, 1, 1),
+(122, 153, 1, 1),
+(123, 153, 1, 0),
+(124, 153, 1, 0),
+(125, 153, 1, 0),
+(126, 142, 1, 0),
+(127, 153, 1, 0),
+(128, 140, 1, 0),
+(129, 140, 2, 0),
+(130, 142, 1, 0),
+(131, 158, 1, 0),
+(132, 158, 1, 0),
+(133, 140, 1, 0),
+(134, 140, 1, 0),
+(135, 140, 1, 0),
+(136, 159, 1, 0),
+(137, 159, 1, 0),
+(138, 159, 1, 0),
+(139, 159, 1, 0),
+(140, 159, 1, 0),
+(141, 159, 1, 0),
+(142, 159, 1, 0),
+(143, 159, 1, 0),
+(144, 142, 1, 0),
+(145, 158, 1, 1),
+(146, 153, 1, 0),
+(147, 140, 1, 0),
+(148, 153, 1, 0),
+(149, 142, 1, 0),
+(150, 142, 1, 0),
+(151, 142, 1, 0),
+(152, 142, 1, 0),
+(153, 153, 1, 0),
+(154, 153, 1, 0),
+(155, 153, 1, 0),
+(156, 153, 1, 0),
+(157, 153, 1, 0),
+(158, 153, 1, 0),
+(159, 153, 1, 0),
+(160, 153, 1, 0),
+(161, 142, 1, 0),
+(162, 158, 1, 0),
+(163, 142, 1, 0),
+(164, 142, 1, 0),
+(165, 142, 1, 0),
+(166, 142, 1, 0),
+(167, 142, 1, 0),
+(168, 142, 1, 0),
+(169, 142, 1, 0),
+(170, 142, 1, 0),
+(171, 142, 1, 0),
+(172, 142, 1, 0),
+(173, 142, 1, 0),
+(174, 142, 1, 0),
+(175, 142, 1, 0),
+(176, 142, 1, 0),
+(177, 142, 1, 0),
+(178, 142, 1, 0),
+(179, 142, 1, 0),
+(180, 142, 1, 0),
+(181, 153, 1, 0),
+(182, 153, 1, 0),
+(183, 153, 1, 0),
+(184, 153, 1, 0),
+(185, 153, 1, 0),
+(186, 153, 1, 0),
+(187, 153, 1, 0),
+(188, 153, 1, 0),
+(189, 153, 1, 0),
+(190, 153, 1, 0),
+(191, 153, 1, 0),
+(192, 153, 1, 0),
+(193, 153, 1, 0),
+(194, 153, 1, 0),
+(195, 153, 1, 0),
+(196, 153, 2, 1),
+(197, 153, 1, 0),
+(198, 153, 1, 0),
+(199, 153, 1, 0),
+(200, 153, 1, 0),
+(201, 153, 1, 0),
+(202, 153, 1, 0),
+(203, 153, 1, 0),
+(204, 153, 1, 0),
+(205, 153, 1, 0),
+(206, 153, 1, 0),
+(207, 153, 1, 0),
+(208, 153, 1, 0),
+(209, 153, 1, 0),
+(210, 153, 1, 0),
+(211, 153, 1, 0),
+(212, 153, 1, 1),
+(213, 142, 1, 0),
+(214, 158, 1, 1),
+(215, 158, 1, 1),
+(216, 158, 1, 1),
+(217, 142, 1, 0),
+(218, 142, 1, 0),
+(219, 142, 1, 0),
+(220, 142, 1, 0),
+(221, 158, 1, 1),
+(222, 158, 1, 1),
+(223, 158, 1, 1),
+(224, 153, 1, 0),
+(225, 142, 1, 0),
+(226, 142, 1, 0),
+(227, 142, 1, 0),
+(228, 142, 1, 0),
+(229, 142, 1, 0),
+(230, 142, 1, 0),
+(231, 142, 1, 0),
+(232, 142, 1, 0),
+(233, 140, 1, 0),
+(234, 162, 1, 0),
+(235, 171, 1, 0),
+(236, 171, 1, 0),
+(237, 171, 1, 0),
+(238, 171, 1, 0),
+(239, 171, 1, 0),
+(240, 171, 1, 0),
+(241, 171, 1, 0),
+(242, 153, 1, 1),
+(243, 153, 1, 0),
+(244, 153, 1, 0),
+(245, 153, 1, 0),
+(246, 153, 1, 0),
+(247, 171, 1, 0),
+(248, 153, 1, 0),
+(249, 153, 1, 0),
+(250, 171, 1, 1),
+(251, 171, 1, 0),
+(252, 153, 1, 0),
+(253, 142, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -1077,7 +1359,22 @@ INSERT INTO `rates` (`id`, `user_id`, `restaurant_id`, `overall`, `taste`, `char
 (113, 142, 7, 3, 3, 3, 3, 4, 2),
 (114, 142, 7, 2.4, 2, 2, 2, 3, 3),
 (115, 142, 7, 3, 1, 3, 5, 3, 3),
-(116, 142, 2, 3.2, 3, 5, 2, 3, 3);
+(116, 142, 2, 3.2, 3, 5, 2, 3, 3),
+(117, 153, 2, 3.6, 4, 2, 4, 4, 4),
+(118, 157, 2, 2.8, 4, 2, 2, 5, 1),
+(119, 147, 2, 4.6, 5, 5, 5, 4, 4),
+(120, 157, 12, 4.8, 5, 5, 4, 5, 5),
+(121, 153, 1, 3.2, 3, 3, 4, 5, 1),
+(122, 153, 1, 3.8, 4, 5, 4, 3, 3),
+(123, 153, 1, 3.2, 4, 4, 3, 2, 3),
+(124, 153, 1, 3, 2, 4, 3, 3, 3),
+(125, 153, 1, 3, 4, 2, 3, 3, 3),
+(126, 153, 1, 3.4, 4, 4, 4, 4, 4),
+(127, 153, 1, 4, 4, 4, 4, 4, 4),
+(128, 142, 18, 2.6, 4, 3, 1, 3, 2),
+(129, 142, 18, 4, 4, 4, 4, 4, 4),
+(130, 158, 1, 5, 5, 5, 5, 5, 5),
+(131, 158, 1, 4, 4, 4, 4, 4, 4);
 
 -- --------------------------------------------------------
 
@@ -1130,8 +1427,8 @@ CREATE TABLE `restaurants` (
 --
 
 INSERT INTO `restaurants` (`id`, `name`, `area_id`, `logo`, `phone_number`, `type`, `address`, `lat`, `lng`, `status`, `rate`, `admin_id`) VALUES
-(1, 'Cafe Em Nazih', 23, 'Logo_1569932559_1320868044.jpg', '9611745442', 'Cafe', 'Saifi Urban Gardens, Pasteur Street', '33.896025', '35.516406', 1, '3.24', 32),
-(2, 'Abo Waseem', 23, 'Logo_1569932569_1241077901.jpg', '9611745442', 'Resto-Cafe', 'Main Street, Hamra', '33.896189', '35.477883', 1, '3.5142857142857', 32),
+(1, 'Cafe Em Nazih', 23, 'Logo_1569932559_1320868044.jpg', '9611745442', 'Cafe', 'Saifi Urban Gardens, Pasteur Street', '33.896025', '35.516406', 1, '3.4210526315789', 32),
+(2, 'Abo Waseem', 23, 'Logo_1569932569_1241077901.jpg', '9611745442', 'Resto-Cafe', 'Main Street, Hamra', '33.896189', '35.477883', 1, '3.56', 32),
 (3, 'Toot Beirut', 23, 'Logo_1569932577_1638295637.jpg', '9611756166', 'Restaurant', 'Makdessi Street, Facing Liban Post', '33.896447', '35.482184', 1, '0', NULL),
 (4, 'Barjees Cafe', 23, 'Logo_1569932588_1476692797.jpg', '9611745356', 'Cafe', 'Main Street, Hamra', '33.896320', '35.477650', 1, '0', NULL),
 (5, 'Dar Al Sultani', 23, 'Logo_1569932610_1500670266.jpg', '9611741466', 'Restaurant', 'Sadat Street', '33.896430', '35.477017', 1, '0', 32),
@@ -1141,13 +1438,13 @@ INSERT INTO `restaurants` (`id`, `name`, `area_id`, `logo`, `phone_number`, `typ
 (9, 'Abu Naim', 23, 'Logo_1569932651_345754676.jpg', '9611750480', 'Restaurant', 'Picadelly Street', '40.7929026', '43.8464971', 1, '0', NULL),
 (10, 'Duke Eatery & Cafe', 24, 'Logo_1569932668_1705152190.jpg', '9611745442747', 'Cafe', 'Main Street', '33.895419', '35.484382', 1, '0', NULL),
 (11, 'Al Nard', 24, 'Logo_1569932713_1126625444.jpg', '9611746067', 'Cafe', 'Gems Aparthotel, Makdessi Street', '33.896832', '35.478723', 1, '0', NULL),
-(12, 'Good 2 Go', 24, 'Logo_1569932727_1817381857.jpg', '9611355883', 'Cafe', 'Makdessi Street, Next to GS', '33.896021', '35.485053', 1, '3.24', NULL),
+(12, 'Good 2 Go', 24, 'Logo_1569932727_1817381857.jpg', '9611355883', 'Cafe', 'Makdessi Street, Next to GS', '33.896021', '35.485053', 1, '4.8', NULL),
 (13, 'Afandina', 24, 'Logo_1569932735_451691935.jpg', '9611351510', 'Restaurant', 'Makdesi Street, Liban Post Building', '33.881608', '35.496292', 1, '2.04', NULL),
 (14, 'Kaza Meza', 23, 'Logo_1569932748_590022535.jpg', '9611348016', 'Resto-Caf', 'Mahatma Ghandi Street', '33.898285', '35.478734', 1, '0', NULL),
 (15, 'Wimpy', 23, 'Logo_1569932755_2011446988.jpg', '9611345641', 'cafe', 'Picadelly Street', '33.895280', '35.483274', 1, '0', NULL),
 (16, 'Lavender Cafe', 23, 'Logo_1569932763_250838888.jpg', '9611751251', 'Cafe', 'Baalbak Street', '33.895122', '35.480656', 1, '0', NULL),
 (17, 'Hashtag Resto Cafe', 23, 'Logo_1569932776_1470398627.jpg', '9611745442', 'Resto-Cafe', 'Yamout Street', '33.897402', '35.478095', 1, '2.8333333333333', NULL),
-(18, 'El Denye Hek', 31, 'Logo_1569932793_236142029.jpg', '9611567191', 'Restaurant', 'Armenia Street', '33.896925', '35.525611', 1, '0', NULL),
+(18, 'El Denye Hek', 31, 'Logo_1569932793_236142029.jpg', '9611567191', 'Restaurant', 'Armenia Street', '33.896925', '35.525611', 1, '3.3', NULL),
 (19, 'El Brimo', 31, 'Logo_1569932802_473601840.jpg', '9611444199', 'cafe', 'Geitawi', '33.894107', '35.529946', 1, '2.8', NULL),
 (20, 'Caf Badaro', 31, 'Logo_1569932813_208496841.jpg', '9611380693', 'Cafe', 'Main Street, Near Bank Audi', '33.872769', '35.515837', 1, '0', NULL),
 (21, 'Alturki', 23, 'Logo_1569932833_1460047395.jpg', '9611302702', 'Restaurant', 'Main Street, Facing Abdel Naser Mosque', '33.878730', '35.499654', 1, '0', NULL),
@@ -1385,7 +1682,18 @@ INSERT INTO `reviews` (`id`, `user_id`, `restaurant_id`, `review`) VALUES
 (36, 142, 7, 'Gj'),
 (37, 142, 7, 'Hj'),
 (38, 142, 7, 'Iuy'),
-(39, 142, 2, 'Hhg');
+(39, 142, 2, 'Hhg'),
+(40, 153, 2, 'Thanks'),
+(41, 157, 12, 'good'),
+(42, 153, 1, 'Thanks'),
+(43, 153, 1, 'Good '),
+(44, 153, 1, 'Thanks'),
+(45, 153, 1, 'Good'),
+(46, 153, 1, 'Thanks'),
+(47, 153, 1, 'Thanks'),
+(48, 153, 1, 'Thanks.'),
+(49, 142, 18, 'Thanks'),
+(50, 142, 18, 'Good');
 
 -- --------------------------------------------------------
 
@@ -1556,7 +1864,7 @@ INSERT INTO `tokens` (`id`, `token`, `time`, `user_id`, `refresh_token`, `os`, `
 (462, '', '', 147, '', NULL, NULL),
 (463, '', '', 147, '', NULL, NULL),
 (464, '', '', 147, '', NULL, NULL),
-(465, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlMGRkMDU1MWIyYzMi.84mte7fv2tGjd_aBwvLNd1OOP0JDUEX1X6GPw2gq4jA', '1578050005', 147, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlMGRkMDU1MWIzMzQi.o8rDDJ2YRy4CoiGggesxmk66IXssCzPBjgjuIMjwhj0', 0, 'cGmiPfiia5w:APA91bHWrepY3xk5B_nd8S-kEFLEk07bm-AniBQ03Ukk1uXHJHSj186bAiehhuATMzpJSRk1d_4L4XWazUOJhS99dhu37aYRuE8GBTk5_476D6h8Tr_7LuYv5-bKb8-XvKdt68y_roj7'),
+(465, '', '', 147, '', NULL, NULL),
 (466, '', '', 142, '', NULL, NULL),
 (467, '', '', 142, '', NULL, NULL),
 (468, '', '', 142, '', NULL, NULL),
@@ -1564,13 +1872,99 @@ INSERT INTO `tokens` (`id`, `token`, `time`, `user_id`, `refresh_token`, `os`, `
 (470, '', '', 142, '', NULL, NULL),
 (471, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlMDFjZDExMTllNTUi.m5_APgabqW3k2W7tnj7R8uSF9r4fQa3cpNbQcv0K8I0', '1577262737', 150, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlMDFjZDExMTllZDci.W_oqdijOTIkT6T1_HBq8RfsObO6N4RIQfmVrrhCPY3Y', 0, 'dBhQTejihNo:APA91bH1SoJDLajZFgth6AteDoGSaXY3Wad3hrQyEcKCbiyh-7Rg3QDMaEi9VnWu6_QA6qVULOabN8WFQ0tvAno2HYig8xqM7P2iE7CO76dhg_-6vtHUyHFGeJ-CJ-DZCcDNLK4bdt8D'),
 (472, '', '', 140, '', NULL, NULL),
-(473, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlMGM5ZDhmOTgwNDEi.YQWwY1rwSL2gU5nwYy2zGqPbJyS0lMJRML5CERdpCWc', '1577971471', 140, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlMGM5ZDhmOTgwYWMi.06CmAkdISUbdDTTDyJzrZ0Q3IKvuNNfhjWntRdLJiuM', 1, 'cE6golVTnF4:APA91bGs3bwujlU2PiSyfhydNHsFoFaQfY3H6wDSEy0Yq7Hra_Nc8-R3AIrmUPHpkPPqh0aFNU0_y3D4W-MozkvceO9KlJJsK8bqvVzuOkFsbk1XF4k5oikbEhY3GIQW7eRbAJNc3wFO'),
+(473, '', '', 140, '', NULL, NULL),
 (474, '', '', 142, '', NULL, NULL),
-(475, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlMWRhMDEwNzRiZTci.n_7v5osRN0qApKKAJeRq01PP8SaCaRz0M1_3QtUtCJo', '1579086224', 142, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlMWRhMDEwNzRjNmEi.7x8N9viJvU-kfrTiyN_bXlJCrv58DR1tgx_E2Te-oEk', NULL, NULL),
+(475, '', '', 142, '', NULL, NULL),
 (477, '', '', 153, '', NULL, NULL),
 (478, '', '', 153, '', NULL, NULL),
 (479, '', '', 153, '', NULL, NULL),
-(480, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlMWVlMTU4MGRiMzYi.HEZ5Eyf3fAloIP26Ab1FC8uii4qIXRCkFecpIc-az0w', '1579168472', 153, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlMWVlMTU4MGRjMmIi.EJfKqNzQ7J13qmX3jXxCAyhGcf-JBmpbAVhQa_AEAg8', 0, 'fVmduCgS-S8:APA91bE-YOWEQekDtJUGd8R0NpXhp03d7M3y77tjkfh_432qClOhjBx1TqHFReB-3D8MpHjAcVBJt1MaZNz84197p4lpaILdJel1qWSnRS9i9kCWiI-hxmJF5U5Yn5f1Y7ZJjWKOo_q8');
+(480, '', '', 153, '', NULL, NULL),
+(481, '', '', 154, '', NULL, NULL),
+(482, '', '', 155, '', NULL, NULL),
+(483, '', '', 153, '', NULL, NULL),
+(484, '', '', 153, '', NULL, NULL),
+(485, '', '', 153, '', NULL, NULL),
+(486, '', '', 156, '', NULL, NULL),
+(487, '', '', 157, '', NULL, NULL),
+(488, '', '', 157, '', NULL, NULL),
+(489, '', '', 147, '', NULL, NULL),
+(490, '', '', 147, '', NULL, NULL),
+(491, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlMjZkYzJmN2Q3NzEi.xnjpHxk3i9iXdzjcAcjRNKqX3HaaFzN2Z4OrGJPKvZc', '1579691439', 157, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlMjZkYzJmN2Q3ZTEi.z4fH_tHq28ctw0daCnezvFkHFzG-gtY-PLijEmtnrHw', 1, 'fQILtqxllbE:APA91bH0hWb77wNBsd4Awtd5TWZBSkQtU9PbUF7SiiuxOBIzRUCLcu9_xrhvBn3iEA3SssrE_Q2bCbR3KJJmQQPEpYtUKseXuDMh6_BuhvcbCdxzKz2ru_xRSwjnelrLPAqIwWW-vz5R'),
+(492, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlMjZlNWQ3NWQ3MDAi.iNQBuqpQqHFhJ7oNVDce9bEp-isY_N2vyqrCD6yokxY', '1579693911', 147, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlMjZlNWQ3NWQ3NzUi.dqY1243DwWfIU9mu6lX25ET84THPPF8knqIfWe4j-q4', 0, 'fpRd-jyF6ZY:APA91bGIAo2CSDFqBgAB7CNBIcmKuDHzq0SAS-Rh5EVykcliDvQkgnXFQuelnNF2CLtI8FyUElQPsuCn4Oeg_6Mg87O-Qun40Kj01s5yMGfhrQMMaJ5B_EiDoDijZHCYj_7FuUiL6C5Z'),
+(493, '', '', 153, '', NULL, NULL),
+(494, '', '', 153, '', NULL, NULL),
+(495, '', '', 153, '', NULL, NULL),
+(496, '', '', 153, '', NULL, NULL),
+(497, '', '', 140, '', NULL, NULL),
+(498, '', '', 140, '', NULL, NULL),
+(499, '', '', 153, '', NULL, NULL),
+(500, '', '', 153, '', NULL, NULL),
+(501, '', '', 153, '', NULL, NULL),
+(502, '', '', 153, '', NULL, NULL),
+(503, '', '', 142, '', NULL, NULL),
+(504, '', '', 142, '', NULL, NULL),
+(505, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlMjk1NmIxYmU2MmIi.YYlZnZivkKHYp1ucbdike6mn6oQJIrk7bQEaIEMLKbI', '1579853873', 158, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlMjk1NmIxYmU2OTUi.dbGrzE-HM2K63F1T-TR-5A4HLEbhC6gVoEdLa1jNqkw', 1, 'cSG1BZ8wxtA:APA91bHbydSjsnvu21A0GR7Ssosifxfh-frD-4PDgjxSJ1hhF9dRNC4vuCwY0Q3ITQ_MtpOOhhQ3-hAHDFYIll2ybA_JvSuzaM2gtm6aQu1GkBzULHPFcoRmWdD2yWklFSvLqTSPL42f'),
+(506, '', '', 140, '', NULL, NULL),
+(507, '', '', 140, '', NULL, NULL),
+(508, '', '', 140, '', NULL, NULL),
+(509, '', '', 140, '', NULL, NULL),
+(510, '', '', 140, '', NULL, NULL),
+(511, '', '', 140, '', NULL, NULL),
+(512, '', '', 140, '', NULL, NULL),
+(513, '', '', 153, '', NULL, NULL),
+(514, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlMjg0MTU1MDhjYTMi.8aUZlFYdh9Ionouwpm8O5Dv9mNqYB_UQoGCcdV3iQyg', '1579782869', 159, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlMjg0MTU1MDhkNWQi.MxwOUOvPxiIIA9psc1LKqiinhihQRO3WoUNwiUDdl7k', 1, 'eepP3IKfPC8:APA91bGXdwipRnPq5owajIKy8lCMjAKD2waRFKWIFUkqzrfPl7abc777AZSSGIBeHx535f78hBNyoYY7LtH6j0Pt97BLYg-CQfBatBUaEtbRslb0TFrcZfl_9-8z2OfNx2gJRcc-Lksb'),
+(515, '', '', 142, '', NULL, NULL),
+(516, '', '', 142, '', NULL, NULL),
+(517, '', '', 142, '', NULL, NULL),
+(518, '', '', 153, '', NULL, NULL),
+(519, '', '', 153, '', NULL, NULL),
+(520, '', '', 142, '', NULL, NULL),
+(521, '', '', 153, '', NULL, NULL),
+(522, '', '', 140, '', NULL, NULL),
+(523, '', '', 153, '', NULL, NULL),
+(524, '', '', 142, '', NULL, NULL),
+(525, '', '', 142, '', NULL, NULL),
+(526, '', '', 153, '', NULL, NULL),
+(527, '', '', 153, '', NULL, NULL),
+(528, '', '', 140, '', NULL, NULL),
+(529, '', '', 142, '', NULL, NULL),
+(530, '', '', 142, '', NULL, NULL),
+(531, '', '', 153, '', NULL, NULL),
+(532, '', '', 160, '', NULL, NULL),
+(533, '', '', 161, '', NULL, NULL),
+(534, '', '', 140, '', NULL, NULL),
+(535, '', '', 142, '', NULL, NULL),
+(536, '', '', 153, '', NULL, NULL),
+(537, '', '', 153, '', NULL, NULL),
+(538, '', '', 140, '', NULL, NULL),
+(539, '', '', 142, '', NULL, NULL),
+(540, '', '', 142, '', NULL, NULL),
+(541, '', '', 153, '', NULL, NULL),
+(543, '', '', 153, '', NULL, NULL),
+(545, '', '', 142, '', NULL, NULL),
+(546, '', '', 140, '', NULL, NULL),
+(548, '', '', 153, '', NULL, NULL),
+(549, '', '', 153, '', NULL, NULL),
+(550, '', '', 142, '', NULL, NULL),
+(551, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlMmFiYmI4OGUxMjYi.FhXrVfO8aUVzxEqvXxm5OwG8pvKc1Bsh9DH8Ei5EQpc', '1579945272', 150, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlMmFiYmI4OGUxYmIi.6qr9_Bp5KHy0LSKT3C_X7VH6vQ2ZnD7tU21meA78HF0', NULL, NULL),
+(552, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlMmFiZjI3NTViMmUi.rxoxiBPYFL_5Jrcjc9XTLyA45A0MvrxzFm_4q0ezOXA', '1579946151', 162, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlMmFiZjI3NTViYzAi.SPhPYGrhvkcY1opNuzd_upwDhtNTzL6hhndCYie1Kc0', 1, 'fgGAbpxrbxU:APA91bFqlNZViysK04ZJBaJDyb1NsD9A2bLQHeeA7MomxIDuv_rEXdZm9APvrVupCi1PQCR5sGzxqinNDtwA_MsL235w7ivZUil6-iCeKNMBnCQY3XpTs8znDxlApxkqhfMIL20xh2Kh'),
+(562, '', '', 171, '', NULL, NULL),
+(563, '', '', 171, '', NULL, NULL),
+(564, '', '', 153, '', NULL, NULL),
+(565, '', '', 153, '', NULL, NULL),
+(566, '', '', 153, '', NULL, NULL),
+(567, '', '', 153, '', NULL, NULL),
+(568, '', '', 153, '', NULL, NULL),
+(569, '', '', 142, '', NULL, NULL),
+(570, '', '', 153, '', NULL, NULL),
+(571, '', '', 153, '', NULL, NULL),
+(572, '', '', 142, '', NULL, NULL),
+(573, '', '', 140, '', NULL, NULL),
+(574, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlMmFlOTE4MTM0Nzgi.L_5bdRe76EmKk5lboRM49Ay4qBx2Cv52ud9xfgpCcog', '1579956888', 140, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlMmFlOTE4MTM0ZmEi.uvzrAKpV6BRS2zJHnSFFDteZS7ZhhVbdua6gV-dkdvY', 1, 'fv29IhrZw88:APA91bFge-VyYkyIqGXEZj5n6ITovMd7UDpvZVo6MiF2rG0E97ftlNFa7rSPX5FmL-o-S0aYQ4LXBd4i-3uo7FDfEfFTuP-bxFSe43RFfhN3vPxHyjV-UrJ6FC6XVwCfG86ziwjWpL5i'),
+(575, '', '', 142, '', NULL, NULL),
+(576, '', '', 142, '', NULL, NULL),
+(577, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlMmFlZjY5N2RkNTAi.SnUgmVu7tqEiZeSdbYA9Mcb-oq63iNOgEhkDcAoI5h8', '1579958505', 142, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlMmFlZjY5N2RkZjEi.VHeMT5xVHKvzcr1hxl6RTPHy-wIHWW3Y2jR0gmxK4lE', 0, 'fVmduCgS-S8:APA91bE-YOWEQekDtJUGd8R0NpXhp03d7M3y77tjkfh_432qClOhjBx1TqHFReB-3D8MpHjAcVBJt1MaZNz84197p4lpaILdJel1qWSnRS9i9kCWiI-hxmJF5U5Yn5f1Y7ZJjWKOo_q8'),
+(578, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlMmFmMjIzYTFkMGQi.zQvpyCBwVSh9I74wBqTMlT5WqhqOxYwRl285pHavSkw', '1579959203', 153, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlMmFmMjIzYTFkOWUi.XooxBxoAF98bL45bVrYD_s6ZrTfcBWRPTBVwvWIfZPk', 0, 'drl4XYNXlu0:APA91bGwNqb0AZhEPkGDZpflz46P-odDzXKy0snXjGk_dV5VAsSBH5wLZMSyG70qSQqX7P94XZvZ9RttgvoNm7QUOYvvIfTFYyYAKB-NL0J_8E9pp3YYJ8_32DLWfAO9S5UUD9FSEzjZ');
 
 -- --------------------------------------------------------
 
@@ -1591,7 +1985,8 @@ CREATE TABLE `used_offers` (
 --
 
 INSERT INTO `used_offers` (`id`, `user_id`, `coin_offer_id`, `time`, `status`) VALUES
-(245, 142, 66, 1577111670, 1);
+(245, 142, 66, 1577111670, 1),
+(246, 142, 69, 1579764998, 1);
 
 -- --------------------------------------------------------
 
@@ -1604,7 +1999,7 @@ CREATE TABLE `users` (
   `username` varchar(255) CHARACTER SET utf8 NOT NULL,
   `first_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `last_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `gender` int(11) NOT NULL DEFAULT '1',
+  `gender` int(11) DEFAULT NULL,
   `date_of_birth` bigint(20) DEFAULT NULL,
   `mobile_number` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -1628,18 +2023,30 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `username`, `first_name`, `last_name`, `gender`, `date_of_birth`, `mobile_number`, `email`, `password`, `uuid`, `image`, `coins`, `is_used_reference`, `created_at`, `updated_at`, `verify_code`, `verify`, `logged_via_fb`, `notification_status`) VALUES
 (30, 'super22', 'Super22', 'Admin22', 1, 788360736, '+37499099247', 'kakaka@gmail.com12222', 'c9cc24ffa63b25bb52b9d5fa288c2921a5190acd2ad461e2ece7b7d74af0fa53c86b783a066fc1ad3694313345702e69f57d70a597f7fbbf78dfc957d3bcdea9', '16f0e2-890d1t', 'Logo_1573544631_1428740283.png', 136, 0, '2019-10-01 03:14:51', '2019-10-01 03:14:51', '', 1, 0, 1),
 (124, 'zuza', 'zax', 'csdvsed', 0, -1105094429, '+37495777448', 'zara.tunyan@gmail.com43', 'b0412597dcea813655574dc54a5b74967cf85317f0332a2591be7953a016f8de56200eb37d5ba593b1e4aa27cea5ca27100f94dccd5b04bae5cadd4454dba67d', '16f0e3-6c9dde', 'User_default.png', 0, 0, '2019-12-16 10:17:49', '2019-12-16 10:17:49', '0', 1, 0, 1),
-(140, 'zara', 'zara', 'tati', 0, 1576579222686, '+37495777443', 'zara.tunyan@gmail.com', 'b0412597dcea813655574dc54a5b74967cf85317f0332a2591be7953a016f8de56200eb37d5ba593b1e4aa27cea5ca27100f94dccd5b04bae5cadd4454dba67d', '16f137-228762', 'User_default.png', 22, 0, '2019-12-17 10:40:46', '2019-12-17 10:40:46', '0', 1, 0, 0),
+(140, 'zara', 'zara12', 'tati', 0, 1576579222686, '+37495777443', 'zara.tunyan@gmail.com', 'b0412597dcea813655574dc54a5b74967cf85317f0332a2591be7953a016f8de56200eb37d5ba593b1e4aa27cea5ca27100f94dccd5b04bae5cadd4454dba67d', '16f137-228762', 'User_default.png', 5, 0, '2019-12-17 10:40:46', '2019-12-17 10:40:46', '0', 1, 0, 1),
 (141, 'testuser', 'user', 'user', 1, 1008532800, '+37495616207', 'user@mail.ru', '125d6d03b32c84d492747f79cf0bf6e179d287f341384eb5d6d3197525ad6be8e6df0116032935698f99a09e265073d1d6c32c274591bf1d0a20ad67cba921bc', '16f138-07af3a', 'User_default.png', 6, 0, '2019-12-17 10:56:24', '2019-12-17 10:56:24', '0', 1, 0, 1),
-(142, 'armen', 'Armen', 'Mkrtchyan ', 1, 788360736, '+37495616200', 'armen@mail.ru', '2f078ff4f34a3c1d59a3dd1eac85e629c92800814bb442e81aa366849e59f0088b880af3ab2e1ff1dfc2e5c15217044bec27b61a15d259a7fcb413e5067aa5e8', '16f138-9b3995', 'Logo_1576830813_898417965.jpeg', 799940, 0, '2019-12-17 11:06:29', '2019-12-17 11:06:29', '0', 1, 0, 1),
+(142, 'armen', 'Armen', 'Mkrtchyan ', 1, 788360736, '+37495616200', 'armen@mail.ru', '2f078ff4f34a3c1d59a3dd1eac85e629c92800814bb442e81aa366849e59f0088b880af3ab2e1ff1dfc2e5c15217044bec27b61a15d259a7fcb413e5067aa5e8', '16f138-9b3995', 'Logo_1579763121_530945403.jpeg', 29, 0, '2019-12-17 11:06:29', '2019-12-17 11:06:29', '0', 1, 0, 1),
 (143, 'alligator', 'parsec', 'aghabekyan', 1, 758754000, '+37499099249', 'fdfd@gmail.com', '7f3e318ee2905f855404a707bc0324d588e1515bae3b4475038c5b8e34d94731b1cf3ed1266244cd081237d547d5a149f1fdf28863d11b2ef68c37e0b5a4e0d0', '16f142-f92de3', 'User_default.png', 0, 0, '2019-12-17 14:07:39', '2019-12-17 14:07:39', '0', 1, 0, 1),
 (144, 'popcorn', 'Vatche', 'Panosyan', 1, 788879136, '+374990992465', 'datahs@gmail.com', '7f3e318ee2905f855404a707bc0324d588e1515bae3b4475038c5b8e34d94731b1cf3ed1266244cd081237d547d5a149f1fdf28863d11b2ef68c37e0b5a4e0d0', '16f143-1cd067', 'User_default.png', 0, 0, '2019-12-17 14:10:05', '2019-12-17 14:10:05', '0', 1, 0, 1),
 (145, 'Pnduk', 'GeV', 'Mihrabyan', 1, -347428800, '+37499099248', 'davkdg@gmail.com', 'a7e41d754033a511f81ca6cba343a7c60bc166ff3315894cc6387788eabd5dd7c18be1607cae7a90a1f4e8782b93819b15d950c98230602f394dfd9b16a9eaff', '16f143-367ec9', 'User_default.png', 0, 0, '2019-12-17 14:11:50', '2019-12-17 14:11:50', '0', 1, 0, 1),
 (146, 'localhost', 'Dav', 'dav', 1, 788879136, '+374645386458', 'dfse@gmail.com', '756a1475d9e583cdb80920b6350f5c8e31c38d444e1b584f05640492933f6049de47172c577896f28c3e9ad17799eae5af52e5c505297eff55b8c205ddf38fcd', '16f143-8c034d', 'User_default.png', 4, 0, '2019-12-17 14:17:41', '2019-12-17 14:17:41', '0', 1, 0, 1),
-(147, 'miledaoun', 'miled', 'aoun', 1, 1261173600, '+96171576202', 'miled@nova4lb.com', '0dd3e512642c97ca3f747f9a76e374fbda73f9292823c0313be9d78add7cdd8f72235af0c553dd26797e78e1854edee0ae002f8aba074b066dfce1af114e32f8', '16f1e2-e484f5', 'Logo_1576759528_800525868.jpeg', 0, 0, '2019-12-19 12:42:27', '2019-12-19 12:42:27', '0', 1, 0, 0),
-(148, 'lichaa', 'lichaa', 'tarabay', 1, 1575379620983, '+96170455133', 'lichaa@nova4lb.com', '0dd3e512642c97ca3f747f9a76e374fbda73f9292823c0313be9d78add7cdd8f72235af0c553dd26797e78e1854edee0ae002f8aba074b066dfce1af114e32f8', '16f1e5-7c1430', 'User_default.png', 0, 0, '2019-12-19 13:27:45', '2019-12-19 13:27:45', '0', 1, 0, 1),
+(147, 'miledaoun', 'miled', 'aoun', 1, 1261173600, '+96171576202', 'miled@nova4lb.com', '0dd3e512642c97ca3f747f9a76e374fbda73f9292823c0313be9d78add7cdd8f72235af0c553dd26797e78e1854edee0ae002f8aba074b066dfce1af114e32f8', '16f1e2-e484f5', 'Logo_1576759528_800525868.jpeg', 1, 0, '2019-12-19 12:42:27', '2019-12-19 12:42:27', '0', 1, 0, 0),
+(148, 'lichaa', 'lichaa', 'tarabay', 1, 1575379620983, '+96170455133', 'lichaa@nova4lb.com', '0dd3e512642c97ca3f747f9a76e374fbda73f9292823c0313be9d78add7cdd8f72235af0c553dd26797e78e1854edee0ae002f8aba074b066dfce1af114e32f8', '16f1e5-7c1430', 'User_default.png', 1, 0, '2019-12-19 13:27:45', '2019-12-19 13:27:45', '0', 1, 0, 1),
 (149, 'fhfj', 'bdbd', 'jdjdn', 1, 788879136, '+244989595', 'cbcbbf@nddn.hfb', 'b0412597dcea813655574dc54a5b74967cf85317f0332a2591be7953a016f8de56200eb37d5ba593b1e4aa27cea5ca27100f94dccd5b04bae5cadd4454dba67d', '16f1e6-a5d66e', 'User_default.png', 0, 0, '2019-12-19 13:48:04', '2019-12-19 13:48:04', '0', 1, 0, 1),
 (150, 'AliMansour4813', 'Ali', 'Mansour', 1, 788879136, '', 'suprenoo@hotmail.com', '1577176337?1562207831', '16f370-90acc1', 'User_default.png', 0, 0, '2019-12-24 08:32:17', '2019-12-24 08:32:17', '', 1, 1, 1),
-(153, 'test1', 'test1', 'test1', 0, 1263412800, '+37676876868768768768', 'gjdhfgjsf@mail.ru', '125d6d03b32c84d492747f79cf0bf6e179d287f341384eb5d6d3197525ad6be8e6df0116032935698f99a09e265073d1d6c32c274591bf1d0a20ad67cba921bc', '16fa40-35cb97', 'User_default.png', 0, 0, '2020-01-14 12:24:21', '2020-01-14 12:24:21', '0', 1, 0, 1);
+(153, 'test1', 'test1', 'test1', 0, 1263412800, '+37676876868768768768', 'gjdhfgjsf@mail.ru', '125d6d03b32c84d492747f79cf0bf6e179d287f341384eb5d6d3197525ad6be8e6df0116032935698f99a09e265073d1d6c32c274591bf1d0a20ad67cba921bc', '16fa40-35cb97', 'User_default.png', 32, 0, '2020-01-14 12:24:21', '2020-01-14 12:24:21', '0', 1, 0, 1),
+(154, 'sasa', 'sasa', 'sasa', 1, 1579272014858, '+244333333', 'saff@cds.nhg', 'b0412597dcea813655574dc54a5b74967cf85317f0332a2591be7953a016f8de56200eb37d5ba593b1e4aa27cea5ca27100f94dccd5b04bae5cadd4454dba67d', '16fb3f-371f0b', 'User_default.png', 0, 0, '2020-01-17 14:41:13', '2020-01-17 14:41:13', '0', 1, 0, 1),
+(155, 'xzxz', 'xzxz', 'xzxz', 0, 1579272226287, '+1999999', 'xzczx@cvdg.nb', 'c45a0a774bd38ffd4634ca52b568934686286911216a22d8b85df262e8acea07f190e9d4470fde92e67ccef462a849f24713b310c58ac992fba4bbae9b0b3a86', '16fb3f-67b8ff', 'User_default.png', 0, 0, '2020-01-17 14:44:32', '2020-01-17 14:44:32', '0', 1, 0, 1),
+(156, 'zzzz', 'hdf', 'bdbdn', 1, 1579523321850, '+21395794986', 'hdbhd@hrhr.com', 'b0412597dcea813655574dc54a5b74967cf85317f0332a2591be7953a016f8de56200eb37d5ba593b1e4aa27cea5ca27100f94dccd5b04bae5cadd4454dba67d', '16fc2e-d78aae', 'User_default.png', 0, 0, '2020-01-20 12:29:00', '2020-01-20 12:29:00', '0', 1, 0, 1),
+(157, 'VaskenB', 'Bakalian', 'Bakalian', 1, 568298524756, '+37455023420', 'vaskenbakkalian@gmail.com', 'fa585d89c851dd338a70dcf535aa2a92fee7836dd6aff1226583e88e0996293f16bc009c652826e0fc5c706695a03cddce372f139eff4d13959da6f1f5d3eabe', '16fc2f-a564f7', 'Logo_1579606229_959979828.jpg', 4, 0, '2020-01-20 12:43:03', '2020-01-20 12:43:03', '0', 1, 0, 1),
+(158, 'david13', 'David', 'Bond', 1, 632995687824, '+37499099542', 'david@aimtech.am', '0e90b1c28c3f3c1c4404784f8ef928213e26da2fa2d7387828566b18001f6a2f95de031f39fe907f378b762698e8c480a4d541cc08cafb9e746dde6b74ef2cc6', '16fcc4-c261ae', 'User_default.png', 2, 0, '2020-01-22 08:09:00', '2020-01-22 08:09:00', '0', 1, 0, 0),
+(159, 'xs', 'za', 'zaxs', 0, 1579696420909, '+2449797', 'xsxs@csdv.vds', 'b0412597dcea813655574dc54a5b74967cf85317f0332a2591be7953a016f8de56200eb37d5ba593b1e4aa27cea5ca27100f94dccd5b04bae5cadd4454dba67d', '16fcd3-f17c7f', 'User_default.png', 0, 0, '2020-01-22 12:34:21', '2020-01-22 12:34:21', '0', 1, 0, 1),
+(160, 'hello', 'hello', 'hello', 0, 1516651200, '+358345345345345', 'tatadav94@gmail.com', 'ce436f7fbc78c1c3e0c6ac27719a8b0ba3a6e27a249dd174e6006c9a992479fce529a855880812c66d36cbf364639a1c7b05d1f99580abb7244a8a0d73af1e22', '16fd17-649dec', 'User_default.png', 0, 0, '2020-01-23 08:13:07', '2020-01-23 08:13:07', '0', 1, 0, 1),
+(161, 'hello test', 'hello test', 'hello test', 0, 790808400, '+168465756756', 'hellotest@mail.ru', '125d6d03b32c84d492747f79cf0bf6e179d287f341384eb5d6d3197525ad6be8e6df0116032935698f99a09e265073d1d6c32c274591bf1d0a20ad67cba921bc', '16fd17-c09b10', 'User_default.png', 0, 0, '2020-01-23 08:19:24', '2020-01-23 08:19:24', '0', 1, 0, 0),
+(162, 'wwwww', 'eee', 'we', 0, 1390420800, '+3763234234', '43242342@mail.ru', '125d6d03b32c84d492747f79cf0bf6e179d287f341384eb5d6d3197525ad6be8e6df0116032935698f99a09e265073d1d6c32c274591bf1d0a20ad67cba921bc', '16fd18-c512a7', 'User_default.png', 0, 0, '2020-01-23 08:37:11', '2020-01-23 08:37:11', '0', 1, 0, 1),
+(163, 'ffff', 'fff', 'fff', 0, 1327262400, '+37645456456456', 'dfsdfsdf@mail.ru', '125d6d03b32c84d492747f79cf0bf6e179d287f341384eb5d6d3197525ad6be8e6df0116032935698f99a09e265073d1d6c32c274591bf1d0a20ad67cba921bc', '16fd18-e6de90', 'User_default.png', 0, 0, '2020-01-23 08:39:30', '2020-01-23 08:39:30', '2000', 0, 0, 1),
+(165, 'alimansour', 'Ali ', 'Mansour', 1, 1422093285287, '+96171707359', 'ali@asm-studio.com', 'ba3253876aed6bc22d4a6ff53d8406c6ad864195ed144ab5c87621b6c233b548baeae6956df346ec8c17f5ea10f35ee3cbc514797ed7ddd3145464e2a0bab413', '16fd6f-a93d55', 'User_default.png', 0, 0, '2020-01-24 09:55:43', '2020-01-24 09:55:43', '2000', 0, 0, 1),
+(171, 'ԱրմենուհիՄկրտչյան6741', 'Արմենուհի', 'Մկրտչյան', 0, 0, '', 'mkrtchyanarmenuhi89@gmail.com', '1579863375?1891470028', '16fd73-2006e0', 'User_default.png', 50000, 0, '2020-01-24 10:56:15', '2020-01-24 10:56:15', '', 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -1932,7 +2339,7 @@ ALTER TABLE `badges`
 -- AUTO_INCREMENT for table `claimed_offers`
 --
 ALTER TABLE `claimed_offers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=278;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=279;
 
 --
 -- AUTO_INCREMENT for table `claim_your_business`
@@ -1956,7 +2363,7 @@ ALTER TABLE `countries`
 -- AUTO_INCREMENT for table `favorites`
 --
 ALTER TABLE `favorites`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `featured_offers`
@@ -1968,7 +2375,7 @@ ALTER TABLE `featured_offers`
 -- AUTO_INCREMENT for table `friends`
 --
 ALTER TABLE `friends`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=121;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=131;
 
 --
 -- AUTO_INCREMENT for table `hour_offers`
@@ -2004,19 +2411,19 @@ ALTER TABLE `more_infos`
 -- AUTO_INCREMENT for table `notification`
 --
 ALTER TABLE `notification`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=126;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=151;
 
 --
 -- AUTO_INCREMENT for table `offers_click`
 --
 ALTER TABLE `offers_click`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=254;
 
 --
 -- AUTO_INCREMENT for table `rates`
 --
 ALTER TABLE `rates`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=117;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=132;
 
 --
 -- AUTO_INCREMENT for table `regions`
@@ -2052,7 +2459,7 @@ ALTER TABLE `restaurant_weeks`
 -- AUTO_INCREMENT for table `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT for table `service`
@@ -2070,19 +2477,19 @@ ALTER TABLE `sliders`
 -- AUTO_INCREMENT for table `tokens`
 --
 ALTER TABLE `tokens`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=481;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=579;
 
 --
 -- AUTO_INCREMENT for table `used_offers`
 --
 ALTER TABLE `used_offers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=246;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=247;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=154;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=172;
 
 --
 -- AUTO_INCREMENT for table `user_loyalty_card`
