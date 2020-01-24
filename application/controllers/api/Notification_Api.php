@@ -173,7 +173,7 @@ class Notification_Api extends REST_Controller
 			$this->db->update('users');
 
 			$this->db->set('coins', $from_coin->coins - $coin_count->coins);
-			$this->db->where('id', $res);
+			$this->db->where('id', $from_id);
 			$this->db->update('users');
 
 			$this->db->trans_complete();
