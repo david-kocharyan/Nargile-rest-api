@@ -116,7 +116,7 @@ class Community_Api extends REST_Controller
 	private function get_coin_offers($res)
 	{
 		$this->db->select("concat('/plugins/images/Restaurants/', restaurants.logo) as logo,
-         restaurants.id as id, restaurants.name as name, restaurants.address as address, restaurants.rate as rate,
+         restaurants.id as id, restaurants.name as name, restaurants.address as address, ROUND(restaurants.rate, 1) as rate,
           coin_offers.id as coin_id, concat('Nargile for ' , coin_offers.price, ' coins') as info, coin_offers.price as price, description");
 		$this->limits();
 		$this->db->join("restaurants", "restaurants.id = coin_offers.restaurant_id");
