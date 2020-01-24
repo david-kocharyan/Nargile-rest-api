@@ -24,7 +24,7 @@ class Facebook_Api extends REST_Controller
 	public function login_post()
 	{
 		$accessToken = $this->input->post("accessToken");
-		$me = '/me?fields=id,name,first_name,last_name,email,birthday';
+		$me = '/me?fields=id,name,first_name,last_name,email,birthday,gender';
 
 		try {
 			$response = $this->fb->get($me, $accessToken);
@@ -65,11 +65,20 @@ class Facebook_Api extends REST_Controller
 
 		if (NULL == $user_data) {
 			$uuid = vsprintf('%s-%s', str_split(dechex(microtime(true) * 1000) . bin2hex(random_bytes(10)), 6));
+
+			$gender = 1;
+			if ($user['gender'] != null and $user['gender'] == "male") {
+				$gender = 1;
+			} elseif ($user['gender'] != null and $user['gender'] == "female") {
+				$gender = 1;
+			}
+
 			$data = array(
 
 				"username" => $username,
 				"first_name" => $user['first_name'],
 				"last_name" => $user['last_name'],
+				"gender" => $gender,
 				"date_of_birth" => '',
 				"mobile_number" => '',
 				"email" => $user['email'],
