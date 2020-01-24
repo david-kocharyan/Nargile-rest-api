@@ -127,7 +127,7 @@ class Notification_Api extends REST_Controller
 
 	}
 
-	public function coin()
+	public function coin_confirm_post()
 	{
 		$res = $this->verify_get_request();
 		if (gettype($res) != 'string') {

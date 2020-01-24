@@ -120,6 +120,7 @@ $route['api/send-coins'] = 'api/Coins_Api';
 //notification page
 $route['api/notification'] = 'api/Notification_Api';
 $route['api/notification/add-friend'] = 'api/Notification_Api/add_friend';
+$route['api/notification/coin-confirm'] = 'api/Notification_Api/coin_confirm';
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //admin panel
