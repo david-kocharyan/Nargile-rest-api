@@ -4,6 +4,8 @@ require(APPPATH . '/libraries/REST_Controller.php');
 
 class Coins_Api extends REST_Controller
 {
+	const COIN_REQUEST_EVENT = "coin_request";
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -75,17 +77,6 @@ class Coins_Api extends REST_Controller
 		} catch (Exception $e) {
 		}
 
-//		$this->db->trans_start();
-//
-//		$this->db->set('coins', $user_coins + $coin_count);
-//		$this->db->where('id', $user_id);
-//		$this->db->update('users');
-//
-//		$this->db->set('coins', $my_coins - $coin_count);
-//		$this->db->where('id', $res);
-//		$this->db->update('users');
-//
-//		$this->db->trans_complete();
 
 		$response = array(
 			"success" => true,
@@ -109,14 +100,15 @@ class Coins_Api extends REST_Controller
 			$data = array(
 				"user_id" => $sent_to_id,
 				"body" => $body,
-				"click_action" => self::FRIEND_REQUEST_EVENT,
+				"click_action" => self::COIN_REQUEST_EVENT,
+				"coins" => $coins,
 				"action_id" => $sent_from_id
 			);
 			$this->db->insert('notification', $data);
 
 //			get the user's fcm tokens whom is sent the request
 			$tokens = $this->get_fcm_tokens($sent_to_id);
-			Firebase::send($body, $tokens, self::FRIEND_REQUEST_EVENT, $sent_from_id);
+			Firebase::send($body, $tokens, self::COIN_REQUEST_EVENT, $sent_from_id);
 		}
 	}
 
