@@ -24,7 +24,7 @@ class Facebook_Api extends REST_Controller
 	public function login_post()
 	{
 		$accessToken = $this->input->post("accessToken");
-		$me = '/me?fields=id,name,first_name,last_name,email,birthday,gender';
+		$me = '/me?fields=id,name,first_name,last_name,email,birthday';
 
 		try {
 			$response = $this->fb->get($me, $accessToken);
