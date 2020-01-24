@@ -66,11 +66,11 @@ class Facebook_Api extends REST_Controller
 		if (NULL == $user_data) {
 			$uuid = vsprintf('%s-%s', str_split(dechex(microtime(true) * 1000) . bin2hex(random_bytes(10)), 6));
 
-			$gender = 1;
+			$gender = 0;
 			if ($user['gender'] != null and $user['gender'] == "male") {
 				$gender = 1;
 			} elseif ($user['gender'] != null and $user['gender'] == "female") {
-				$gender = 1;
+				$gender = 0;
 			}
 
 			$data = array(
