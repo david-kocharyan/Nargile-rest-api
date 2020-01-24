@@ -1,6 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 require(APPPATH . '/libraries/REST_Controller.php');
+require FCPATH . "application/controllers/Firebase.php";
 
 class Coins_Api extends REST_Controller
 {
@@ -59,9 +60,7 @@ class Coins_Api extends REST_Controller
 
 		$coin_count = $this->input->post('coins_count');
 
-		$user_coins = $user->coins;
 		$my_coins = $this->db->get_where('users', array('id' => $res))->row()->coins;
-
 		if ($coin_count > $my_coins) {
 			$response = array(
 				"success" => false,
@@ -76,7 +75,6 @@ class Coins_Api extends REST_Controller
 			$this->send_notif($user_id, $res, $coin_count);
 		} catch (Exception $e) {
 		}
-
 
 		$response = array(
 			"success" => true,
