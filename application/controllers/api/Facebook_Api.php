@@ -129,6 +129,7 @@ class Facebook_Api extends REST_Controller
 				"id" => $auth->id,
 				"first_name" => $auth->first_name,
 				"last_name" => $auth->last_name,
+				"gender" => $auth->gender,
 				"date_of_birth" => $auth->date_of_birth,
 				"mobile_number" => $auth->mobile_number,
 				'uuid' => $auth->uuid,
