@@ -299,7 +299,7 @@ class Users_API extends REST_Controller
 
 		$data = array(
 			"token" => $token,
-			"time" => time() + 86400,
+			"time" => time() + 31536000,
 			"user_id" => $user->id,
 			'refresh_token' => $data['refresh_token']
 		);
@@ -479,7 +479,7 @@ class Users_API extends REST_Controller
 			$status = self::HTTP_OK;
 			$data = array(
 				"token" => $token,
-				"time" => time() + 86400,
+				"time" => time() + 31536000,
 				"user_id" => $auth->id,
 				'refresh_token' => $data['refresh_token']
 			);
@@ -561,7 +561,7 @@ class Users_API extends REST_Controller
 			"token" => $this->generateToken(),
 			"refresh_token" => $this->generateToken()
 		);
-		$this->db->update('tokens', ['token' => $response_tokens['token'], 'refresh_token' => $response_tokens['refresh_token'], 'time' => time() + 86400], ['id' => $tokens['id']]);
+		$this->db->update('tokens', ['token' => $response_tokens['token'],'refresh_token' => $response_tokens['refresh_token'], 'time' => time() + 31536000], ['id' => $tokens['id']]);
 		$data = array(
 			'success' => true,
 			'data' => $response_tokens,
