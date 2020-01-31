@@ -2263,8 +2263,8 @@ abstract class REST_Controller extends \CI_Controller {
 		// Get all the headers
 		$headers = $this->input->request_headers();
 		// Extract the token
-		if(isset($headers['Authorize'])) {
-			$token = $headers['Authorize'];
+		if(isset($headers['authorize'])) {
+			$token = $headers['authorize'];
 		}
 		else{
 			$status = self::HTTP_UNAUTHORIZED;

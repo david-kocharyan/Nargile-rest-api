@@ -285,6 +285,8 @@ class Restaurants_Api extends REST_Controller
 			$this->db->where("region_id is null");
 			$data = $this->db->get("sliders")->result();
 
+			if ($data['link'] == null) $data['link'] = "";
+
 			$response = array(
 				"success" => true,
 				"data" => array(
@@ -300,6 +302,8 @@ class Restaurants_Api extends REST_Controller
 			$this->db->where("region_id", $id);
 			$this->db->where("status", 1);
 			$data = $this->db->get("sliders")->result();
+
+			if ($data['link'] == null) $data['link'] = "";
 
 			$response = array(
 				"success" => true,
