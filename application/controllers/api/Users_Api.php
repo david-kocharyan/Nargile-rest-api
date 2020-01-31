@@ -1003,7 +1003,7 @@ class Users_API extends REST_Controller
 		}
 		$headers = $this->input->request_headers();
 		$token = $headers['Authorize'];
-		$os = $headers['Os'];
+		$os = $headers['os'];
 		$this->db->update('tokens', array("fcm_token" => $this->input->post("fcm_token"), "os" => $os), array("token" => $token));
 		$data = array(
 			"success" => true,
