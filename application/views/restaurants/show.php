@@ -134,7 +134,16 @@
 				<div class="col-sm-9" id="reviews">
 					<?php foreach ($reviews as $key => $value) { ?>
 						<div class="col-md-12">
-							<h4><strong><?= $value->first_name . " " . $value->first_name ?></strong></h4>
+							<h4>
+								<strong data-id="<?= $value->user_id; ?>" data-toggle="modal" data-target="#myModal"
+										class="open_modal_by_name" style="cursor: pointer;">
+									<img src="<?= base_url('plugins/images/Logo/') . $value->image; ?>" alt=""
+										 style="border-radius: 50%; height: 50px; width: 50px;">
+									<?= " " . $value->first_name . " " . $value->first_name . "" ?>
+								</strong>
+								<span
+									style="font-size: 15px;margin-left: 5%;"><?= date('d/m/Y H:i', strtotime($value->created_at)); ?></span>
+							</h4>
 							<p><?= $value->review ?></p>
 							<hr/>
 						</div>
@@ -253,6 +262,35 @@
 	</div>
 </div>
 
+<!--modal part-->
+<div id="user_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<input type="hidden" class="url" value="<?= base_url('plugins/images/Logo/') ?>">
+				<div class="image" style="display: inline-block;"></div>
+				<h4 class="modal-title" id="modal_name" style="display: inline-block;"></h4></div>
+			<div class="modal-body form-group">
+				<div class="form-group">
+					<div class="col-md-4" data-height="50" align="center">
+						Date of Birth
+						<p class="dob m-t-10 m-b-20"></p>
+					</div>
+					<div class="col-md-4" data-height="50" align="center">
+						Phone
+						<p class="phone m-t-10 m-b-20"></p>
+					</div>
+					<div class="col-md-4" data-height="50" align="center">
+						Email
+						<p class="email m-t-10 m-b-20"></p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
 <script src="https://maps.google.com/maps/api/js?v=3.exp&sensor=false&key=AIzaSyDsz2KPO5FSf6PDx2YwCTtB1HBt2DkXFrY"
 		type="text/javascript"></script>
 <script type="text/javascript">
@@ -284,5 +322,33 @@
 		marker.addListener('click', function () {
 			infowindow.open(map, marker);
 		});
+
+
+		$(".open_modal_by_name").click(function () {
+			var id = $(this).attr('data-id');
+
+			$.ajax({
+				type: 'POST',
+				dataType: 'json',
+				url: "<?= base_url('admin/restaurants/show-ajax')?>",
+				data: {id},
+				success: function (data) {
+					console.log(data);
+					var url = $(".url").val();
+					$(".image").empty();
+					$(".image").append('<img src="' + url + data.image + '" style="width: 50px; height: 50px; border-radius: 50%;"/>');
+
+					if (data.dob == null) data.dob = "13 December 1994";
+					$(".dob").html('<strong>' + data.dob + '</strong>');
+					$(".phone").html('<strong>' + data.mobile_number + '</strong>');
+					$(".email").html('<strong>' + data.email + '</strong>');
+					$("#modal_name").html(data.first_name + " " + data.last_name);
+
+					$("#user_modal").modal('show');
+				}
+			})
+		})
+
+
 	})
 </script>

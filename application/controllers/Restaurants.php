@@ -51,6 +51,15 @@ class Restaurants extends CI_Controller
 		$this->load->view('layouts/footer.php');
 	}
 
+	public function show_ajax()
+	{
+		$id = $this->input->post('id');
+		$this->db->select("users.*, DATE_FORMAT(FROM_UNIXTIME(users.date_of_birth), '%d %M %Y') AS dob");
+		$data = $this->db->get_where("users", array("id" => $id))->row();
+		$this->output->set_output(json_encode($data, JSON_PRETTY_PRINT))->_display();
+		exit;
+	}
+
 	public function create()
 	{
 		// check user type
