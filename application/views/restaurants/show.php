@@ -77,19 +77,28 @@
 						Working Hours
 					</button>
 					<ul class="list-icons">
-						<li><h4> Name - <?= $restaurant->restaurant_name ?>    </h4></li>
+						<li><h4 class="name"> Name - <?= $restaurant->restaurant_name ?>    </h4></li>
 						<li><h4> Phone Number - <?= $restaurant->phone_number ?>  </h4></li>
 						<li><h4> Address - <?= $restaurant->address ?>            </h4></li>
-						<li><h4> Latitude - <?= $restaurant->lat ?>            </h4></li>
-						<li><h4> Longitude - <?= $restaurant->lng ?>            </h4></li>
-						<li><h4> Rate - <?= $restaurant->rate ?>                </h4></li>
 					</ul>
+					<hr>
 
 					<h3 class="box-title m-t-20">More Info</h3>
 					<ul class="list-icons">
 						<?php foreach ($more_info as $key => $value) { ?>
 							<li><h4> <?= $value->name ?> </h4></li>
 						<?php } ?>
+					</ul>
+					<hr>
+
+					<h3 class="box-title">Rate</h3>
+					<ul class="list-icons">
+						<li><h4>Overall - <?= $rate->overall ?></h4></li>
+						<li><h4>Taste - <?= $rate->taste ?></h4></li>
+						<li><h4>Charcoal - <?= $rate->charcoal ?></h4></li>
+						<li><h4>Cleanliness - <?= $rate->cleanliness ?></h4></li>
+						<li><h4>Staff - <?= $rate->staff ?></h4></li>
+						<li><h4>Value for money - <?= $rate->value_for_money ?></h4></li>
 					</ul>
 				</div>
 			</div>
@@ -98,6 +107,13 @@
 </div>
 
 <div class="row">
+	<div class="col-lg-12">
+		<div class="white-box">
+			<h3 class="box-title">Map</h3>
+			<div id="map" style="height: 500px;"></div>
+		</div>
+	</div>
+
 	<div class="col-lg-6">
 		<div class="panel panel-default" style="height: 607px;">
 			<div class="panel-heading">restaurant slider carousel</div>
@@ -236,3 +252,37 @@
 		</div>
 	</div>
 </div>
+
+<script src="https://maps.google.com/maps/api/js?v=3.exp&sensor=false&key=AIzaSyDsz2KPO5FSf6PDx2YwCTtB1HBt2DkXFrY"
+		type="text/javascript"></script>
+<script type="text/javascript">
+	$(document).ready(function () {
+		geocoder = new google.maps.Geocoder();
+
+		var latitude = <?php echo json_encode($restaurant->lat); ?>;
+		var longitude = <?php echo json_encode($restaurant->lng); ?>;
+		var lat = JSON.parse(latitude);
+		var lng = JSON.parse(longitude);
+
+
+		var infowindow = new google.maps.InfoWindow({
+			content: $(".name").html(),
+		});
+
+		var map = new google.maps.Map(document.getElementById('map'), {
+			zoom: 16,
+			center: new google.maps.LatLng(lat, lng),
+			mapTypeId: google.maps.MapTypeId.ROADMAP
+		});
+
+		var marker = new google.maps.Marker({
+			map: map,
+			animation: google.maps.Animation.DROP,
+			position: new google.maps.LatLng(lat, lng),
+		});
+
+		marker.addListener('click', function () {
+			infowindow.open(map, marker);
+		});
+	})
+</script>

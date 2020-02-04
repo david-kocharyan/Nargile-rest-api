@@ -118,5 +118,19 @@ class Restaurant extends CI_Model
 		return $this->db->get_where("restaurant_weeks", array("restaurant_id" => $id))->result();
 	}
 
+	public function show_restaurant_rate($id)
+	{
+		$this->db->select("
+		CASE WHEN ROUND(AVG(overall),1) IS NULL THEN 0 ELSE ROUND(AVG(overall),1) END AS overall,
+		CASE WHEN ROUND(AVG(taste),1) IS NULL THEN 0 ELSE ROUND(AVG(taste),1) END AS taste,
+		CASE WHEN ROUND(AVG(charcoal),1) IS NULL THEN 0 ELSE ROUND(AVG(charcoal),1) END AS charcoal,
+		CASE WHEN ROUND(AVG(cleanliness),1) IS NULL THEN 0 ELSE ROUND(AVG(cleanliness),1) END AS cleanliness,
+		CASE WHEN ROUND(AVG(staff),1) IS NULL THEN 0 ELSE ROUND(AVG(staff),1) END AS staff,
+		CASE WHEN ROUND(AVG(value_for_money),1) IS NULL THEN 0 ELSE ROUND(AVG(value_for_money),1) END AS value_for_money,
+		");
+		$this->db->where("restaurant_id", $id);
+		return $this->db->get("rates")->row();
+	}
+
 }
 
