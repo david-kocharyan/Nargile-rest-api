@@ -28,7 +28,7 @@ class Notification_Api extends REST_Controller
 		$offset = (null !== $this->input->get('offset') && is_numeric($this->input->get("offset"))) ? $this->input->get('offset') * $limit : 0;
 
 		//get notifications
-		$this->db->select('body, click_action, action_id, status, created_at');
+		$this->db->select('id, body, click_action, action_id, status, created_at');
 		$this->db->order_by('created_at DESC');
 		$this->db->limit($limit, $offset);
 		$data = $this->db->get_where('notification', array("user_id" => $res))->result();
