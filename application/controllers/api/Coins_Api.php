@@ -71,6 +71,10 @@ class Coins_Api extends REST_Controller
 			return;
 		}
 
+		$this->db->set('coins', $my_coins - $coin_count);
+		$this->db->where('id', $res);
+		$this->db->update('users');
+
 		try {
 			$this->send_notif($user_id, $res, $coin_count);
 		} catch (Exception $e) {

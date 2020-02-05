@@ -175,9 +175,9 @@ class Notification_Api extends REST_Controller
 			$this->db->where('id', $res);
 			$this->db->update('users');
 
-			$this->db->set('coins', $from_coin->coins - $coin_count->coins);
-			$this->db->where('id', $from_id);
-			$this->db->update('users');
+//			$this->db->set('coins', $from_coin->coins - $coin_count->coins);
+//			$this->db->where('id', $from_id);
+//			$this->db->update('users');
 
 			$this->db->trans_complete();
 		} else if ($this->input->post("coin_answer") == 0) {
@@ -188,6 +188,10 @@ class Notification_Api extends REST_Controller
 			$this->db->set("body", "You have canceled the receipt of $coin_count->coins coins from the $name $surname");
 			$this->db->where(array("id" => $notif_id, "status" => 1));
 			$this->db->update('notification');
+
+			$this->db->set('coins', $from_coin->coins + $coin_count->coins);
+			$this->db->where('id', $from_id);
+			$this->db->update('users');
 
 			$this->db->trans_complete();
 		}
