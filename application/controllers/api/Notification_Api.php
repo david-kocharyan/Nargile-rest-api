@@ -142,6 +142,7 @@ class Notification_Api extends REST_Controller
 
 		$notif_id = $this->input->post('id');
 
+
 		if ($this->input->post("action_id") == NULL OR $this->input->post("action_id") == "") {
 			$response = array(
 				"success" => false,
@@ -189,6 +190,22 @@ class Notification_Api extends REST_Controller
 			$this->db->update('notification');
 
 			$this->db->trans_complete();
+		}
+
+		if ($this->db->trans_status() == true) {
+			$response = array(
+				"success" => true,
+				"data" => array(),
+				"msg" => "Success"
+			);
+			$this->response($response, REST_Controller::HTTP_OK);
+		} else {
+			$response = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => "Something Went Wrong. Please Try Again!"
+			);
+			$this->response($response, REST_Controller::HTTP_UNPROCESSABLE_ENTITY);
 		}
 
 	}
