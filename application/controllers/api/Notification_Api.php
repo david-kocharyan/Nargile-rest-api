@@ -140,6 +140,8 @@ class Notification_Api extends REST_Controller
 			return;
 		}
 
+		$notif_id = $this->input->post('id');
+
 		if ($this->input->post("action_id") == NULL OR $this->input->post("action_id") == "") {
 			$response = array(
 				"success" => false,
@@ -164,7 +166,7 @@ class Notification_Api extends REST_Controller
 			$this->db->set("status", 0);
 			$this->db->set("coins", 0);
 			$this->db->set("body", "You have confirmed receipt of $coin_count->coins coins from the $name $surname");
-			$this->db->where(array("user_id" => $res, 'action_id' => $from_id, "status" => 1, 'click_action' => 'coin_request'));
+			$this->db->where(array("id" => $notif_id, "status" => 1));
 			$this->db->update('notification');
 
 
@@ -183,7 +185,7 @@ class Notification_Api extends REST_Controller
 			$this->db->set("status", 0);
 			$this->db->set("coins", 0);
 			$this->db->set("body", "You have canceled the receipt of $coin_count->coins coins from the $name $surname");
-			$this->db->where(array("user_id" => $res, 'action_id' => $from_id, "status" => 1, 'click_action' => 'coin_request'));
+			$this->db->where(array("id" => $notif_id, "status" => 1));
 			$this->db->update('notification');
 
 			$this->db->trans_complete();
