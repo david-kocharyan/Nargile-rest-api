@@ -175,11 +175,14 @@ class Restaurants extends CI_Controller
 	private function get_plan($id)
 	{
 		$plan = $this->Restaurant->selectPlanById($id);
-		$start = explode('-', $plan->start_date);
-		$finish = explode('-', $plan->finish_date);
-		$plan->start_date = $start[1] . '/' . $start[2] . '/' . $start[0];
-		$plan->finish_date = $finish[1] . '/' . $finish[2] . '/' . $finish[0];
-		return $plan;
+		if ($plan != null){
+			$start = explode('-', $plan->start_date);
+			$finish = explode('-', $plan->finish_date);
+			$plan->start_date = $start[1] . '/' . $start[2] . '/' . $start[0];
+			$plan->finish_date = $finish[1] . '/' . $finish[2] . '/' . $finish[0];
+			return $plan;
+		}
+		return array();
 	}
 
 	/**

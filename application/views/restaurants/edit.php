@@ -162,10 +162,11 @@
 					<?php } ?>
 					<div class="input-group col-md-12">
 						<select class="form-control" id="plan" name="plan">
-							<option value="1" <?php if ($plan->plan == 1) echo 'selected' ?> >No Plan</option>
-							<option value="2" <?php if ($plan->plan == 2) echo 'selected' ?> >Bronze</option>
-							<option value="3" <?php if ($plan->plan == 3) echo 'selected' ?> >Silver</option>
-							<option value="4" <?php if ($plan->plan == 4) echo 'selected' ?> >Gold</option>
+							<option>Choose Plan</option>
+							<option value="1">No Plan</option>
+							<option value="2">Bronze</option>
+							<option value="3">Silver</option>
+							<option value="4">Gold</option>
 						</select>
 					</div>
 				</div>
@@ -173,7 +174,7 @@
 				<div class="form-group">
 					<label for="daterange">Plans start and end date</label>
 					<input class="form-control input-daterange-datepicker" type="text" name="daterange"
-						   value="<?= $plan->start_date . " - ". $plan->finish_date?>"/>
+						   value=""/>
 					<?php if (!empty(form_error('daterange'))) { ?>
 						<div class="help-block with-errors text-danger">
 							<?= form_error('daterange'); ?>
