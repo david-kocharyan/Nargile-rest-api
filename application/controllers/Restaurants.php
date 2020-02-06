@@ -175,7 +175,7 @@ class Restaurants extends CI_Controller
 	private function get_plan($id)
 	{
 		$plan = $this->Restaurant->selectPlanById($id);
-		if ($plan != null){
+		if ($plan != null) {
 			$start = explode('-', $plan->start_date);
 			$finish = explode('-', $plan->finish_date);
 			$plan->start_date = $start[1] . '/' . $start[2] . '/' . $start[0];
@@ -274,30 +274,41 @@ class Restaurants extends CI_Controller
 	 * @param $plan
 	 * @param $daterange
 	 */
-	private function update_plan($res_id, $old, $plan, $daterange)
+	private function update_plan($res_id, $old = null, $plan, $daterange)
 	{
 		$originalDate = explode(" - ", $daterange);
 		$start = date("Y-m-d", strtotime($originalDate[0]));
 		$finish = date("Y-m-d", strtotime($originalDate[1]));
 
-		if ($old->plan != $plan || $old->start_date != $start || $old->finish_date != $finish) {
+		if ($old->plan != null) {
+			if ($old->plan != $plan || $old->start_date != $start || $old->finish_date != $finish) {
 
+				$data = array(
+					'restaurant_id' => $res_id,
+					'start_date' => $old->start_date,
+					'finish_date' => $old->finish_date,
+					'status' => 1,
+				);
+				if ($old->plan != $plan) {
+					$data['plan'] = $plan;
+				}
+				if ($old->start_date != $start) {
+					$data['start_date'] = $start;
+				}
+				if ($old->finish_date != $finish) {
+					$data['finish_date'] = $finish;
+				}
+				$this->Restaurant->update_plan($res_id, $data);
+			}
+		}else{
 			$data = array(
 				'restaurant_id' => $res_id,
-				'start_date' => $old->start_date,
-				'finish_date' => $old->finish_date,
+				'plan' => $plan,
+				'start_date' => $start,
+				'finish_date' => $finish,
 				'status' => 1,
 			);
-			if ($old->plan != $plan) {
-				$data['plan'] = $plan;
-			}
-			if ($old->start_date != $start) {
-				$data['start_date'] = $start;
-			}
-			if ($old->finish_date != $finish) {
-				$data['finish_date'] = $finish;
-			}
-			$this->Restaurant->update_plan($res_id, $data);
+			$this->Restaurant->insert_plan($data);
 		}
 	}
 
