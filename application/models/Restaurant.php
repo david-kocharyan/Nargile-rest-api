@@ -14,7 +14,14 @@ class Restaurant extends CI_Model
 	{
 		$this->db->insert($this->table, $data);
 		$insert_id = $this->db->insert_id();
-		return  $insert_id;
+		return $insert_id;
+	}
+
+	public function insert_plan($data)
+	{
+		$this->db->insert('res_plans', $data);
+		$insert_id = $this->db->insert_id();
+		return $insert_id;
 	}
 
 	public function selectAll()
@@ -31,21 +38,26 @@ class Restaurant extends CI_Model
 		$this->db->select("restaurants.*, area.name as area_name, countries.name as country_name ");
 		$this->db->join("area", "area.id = restaurants.area_id", "left");
 		$this->db->join("countries", "countries.id = area.country_id", "left");
-		$data = $this->db->get_where($this->table, array('area.status' => 1, 'countries.status' => 1, 'restaurants.admin_id' => $id ))->result();
+		$data = $this->db->get_where($this->table, array('area.status' => 1, 'countries.status' => 1, 'restaurants.admin_id' => $id))->result();
 		return $data;
 	}
 
 	public function selectById($id)
 	{
-		$data = $this->db->get_where($this->table,["id" => $id])->row();
-		return $data ;
+		$data = $this->db->get_where($this->table, ["id" => $id])->row();
+		return $data;
 	}
 
+	public function selectPlanById($id)
+	{
+		$data = $this->db->get_where('res_plans', ["restaurant_id" => $id, 'status' => 1])->row();
+		return $data;
+	}
 
 	public function select($id)
 	{
-		$data = $this->db->get_where($this->table,["id" => $id])->row();
-		return $data ;
+		$data = $this->db->get_where($this->table, ["id" => $id])->row();
+		return $data;
 	}
 
 	public function update($data, $id)
@@ -53,14 +65,27 @@ class Restaurant extends CI_Model
 		$this->db->update($this->table, $data, ["id" => $id]);
 	}
 
+	public function update_plan($id, $data)
+	{
+		$this->db->trans_start();
+
+		$this->db->set('status', 0);
+		$this->db->where('restaurant_id', $id);
+		$this->db->update('res_plans');
+
+		$this->db->insert('res_plans', $data);
+
+		$this->db->trans_complete();
+	}
+
 	public function changeStatus($id)
 	{
 		$data = $this->db->get_where($this->table, ["id" => $id])->row();
-		if(null == $data) {
+		if (null == $data) {
 			return;
 		}
 		$status = $data->status == 1 ? 0 : 1;
-		$this->db->update($this->table, array("status" => $status), ['id' => $id] );
+		$this->db->update($this->table, array("status" => $status), ['id' => $id]);
 	}
 
 //	show current restaurant data
@@ -108,13 +133,13 @@ class Restaurant extends CI_Model
 	public function show_reviews($id)
 	{
 		$this->db->select("reviews.*, users.first_name, users.last_name, users.id as user_id, users.image");
-		$this->db->join('users','users.id = reviews.user_id');
+		$this->db->join('users', 'users.id = reviews.user_id');
 		return $this->db->get_where("reviews", array("restaurant_id" => $id))->result();
 	}
 
 	public function show_weeks($id)
 	{
-		$this->db->join('weeks','weeks.day_id = restaurant_weeks.day');
+		$this->db->join('weeks', 'weeks.day_id = restaurant_weeks.day');
 		return $this->db->get_where("restaurant_weeks", array("restaurant_id" => $id))->result();
 	}
 

@@ -25,14 +25,14 @@
 				</div>
 
 				<div class="form-group">
-					<label for="country">Area</label>
+					<label for="area">Area</label>
 					<?php if (!empty(form_error('area'))) { ?>
 						<div class="help-block with-errors text-danger">
 							<?= form_error('area'); ?>
 						</div>
 					<?php } ?>
 					<div class="input-group col-md-12">
-						<select class="form-control select_2_example" id="country" name="area">
+						<select class="form-control select_2_example" id="area" name="area">
 							<option value="" selected>Choose Here</option>
 							<?php foreach ($area as $key) { ?>
 								<option value="<?= $key->id ?>">
@@ -45,7 +45,8 @@
 
 				<div class="form-group">
 					<label for="inputType" class="control-label">Restaurant Type</label>
-					<input type="text" class="form-control" id="inputType" placeholder="Restaurant Type (resto-cafe, cafe, restaurant, hookah-cafe)" name="type"
+					<input type="text" class="form-control" id="inputType"
+						   placeholder="Restaurant Type (resto-cafe, cafe, restaurant, hookah-cafe)" name="type"
 						   required value="<?= $this->input->post('type'); ?>">
 					<?php if (!empty(form_error('type'))) { ?>
 						<div class="help-block with-errors text-danger">
@@ -56,7 +57,8 @@
 
 				<div class="form-group">
 					<label for="inputNumber" class="control-label">Phone Number</label>
-					<input type="text" class="form-control" id="inputNumber" placeholder="Phone number" name="phone_number"
+					<input type="text" class="form-control" id="inputNumber" placeholder="Phone number"
+						   name="phone_number"
 						   required value="<?= $this->input->post('phone_number'); ?>">
 					<?php if (!empty(form_error('phone_number'))) { ?>
 						<div class="help-block with-errors text-danger">
@@ -99,14 +101,14 @@
 				</div>
 
 				<div class="form-group">
-					<label for="country">Owner</label>
+					<label for="owner">Owner</label>
 					<?php if (!empty(form_error('owner'))) { ?>
 						<div class="help-block with-errors text-danger">
 							<?= form_error('owner'); ?>
 						</div>
 					<?php } ?>
 					<div class="input-group col-md-12">
-						<select class="form-control" id="country" name="owner">
+						<select class="form-control" id="owner" name="owner">
 							<option>Choose owner</option>
 							<?php foreach ($owner as $key) { ?>
 								<option value="<?= $key->id ?>">
@@ -117,13 +119,41 @@
 					</div>
 				</div>
 
-
 				<div class="form-group">
 					<label for="input-file-now">Restaurant Logo</label>
 					<input type="file" id="input-file-now" name="logo" class="dropify" data-max-file-size="15M"/>
 					<?php if (!empty($this->session->flashdata('error'))) { ?>
 						<div class="help-block with-errors text-danger">
 							<?= $this->session->flashdata('error') ?>
+						</div>
+					<?php } ?>
+				</div>
+				<hr>
+
+				<div class="form-group">
+					<label for="plan">Plans</label>
+					<?php if (!empty(form_error('plan'))) { ?>
+						<div class="help-block with-errors text-danger">
+							<?= form_error('plan'); ?>
+						</div>
+					<?php } ?>
+					<div class="input-group col-md-12">
+						<select class="form-control" id="plan" name="plan">
+							<option value="1">No Plan</option>
+							<option value="2">Bronze</option>
+							<option value="3">Silver</option>
+							<option value="4">Gold</option>
+						</select>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="daterange">Plans start and end date</label>
+					<input class="form-control input-daterange-datepicker" type="text" name="daterange"
+						   value=""/>
+					<?php if (!empty(form_error('daterange'))) { ?>
+						<div class="help-block with-errors text-danger">
+							<?= form_error('daterange'); ?>
 						</div>
 					<?php } ?>
 				</div>
@@ -136,3 +166,16 @@
 	</div>
 </div>
 
+<!--daterangepicker-->
+<link href="<?= base_url('public/plugins/bower_components/bootstrap-daterangepicker/daterangepicker.css')?>" rel="stylesheet">
+<script src="<?= base_url('public/plugins/bower_components/moment/moment.js')?>"></script>
+<script src="<?= base_url('public/plugins/bower_components/bootstrap-daterangepicker/daterangepicker.js')?>"></script>
+
+<script>
+	// Daterange picker
+	$('.input-daterange-datepicker').daterangepicker({
+		buttonClasses: ['btn', 'btn-sm'],
+		applyClass: 'btn-danger',
+		cancelClass: 'btn-inverse',
+	});
+</script>

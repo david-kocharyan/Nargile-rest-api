@@ -89,7 +89,8 @@ class Restaurants extends CI_Controller
 		$lat = $this->input->post('lat');
 		$long = $this->input->post('long');
 		$owner = $this->input->post('owner');
-
+		$plan = $this->input->post('plan');
+		$daterange = $this->input->post('daterange');
 
 		$this->form_validation->set_rules('name', 'Name', 'required');
 		$this->form_validation->set_rules('area', 'Area', 'required');
@@ -98,6 +99,8 @@ class Restaurants extends CI_Controller
 		$this->form_validation->set_rules('address', 'Address', 'required');
 		$this->form_validation->set_rules('lat', 'Latitude', 'required');
 		$this->form_validation->set_rules('long', 'Longitude', 'required');
+		$this->form_validation->set_rules('plan', 'Plan', 'required');
+		$this->form_validation->set_rules('daterange', 'Date', 'required');
 
 		if ($this->form_validation->run() == FALSE) {
 			$this->create();
@@ -129,7 +132,21 @@ class Restaurants extends CI_Controller
 			);
 			$restaurant['admin_id'] = is_numeric($owner) ? $owner : NULL;
 
-			$this->Restaurant->insert($restaurant);
+			$last_res_id = $this->Restaurant->insert($restaurant);
+			if ($last_res_id) {
+				$originalDate = explode(" - ", $daterange);
+				$start = date("Y-m-d", strtotime($originalDate[0]));
+				$finish = date("Y-m-d", strtotime($originalDate[1]));
+
+				$data = array(
+					'restaurant_id' => $last_res_id,
+					'plan' => $plan,
+					'start_date' => $start,
+					'finish_date' => $finish,
+					'status' => 1,
+				);
+				$this->Restaurant->insert_plan($data);
+			}
 
 			$this->session->set_flashdata('success', 'You have stored the restaurant successfully');
 			redirect("admin/restaurants");
@@ -145,6 +162,7 @@ class Restaurants extends CI_Controller
 
 		$data['area'] = $this->Area->selectAll();
 		$data['restaurant'] = $this->Restaurant->selectById($id);
+		$data['plan'] = $this->get_plan($id);
 		$data['restaurant_images'] = $this->db->get_where('restaurants_images', array('restaurant_id' => $id))->result();
 		$data['title'] = "Edit Restaurant";
 		$data['owner'] = $this->db->get_where('admins', array('role' => 'admin', 'active' => 1))->result();
@@ -152,6 +170,16 @@ class Restaurants extends CI_Controller
 		$this->load->view('layouts/header.php', $data);
 		$this->load->view('restaurants/edit.php');
 		$this->load->view('layouts/footer.php');
+	}
+
+	private function get_plan($id)
+	{
+		$plan = $this->Restaurant->selectPlanById($id);
+		$start = explode('-', $plan->start_date);
+		$finish = explode('-', $plan->finish_date);
+		$plan->start_date = $start[1] . '/' . $start[2] . '/' . $start[0];
+		$plan->finish_date = $finish[1] . '/' . $finish[2] . '/' . $finish[0];
+		return $plan;
 	}
 
 	/**
@@ -170,6 +198,10 @@ class Restaurants extends CI_Controller
 		$lat = $this->input->post('lat');
 		$lng = $this->input->post('lng');
 		$owner = $this->input->post('owner');
+		$plan = $this->input->post('plan');
+		$daterange = $this->input->post('daterange');
+
+		$old_plan = $this->Restaurant->selectPlanById($id);
 
 		$this->form_validation->set_rules('name', 'Name', 'required');
 		$this->form_validation->set_rules('area', 'Area', 'required');
@@ -178,6 +210,8 @@ class Restaurants extends CI_Controller
 		$this->form_validation->set_rules('address', 'Address', 'required');
 		$this->form_validation->set_rules('lat', 'Latitude', 'required');
 		$this->form_validation->set_rules('lng', 'Longitude', 'required');
+		$this->form_validation->set_rules('plan', 'Plan', 'required');
+		$this->form_validation->set_rules('daterange', 'Date', 'required');
 
 		$user = $this->Restaurant->selectById($id);
 
@@ -224,8 +258,43 @@ class Restaurants extends CI_Controller
 			if (isset($logo)) $restaurant['logo'] = $logo;
 
 			$this->Restaurant->update($restaurant, $id);
-//			$this->session->set_flashdata('success', 'You have change the clients successfully');
+
+			$this->update_plan($id, $old_plan, $plan, $daterange);
+
 			redirect("admin/restaurants");
+		}
+	}
+
+	/**
+	 * @param $res_id
+	 * @param $old
+	 * @param $plan
+	 * @param $daterange
+	 */
+	private function update_plan($res_id, $old, $plan, $daterange)
+	{
+		$originalDate = explode(" - ", $daterange);
+		$start = date("Y-m-d", strtotime($originalDate[0]));
+		$finish = date("Y-m-d", strtotime($originalDate[1]));
+
+		if ($old->plan != $plan || $old->start_date != $start || $old->finish_date != $finish) {
+
+			$data = array(
+				'restaurant_id' => $res_id,
+				'start_date' => $old->start_date,
+				'finish_date' => $old->finish_date,
+				'status' => 1,
+			);
+			if ($old->plan != $plan) {
+				$data['plan'] = $plan;
+			}
+			if ($old->start_date != $start) {
+				$data['start_date'] = $start;
+			}
+			if ($old->finish_date != $finish) {
+				$data['finish_date'] = $finish;
+			}
+			$this->Restaurant->update_plan($res_id, $data);
 		}
 	}
 
