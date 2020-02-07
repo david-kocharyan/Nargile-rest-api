@@ -309,16 +309,39 @@ class Restaurants extends CI_Controller
 				if ($old->finish_date != $finish) {
 					$data['finish_date'] = $finish;
 				}
+
+				if($plan == 1){
+					$data = array(
+						'restaurant_id' => $res_id,
+						'plan' => $plan,
+						'start_date' =>  $start,
+						'finish_date' => null,
+						'status' => 1,
+					);
+				}
+
+
 				$this->Restaurant->update_plan($res_id, $data);
 			}
 		}else{
-			$data = array(
-				'restaurant_id' => $res_id,
-				'plan' => $plan,
-				'start_date' => $start,
-				'finish_date' => $finish,
-				'status' => 1,
-			);
+			if($plan == 1){
+				$data = array(
+					'restaurant_id' => $res_id,
+					'plan' => $plan,
+					'start_date' =>  $start,
+					'finish_date' => null,
+					'status' => 1,
+				);
+			}else{
+				$data = array(
+					'restaurant_id' => $res_id,
+					'plan' => $plan,
+					'start_date' => $start,
+					'finish_date' => $finish,
+					'status' => 1,
+				);
+			}
+
 			$this->Restaurant->insert_plan($data);
 		}
 	}

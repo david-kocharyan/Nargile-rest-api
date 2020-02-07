@@ -180,7 +180,6 @@
 	});
 </script>
 
-
 <script>
 	$(document).ready(function () {
 		$('.plan').on('change', function() {

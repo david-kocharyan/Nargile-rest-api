@@ -52,7 +52,8 @@
 
 				<div class="form-group">
 					<label for="inputType" class="control-label">Restaurant Type</label>
-					<input type="text" class="form-control" id="inputType" placeholder="Restaurant Type (resto-cafe, cafe, restaurant, hookah-cafe)" name="type"
+					<input type="text" class="form-control" id="inputType"
+						   placeholder="Restaurant Type (resto-cafe, cafe, restaurant, hookah-cafe)" name="type"
 						   required value="<?= $restaurant->type ?>">
 					<?php if (!empty(form_error('type'))) { ?>
 						<div class="help-block with-errors text-danger">
@@ -63,7 +64,8 @@
 
 				<div class="form-group">
 					<label for="inputNumber" class="control-label">Phone Number</label>
-					<input type="text" class="form-control" id="inputNumber" placeholder="Phone number" name="phone_number"
+					<input type="text" class="form-control" id="inputNumber" placeholder="Phone number"
+						   name="phone_number"
 						   required value="<?= $restaurant->phone_number ?>">
 					<?php if (!empty(form_error('phone_number'))) { ?>
 						<div class="help-block with-errors text-danger">
@@ -106,14 +108,14 @@
 				</div>
 
 				<div class="form-group">
-					<label for="country">Owner</label>
+					<label for="owner">Owner</label>
 					<?php if (!empty(form_error('owner'))) { ?>
 						<div class="help-block with-errors text-danger">
 							<?= form_error('owner'); ?>
 						</div>
 					<?php } ?>
 					<div class="input-group col-md-12">
-						<select class="form-control select_2_example" id="country" name="owner">
+						<select class="form-control select_2_example" id="owner" name="owner">
 							<option>Choose owner</option>
 							<?php foreach ($owner as $key) { ?>
 								<option value="<?= $key->id ?>"
@@ -162,7 +164,7 @@
 					<?php } ?>
 					<div class="input-group col-md-12">
 						<select class="form-control" id="plan" name="plan">
-							<option>Choose Plan</option>
+							<option value="1">No plan</option>
 							<option value="2">Bronze</option>
 							<option value="3">Silver</option>
 							<option value="4">Gold</option>
@@ -207,7 +209,8 @@
 					<?php foreach ($restaurant_images as $key => $value) { ?>
 						<tr>
 							<td><?= $key + 1 ?></td>
-							<td><img src="<?= base_url('plugins/images/Restaurant_images/') ?><?= $value->image; ?>" alt=""
+							<td><img src="<?= base_url('plugins/images/Restaurant_images/') ?><?= $value->image; ?>"
+									 alt=""
 									 width="200"
 									 height="100" class="img-responsive">
 							</td>
@@ -217,7 +220,7 @@
 									<a href="<?= base_url("admin/restaurants/change-status-image/$value->id") ?>"
 									   data-toggle="tooltip"
 									   data-placement="top" title="Deactivate"
-									   class="btn btn-danger btn-circle tooltip-danger"><i class="fa fa-power-off"></i></a>
+
 								<?php } else { ?>
 									<a href="<?= base_url("admin/restaurants/change-status-image/$value->id") ?>"
 									   data-toggle="tooltip"
@@ -236,15 +239,24 @@
 </div>
 
 <!--daterangepicker-->
-<link href="<?= base_url('public/plugins/bower_components/bootstrap-daterangepicker/daterangepicker.css')?>" rel="stylesheet">
-<script src="<?= base_url('public/plugins/bower_components/moment/moment.js')?>"></script>
-<script src="<?= base_url('public/plugins/bower_components/bootstrap-daterangepicker/daterangepicker.js')?>"></script>
+<link href="<?= base_url('public/plugins/bower_components/bootstrap-daterangepicker/daterangepicker.css') ?>"
+	  rel="stylesheet">
+<script src="<?= base_url('public/plugins/bower_components/moment/moment.js') ?>"></script>
+<script src="<?= base_url('public/plugins/bower_components/bootstrap-daterangepicker/daterangepicker.js') ?>"></script>
 
 <script>
-	// Daterange picker
-	$('.input-daterange-datepicker').daterangepicker({
-		buttonClasses: ['btn', 'btn-sm'],
-		applyClass: 'btn-danger',
-		cancelClass: 'btn-inverse',
-	});
+
+	$(document).ready(function () {
+
+		var finish = <?php echo json_encode($plan->finish_date); ?>;
+		finish = new Date(Date.parse(finish))
+
+		// Daterange picker
+		$('.input-daterange-datepicker').daterangepicker({
+			buttonClasses: ['btn', 'btn-sm'],
+			applyClass: 'btn-danger',
+			cancelClass: 'btn-inverse',
+			minDate: moment(finish, "MMMM D, YYYY").add(1, 'd'),
+		});
+	})
 </script>
