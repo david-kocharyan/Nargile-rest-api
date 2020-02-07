@@ -44,6 +44,8 @@ class Restaurants extends CI_Controller
 		$data['reviews'] = $this->Restaurant->show_reviews($id);//+
 		$data['weeks'] = $this->Restaurant->show_weeks($id);//+
 		$data['rate'] = $this->Restaurant->show_restaurant_rate($id);//+
+		$data['plans'] = $this->Restaurant->show_plans($id);//+
+		var_dump($data['plans']);die;
 		$data['title'] = "Show Restaurant Data";
 
 		$this->load->view('layouts/header.php', $data);
@@ -278,8 +280,6 @@ class Restaurants extends CI_Controller
 			if (isset($logo)) $restaurant['logo'] = $logo;
 
 			$this->Restaurant->update($restaurant, $id);
-
-			$this->update_plan($id, $old_plan, $plan, $daterange);
 
 			redirect("admin/restaurants");
 		}

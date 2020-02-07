@@ -157,5 +157,10 @@ class Restaurant extends CI_Model
 		return $this->db->get("rates")->row();
 	}
 
+	public function show_plans($id)
+	{
+		return $this->db->get_where("res_plans", array("restaurant_id" => $id))->result();
+	}
+
 }
 
