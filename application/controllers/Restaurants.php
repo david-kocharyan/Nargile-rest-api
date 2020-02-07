@@ -138,15 +138,15 @@ class Restaurants extends CI_Controller
 				$start = date("Y-m-d", strtotime($originalDate[0]));
 				$finish = date("Y-m-d", strtotime($originalDate[1]));
 
-				if($plan == 1){
+				if ($plan == 1) {
 					$data = array(
 						'restaurant_id' => $last_res_id,
 						'plan' => $plan,
-						'start_date' =>  date('Y-m-d'),
+						'start_date' => date('Y-m-d'),
 						'finish_date' => null,
 						'status' => 1,
 					);
-				}else{
+				} else {
 					$data = array(
 						'restaurant_id' => $last_res_id,
 						'plan' => $plan,
@@ -190,10 +190,22 @@ class Restaurants extends CI_Controller
 			$start = explode('-', $plan->start_date);
 			$finish = explode('-', $plan->finish_date);
 			$plan->start_date = $start[1] . '/' . $start[2] . '/' . $start[0];
-			$plan->finish_date = $finish[1] . '/' . $finish[2] . '/' . $finish[0];
+			if ($plan->finish_date != null) {
+				$plan->finish_date = $finish[1] . '/' . $finish[2] . '/' . $finish[0];
+			} else {
+				$plan->finish_date = date('m/d/Y');
+			}
+			return $plan;
+		}else{
+			$plan = (object) array(
+				'restaurant_id' => $id,
+				'plan' => 1,
+				'start_date' => date('m/d/Y'),
+				'finish_date' => date('m/d/Y'),
+				'status' => 1,
+			);
 			return $plan;
 		}
-		return array();
 	}
 
 	/**
@@ -310,11 +322,11 @@ class Restaurants extends CI_Controller
 					$data['finish_date'] = $finish;
 				}
 
-				if($plan == 1){
+				if ($plan == 1) {
 					$data = array(
 						'restaurant_id' => $res_id,
 						'plan' => $plan,
-						'start_date' =>  $start,
+						'start_date' => $start,
 						'finish_date' => null,
 						'status' => 1,
 					);
@@ -323,16 +335,16 @@ class Restaurants extends CI_Controller
 
 				$this->Restaurant->update_plan($res_id, $data);
 			}
-		}else{
-			if($plan == 1){
+		} else {
+			if ($plan == 1) {
 				$data = array(
 					'restaurant_id' => $res_id,
 					'plan' => $plan,
-					'start_date' =>  $start,
+					'start_date' => $start,
 					'finish_date' => null,
 					'status' => 1,
 				);
-			}else{
+			} else {
 				$data = array(
 					'restaurant_id' => $res_id,
 					'plan' => $plan,
