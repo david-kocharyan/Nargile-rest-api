@@ -138,7 +138,7 @@
 						</div>
 					<?php } ?>
 					<div class="input-group col-md-12">
-						<select class="form-control" id="plan" name="plan">
+						<select class="form-control plan" id="plan" name="plan">
 							<option value="1">No Plan</option>
 							<option value="2">Bronze</option>
 							<option value="3">Silver</option>
@@ -147,7 +147,7 @@
 					</div>
 				</div>
 
-				<div class="form-group">
+				<div class="form-group date_div" style="display: none;">
 					<label for="daterange">Plans start and end date</label>
 					<input class="form-control input-daterange-datepicker" type="text" name="daterange"
 						   value=""/>
@@ -178,4 +178,17 @@
 		applyClass: 'btn-danger',
 		cancelClass: 'btn-inverse',
 	});
+</script>
+
+
+<script>
+	$(document).ready(function () {
+		$('.plan').on('change', function() {
+			if(this.value != 1){
+				$(".date_div").css({'display':'block'})
+			}else{
+				$(".date_div").css({'display':'none'})
+			}
+		});
+	})
 </script>

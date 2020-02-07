@@ -163,7 +163,6 @@
 					<div class="input-group col-md-12">
 						<select class="form-control" id="plan" name="plan">
 							<option>Choose Plan</option>
-							<option value="1">No Plan</option>
 							<option value="2">Bronze</option>
 							<option value="3">Silver</option>
 							<option value="4">Gold</option>
