@@ -186,6 +186,7 @@ $route["admin/restaurants/update/(:any)"] = 'Restaurants/update/$1';
 $route["admin/restaurants/change-status/(:any)"] = 'Restaurants/change_status/$1';
 $route["admin/restaurants/change-status-image/(:any)"] = 'Restaurants/change_status_image/$1/$2';
 $route["admin/restaurants/show-ajax"] = 'Restaurants/show_ajax';
+$route["admin/restaurants/plan-update/(:any)"] = 'Restaurants/update_plan/$1';
 
 //Restaurant More Info
 $route["admin/restaurants/info/(:any)"] = 'MoreInfos/index/$1';

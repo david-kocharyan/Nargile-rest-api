@@ -153,7 +153,21 @@
 					<input type="file" name="images[]" class="form-control" multiple>
 				</div>
 
-				<hr>
+				<div class="form-group">
+					<button type="submit" class="btn btn-primary">Submit</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-sm-12">
+		<div class="white-box">
+			<form data-toggle="validator"
+				  action="<?php echo base_url() ?>admin/restaurants/plan-update/<?= $restaurant->id ?>"
+				  method="post"
+				  enctype="multipart/form-data">
 
 				<div class="form-group">
 					<label for="plan">Plans</label>
@@ -182,14 +196,14 @@
 						</div>
 					<?php } ?>
 				</div>
-
 				<div class="form-group">
-					<button type="submit" class="btn btn-primary">Submit</button>
+					<button type="submit" class="btn btn-success">Submit</button>
 				</div>
 			</form>
 		</div>
 	</div>
 </div>
+
 
 <div class="row">
 	<div class="col-sm-12">
@@ -254,9 +268,13 @@
 		// Daterange picker
 		$('.input-daterange-datepicker').daterangepicker({
 			buttonClasses: ['btn', 'btn-sm'],
+			defaultDate: null,
 			applyClass: 'btn-danger',
 			cancelClass: 'btn-inverse',
 			minDate: moment(finish, "MMMM D, YYYY").add(1, 'd'),
 		});
+
+		$('.input-daterange-datepicker').val('');
+		$('.input-daterange-datepicker').attr("placeholder","Date");
 	})
 </script>
