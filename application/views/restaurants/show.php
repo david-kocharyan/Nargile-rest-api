@@ -114,13 +114,13 @@
 		</div>
 	</div>
 
-	<div class="col-lg-6">
-		<div class="panel panel-default" style="height: 607px;">
-			<div class="panel-heading">restaurant slider carousel</div>
+	<div class="col-lg-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">Restaurant slider carousel</div>
 			<div class="panel-wrapper p-b-10 collapse in">
 				<div id="owl-demo" class="owl-carousel owl-theme">
 					<?php foreach ($images as $key => $value) { ?>
-						<img src="<?= base_url() . $value->image ?>" alt="image" width="1000" height="500">
+						<img src="<?= base_url() . $value->image ?>" alt="image" class="img-responsive">
 					<?php } ?>
 				</div>
 			</div>
@@ -146,6 +146,33 @@
 							</h4>
 							<p><?= $value->review ?></p>
 							<hr/>
+						</div>
+					<?php } ?>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-6">
+		<div class="white-box" style="height: 607px;">
+			<h3 class="box-title">Restaurant plan history</h3>
+			<div class="row">
+				<div class="col-sm-9" id="history">
+					<?php foreach ($plans as $key => $value) { ?>
+						<div class="col-md-12">
+							<?php if ($value->plan != 1) { ?>
+								<h4>
+									<?php if ($value->plan == 2) {
+										echo "Bronze";
+									} elseif ($value->plan == 3) {
+										echo "Silver";
+									} elseif ($value->plan == 4) {
+										echo "Gold";
+									} ?>
+								</h4>
+								<p><?= $value->start_date . " - " . $value->finish_date ?></p>
+								<hr/>
+							<?php } ?>
 						</div>
 					<?php } ?>
 				</div>

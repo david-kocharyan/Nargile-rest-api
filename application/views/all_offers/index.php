@@ -21,7 +21,19 @@
 							<td><?= $key + 1 ?></td>
 							<td><?= $value->name; ?></td>
 							<td><?= $value->text; ?></td>
-							<td><?= $value->status; ?></td>
+							<td style = "
+									<?php if ($value->status == 0) {
+								echo 'color: red;';
+							} else {
+								echo 'color: green;';
+							} ?>"
+							>
+								<?php if ($value->status == 0) {
+									echo "Inactive";
+								} else {
+									echo "Active";
+								} ?>
+							</td>
 							<td>
 								<?php if ($value->status == 1) { ?>
 									<a href="<?= base_url("admin/offers/change-status-featured/$value->id") ?>"
@@ -68,7 +80,19 @@
 							<td><?= $key + 1 ?></td>
 							<td><?= $value->name; ?></td>
 							<td><?= $value->text; ?></td>
-							<td><?= $value->status; ?></td>
+							<td style = "
+									<?php if ($value->status == 0) {
+								echo 'color: red;';
+							} else {
+								echo 'color: green;';
+							} ?>"
+							>
+								<?php if ($value->status == 0) {
+									echo "Inactive";
+								} else {
+									echo "Active";
+								} ?>
+							</td>
 							<td>
 								<?php if ($value->status == 1) { ?>
 									<a href="<?= base_url("admin/offers/change-status-hour/$value->id") ?>"
@@ -122,7 +146,19 @@
 							<td><?= date( "Y-m-d", $value->valid_date ); ?></td>
 							<td><?= $value->price; ?></td>
 							<td><?= $value->count; ?></td>
-							<td><?= $value->status; ?></td>
+							<td style = "
+									<?php if ($value->status == 0) {
+								echo 'color: red;';
+							} else {
+								echo 'color: green;';
+							} ?>"
+							>
+								<?php if ($value->status == 0) {
+									echo "Inactive";
+								} else {
+									echo "Active";
+								} ?>
+							</td>
 							<td>
 								<?php if ($value->status == 1) { ?>
 									<a href="<?= base_url("admin/offers/change-status-coins/$value->id") ?>"
@@ -147,3 +183,77 @@
 </div>
 
 
+<script>
+	// offers table
+	$('#featured_table').DataTable({
+		"ordering": false,
+		initComplete: function () {
+			this.api().columns([1, 3]).every(function () {
+				var column = this;
+				var select = $('<select style="margin-left: 5px;"><option value="">All</option></select>')
+					.appendTo($(column.header()))
+					.on('change', function () {
+						var val = $.fn.dataTable.util.escapeRegex(
+							$(this).val()
+						);
+
+						column
+							.search(val ? '^' + val + '$' : '', true, false)
+							.draw();
+					});
+
+				column.data().unique().sort().each(function (d, j) {
+					select.append('<option value="' + d + '">' + d + '</option>')
+				});
+			});
+		},
+	});
+
+	$('#coin_table').DataTable({
+		"ordering": false,
+		initComplete: function () {
+			this.api().columns([1, 3,4,5,6]).every(function () {
+				var column = this;
+				var select = $('<select style="margin-left: 5px;"><option value="">All</option></select>')
+					.appendTo($(column.header()))
+					.on('change', function () {
+						var val = $.fn.dataTable.util.escapeRegex(
+							$(this).val()
+						);
+
+						column
+							.search(val ? '^' + val + '$' : '', true, false)
+							.draw();
+					});
+
+				column.data().unique().sort().each(function (d, j) {
+					select.append('<option value="' + d + '">' + d + '</option>')
+				});
+			});
+		},
+	});
+
+	$('#hour_table').DataTable({
+		"ordering": false,
+		initComplete: function () {
+			this.api().columns([1, 3]).every(function () {
+				var column = this;
+				var select = $('<select style="margin-left: 5px;"><option value="">All</option></select>')
+					.appendTo($(column.header()))
+					.on('change', function () {
+						var val = $.fn.dataTable.util.escapeRegex(
+							$(this).val()
+						);
+
+						column
+							.search(val ? '^' + val + '$' : '', true, false)
+							.draw();
+					});
+
+				column.data().unique().sort().each(function (d, j) {
+					select.append('<option value="' + d + '">' + d + '</option>')
+				});
+			});
+		},
+	});
+</script>

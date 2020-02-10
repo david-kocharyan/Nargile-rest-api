@@ -275,3 +275,6 @@ $route['admin/attach-card/store'] = 'Attach_cards/store';
 $route["admin/attach-card/edit/(:any)"] = 'Attach_cards/edit/$1';
 $route["admin/attach-card/update/(:any)"] = 'Attach_cards/update/$1';
 $route['admin/attach-card/change-status/(:any)'] = 'Attach_cards/change_status/$1';
+
+//plans
+$route['admin/plans'] = 'Plans';

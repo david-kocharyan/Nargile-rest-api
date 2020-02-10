@@ -40,7 +40,6 @@
 <script src="<?= base_url('public/') ?>plugins/bower_components/styleswitcher/jQuery.style.switcher.js"></script>
 
 <script src="<?= base_url('public/') ?>js/custom.min.js"></script>
-<script src="<?= base_url('public/') ?>plugins/bower_components/datatables/datatables.min.js"></script>
 <script src="<?= base_url('public/') ?>plugins/bower_components/dropify/dist/js/dropify.min.js"></script>
 
 <!-- jQuery for carousel -->
@@ -60,10 +59,7 @@
         // data table
         $('#myTable').DataTable();
 
-        // offers table
-        $('#featured_table').DataTable();
-        $('#hour_table').DataTable();
-        $('#coin_table').DataTable();
+       
 
         // Basic
         $('.dropify').dropify();
@@ -78,6 +74,9 @@
         $('#reviews').slimScroll({
             height: '500px'
         });
+		$('#history').slimScroll({
+			height: '500px'
+		});
         $('#featured_offers').slimScroll({
             height: '200px'
         });

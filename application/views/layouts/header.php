@@ -39,9 +39,12 @@
 	<link href="<?= base_url('public/') ?>plugins/bower_components/owl.carousel/owl.theme.default.css" rel="stylesheet"
 		  type="text/css"/>
 
+
 	<!-- All Jquery -->
 	<!-- ============================================================== -->
 	<script src="<?= base_url('public/') ?>plugins/bower_components/jquery/dist/jquery.min.js"></script>
+	<!--datatable-->
+	<script src="<?= base_url('public/') ?>plugins/bower_components/datatables/datatables.min.js"></script>
 
 	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -132,6 +135,9 @@
 					</li>
 					<li><a href="<?= base_url('admin/offers') ?>" class="waves-effect"><i
 								class="mdi mdi-coin fa-fw"></i> <span class="hide-menu">All Offers</span></a>
+					</li>
+					<li><a href="<?= base_url('admin/plans') ?>" class="waves-effect"><i
+								class="mdi mdi-package-variant fa-fw"></i> <span class="hide-menu">Plans</span></a>
 					</li>
 					<li><a href="javascript:void(0)" class="waves-effect"><i data-icon="&#xe008;"
 																			 class="mdi mdi-google-maps fa-fw"></i><span
