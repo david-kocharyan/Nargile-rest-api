@@ -136,6 +136,33 @@ class Statistic extends CI_Model
 		return $data;
 	}
 
+	public function res_click($id = null)
+	{
+		$this->db->select("type");
+		$offers = $this->db->get_where('restaurant_click', array("restaurant_id" => $id))->result();
+
+		$menu = 0; $direction = 0; $review = 0; $call = 0;
+		foreach ($offers as $key=>$value){
+			if ($value->type == 1){
+				$direction = $direction + 1;
+			}elseif($value->type == 0){
+				$menu = $menu + 1;
+			}
+			elseif($value->type == 2){
+				$review = $review + 1;
+			}
+			elseif($value->type == 3){
+				$call = $call + 1;
+			}
+		}
+		$data = array(
+			'menu' => $menu,
+			'direction' => $direction,
+			'review' => $review,
+			'call' => $call,
+		);
+		return $data;
+	}
 
 	public function gender_all()
 	{

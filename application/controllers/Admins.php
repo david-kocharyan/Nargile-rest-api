@@ -384,6 +384,7 @@ class Admins extends CI_Controller
 		$data['rate_by_age'] = $this->Statistic->rate_by_age($id);
 		$data['rate_by_gender'] = $this->Statistic->rate_by_gender($id);
 		$data['offers'] = $this->Statistic->first_page($id);
+		$data['res_click'] = $this->Statistic->res_click($id);
 		$data['all_users'] = $this->Statistic->users_count()->count;
 		$data['gender_all'] = $this->Statistic->gender_all();
 
