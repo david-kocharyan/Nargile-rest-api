@@ -3,7 +3,6 @@
 		<div class="white-box">
 			<h3 class="box-title">PLEASE CHOOSE A RESTAURANT TO VIEW STATISTICS</h3>
 			<select onchange="send($(this))" id="restaurants" style="width: 100%;">
-				<option value="">Choose Restaurants</option>
 				<?php foreach ($restaurants as $bin => $key) { ?>
 					<option class="sel<?= $bin; ?>" value="<?= $key->id ?>"><?= $key->name ?></option>
 				<?php } ?>
@@ -12,6 +11,7 @@
 	</div>
 </div>
 
+<!--widget part-->
 <div class="row">
 	<div class="col-sm-12">
 		<div class="white-box">
@@ -22,10 +22,10 @@
 
 	<div class="col-lg-3 col-sm-6 col-xs-12">
 		<div class="white-box">
-			<h3 class="box-title">Share</h3>
+			<h3 class="box-title">Total Users</h3>
 			<ul class="list-inline two-part">
 				<li><i class=" icon-share text-purple"></i></li>
-				<li class="text-right"><span class="counter share_ajax"></span></li>
+				<li class="text-right"><span class="counter users_ajax"></span></li>
 			</ul>
 		</div>
 	</div>
@@ -61,16 +61,8 @@
 	</div>
 </div>
 
-<div class="row chart_part">
-	<div class="col-lg-6">
-		<div class="white-box">
-			<h3 class="box-title">Rate Chart</h3>
-			<div class="canvas_father_1">
-				<canvas id="chart2" height="150"></canvas>
-			</div>
-		</div>
-	</div>
-
+<!--chart part-->
+<div class="row bronze">
 	<div class="col-lg-6">
 		<div class="white-box">
 			<h3 class="box-title">Rate By Users Age Chart</h3>
@@ -88,28 +80,13 @@
 			</div>
 		</div>
 	</div>
-
-	<div class="col-lg-6">
-		<div class="white-box">
-			<h3 class="box-title">Review By Users Gender Chart</h3>
-			<div class="canvas_father_4">
-				<canvas id="chart5" height="150"></canvas>
-			</div>
-		</div>
-	</div>
-
-	<div class="col-lg-12">
-		<div class="white-box">
-			<h3 class="box-title">Users Click on Offers</h3>
-			<div class="canvas_father_5">
-				<canvas id="chart6" height="80"></canvas>
-			</div>
-		</div>
-	</div>
 </div>
 
-<script>
+<div class="row silver">
+</div>
 
+
+<script>
 	function send(_this) {
 		let val = _this.val();
 		var name = $("#restaurants option:selected").text();
@@ -122,42 +99,18 @@
 				success: function (data) {
 					var res = jQuery.parseJSON(JSON.stringify(data));
 
-					var rates = [res.rate.taste, res.rate.charcoal, res.rate.cleanliness, res.rate.staff, res.rate.value_for_money, res.rate.overall]
-					$('#chart2').remove();
-					$('.canvas_father_1').append(`<canvas id="chart2" height="150"></canvas>`);
+					// widget part
+					$(".users_ajax").html(res.all_users);
+					$(".favorite_ajax").html(res.favorite);
+					$(".rate_ajax").html(res.rate_count);
+					$(".reviews_ajax").html(res.review_count);
+					$(".res_name").html(name);
+					// widget part end
 
-					var rate_chart = new Chart(
-						document.getElementById("chart2"),
-						{
-							"type": "bar",
-							"data": {
-								"labels": ["Taste", "Charcoal", "Cleanliness", "Staff", "Value for money", "Overall"],
-								"datasets": [{
-									"label": "Rate",
-									"data": rates,
-									"fill": true,
-									"backgroundColor": ["rgba(255, 99, 132, 0.5)", "rgba(255, 159, 64, 0.5)", "rgba(255, 205, 86, 0.5)", "rgba(75, 192, 192, 0.5)", "rgba(54, 162, 235, 0.5)", "rgba(153, 102, 255, 0.5)", "rgba(201, 203, 207, 0.5)"],
-									"borderColor": ["rgb(255, 118, 118)", "rgb(255, 159, 64)", "rgb(255, 205, 86)", "rgb(83, 230, 157)", "rgb(44, 171, 227)", "rgb(153, 102, 255)", "rgb(201, 203, 207)"],
-									"borderWidth": 3
-								}
-								]
-							},
-							"options": {
-								"scales": {
-									"yAxes": [{
-										"ticks": {
-											max: 5,
-											min: 0,
-											stepSize: 0.5
 
-										}
-									}]
-								}
-							}
-						});
-					rate_chart.update();
-					// chart end
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+					// bronze
 					// pie chart
 					$('#chart3').remove();
 					$('.canvas_father_2').append(`<canvas id="chart3" height="150"></canvas>`);
@@ -211,52 +164,128 @@
 						});
 					age_chart.update();
 					// chart end
+					// end bronze
 
-					// pie chart reviews by gender
-					$('#chart5').remove();
-					$('.canvas_father_4').append(`<canvas id="chart5" height="150"></canvas>`);
-					age_chart = new Chart(
-						document.getElementById("chart5"),
-						{
-							"type": "doughnut",
-							"data": {
-								"labels": ["Male", "Female"],
-								"datasets": [{
-									"label": "Review By Users Gender",
-									"data": [res.review_by_gender.male, res.review_by_gender.female],
-									"backgroundColor": ["rgb(44, 171, 227)", "rgb(255, 118, 118)"]
+// silver and gold/////////////////////////////////////////////////////////////////////////////////////////////////////
+					if (res.plans == null || res.plans.plan == 1) {
+						$(".silver").empty();
+					}
+
+					if (res.plans != null && (res.plans.plan == 3 || res.plans.plan == 4)) {
+						$(".silver").empty();
+						$(".silver").append(`<div class="col-lg-12">
+												<div class="white-box">
+													<h3 class="box-title">Users Click on Offers</h3>
+													<div class="canvas_father_5">
+														<canvas id="chart6" height="80"></canvas>
+													</div>
+												</div>
+											</div>
+
+											<div class="col-lg-6">
+												<div class="white-box">
+													<h3 class="box-title">Rate Chart</h3>
+													<div class="canvas_father_1">
+														<canvas id="chart2" height="150"></canvas>
+													</div>
+												</div>
+											</div>
+
+											<div class="col-lg-6">
+												<div class="white-box">
+													<h3 class="box-title">Review By Users Gender Chart</h3>
+													<div class="canvas_father_4">
+														<canvas id="chart5" height="150"></canvas>
+													</div>
+												</div>
+											</div>`)
+					} else if (res.plans != null && res.plans.plan == 4) {
+						console.log(10)
+					}
+
+
+					// silver
+					if (res.plans != null && (res.plans.plan == 3 || res.plans.plan == 4)) {
+						// chart_part
+						var rates = [res.rate.taste, res.rate.charcoal, res.rate.cleanliness, res.rate.staff, res.rate.value_for_money, res.rate.overall]
+						$('#chart2').remove();
+						$('.canvas_father_1').append(`<canvas id="chart2" height="150"></canvas>`);
+						var rate_chart = new Chart(
+							document.getElementById("chart2"),
+							{
+								"type": "bar",
+								"data": {
+									"labels": ["Taste", "Charcoal", "Cleanliness", "Staff", "Value for money", "Overall"],
+									"datasets": [{
+										"label": "Rate",
+										"data": rates,
+										"fill": true,
+										"backgroundColor": ["rgba(255, 99, 132, 0.5)", "rgba(255, 159, 64, 0.5)", "rgba(255, 205, 86, 0.5)", "rgba(75, 192, 192, 0.5)", "rgba(54, 162, 235, 0.5)", "rgba(153, 102, 255, 0.5)", "rgba(201, 203, 207, 0.5)"],
+										"borderColor": ["rgb(255, 118, 118)", "rgb(255, 159, 64)", "rgb(255, 205, 86)", "rgb(83, 230, 157)", "rgb(44, 171, 227)", "rgb(153, 102, 255)", "rgb(201, 203, 207)"],
+										"borderWidth": 3
+									}
+									]
+								},
+								"options": {
+									"scales": {
+										"yAxes": [{
+											"ticks": {
+												max: 5,
+												min: 0,
+												stepSize: 0.5
+
+											}
+										}]
+									}
 								}
-								]
-							}
-						});
-					age_chart.update();
-					// chart end
+							});
+						rate_chart.update();
+						// chart end
 
-					// doughnut chart offers click
-					$('#chart6').remove();
-					$('.canvas_father_5').append(`<canvas id="chart6" height="80"></canvas>`);
-					age_chart = new Chart(
-						document.getElementById("chart6"),
-						{
-							"type": "pie",
-							"data": {
-								"labels": ["Featured Offers", "Hour Offers"],
-								"datasets": [{
-									"label": "Users Click On Offers",
-									"data": [res.offers.featured, res.offers.hour],
-									"backgroundColor": ["rgb(0, 173, 133)", "rgb(105, 0, 105)"]
+						// pie chart reviews by gender
+						$('#chart5').remove();
+						$('.canvas_father_4').append(`<canvas id="chart5" height="150"></canvas>`);
+						age_chart = new Chart(
+							document.getElementById("chart5"),
+							{
+								"type": "doughnut",
+								"data": {
+									"labels": ["Male", "Female"],
+									"datasets": [{
+										"label": "Review By Users Gender",
+										"data": [res.review_by_gender.male, res.review_by_gender.female],
+										"backgroundColor": ["rgb(44, 171, 227)", "rgb(255, 118, 118)"]
+									}
+									]
 								}
-								]
-							}
-						});
-					age_chart.update();
-					// chart end
+							});
+						age_chart.update();
+						// chart end
 
-					$(".favorite_ajax").html(res.favorite);
-					$(".share_ajax").html(res.share);
-					$(".rate_ajax").html(res.rate_count);
-					$(".reviews_ajax").html(res.review_count);
-					$(".res_name").html(name);
+						// doughnut chart offers click
+						$('#chart6').remove();
+						$('.canvas_father_5').append(`<canvas id="chart6" height="80"></canvas>`);
+						age_chart = new Chart(
+							document.getElementById("chart6"),
+							{
+								"type": "pie",
+								"data": {
+									"labels": ["Featured Offers", "Hour Offers"],
+									"datasets": [{
+										"label": "Users Click On Offers",
+										"data": [res.offers.featured, res.offers.hour],
+										"backgroundColor": ["rgb(0, 173, 133)", "rgb(105, 0, 105)"]
+									}
+									]
+								}
+							});
+						age_chart.update();
+						// chart end
+					}
+					// end silver
+					else if (res.plans != null && res.plans.plan == 4) {
+						console.log(50)
+					}
 				}
 			});
 		}
@@ -264,10 +293,10 @@
 
 	$(document).ready(function () {
 		$('#restaurants').select2();
-		let a = $('#restaurants').find("option").eq(1);
+		let a = $('#restaurants').find("option").eq(0);
 		if (a.val() != undefined) {
 			$("#restaurants").val(a.val());
-			$('#restaurants').trigger('change.select2');
+			// $('#restaurants').trigger('change.select2');
 			send(a);
 		}
 

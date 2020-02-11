@@ -380,6 +380,8 @@ class Admins extends CI_Controller
 	{
 		$id = $this->input->post('id');
 
+		$data['plans'] = $this->db->get_where('res_plans', array('status' => 1, 'restaurant_id' => $id))->row();
+
 //		restaurant rate
 		$this->db->select("AVG(overall) as overall, AVG(taste) as taste, AVG(charcoal) as charcoal,
 		 AVG(cleanliness) as cleanliness, AVG(staff) as staff, AVG(value_for_money) as value_for_money");
@@ -453,6 +455,11 @@ class Admins extends CI_Controller
 		$this->db->select("count(id) as review");
 		$review = $this->db->get_where('reviews', array("restaurant_id" => $id))->row();
 		$data['review_count'] = $review->review;
+
+//		total users
+		$this->db->select("count(id) as count");
+		$users = $this->db->get_where("users", array("verify" => 1))->row();
+		$data['all_users'] = $users->count;
 
 //		click on offers
 		$this->db->select("type");
