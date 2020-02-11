@@ -361,14 +361,6 @@ class Admins extends CI_Controller
 
 		$data['user'] = $this->session->userdata('user');
 		$data['title'] = "Home";
-
-		$data['widget'] = array(
-			'users' => $this->Statistic->users_count(),
-			'restaurant' => $this->Statistic->restaurant_count($data['user']['user_id']),
-			'share' => $this->Statistic->share_count($data['user']['user_id']),
-			'reviews' => $this->Statistic->reviews_count($data['user']['user_id']),
-			'rates' => $this->Statistic->rates_count($data['user']['user_id']),
-		);
 		$data['restaurants'] = $this->Statistic->my_restaurants($data['user']['user_id']);
 
 		$this->load->view('layouts/header.php', $data);
@@ -378,129 +370,24 @@ class Admins extends CI_Controller
 
 	public function owner_chart()
 	{
+		$this->load->model("Statistic");
 		$id = $this->input->post('id');
-
 		$data['plans'] = $this->db->get_where('res_plans', array('status' => 1, 'restaurant_id' => $id))->row();
 
-//		restaurant rate
-		$this->db->select("AVG(overall) as overall, AVG(taste) as taste, AVG(charcoal) as charcoal,
-		 AVG(cleanliness) as cleanliness, AVG(staff) as staff, AVG(value_for_money) as value_for_money");
-		$rate = $this->db->get('rates')->row();
-		$data['rate'] = $rate;
-
-//		rate by age
-		$this->db->select("FLOOR (DATEDIFF(CURDATE(),FROM_UNIXTIME(date_of_birth, '%Y-%m-%d'))/365) as age");
-		$this->db->join('users', 'rates.user_id = users.id');
-		$this->db->group_by('rates.user_id');
-		$rate_by_age = $this->db->get_where('rates', array('users.verify' => 1))->result();
-		$data['rate_by_age'] = $rate_by_age;
-
-//		rate by gender
-		$this->db->select("gender");
-		$this->db->join('users', 'rates.user_id = users.id');
-		$this->db->group_by('rates.user_id');
-		$rate_by_gender = $this->db->get_where('rates', array('users.verify' => 1))->result();
-
-		$male = 0;
-		$female = 0;
-		foreach ($rate_by_gender as $key=>$value){
-			if ($value->gender == 1){
-				$male = $male + 1;
-			}else{
-				$female = $female + 1;
-			}
-		}
-		$data['rate_by_gender'] = array(
-			'male' => $male,
-			'female' => $female,
-		);
-
-//		reviews by gender
-		$this->db->select("gender");
-		$this->db->join('users', 'reviews.user_id = users.id');
-		$this->db->group_by('reviews.user_id');
-		$rate_by_gender = $this->db->get_where('reviews', array('users.verify' => 1))->result();
-
-		$male = 0;
-		$female = 0;
-		foreach ($rate_by_gender as $key=>$value){
-			if ($value->gender == 1){
-				$male = $male + 1;
-			}else{
-				$female = $female + 1;
-			}
-		}
-		$data['review_by_gender'] = array(
-			'male' => $male,
-			'female' => $female,
-		);
-
-//		vor res admin///////////////////////////////////////////////////////////////////////////////
-//		total favorite
-		$this->db->select("count(id) as favorite");
-		$favorite = $this->db->get_where('favorites', array("restaurant_id" => $id, 'status' => 1))->row();
-		$data['favorite'] = $favorite->favorite;
-
-//		total share
-		$this->db->select("count(id) as share");
-		$share = $this->db->get_where('notification', array("action_id" => $id, 'click_action' => "share_request"))->row();
-		$data['share'] = $share->share;
-
-//		total rate
-		$this->db->select("count(id) as rate_count");
-		$rate = $this->db->get_where('rates', array("restaurant_id" => $id))->row();
-		$data['rate_count'] = $rate->rate_count;
-
-//		total reviews
-		$this->db->select("count(id) as review");
-		$review = $this->db->get_where('reviews', array("restaurant_id" => $id))->row();
-		$data['review_count'] = $review->review;
-
-//		total users
-		$this->db->select("count(id) as count");
-		$users = $this->db->get_where("users", array("verify" => 1))->row();
-		$data['all_users'] = $users->count;
-
-//		click on offers
-		$this->db->select("type");
-		$offers = $this->db->get_where('offers_click', array("restaurant_id" => $id))->result();
-
-		$featured = 0;
-		$hour = 0;
-		foreach ($offers as $key=>$value){
-			if ($value->type == 1){
-				$hour = $hour + 1;
-			}else{
-				$featured = $featured + 1;
-			}
-		}
-		$data['offers'] = array(
-			'hour' => $hour,
-			'featured' => $featured,
-		);
-//		vor res admin end///////////////////////////////////////////////////////////////////////////////
-
-//		all users gender
-		$this->db->select("gender");
-		$gender_all = $this->db->get_where('users', array("verify" => 1))->result();
-
-		$male = 0;
-		$female = 0;
-		foreach ($gender_all as $key=>$value){
-			if ($value->gender == 1){
-				$male = $male + 1;
-			}else{
-				$female = $female + 1;
-			}
-		}
-		$data['gender_all'] = array(
-			'male' => $male,
-			'female' => $female,
-		);
+//		for restaurant admin (owner)
+		$data['favorite'] = $this->Statistic->favorite($id)->favorite;
+		$data['share'] = $this->Statistic->share($id)->share;
+		$data['rate_count'] = $this->Statistic->rate($id)->rate_count;
+		$data['review_count'] = $this->Statistic->reviews($id)->review;
+		$data['rate'] = $this->Statistic->restaurant_rate($id);
+		$data['review_by_gender'] = $this->Statistic->review_by_gender($id);
+		$data['rate_by_age'] = $this->Statistic->rate_by_age($id);
+		$data['rate_by_gender'] = $this->Statistic->rate_by_gender($id);
+		$data['offers'] = $this->Statistic->first_page($id);
+		$data['all_users'] = $this->Statistic->users_count()->count;
+		$data['gender_all'] = $this->Statistic->gender_all();
 
 		$this->output->set_output(json_encode($data, JSON_PRETTY_PRINT))->_display();
 		exit;
 	}
-
-
 }

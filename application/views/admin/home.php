@@ -119,13 +119,11 @@
 
 <script>
 	$(document).ready(function ()  {
-		let val = 1;
-		if (val != null || val != "") {
 			$.ajax({
 				type: 'POST',
 				dataType: 'json',
 				url: "<?= base_url('admin/statistics')?>",
-				data: {id: val},
+				data: {id: null},
 				success: function (data) {
 					var res = jQuery.parseJSON(JSON.stringify(data));
 
@@ -230,7 +228,6 @@
 					$(".res_name").html(name);
 				}
 			});
-		}
 	})
 
 	$(document).ready(function () {

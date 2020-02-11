@@ -40,7 +40,7 @@ class Restaurant_Profile_Api extends REST_Controller
 			return;
 		}
 
-		if ($this->input->get("type") != NULL){
+		if ($this->input->get("type") != NULL) {
 			$data = array(
 				"user_id" => $res,
 				"restaurant_id" => $this->input->get('id'),
@@ -603,6 +603,37 @@ class Restaurant_Profile_Api extends REST_Controller
 		} elseif (null == $data) {
 			return;
 		}
+	}
+
+	public function profile_click_post()
+	{
+		$res = $this->verify_get_request();
+		if (gettype($res) != 'string') {
+			$data = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => $res['msg']
+			);
+			$this->response($data, $res['status']);
+			return;
+		}
+
+		if ($this->input->post("type") != NULL) {
+			$data = array(
+				"user_id" => $res,
+				"restaurant_id" => $this->input->post('id'),
+				"type" => $this->input->post("type"),
+			);
+			$this->db->insert('restaurant_click', $data);
+		}
+
+		$response = array(
+			"success" => true,
+			"data" => array(),
+			"msg" => "Click Save Successfully",
+		);
+		$this->response($response, REST_Controller::HTTP_OK);
+		return;
 	}
 
 }

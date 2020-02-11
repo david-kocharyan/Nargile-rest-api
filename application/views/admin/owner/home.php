@@ -82,9 +82,8 @@
 	</div>
 </div>
 
-<div class="row silver">
-</div>
-
+<div class="row silver"></div>
+<div class="row gold"></div>
 
 <script>
 	function send(_this) {
@@ -170,14 +169,21 @@
 					if (res.plans == null || res.plans.plan == 1) {
 						$(".silver").empty();
 					}
-
 					if (res.plans != null && (res.plans.plan == 3 || res.plans.plan == 4)) {
 						$(".silver").empty();
-						$(".silver").append(`<div class="col-lg-12">
+						$(".silver").append(`<div class="col-lg-6">
 												<div class="white-box">
 													<h3 class="box-title">Users Click on Offers</h3>
 													<div class="canvas_father_5">
-														<canvas id="chart6" height="80"></canvas>
+														<canvas id="chart6" height="150"></canvas>
+													</div>
+												</div>
+											</div>
+											<div class="col-lg-6">
+												<div class="white-box">
+													<h3 class="box-title">Users Click on Restaurants</h3>
+													<div class="canvas_father_top">
+														<canvas id="chart_top" height="150"></canvas>
 													</div>
 												</div>
 											</div>
@@ -264,7 +270,7 @@
 
 						// doughnut chart offers click
 						$('#chart6').remove();
-						$('.canvas_father_5').append(`<canvas id="chart6" height="80"></canvas>`);
+						$('.canvas_father_5').append(`<canvas id="chart6" height="150"></canvas>`);
 						age_chart = new Chart(
 							document.getElementById("chart6"),
 							{
@@ -281,10 +287,30 @@
 							});
 						age_chart.update();
 						// chart end
+
+						// doughnut chart top nearest click
+						$('#chart_top').remove();
+						$('.canvas_father_top').append(`<canvas id="chart_top" height="150"></canvas>`);
+						age_chart = new Chart(
+							document.getElementById("chart_top"),
+							{
+								"type": "pie",
+								"data": {
+									"labels": ["Top", "Nearest"],
+									"datasets": [{
+										"label": "Users Click On Restaurant",
+										"data": [res.offers.top, res.offers.nearest],
+										"backgroundColor": ["rgb(15, 74, 180)", "rgb(150, 7, 88)"]
+									}
+									]
+								}
+							});
+						age_chart.update();
+						// chart end
 					}
 					// end silver
 					else if (res.plans != null && res.plans.plan == 4) {
-						console.log(50)
+
 					}
 				}
 			});
