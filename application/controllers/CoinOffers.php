@@ -7,7 +7,7 @@ class CoinOffers extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		if (($this->session->userdata('user') == NULL OR !$this->session->userdata('user'))) {
+		if (($this->session->userdata('user') == NULL OR !$this->session->userdata('user')) OR $this->session->userdata('user')['role'] != "superAdmin") {
 			redirect('/admin/login');
 		}
 		$this->load->model("CoinOffer");

@@ -6,12 +6,11 @@
 				href="<?= base_url("admin/sliders/create") ?>" class="text-success">Add New Image </a></p>
 
 		<div class="table-responsive">
-			<table id="myTable" class="table table-striped">
+			<table id="slider_table" class="table table-striped">
 				<thead>
 				<tr>
 					<th>ID</th>
 					<th>Image</th>
-					<th>Region</th>
 					<th>Link</th>
 					<th>Start</th>
 					<th>End</th>
@@ -26,11 +25,22 @@
 						<td><img src="<?= base_url('plugins/images/Slider/') ?><?= $value->image; ?>" alt="" width="200"
 								 height="100" class="img-responsive">
 						</td>
-						<td><?= $value->region_id ?></td>
 						<td><?= $value->link ?></td>
 						<td><?= $value->start ?></td>
 						<td><?= $value->end ?></td>
-						<td><?= $value->status ?></td>
+						<td style = "
+									<?php if ($value->status == 0) {
+							echo 'color: red;';
+						} else {
+							echo 'color: green;';
+						} ?>"
+						>
+							<?php if ($value->status == 0) {
+								echo "Inactive";
+							} else {
+								echo "Active";
+							} ?>
+						</td>
 						<td>
 							<a href="<?= base_url("admin/sliders/edit/$value->id") ?>" data-toggle="tooltip"
 							   data-placement="top" title="Edit" class="btn btn-info btn-circle tooltip-info"> <i
@@ -57,3 +67,28 @@
 	</div>
 </div>
 
+<script>
+	$('#slider_table').DataTable({
+		"ordering": false,
+		initComplete: function () {
+			this.api().columns([2, 3, 4, 5]).every(function () {
+				var column = this;
+				var select = $('<select style="margin-left: 5px;"><option value="">All</option></select>')
+					.appendTo($(column.header()))
+					.on('change', function () {
+						var val = $.fn.dataTable.util.escapeRegex(
+							$(this).val()
+						);
+
+						column
+							.search(val ? '^' + val + '$' : '', true, false)
+							.draw();
+					});
+
+				column.data().unique().sort().each(function (d, j) {
+					select.append('<option value="' + d + '">' + d + '</option>')
+				});
+			});
+		},
+	});
+</script>

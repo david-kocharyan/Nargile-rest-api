@@ -8,14 +8,14 @@
 			</p>
 
 			<div class="table-responsive">
-				<table id="myTable" class="table table-striped">
+				<table id="loyalty_table" class="table table-striped">
 					<thead>
 					<tr>
 						<th>ID</th>
 						<th>Restaurant</th>
 						<th>Description</th>
 						<th>Valid Date</th>
-						<th>Percent</th>
+						<th>Percent %</th>
 						<th>QR</th>
 						<th>Status</th>
 						<th>Option</th>
@@ -33,7 +33,21 @@
 								<img src="<?= base_url('plugins/images/QR/') . $value->qr; ?>" alt="" width="200" height="200"
 									 class="img-responsive">
 							</td>
-							<td><?= $value->status; ?></td>
+
+							<td style = "
+									<?php if ($value->status == 0) {
+								echo 'color: red;';
+							} else {
+								echo 'color: green;';
+							} ?>"
+							>
+								<?php if ($value->status == 0) {
+									echo "Inactive";
+								} else {
+									echo "Active";
+								} ?>
+							</td>
+
 							<td>
 								<a href="<?= base_url("admin/loyalty/edit/$value->id") ?>" data-toggle="tooltip"
 								   data-placement="top" title="Edit" class="btn btn-info btn-circle tooltip-info"> <i
@@ -60,3 +74,29 @@
 		</div>
 	</div>
 </div>
+
+<script>
+	$('#loyalty_table').DataTable({
+		"ordering": false,
+		initComplete: function () {
+			this.api().columns([1, 2, 3, 4, 6]).every(function () {
+				var column = this;
+				var select = $('<select style="margin-left: 5px;"><option value="">All</option></select>')
+					.appendTo($(column.header()))
+					.on('change', function () {
+						var val = $.fn.dataTable.util.escapeRegex(
+							$(this).val()
+						);
+
+						column
+							.search(val ? '^' + val + '$' : '', true, false)
+							.draw();
+					});
+
+				column.data().unique().sort().each(function (d, j) {
+					select.append('<option value="' + d + '">' + d + '</option>')
+				});
+			});
+		},
+	});
+</script>
