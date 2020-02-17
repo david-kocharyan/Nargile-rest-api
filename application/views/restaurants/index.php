@@ -12,7 +12,7 @@
 			<?php } ?>
 
 			<div class="table-responsive">
-				<table id="myTable" class="table table-striped">
+				<table id="res_table" class="table table-striped">
 					<thead>
 					<tr>
 						<th>ID</th>
@@ -23,8 +23,6 @@
 						<th>Address</th>
 						<th>Type</th>
 						<th>Phone Number</th>
-						<th>Lat</th>
-						<th>Lng</th>
 						<th>Status</th>
 						<th>Options</th>
 					</tr>
@@ -41,9 +39,19 @@
 							<td><?= $value->address; ?></td>
 							<td><?= $value->type; ?></td>
 							<td><?= $value->phone_number; ?></td>
-							<td><?= $value->lat; ?></td>
-							<td><?= $value->lng; ?></td>
-							<td><?= $value->status; ?></td>
+							<td style = "
+									<?php if ($value->status == 0) {
+								echo 'color: red;';
+							} else {
+								echo 'color: green;';
+							} ?>"
+							>
+								<?php if ($value->status == 0) {
+									echo "Inactive";
+								} else {
+									echo "Active";
+								} ?>
+							</td>
 							<td>
 								<a href="<?= base_url("admin/restaurants/edit/$value->id") ?>" data-toggle="tooltip"
 								   data-placement="top" title="Edit" class="btn btn-info btn-circle tooltip-info"> <i
@@ -75,3 +83,28 @@
 		</div>
 	</div>
 </div>
+<script>
+	$('#res_table').DataTable({
+		"ordering": false,
+		initComplete: function () {
+			this.api().columns([1, 2, 3, 5, 6, 7, 8]).every(function () {
+				var column = this;
+				var select = $('<select style="margin-left: 5px;"><option value="">All</option></select>')
+					.appendTo($(column.header()))
+					.on('change', function () {
+						var val = $.fn.dataTable.util.escapeRegex(
+							$(this).val()
+						);
+
+						column
+							.search(val ? '^' + val + '$' : '', true, false)
+							.draw();
+					});
+
+				column.data().unique().sort().each(function (d, j) {
+					select.append('<option value="' + d + '">' + d + '</option>')
+				});
+			});
+		},
+	});
+</script>

@@ -5,7 +5,7 @@
 			<h3 class="box-title m-b-0">Users Table</h3>
 
 			<div class="table-responsive">
-				<table id="myTable" class="table table-striped">
+				<table id="user_table" class="table table-striped">
 					<thead>
 					<tr>
 						<th>ID</th>
@@ -42,3 +42,30 @@
 		</div>
 	</div>
 </div>
+
+
+<script>
+	$('#user_table').DataTable({
+		"ordering": false,
+		initComplete: function () {
+			this.api().columns([1, 2, 3, 4, 5, 6]).every(function () {
+				var column = this;
+				var select = $('<select style="margin-left: 5px; width: 40%;"><option value="">All</option></select>')
+					.appendTo($(column.header()))
+					.on('change', function () {
+						var val = $.fn.dataTable.util.escapeRegex(
+							$(this).val()
+						);
+
+						column
+							.search(val ? '^' + val + '$' : '', true, false)
+							.draw();
+					});
+
+				column.data().unique().sort().each(function (d, j) {
+					select.append('<option value="' + d + '">' + d + '</option>')
+				});
+			});
+		},
+	});
+</script>

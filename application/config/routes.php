@@ -281,3 +281,4 @@ $route['admin/attach-card/change-status/(:any)'] = 'Attach_cards/change_status/$
 
 //plans
 $route['admin/plans'] = 'Plans';
+$route['admin/plan-check'] = 'console/PlanCrons/check_plan';
