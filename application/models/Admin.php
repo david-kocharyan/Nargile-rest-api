@@ -65,4 +65,9 @@ class Admin extends CI_Model
 		if (!$getClient) return false;
 		return $getClient;
 	}
+
+	public function selectClients($id)
+	{
+		return $this->db->get_where($this->table, array('id' => $id))->row();
+	}
 }

@@ -73,4 +73,60 @@ class User extends CI_Model
 		return false;
 	}
 
+
+//	for show
+	public function favorite($id)
+	{
+		$this->db->select('count(id) as count');
+		return $this->db->get_where('favorites', array('user_id' => $id))->row();
+	}
+
+	public function rate($id)
+	{
+		$this->db->select('count(id) as count');
+		return $this->db->get_where('rates', array('user_id' => $id))->row();
+	}
+
+	public function review($id)
+	{
+		$this->db->select('count(id) as count');
+		return $this->db->get_where('reviews', array('user_id' => $id))->row();
+	}
+
+	public function badges($id)
+	{
+		$this->db->select('COUNT("user_id") as count');
+		$review = $this->db->get_where("reviews", array("user_id" => $id))->row();
+
+		$this->db->select('COUNT("user_id") as count');
+		$rate = $this->db->get_where("rates", array("user_id" => $id))->row();
+
+		$count = $rate->count + $review->count;
+
+		$this->db->select('count, type, info, concat("/plugins/images/Badge/", image) as image');
+		$this->db->where(array('status' => 1, "count <" => $count));
+		$data = $this->db->get('badges')->result();
+
+		return $data != null ? $data : array();
+	}
+
+
+	public function friend($id)
+	{
+		$this->db->select('count(id) as count');
+		$friend_1 = $this->db->get_where('friends', array('from_id' => $id))->row()->count;
+
+		$this->db->select('count(id) as count');
+		$friend_2 = $this->db->get_where('friends', array('from_id' => $id))->row()->count;
+
+		return $friend_1 + $friend_2;
+	}
+
+	public function share($id)
+	{
+		$this->db->select('count(id) as count');
+		return $this->db->get_where('notification', array('action_id' => $id, 'click_action' => 'share_request'))->row();
+	}
+
+
 }

@@ -71,6 +71,10 @@
 									   class="btn btn-success btn-circle tooltip-success"><i
 											class="fa fa-power-off"></i></a>
 								<?php } ?>
+
+								<a href="<?= base_url("admin/clients/show/$value->id") ?>" data-toggle="tooltip"
+								   data-placement="top" title="Show" class="btn btn-success btn-circle tooltip-success"> <i
+										class="fas fa-eye"></i> </a>
 							</td>
 						</tr>
 					<?php } ?>

@@ -167,4 +167,40 @@ class Clients extends CI_Controller
 		$this->Admin->changeStatus($id);
 		redirect("admin/clients");
 	}
+
+	public function show($id)
+	{
+		$this->load->model('Statistic');
+		$data['user'] = $this->session->userdata('user');
+		$data['title'] = "Restaurant show";
+		$data['restaurants'] = $this->Statistic->my_restaurants($id);
+		$data['client'] = $this->Admin->selectClients($id);
+
+		$this->load->view('layouts/header.php', $data);
+		$this->load->view('clients/show.php');
+		$this->load->view('layouts/footer.php');
+	}
+
+	public function restaurant_chart()
+	{
+		$this->load->model("Statistic");
+		$id = $this->input->post('id');
+
+//		for restaurant admin (owner)
+		$data['favorite'] = $this->Statistic->favorite($id)->favorite;
+		$data['share'] = $this->Statistic->share($id)->share;
+		$data['rate_count'] = $this->Statistic->rate($id)->rate_count;
+		$data['review_count'] = $this->Statistic->reviews($id)->review;
+		$data['rate'] = $this->Statistic->restaurant_rate($id);
+		$data['review_by_gender'] = $this->Statistic->review_by_gender($id);
+		$data['rate_by_age'] = $this->Statistic->rate_by_age($id);
+		$data['rate_by_gender'] = $this->Statistic->rate_by_gender($id);
+		$data['offers'] = $this->Statistic->first_page($id);
+		$data['res_click'] = $this->Statistic->res_click($id);
+		$data['all_users'] = $this->Statistic->users_count()->count;
+		$data['gender_all'] = $this->Statistic->gender_all();
+
+		$this->output->set_output(json_encode($data, JSON_PRETTY_PRINT))->_display();
+		exit;
+	}
 }

@@ -136,7 +136,9 @@ $route['admin/logout'] = 'Login/logout';
 $route['admin/profile'] = 'Admins/profile';
 $route['admin/settings'] = 'Admins/settings';
 $route['admin/settings/update/(:any)'] = 'Admins/update/$1';
-$route['admin/users-list'] = 'Admins/users_list';
+
+$route['admin/users-list'] = 'Users/users_list';
+$route['admin/users/show/(:any)'] = 'Users/show/$1';
 
 
 $route['admin/owner-request'] = 'Admins/owner_request';
@@ -155,7 +157,10 @@ $route['admin/clients/create'] = 'Clients/create';
 $route['admin/clients/store'] = 'Clients/store';
 $route['admin/clients/edit/(:any)'] = 'Clients/edit/$1';
 $route['admin/clients/update/(:any)'] = 'Clients/update/$1';
+$route['admin/clients/show/(:any)'] = 'Clients/show/$1';
 $route['admin/clients/change-status/(:any)'] = 'Clients/change_status/$1';
+$route['admin/clients-restaurant-show'] = 'Clients/restaurant_chart';
+
 
 //Country
 $route['admin/countries'] = 'Countries';

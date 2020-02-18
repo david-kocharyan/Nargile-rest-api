@@ -17,6 +17,7 @@
 						<th>Email</th>
 						<th>Coins</th>
 						<th>Image</th>
+						<th>Option</th>
 					</tr>
 					</thead>
 					<tbody>
@@ -33,6 +34,11 @@
 							<td>
 								<img src="<?= base_url('') . $value->image; ?>" alt="" width="200" height="200"
 									 class="img-responsive">
+							</td>
+							<td>
+								<a href="<?= base_url("admin/users/show/$value->id") ?>" data-toggle="tooltip"
+								   data-placement="top" title="Show" class="btn btn-info btn-circle tooltip-info"> <i
+										class="fas fa-eye"></i> </a>
 							</td>
 						</tr>
 					<?php } ?>

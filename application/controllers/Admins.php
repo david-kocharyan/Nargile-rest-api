@@ -210,20 +210,6 @@ class Admins extends CI_Controller
 		return implode($pass);
 	}
 
-//	users list
-	public function users_list()
-	{
-		$data['user'] = $this->session->userdata('user');
-		$data['title'] = "Users List";
-
-		$this->db->select('username, first_name, last_name, DATE_FORMAT(DATE_ADD(FROM_UNIXTIME(0), interval date_of_birth second),"%Y-%m-%d") as date_of_birth, mobile_number, email, coins, concat("/plugins/images/Logo/", image) as image');
-		$data['users'] = $this->db->get_where('users', array('verify' => 1))->result();
-
-		$this->load->view('layouts/header.php', $data);
-		$this->load->view('users/index.php');
-		$this->load->view('layouts/footer.php');
-	}
-
 //	create update or change owner part and request
 	public function owner_request()
 	{
