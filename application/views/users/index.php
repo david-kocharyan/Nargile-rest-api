@@ -5,25 +5,35 @@
 			<h3 class="box-title m-b-0">Users Table</h3>
 
 			<div class="table-responsive">
-				<table id="user_table" class="table table-striped">
+				<table id="user_table" class="table table-striped ">
 					<thead>
 					<tr>
-						<th>ID</th>
-						<th>Username</th>
-						<th>First Name</th>
-						<th>Last Name</th>
-						<th>Date Of Birth</th>
-						<th>Mobile Number</th>
-						<th>Email</th>
-						<th>Coins</th>
-						<th>Image</th>
-						<th>Option</th>
+						<th value="ID">ID</th>
+						<th value="Image">Image</th>
+						<th value="Username"></th>
+						<th value="First Name"></th>
+						<th value="Last Name"></th>
+						<th value="Date"></th>
+						<th value="Mobile Number"></th>
+						<th value="Email"></th>
+						<th value="Coins"></th>
+						<th value="Favorite"></th>
+						<th value="Rate"></th>
+						<th value="Review"></th>
+						<th value="Share"></th>
+						<th value="Friends"></th>
+						<th value="Logged via Facebook"></th>
+						<th value="Notification status"></th>
+						<th value="Option">Option</th>
 					</tr>
 					</thead>
 					<tbody>
 					<?php foreach ($users as $key => $value) { ?>
 						<tr>
 							<td><?= $key + 1 ?></td>
+							<td>
+								<img src="<?= base_url('') . $value->image; ?>" style="border-radius: 50%; height: 80px; width: 80px; ">
+							</td>
 							<td><?= $value->username; ?></td>
 							<td><?= $value->first_name; ?></td>
 							<td><?= $value->last_name; ?></td>
@@ -31,10 +41,14 @@
 							<td><?= $value->mobile_number; ?></td>
 							<td><?= $value->email; ?></td>
 							<td><?= $value->coins; ?></td>
-							<td>
-								<img src="<?= base_url('') . $value->image; ?>" alt="" width="200" height="200"
-									 class="img-responsive">
-							</td>
+							<td><?= $value->favorites; ?></td>
+							<td><?= $value->rates; ?></td>
+							<td><?= $value->reviews; ?></td>
+							<td><?= $value->share; ?></td>
+							<td><?= $value->friends; ?></td>
+							<td><?php if ($value->logged_via_fb == 0){echo "No"; }else{echo "Yes"; } ?></td>
+							<td><?php if ($value->notification_status == 0){echo "Off"; }else{echo "On"; } ?></td>
+
 							<td>
 								<a href="<?= base_url("admin/users/show/$value->id") ?>" data-toggle="tooltip"
 								   data-placement="top" title="Show" class="btn btn-info btn-circle tooltip-info"> <i
@@ -49,14 +63,45 @@
 	</div>
 </div>
 
+<!-- start - This is for export functionality only -->
+<script src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+<script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+<script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
+<!-- end - This is for export functionality only -->
 
 <script>
 	$('#user_table').DataTable({
+		"scrollX": true,
+		dom: 'Bfirtlp',
+		buttons: [
+			{
+				extend: 'excel',
+				text: 'Excel',
+				title: 'Users table',
+				filename: 'users_table',
+				exportOptions: {
+					columns: ":visible",
+					format: {
+						header: function ( data, column, row )
+						{
+							return data.substring(data.indexOf("value")+9,data.indexOf("</option"));
+						}
+					}
+
+				}
+			},
+		],
 		"ordering": false,
 		initComplete: function () {
-			this.api().columns([1, 2, 3, 4, 5, 6]).every(function () {
+			this.api().columns([2, 3, 4, 5, 6, 7,8,9,10,11, 12, 13, 14, 15]).every(function () {
 				var column = this;
-				var select = $('<select style="margin-left: 5px; width: 40%;"><option value="">All</option></select>')
+				var eachHeader = $(column.header())[0];
+				var headingVal = eachHeader.getAttribute("value");
+				var select = $('<select ><option value="">'+ headingVal +'</option></select>')
 					.appendTo($(column.header()))
 					.on('change', function () {
 						var val = $.fn.dataTable.util.escapeRegex(
@@ -74,4 +119,5 @@
 			});
 		},
 	});
+	$('.buttons-copy, .buttons-csv, .buttons-print, .buttons-pdf, .buttons-excel').addClass('btn btn-primary m-r-5 m-t-5');
 </script>

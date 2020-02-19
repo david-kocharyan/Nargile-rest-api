@@ -22,7 +22,19 @@
 						<tr>
 							<td><?= $key + 1 ?></td>
 							<td><?= $value->name; ?></td>
-							<td><?= $value->status; ?></td>
+							<td style = "
+									<?php if ($value->status == 0) {
+								echo 'color: red;';
+							} else {
+								echo 'color: green;';
+							} ?>"
+							>
+								<?php if ($value->status == 0) {
+									echo "Inactive";
+								} else {
+									echo "Active";
+								} ?>
+							</td>
 							<td>
 								<a href="<?= base_url("admin/countries/edit/$value->id") ?>" data-toggle="tooltip"
 								   data-placement="top" title="Edit" class="btn btn-info btn-circle tooltip-info"> <i

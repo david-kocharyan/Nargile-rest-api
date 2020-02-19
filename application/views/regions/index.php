@@ -22,7 +22,19 @@
 						<tr>
 							<td><?= $key + 1 ?></td>
 							<td><?= $value->name; ?></td>
-							<td><?= $value->status; ?></td>
+							<td style = "
+									<?php if ($value->status == 0) {
+								echo 'color: red;';
+							} else {
+								echo 'color: green;';
+							} ?>"
+							>
+								<?php if ($value->status == 0) {
+									echo "Inactive";
+								} else {
+									echo "Active";
+								} ?>
+							</td>
 							<td>
 								<?php if ($value->status == 1) { ?>
 									<a href="<?= base_url("admin/regions/change-status/$value->id") ?>"

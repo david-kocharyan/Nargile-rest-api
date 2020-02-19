@@ -11,6 +11,7 @@ class Restaurants extends CI_Controller
 			redirect('/admin/login');
 		}
 		$this->load->model("Restaurant");
+		$this->load->model("Statistic");
 	}
 
 	public function index()
@@ -21,8 +22,38 @@ class Restaurants extends CI_Controller
 			$data['restaurants'] = $this->Restaurant->selectResForAdmin($data['user']['user_id']);
 		} else {
 			$data['restaurants'] = $this->Restaurant->selectAll();
+
+			foreach ($data['restaurants'] as $bin=>$key)
+			{
+				$data['restaurants'][$bin]->favorite = $this->Statistic->favorite($key->id)->favorite;
+				$data['restaurants'][$bin]->share = $this->Statistic->share($key->id)->share;
+				$data['restaurants'][$bin]->rate_count = $this->Statistic->rate($key->id)->rate_count;
+				$data['restaurants'][$bin]->review_count = $this->Statistic->reviews($key->id)->review;
+
+				$data['restaurants'][$bin]->rate_overall = $this->Statistic->restaurant_rate($key->id)->overall;
+				$data['restaurants'][$bin]->rate_taste = $this->Statistic->restaurant_rate($key->id)->taste;
+				$data['restaurants'][$bin]->rate_charcoal = $this->Statistic->restaurant_rate($key->id)->charcoal;
+				$data['restaurants'][$bin]->rate_cleanliness = $this->Statistic->restaurant_rate($key->id)->cleanliness;
+				$data['restaurants'][$bin]->rate_staff = $this->Statistic->restaurant_rate($key->id)->staff;
+				$data['restaurants'][$bin]->rate_value_for_money = $this->Statistic->restaurant_rate($key->id)->value_for_money;
+
+				$data['restaurants'][$bin]->offers_hour = $this->Statistic->first_page($key->id)->hour ?? 0;
+				$data['restaurants'][$bin]->offers_featured = $this->Statistic->first_page($key->id)->featured ?? 0;
+				$data['restaurants'][$bin]->offers_nearest = $this->Statistic->first_page($key->id)->nearest ?? 0;
+				$data['restaurants'][$bin]->offers_top = $this->Statistic->first_page($key->id)->top ?? 0;
+
+				$data['restaurants'][$bin]->res_click_menu = $this->Statistic->res_click($key->id)->menu ?? 0;
+				$data['restaurants'][$bin]->res_click_direction = $this->Statistic->res_click($key->id)->direction ?? 0;
+				$data['restaurants'][$bin]->res_click_review = $this->Statistic->res_click($key->id)->review ?? 0;
+				$data['restaurants'][$bin]->res_click_call = $this->Statistic->res_click($key->id)->call ?? 0;
+			}
+
 		}
 		$data['title'] = "Restaurants";
+
+//		echo "<pre>";
+//		var_dump($data['restaurants']);
+//		die;
 
 		$this->load->view('layouts/header.php', $data);
 		$this->load->view('restaurants/index.php');

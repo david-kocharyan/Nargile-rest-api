@@ -11,15 +11,14 @@
 					<thead>
 					<tr>
 						<th>ID</th>
-						<th>Username</th>
-						<th>First Name</th>
-						<th>last Name</th>
-						<th>Email</th>
-						<th>Mobile Number</th>
-						<th>Role</th>
 						<th>Logo</th>
+						<th value="Username"></th>
+						<th value="First Name"></th>
+						<th value="Last Name"></th>
+						<th value="Email"></th>
+						<th value="Mobile Number"></th>
 						<th>Restaurants Name</th>
-						<th>Active</th>
+						<th value="Active"></th>
 						<th>Options</th>
 					</tr>
 					</thead>
@@ -27,14 +26,13 @@
 					<?php foreach ($clients as $key => $value) { ?>
 						<tr>
 							<td><?= $key + 1 ?></td>
+							<td><img src="<?= base_url("plugins/images/Logo/" . $value->logo); ?>" style="border-radius: 50%; height: 80px; width: 80px; ">
+							</td>
 							<td><?= $value->username; ?></td>
 							<td><?= $value->first_name; ?></td>
 							<td><?= $value->last_name; ?></td>
 							<td><?= $value->email; ?></td>
 							<td><?= $value->mobile_number; ?></td>
-							<td><?= $value->role; ?></td>
-							<td><img src="<?= base_url("plugins/images/Logo/" . $value->logo); ?>" width="200"
-									 height="200" alt=""></td>
 
 							<td>
 								<?php foreach ($value->restaurants as $bin => $val) { ?>
@@ -84,13 +82,45 @@
 		</div>
 	</div>
 </div>
+
+<!-- start - This is for export functionality only -->
+<script src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+<script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+<script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
+<!-- end - This is for export functionality only -->
+
 <script>
 	$('#client_table').DataTable({
+		dom: 'Bfirtlp',
+		buttons: [
+			{
+				extend: 'excel',
+				text: 'Excel',
+				title: 'Clients table',
+				filename: 'clients_table',
+				exportOptions: {
+					columns: ":visible",
+					format: {
+						header: function ( data, column, row )
+						{
+							return data.substring(data.indexOf("value")+9,data.indexOf("</option>"));
+						}
+					}
+
+				}
+			},
+		],
 		"ordering": false,
 		initComplete: function () {
-			this.api().columns([1, 2, 3, 4, 5, 6]).every(function () {
+			this.api().columns([2, 3, 4, 5,6,8]).every(function () {
 				var column = this;
-				var select = $('<select style="margin-left: 5px;"><option value="">All</option></select>')
+				var eachHeader = $(column.header())[0];
+				var headingVal = eachHeader.getAttribute("value");
+				var select = $('<select><option value="">'+ headingVal +'</option></select>')
 					.appendTo($(column.header()))
 					.on('change', function () {
 						var val = $.fn.dataTable.util.escapeRegex(
@@ -108,34 +138,5 @@
 			});
 		},
 	});
+	$('.buttons-copy, .buttons-csv, .buttons-print, .buttons-pdf, .buttons-excel').addClass('btn btn-primary m-r-5 m-t-5');
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
