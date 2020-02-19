@@ -36,6 +36,9 @@
 								} ?>
 							</td>
 							<td>
+								<a href="<?= base_url("admin/regions/edit/$value->id") ?>" data-toggle="tooltip"
+								   data-placement="top" title="Edit" class="btn btn-info btn-circle tooltip-info"> <i
+										class="fas fa-pencil-alt"></i> </a>
 								<?php if ($value->status == 1) { ?>
 									<a href="<?= base_url("admin/regions/change-status/$value->id") ?>"
 									   data-toggle="tooltip"

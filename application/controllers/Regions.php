@@ -67,4 +67,48 @@ class Regions extends CI_Controller
 	}
 
 
+	public function edit($id)
+	{
+		$data['user'] = $this->session->userdata('user');
+		$data['title'] = "Add Regions";
+
+		$data['region'] = $this->Region->select_by_id($id);
+		$data['coordinates'] = $this->Region->select_coordinates($id);
+
+		$this->load->view('layouts/header.php', $data);
+		$this->load->view('regions/edit.php');
+		$this->load->view('layouts/footer.php');
+	}
+
+	public function upload($id)
+	{
+		$name = $this->input->post('name');
+		$coordinates = $this->input->post('coordinates');
+
+		$old_reg = $this->db->get_where('regions', array('id' => $id))->row();
+
+		if ($old_reg->name != $name) {
+			$this->db->set('name', $name);
+			$this->db->where('id', $id);
+			$this->db->update('regions');
+		}
+
+		if ($coordinates != 0) {
+
+			$this->db->set('region_id', null);
+			$this->db->set('lat', null);
+			$this->db->set('lng', null);
+			$this->db->where('region_id', $id);
+			$this->db->update('regions_coordinates');
+
+			foreach ($coordinates as $key) {
+				$this->db->insert('regions_coordinates', array('region_id' => $id, 'lat' => $key['lat'], 'lng' => $key['lng'],));
+			}
+		}
+
+		$this->output->set_output(json_encode("success", JSON_PRETTY_PRINT))->_display();
+		exit;
+	}
+
+
 }

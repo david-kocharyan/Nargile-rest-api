@@ -182,6 +182,8 @@ $route["admin/area/change-status/(:any)"] = 'Areas/change_status/$1';
 $route['admin/regions'] = 'Regions';
 $route["admin/regions/create"] = 'Regions/create';
 $route["admin/regions/store"] = 'Regions/store';
+$route["admin/regions/edit/(:any)"] = 'Regions/edit/$1';
+$route["admin/regions/upload/(:any)"] = 'Regions/upload/$1';
 $route["admin/regions/change-status/(:any)"] = 'Regions/change_status/$1';
 
 //Restaurants

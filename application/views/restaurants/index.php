@@ -140,7 +140,7 @@
 				extend: 'excel',
 				text: 'Excel',
 				title: 'Clients table',
-				filename: 'clients_table',
+				filename: 'restaurants_table',
 				exportOptions: {
 					columns: ":visible",
 					format: {

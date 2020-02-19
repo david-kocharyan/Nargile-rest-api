@@ -37,4 +37,15 @@ class Region extends CI_Model
 		$status = $data->status == 1 ? 0 : 1;
 		$this->db->update($this->table, array("status" => $status), ['id' => $id]);
 	}
+
+	public function select_by_id($id)
+	{
+		return $this->db->get_where('regions', array('id' => $id))->row();
+	}
+
+	public function select_coordinates($id)
+	{
+		return $this->db->get_where('regions_coordinates', array('region_id' => $id))->result();
+	}
+
 }
