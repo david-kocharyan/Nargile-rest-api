@@ -21,8 +21,9 @@
 						<th value="Clients Email"></th>
 						<th value="Clients Mobile NUmber"></th>
 						<th value="Restaurant"></th>
-						<th value="Area"></th>
+						<th value="City"></th>
 						<th value="Country"></th>
+						<th value="Region"></th>
 						<th value="Address"></th>
 						<th value="Type"></th>
 						<th value="Phone"></th>
@@ -60,6 +61,7 @@
 							<td><?= $value->name; ?></td>
 							<td><?= $value->area_name; ?></td>
 							<td><?= $value->country_name; ?></td>
+							<td><?= $value->region_name; ?></td>
 							<td><?= $value->address; ?></td>
 							<td><?= $value->type; ?></td>
 							<td><?= $value->phone_number; ?></td>
@@ -161,7 +163,7 @@
 		],
 		"ordering": false,
 		initComplete: function () {
-			this.api().columns([2, 3, 4, 5, 6, 7, 8, 9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26, 27,28,29]).every(function () {
+			this.api().columns([2, 3, 4, 5, 6, 7, 8, 9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26, 27,28,29, 30]).every(function () {
 				var column = this;
 				var eachHeader = $(column.header())[0];
 				var headingVal = eachHeader.getAttribute("value");

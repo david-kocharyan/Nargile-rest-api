@@ -23,8 +23,9 @@ class Restaurants extends CI_Controller
 		} else {
 			$data['restaurants'] = $this->Restaurant->selectAll();
 
-			foreach ($data['restaurants'] as $bin=>$key)
-			{
+			foreach ($data['restaurants'] as $bin => $key) {
+				$data['restaurants'][$bin]->region_name = $this->get_region($key->lat, $key->lng);
+
 				$data['restaurants'][$bin]->admin_first_name = $this->Restaurant->get_admins($key->id)->first_name ?? "";
 				$data['restaurants'][$bin]->admin_last_name = $this->Restaurant->get_admins($key->id)->last_name ?? "";
 				$data['restaurants'][$bin]->admin_email = $this->Restaurant->get_admins($key->id)->email ?? "";
@@ -52,13 +53,8 @@ class Restaurants extends CI_Controller
 				$data['restaurants'][$bin]->res_click_review = $this->Statistic->res_click($key->id)->review ?? 0;
 				$data['restaurants'][$bin]->res_click_call = $this->Statistic->res_click($key->id)->call ?? 0;
 			}
-
 		}
 		$data['title'] = "Restaurants";
-
-//		echo "<pre>";
-//		var_dump($data['restaurants']);
-//		die;
 
 		$this->load->view('layouts/header.php', $data);
 		$this->load->view('restaurants/index.php');
@@ -566,5 +562,55 @@ class Restaurants extends CI_Controller
 			redirect('404_override');
 			return;
 		}
+	}
+
+	private function get_region($lat = null, $lng = null)
+	{
+		$point["lat"] = $lat;
+		$point["lng"] = $lng;
+
+		$regions = $this->db->get_where('regions', array("regions.status" => 1))->result();
+		$arr = array();
+		foreach ($regions as $bin => $key) {
+			$this->db->select("regions_coordinates.lat, regions_coordinates.lng");
+			$data = $this->db->get_where("regions_coordinates", array("region_id" => $key->id))->result();
+			$arr[$bin]["reg"] = $data;
+			$arr[$bin]["reg_id"] = $key->id;
+		}
+
+		$id = 0;
+		foreach ($arr as $key) {
+			$in = $this->inside($point, $key["reg"]);
+			if ($in == "true") {
+				$id = $key["reg_id"];
+				break;
+			}
+		}
+
+		$region = "";
+		if ($id != 0) {
+			$region = $this->db->get_where('regions', array('id' => $id))->row()->name;
+		}
+		return $region;
+	}
+
+	private function inside($point, $fenceArea)
+	{
+		$x = $point['lat'];
+		$y = $point['lng'];
+
+		$inside = false;
+		for ($i = 0, $j = count($fenceArea) - 1; $i < count($fenceArea); $j = $i++) {
+			$xi = $fenceArea[$i]->lat;
+			$yi = $fenceArea[$i]->lat;
+			$xj = $fenceArea[$j]->lng;
+			$yj = $fenceArea[$j]->lng;
+
+			$intersect = (($yi > $y) != ($yj > $y))
+				&& ($x < ($xj - $xi) * ($y - $yi) / ($yj - $yi) + $xi);
+			if ($intersect) $inside = !$inside;
+		}
+
+		return $inside;
 	}
 }
