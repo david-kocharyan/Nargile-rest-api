@@ -25,6 +25,11 @@ class Restaurants extends CI_Controller
 
 			foreach ($data['restaurants'] as $bin=>$key)
 			{
+				$data['restaurants'][$bin]->admin_first_name = $this->Restaurant->get_admins($key->id)->first_name ?? "";
+				$data['restaurants'][$bin]->admin_last_name = $this->Restaurant->get_admins($key->id)->last_name ?? "";
+				$data['restaurants'][$bin]->admin_email = $this->Restaurant->get_admins($key->id)->email ?? "";
+				$data['restaurants'][$bin]->admin_mobile_number = $this->Restaurant->get_admins($key->id)->mobile_number ?? "";
+
 				$data['restaurants'][$bin]->favorite = $this->Statistic->favorite($key->id)->favorite;
 				$data['restaurants'][$bin]->share = $this->Statistic->share($key->id)->share;
 				$data['restaurants'][$bin]->rate_count = $this->Statistic->rate($key->id)->rate_count;

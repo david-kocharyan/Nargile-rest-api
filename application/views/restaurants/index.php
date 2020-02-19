@@ -17,6 +17,9 @@
 					<tr>
 						<th value="ID">ID</th>
 						<th value="Logo">Logo</th>
+						<th value="Clients Name"></th>
+						<th value="Clients Email"></th>
+						<th value="Clients Mobile NUmber"></th>
 						<th value="Restaurant"></th>
 						<th value="Area"></th>
 						<th value="Country"></th>
@@ -51,6 +54,9 @@
 						<tr>
 							<td><?= $key + 1 ?></td>
 							<td><img src="<?= base_url("plugins/images/Restaurants/" . $value->logo); ?>" style="border-radius: 50%; height: 80px; width: 80px; "></td>
+							<td><?= $value->admin_first_name ." ". $value->admin_last_name; ?></td>
+							<td><?= $value->admin_email; ?></td>
+							<td><?= $value->admin_mobile_number; ?></td>
 							<td><?= $value->name; ?></td>
 							<td><?= $value->area_name; ?></td>
 							<td><?= $value->country_name; ?></td>
@@ -155,7 +161,7 @@
 		],
 		"ordering": false,
 		initComplete: function () {
-			this.api().columns([2, 3, 4, 5, 6, 7, 8, 9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26]).every(function () {
+			this.api().columns([2, 3, 4, 5, 6, 7, 8, 9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26, 27,28,29]).every(function () {
 				var column = this;
 				var eachHeader = $(column.header())[0];
 				var headingVal = eachHeader.getAttribute("value");

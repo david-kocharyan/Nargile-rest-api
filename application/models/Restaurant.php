@@ -162,5 +162,12 @@ class Restaurant extends CI_Model
 		return $this->db->get_where("res_plans", array("restaurant_id" => $id))->result();
 	}
 
+	public function get_admins($id)
+	{
+		$admin_id = $this->db->get_where("restaurants", array("id" => $id))->row()->admin_id;
+		$admin = $this->db->get_where("admins", array("id" => $admin_id))->row();
+		return $admin;
+	}
+
 }
 

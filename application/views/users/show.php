@@ -56,7 +56,7 @@
 				<div class="col-lg-12 col-md-12 col-sm-12">
 					<h3 class="box-title m-t-40">Badges</h3>
 					<?php foreach ($badges as $key) { ?>
-						<img src="<?= base_url().$key->image ?>" alt="" class="m-l-10">
+						<img src="<?= base_url().$key->image ?>" class="m-l-10" style="width: 80px; height: 80px;">
 					<?php }?>
 				</div>
 			</div>
