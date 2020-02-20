@@ -31,6 +31,34 @@
 			</div>
 
 			<div class="form-group">
+				<label for="country">Clients</label>
+				<div class="input-group col-md-12">
+					<select class="form-control select_2_example" id="clients" name="client">
+						<option value="" selected>Choose Clients</option>
+						<?php foreach ($clients as $key) { ?>
+							<option value="<?= $key->id ?>" <?php if ($key->id == $slider->client_id) echo "selected"; ?>>
+								<?= $key->first_name ." ". $key->last_name ?>
+							</option>
+						<?php } ?>
+					</select>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="area">Area</label>
+				<div class="input-group col-md-12">
+					<select class="form-control select_2_example" id="area" name="area">
+						<option value="" selected>Choose Area</option>
+						<?php foreach ($area as $key) { ?>
+							<option value="<?= $key->id ?>" <?php if ($key->id == $slider->area_id) echo "selected"; ?>>
+								<?= $key->area_name ?>
+							</option>
+						<?php } ?>
+					</select>
+				</div>
+			</div>
+
+			<div class="form-group">
 				<label for="inputUsername" class="control-label">Link</label>
 				<input type="text" class="form-control" id="inputUsername" placeholder="www.aimtech.am" name="link"
 					   value="<?= $slider->link ?>">

@@ -28,6 +28,8 @@ class Sliders extends CI_Controller
 	{
 		$data['user'] = $this->session->userdata('user');
 		$data['region'] = $this->Slider->get_regions();
+		$data['clients'] = $this->db->get_where('admins', array('role' => 'admin'))->result();
+		$data['area'] = $this->Slider->selectAllArea();
 		$data['title'] = "Image upload page";
 
 		$this->load->view('layouts/header.php', $data);
@@ -38,6 +40,8 @@ class Sliders extends CI_Controller
 	public function store()
 	{
 		$region = $this->input->post("region");
+		$client = $this->input->post("client");
+		$area = $this->input->post("area");
 		$link = $this->input->post("link");
 		$start = $this->input->post("start");
 		$end = $this->input->post("end");
@@ -58,6 +62,8 @@ class Sliders extends CI_Controller
 
 		$data = array(
 			"region_id" => $region != NULL ? $region : NULL,
+			"client_id" => $client != NULL ? $client : NULL,
+			"area_id" => $area != NULL ? $area : NULL,
 			"image" => $logo,
 			"link" => $link != NULL ? $link : NULL,
 			"start" => $start != NULL ? $start : NULL,
@@ -68,15 +74,15 @@ class Sliders extends CI_Controller
 		redirect('sliders');
 	}
 
-
 	public function edit($id)
 	{
 		$data['user'] = $this->session->userdata('user');
 		$data['region'] = $this->Slider->get_regions();
 		$data['slider'] = $this->Slider->selectById($id);
+		$data['clients'] = $this->db->get_where('admins', array('role' => 'admin'))->result();
+		$data['area'] = $this->Slider->selectAllArea();
 		$data['title'] = "Slider Edit page";
 
-//		var_dump($data['slider']);die;
 		$this->load->view('layouts/header.php', $data);
 		$this->load->view('sliders/edit.php');
 		$this->load->view('layouts/footer.php');
@@ -85,6 +91,8 @@ class Sliders extends CI_Controller
 	public function update($id)
 	{
 		$region = $this->input->post("region");
+		$client = $this->input->post("client");
+		$area = $this->input->post("area");
 		$link = $this->input->post("link");
 		$start = $this->input->post("start");
 		$end = $this->input->post("end");
@@ -104,6 +112,8 @@ class Sliders extends CI_Controller
 
 		$data = array(
 			"region_id" => $region != NULL ? $region : NULL,
+			"client_id" => $client != NULL ? $client : NULL,
+			"area_id" => $area != NULL ? $area : NULL,
 			"link" => $link != NULL ? $link : NULL,
 			"start" => $start != NULL ? $start : NULL,
 			"end" => $end != NULL ? $end : NULL,

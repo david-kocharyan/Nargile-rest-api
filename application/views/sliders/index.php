@@ -11,6 +11,9 @@
 				<tr>
 					<th>ID</th>
 					<th>Image</th>
+					<th>Clients</th>
+					<th>City</th>
+					<th>Country</th>
 					<th>Link</th>
 					<th>Start</th>
 					<th>End</th>
@@ -22,9 +25,11 @@
 				<?php foreach ($sliders as $key => $value) { ?>
 					<tr>
 						<td><?= $key + 1 ?></td>
-						<td><img src="<?= base_url('plugins/images/Slider/') ?><?= $value->image; ?>" alt="" width="200"
-								 height="100" class="img-responsive">
+						<td><img src="<?= base_url('plugins/images/Slider/') ?><?= $value->image; ?>" style="width: 100px; height: 100px">
 						</td>
+						<td><?= $value->first_name ." ". $value->last_name ?></td>
+						<td><?= $value->area_name ?></td>
+						<td><?= $value->country_name ?></td>
 						<td><?= $value->link ?></td>
 						<td><?= $value->start ?></td>
 						<td><?= $value->end ?></td>
@@ -71,7 +76,7 @@
 	$('#slider_table').DataTable({
 		"ordering": false,
 		initComplete: function () {
-			this.api().columns([2, 3, 4, 5]).every(function () {
+			this.api().columns([2, 3, 4, 5, 6]).every(function () {
 				var column = this;
 				var select = $('<select style="margin-left: 5px;"><option value="">All</option></select>')
 					.appendTo($(column.header()))

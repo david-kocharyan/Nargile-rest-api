@@ -12,7 +12,18 @@ class Slider extends CI_Model
 
 	public function selectAll()
 	{
+		$this->db->select('sliders.*, admins.first_name, admins.last_name, area.name as area_name, countries.name as country_name');
+		$this->db->join('admins', 'admins.id = sliders.client_id', 'left');
+		$this->db->join("area", "area.id = sliders.area_id", "left");
+		$this->db->join("countries", "countries.id = area.country_id", "left");
 		return $this->db->get($this->table)->result();
+	}
+
+	public function selectAllArea()
+	{
+		$this->db->select("area.id, area.status as area_status, area.name as area_name, countries.id as country_id, countries.name as country_name ");
+		$this->db->join("countries", "countries.id = area.country_id", "left");
+		return $this->db->get_where('area', array('countries.status' => 1 ))->result();
 	}
 
 	public function get_regions()
