@@ -181,5 +181,16 @@ class Sliders extends CI_Controller
 		$this->image_lib->clear();
 	}
 
+	public function calendar()
+	{
+		$data['user'] = $this->session->userdata('user');
+		$data['sliders'] = $this->Slider->selectAll();
+		$data['title'] = "Slider";
+
+		$this->load->view('layouts/header.php', $data);
+		$this->load->view('sliders/calendar.php');
+		$this->load->view('layouts/footer.php');
+	}
+
 
 }

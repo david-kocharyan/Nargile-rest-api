@@ -5,6 +5,9 @@
 		<p class="box-title m-b-30 btn btn-success btn-outline"><a
 				href="<?= base_url("admin/sliders/create") ?>" class="text-success">Add New Image </a></p>
 
+		<p class="box-title m-b-30 btn btn-primary btn-outline"><a
+				href="<?= base_url("admin/sliders-calendar") ?>" class="text-primary">Calendar</a></p>
+
 		<div class="table-responsive">
 			<table id="slider_table" class="table table-striped">
 				<thead>
@@ -14,6 +17,7 @@
 					<th>Clients</th>
 					<th>City</th>
 					<th>Country</th>
+					<th>Region</th>
 					<th>Link</th>
 					<th>Start</th>
 					<th>End</th>
@@ -30,6 +34,7 @@
 						<td><?= $value->first_name ." ". $value->last_name ?></td>
 						<td><?= $value->area_name ?></td>
 						<td><?= $value->country_name ?></td>
+						<td><?= $value->region_name ?></td>
 						<td><?= $value->link ?></td>
 						<td><?= $value->start ?></td>
 						<td><?= $value->end ?></td>

@@ -54,10 +54,12 @@
 					<?php foreach ($restaurants as $key => $value) { ?>
 						<tr>
 							<td><?= $key + 1 ?></td>
-							<td><img src="<?= base_url("plugins/images/Restaurants/" . $value->logo); ?>" style="border-radius: 50%; height: 80px; width: 80px; "></td>
-							<td><?= $value->admin_first_name ." ". $value->admin_last_name; ?></td>
-							<td><?= $value->admin_email; ?></td>
-							<td><?= $value->admin_mobile_number; ?></td>
+							<td><img src="<?= base_url("plugins/images/Restaurants/" . $value->logo); ?>"
+									 style="border-radius: 50%; height: 80px; width: 80px; "></td>
+							<td><?php	if (!empty($value->admin)) echo $value->admin->first_name . " " . $value->admin->last_name; ?></td>
+							<td><?php if (!empty($value->admin)) echo $value->admin->email; ?></td>
+							<td><?php if (!empty($value->admin)) echo $value->admin->mobile_number; ?></td>
+
 							<td><?= $value->name; ?></td>
 							<td><?= $value->area_name; ?></td>
 							<td><?= $value->country_name; ?></td>
@@ -70,28 +72,30 @@
 							<td> <?= $value->share; ?> </td>
 							<td> <?= $value->rate_count; ?> </td>
 							<td> <?= $value->review_count; ?> </td>
-							<td> <?= $value->rate_overall; ?> </td>
-							<td> <?= $value->rate_taste; ?> </td>
-							<td> <?= $value->rate_charcoal; ?> </td>
-							<td> <?= $value->rate_cleanliness; ?> </td>
-							<td> <?= $value->rate_staff; ?> </td>
-							<td> <?= $value->rate_value_for_money; ?> </td>
-							<td> <?= $value->offers_hour; ?> </td>
-							<td> <?= $value->offers_featured; ?> </td>
-							<td> <?= $value->offers_nearest; ?> </td>
-							<td> <?= $value->offers_top; ?> </td>
-							<td> <?= $value->res_click_menu; ?> </td>
-							<td> <?= $value->res_click_direction; ?> </td>
-							<td> <?= $value->res_click_review; ?> </td>
-							<td> <?= $value->res_click_call; ?> </td>
 
-							<td style = "
+							<td> <?php if (!empty($value->rate)) echo $value->rate->overall; ?> </td>
+							<td> <?php if (!empty($value->rate)) echo $value->rate->taste; ?> </td>
+							<td> <?php if (!empty($value->rate)) echo $value->rate->charcoal; ?> </td>
+							<td> <?php if (!empty($value->rate)) echo $value->rate->cleanliness; ?> </td>
+							<td> <?php if (!empty($value->rate)) echo $value->rate->staff; ?> </td>
+							<td> <?php if (!empty($value->rate)) echo $value->rate->value_for_money; ?> </td>
+
+							<td> <?php if (!empty($value->offers)) echo $value->offers['hour']; ?> </td>
+							<td> <?php if (!empty($value->offers)) echo $value->offers['featured']; ?> </td>
+							<td> <?php if (!empty($value->offers)) echo $value->offers['nearest']; ?> </td>
+							<td> <?php if (!empty($value->offers)) echo $value->offers['top']; ?> </td>
+
+							<td> <?php if (!empty($value->res_click)) echo $value->res_click['menu']; ?> </td>
+							<td> <?php if (!empty($value->res_click)) echo $value->res_click['direction']; ?> </td>
+							<td> <?php if (!empty($value->res_click)) echo $value->res_click['review']; ?> </td>
+							<td> <?php if (!empty($value->res_click)) echo $value->res_click['call']; ?> </td>
+
+							<td style="
 									<?php if ($value->status == 0) {
 								echo 'color: red;';
 							} else {
 								echo 'color: green;';
-							} ?>"
-							>
+							} ?>">
 								<?php if ($value->status == 0) {
 									echo "Inactive";
 								} else {
@@ -152,9 +156,8 @@
 				exportOptions: {
 					columns: ":visible",
 					format: {
-						header: function ( data, column, row )
-						{
-							return data.substring(data.indexOf("value")+9,data.indexOf("</option>"));
+						header: function (data, column, row) {
+							return data.substring(data.indexOf("value") + 9, data.indexOf("</option>"));
 						}
 					}
 
@@ -163,11 +166,11 @@
 		],
 		"ordering": false,
 		initComplete: function () {
-			this.api().columns([2, 3, 4, 5, 6, 7, 8, 9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26, 27,28,29, 30]).every(function () {
+			this.api().columns([2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]).every(function () {
 				var column = this;
 				var eachHeader = $(column.header())[0];
 				var headingVal = eachHeader.getAttribute("value");
-				var select = $('<select><option value="">'+ headingVal +'</option></select>')
+				var select = $('<select><option value="">' + headingVal + '</option></select>')
 					.appendTo($(column.header()))
 					.on('change', function () {
 						var val = $.fn.dataTable.util.escapeRegex(

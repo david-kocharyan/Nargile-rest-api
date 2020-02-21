@@ -25,33 +25,16 @@ class Restaurants extends CI_Controller
 
 			foreach ($data['restaurants'] as $bin => $key) {
 				$data['restaurants'][$bin]->region_name = $this->get_region($key->lat, $key->lng);
-
-				$data['restaurants'][$bin]->admin_first_name = $this->Restaurant->get_admins($key->id)->first_name ?? "";
-				$data['restaurants'][$bin]->admin_last_name = $this->Restaurant->get_admins($key->id)->last_name ?? "";
-				$data['restaurants'][$bin]->admin_email = $this->Restaurant->get_admins($key->id)->email ?? "";
-				$data['restaurants'][$bin]->admin_mobile_number = $this->Restaurant->get_admins($key->id)->mobile_number ?? "";
+				$data['restaurants'][$bin]->admin = $this->Restaurant->get_admins($key->id) ?? array();
 
 				$data['restaurants'][$bin]->favorite = $this->Statistic->favorite($key->id)->favorite;
 				$data['restaurants'][$bin]->share = $this->Statistic->share($key->id)->share;
 				$data['restaurants'][$bin]->rate_count = $this->Statistic->rate($key->id)->rate_count;
 				$data['restaurants'][$bin]->review_count = $this->Statistic->reviews($key->id)->review;
 
-				$data['restaurants'][$bin]->rate_overall = $this->Statistic->restaurant_rate($key->id)->overall;
-				$data['restaurants'][$bin]->rate_taste = $this->Statistic->restaurant_rate($key->id)->taste;
-				$data['restaurants'][$bin]->rate_charcoal = $this->Statistic->restaurant_rate($key->id)->charcoal;
-				$data['restaurants'][$bin]->rate_cleanliness = $this->Statistic->restaurant_rate($key->id)->cleanliness;
-				$data['restaurants'][$bin]->rate_staff = $this->Statistic->restaurant_rate($key->id)->staff;
-				$data['restaurants'][$bin]->rate_value_for_money = $this->Statistic->restaurant_rate($key->id)->value_for_money;
-
-				$data['restaurants'][$bin]->offers_hour = $this->Statistic->first_page($key->id)->hour ?? 0;
-				$data['restaurants'][$bin]->offers_featured = $this->Statistic->first_page($key->id)->featured ?? 0;
-				$data['restaurants'][$bin]->offers_nearest = $this->Statistic->first_page($key->id)->nearest ?? 0;
-				$data['restaurants'][$bin]->offers_top = $this->Statistic->first_page($key->id)->top ?? 0;
-
-				$data['restaurants'][$bin]->res_click_menu = $this->Statistic->res_click($key->id)->menu ?? 0;
-				$data['restaurants'][$bin]->res_click_direction = $this->Statistic->res_click($key->id)->direction ?? 0;
-				$data['restaurants'][$bin]->res_click_review = $this->Statistic->res_click($key->id)->review ?? 0;
-				$data['restaurants'][$bin]->res_click_call = $this->Statistic->res_click($key->id)->call ?? 0;
+				$data['restaurants'][$bin]->rate = $this->Statistic->restaurant_rate($key->id) ?? array();
+				$data['restaurants'][$bin]->offers = $this->Statistic->first_page($key->id) ?? array();
+				$data['restaurants'][$bin]->res_click = $this->Statistic->res_click($key->id) ?? array();
 			}
 		}
 		$data['title'] = "Restaurants";

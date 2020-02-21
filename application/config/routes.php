@@ -257,6 +257,8 @@ $route["admin/sliders/store"] = 'Sliders/store';
 $route["admin/sliders/edit/(:any)"] = 'Sliders/edit/$1';
 $route["admin/sliders/update/(:any)"] = 'Sliders/update/$1';
 $route["admin/sliders/change-status/(:any)"] = 'Sliders/change_status/$1';
+$route['admin/sliders-calendar'] = 'Sliders/calendar';
+
 
 //Badges
 $route['admin/badges'] = 'Badges';

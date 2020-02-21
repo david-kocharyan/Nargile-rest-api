@@ -28,8 +28,6 @@
 <script src="<?= base_url('public/') ?>plugins/bower_components/morrisjs/morris.js"></script>
 <!-- Calendar JavaScript -->
 <script src="<?= base_url('public/') ?>plugins/bower_components/moment/moment.js"></script>
-<script src='<?= base_url('public/') ?>plugins/bower_components/calendar/dist/fullcalendar.min.js'></script>
-<script src="<?= base_url('public/') ?>plugins/bower_components/calendar/dist/cal-init.js"></script>
 <!-- Custom Theme JavaScript -->
 <script src="<?= base_url('public/') ?>js/custom.min.js"></script>
 <!-- Custom tab JavaScript -->
@@ -59,7 +57,7 @@
         // data table
         $('#myTable').DataTable();
 
-       
+
 
         // Basic
         $('.dropify').dropify();
