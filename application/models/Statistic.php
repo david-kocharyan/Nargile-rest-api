@@ -48,8 +48,16 @@ class Statistic extends CI_Model
 
 	public function restaurant_rate($id)
 	{
-		$this->db->select("AVG(overall) as overall, AVG(taste) as taste, AVG(charcoal) as charcoal,
-		 AVG(cleanliness) as cleanliness, AVG(staff) as staff, AVG(value_for_money) as value_for_money");
+		$this->db->select("
+		CASE WHEN ROUND(AVG(overall),1) IS NULL THEN 0 ELSE ROUND(AVG(overall),1) END AS overall,
+		CASE WHEN ROUND(AVG(taste),1) IS NULL THEN 0 ELSE ROUND(AVG(taste),1) END AS taste,
+		CASE WHEN ROUND(AVG(charcoal),1) IS NULL THEN 0 ELSE ROUND(AVG(charcoal),1) END AS charcoal,
+		CASE WHEN ROUND(AVG(cleanliness),1) IS NULL THEN 0 ELSE ROUND(AVG(cleanliness),1) END AS cleanliness,
+		CASE WHEN ROUND(AVG(staff),1) IS NULL THEN 0 ELSE ROUND(AVG(staff),1) END AS staff,
+		CASE WHEN ROUND(AVG(value_for_money),1) IS NULL THEN 0 ELSE ROUND(AVG(value_for_money),1) END AS value_for_money,
+		");
+//		$this->db->select("AVG(overall) as overall, AVG(taste) as taste, AVG(charcoal) as charcoal,
+//		 AVG(cleanliness) as cleanliness, AVG(staff) as staff, AVG(value_for_money) as value_for_money");
 		return $this->db->get_where('rates', array('restaurant_id' => $id))->row();
 	}
 

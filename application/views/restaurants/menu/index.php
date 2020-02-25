@@ -89,7 +89,18 @@
 							<td><?= $key + 1 ?></td>
 							<td><?= $value->name; ?></td>
 							<td><?= $value->price; ?></td>
-							<td><?= $value->status; ?></td>
+							<td style="
+									<?php if ($value->status == 0) {
+								echo 'color: red;';
+							} else {
+								echo 'color: green;';
+							} ?>">
+								<?php if ($value->status == 0) {
+									echo "Inactive";
+								} else {
+									echo "Active";
+								} ?>
+							</td>
 							<td>
 								<a href="<?= base_url("admin/restaurants/menu/edit/$value->id") ?>"
 								   data-toggle="tooltip"
@@ -141,7 +152,18 @@
 								<img src="<?= base_url('/plugins/images/Menu/') . $value->image ?> " alt="image"
 									 class="img-responsive" width="200" height="200">
 							</td>
-							<td><?= $value->status ?></td>
+							<td style="
+									<?php if ($value->status == 0) {
+								echo 'color: red;';
+							} else {
+								echo 'color: green;';
+							} ?>">
+								<?php if ($value->status == 0) {
+									echo "Inactive";
+								} else {
+									echo "Active";
+								} ?>
+							</td>
 
 							<td>
 								<?php if ($value->status == 1) { ?>

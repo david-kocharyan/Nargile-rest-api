@@ -56,7 +56,7 @@
 							<td><?= $key + 1 ?></td>
 							<td><img src="<?= base_url("plugins/images/Restaurants/" . $value->logo); ?>"
 									 style="border-radius: 50%; height: 80px; width: 80px; "></td>
-							<td><?php	if (!empty($value->admin)) echo $value->admin->first_name . " " . $value->admin->last_name; ?></td>
+							<td><?php if (!empty($value->admin)) echo $value->admin->first_name . " " . $value->admin->last_name; ?></td>
 							<td><?php if (!empty($value->admin)) echo $value->admin->email; ?></td>
 							<td><?php if (!empty($value->admin)) echo $value->admin->mobile_number; ?></td>
 
@@ -107,18 +107,21 @@
 								   data-placement="top" title="Edit" class="btn btn-info btn-circle tooltip-info"> <i
 										class="fas fa-pencil-alt"></i> </a>
 
-								<?php if ($value->status == 1) { ?>
-									<a href="<?= base_url("admin/restaurants/change-status/$value->id") ?>"
-									   data-toggle="tooltip"
-									   data-placement="top" title="Deactivate"
-									   class="btn btn-danger btn-circle tooltip-danger"><i class="fa fa-power-off"></i></a>
-								<?php } else { ?>
-									<a href="<?= base_url("admin/restaurants/change-status/$value->id") ?>"
-									   data-toggle="tooltip"
-									   data-placement="top" title="Activate"
-									   class="btn btn-success btn-circle tooltip-success"><i
-											class="fa fa-power-off"></i></a>
-								<?php } ?>
+								<?php if ($user['role'] == 'superAdmin') { ?>
+									<?php if ($value->status == 1) { ?>
+										<a href="<?= base_url("admin/restaurants/change-status/$value->id") ?>"
+										   data-toggle="tooltip"
+										   data-placement="top" title="Deactivate"
+										   class="btn btn-danger btn-circle tooltip-danger"><i
+												class="fa fa-power-off"></i></a>
+									<?php } else { ?>
+										<a href="<?= base_url("admin/restaurants/change-status/$value->id") ?>"
+										   data-toggle="tooltip"
+										   data-placement="top" title="Activate"
+										   class="btn btn-success btn-circle tooltip-success"><i
+												class="fa fa-power-off"></i></a>
+									<?php }
+								} ?>
 
 								<a href="<?= base_url("admin/restaurants/show/$value->id") ?>" data-toggle="tooltip"
 								   data-placement="top" title="All info about current restaurant"
