@@ -44,6 +44,7 @@ class Restaurant_Profile_Api extends REST_Controller
 			$data = array(
 				"user_id" => $res,
 				"restaurant_id" => $this->input->get('id'),
+				"offer_id" => $this->input->get('offer_id') ?? NULL,
 				"type" => $this->input->get("type"),
 			);
 			$this->db->insert('offers_click', $data);
