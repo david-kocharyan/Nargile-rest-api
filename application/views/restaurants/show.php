@@ -184,34 +184,6 @@
 </div>
 
 <div class="row">
-	<div class="col-md-6">
-		<div class="white-box" style="height: 300px;">
-			<h3 class="box-title">Featured Offers</h3>
-			<div class="row">
-				<div class="col-sm-9" id="featured_offers">
-					<?php foreach ($featured as $key => $value) { ?>
-						<p><?= $value->text ?></p>
-					<?php } ?>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div class="col-md-6">
-		<div class="white-box" style="height: 300px;">
-			<h3 class="box-title">Hour Offers</h3>
-			<div class="row">
-				<div class="col-sm-9" id="hour_offers">
-					<?php foreach ($hour as $key => $value) { ?>
-						<p><?= $value->text ?></p>
-					<?php } ?>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-
-<div class="row">
 	<div class="col-sm-12">
 		<div class="white-box">
 			<h3 class="box-title m-b-0">Restaurant Menu Table</h3>
@@ -320,10 +292,76 @@
 	</div>
 </div>
 
+<!--offers click quantity-->
+<div class="row">
+	<div class="col-sm-12">
+		<div class="white-box">
+			<h3 class="box-title m-b-0">Featured Offers click quantity</h3>
+			<div class="table-responsive">
+				<table id="feature_table" class="table table-striped">
+					<thead>
+					<tr>
+						<th>ID</th>
+						<th>Description</th>
+						<th>Restaurant Name</th>
+						<th>Quantity</th>
+					</tr>
+					</thead>
+					<tbody>
+					<?php foreach ($featured as $key => $value) { ?>
+						<tr>
+							<td><?= $key + 1 ?></td>
+							<td><?= $value->text ?></td>
+							<td><?= $value->name ?></td>
+							<td><?= $value->quantity ?></td>
+						</tr>
+					<?php } ?>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-sm-12">
+		<div class="white-box">
+			<h3 class="box-title m-b-0">Happy Hour Deals click quantity</h3>
+			<div class="table-responsive">
+				<table id="hour_table" class="table table-striped">
+					<thead>
+					<tr>
+						<th>ID</th>
+						<th>Description</th>
+						<th>Restaurant Name</th>
+						<th>Quantity</th>
+					</tr>
+					</thead>
+					<tbody>
+					<?php foreach ($hour as $key => $value) { ?>
+						<tr>
+							<td><?= $key + 1 ?></td>
+							<td><?= $value->text ?></td>
+							<td><?= $value->name ?></td>
+							<td><?= $value->quantity ?></td>
+						</tr>
+						<p></p>
+					<?php } ?>
+
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+<scripts></scripts>
 <script src="https://maps.google.com/maps/api/js?v=3.exp&sensor=false&key=AIzaSyDsz2KPO5FSf6PDx2YwCTtB1HBt2DkXFrY"
 		type="text/javascript"></script>
 <script type="text/javascript">
 	$(document).ready(function () {
+		$('#feature_table').DataTable();
+		$('#hour_table').DataTable();
+
 		geocoder = new google.maps.Geocoder();
 
 		var latitude = <?php echo json_encode($restaurant->lat); ?>;

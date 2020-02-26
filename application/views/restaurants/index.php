@@ -39,8 +39,8 @@
 						<th value="Rate Value for money"></th>
 						<th value="Offers Hour"></th>
 						<th value="Offers Featured"></th>
-						<th value="Offers Nearest"></th>
-						<th value="Offers Top"></th>
+						<th value="Nearest"></th>
+						<th value="Top"></th>
 						<th value="Res Click Menu"></th>
 						<th value="Res Click Direction"></th>
 						<th value="Res Click Review"></th>

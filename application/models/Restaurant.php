@@ -112,12 +112,28 @@ class Restaurant extends CI_Model
 
 	public function show_featured_offers($id)
 	{
-		return $this->db->get_where("featured_offers", array("restaurant_id" => $id, "status" => 1))->result();
+		$this->db->select('featured_offers.*, restaurants.name');
+		$this->db->join('restaurants','restaurants.id = featured_offers.restaurant_id');
+		$data =  $this->db->get_where("featured_offers", array("restaurant_id" => $id, "featured_offers.status" => 1))->result();
+		foreach ($data as $bin=>$key)
+		{
+			$this->db->select('count(id) as count');
+			$data[$bin]->quantity = $this->db->get_where("offers_click", array("offer_id" => $key->id))->row()->count ?? 0;
+		}
+		return $data;
 	}
 
 	public function show_hour_offers($id)
 	{
-		return $this->db->get_where("hour_offers", array("restaurant_id" => $id, "status" => 1))->result();
+		$this->db->select('hour_offers.*, restaurants.name');
+		$this->db->join('restaurants','restaurants.id = hour_offers.restaurant_id');
+		$data =$this->db->get_where("hour_offers", array("restaurant_id" => $id, "hour_offers.status" => 1))->result();
+		foreach ($data as $bin=>$key)
+		{
+			$this->db->select('count(id) as count');
+			$data[$bin]->quantity = $this->db->get_where("offers_click", array("offer_id" => $key->id))->row()->count ?? 0;
+		}
+		return $data;
 	}
 
 	public function show_menus($id)
