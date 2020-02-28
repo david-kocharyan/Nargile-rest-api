@@ -54,14 +54,16 @@
     $(document).ready(function() {
         $('.select_2_example').select2();
 
+        $("#users_notif_select").select2({
+			tags: true,
+			multiple: true,
+		});
+
         // data table
         $('#myTable').DataTable();
 
-
-
         // Basic
         $('.dropify').dropify();
-
 
         (function() {
             [].slice.call(document.querySelectorAll('.sttabs')).forEach(function(el) {

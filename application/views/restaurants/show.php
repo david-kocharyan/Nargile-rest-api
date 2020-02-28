@@ -49,15 +49,13 @@
 				Add Working hours
 			</a>
 
-			<?php if ($user['role'] == "superAdmin") { ?>
-				<a href="<?= base_url("admin/restaurants/coin-offers/$restaurant->restaurant_id") ?>"
-				   class="btn btn-basic">
+			<a href="<?= base_url("admin/restaurants/coin-offers/$restaurant->restaurant_id") ?>"
+			   class="btn btn-basic">
 				<span class="btn-label">
 					<i class="fab fa-bitcoin"></i>
 				</span>
-					Add Coin Offers
-				</a>
-			<?php } ?>
+				Add Coin Offers
+			</a>
 		</div>
 	</div>
 </div>

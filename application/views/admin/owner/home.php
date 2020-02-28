@@ -48,6 +48,8 @@
 </div>
 
 <div class="row silver"></div>
+<h1>Silver</h1>
+<hr>
 <div class="row gold">
 	<div class="col-lg-6">
 		<div class="white-box">
@@ -66,6 +68,8 @@
 		</div>
 	</div>
 
+<h1>Gold</h1>
+<hr>
 	<div class="col-lg-6">
 		<div class="white-box">
 			<h3 class="box-title">Rate Chart</h3>

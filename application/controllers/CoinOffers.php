@@ -7,7 +7,7 @@ class CoinOffers extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		if (($this->session->userdata('user') == NULL OR !$this->session->userdata('user')) OR $this->session->userdata('user')['role'] != "superAdmin") {
+		if (($this->session->userdata('user') == NULL OR !$this->session->userdata('user'))) {
 			redirect('/admin/login');
 		}
 		$this->load->model("CoinOffer");
@@ -38,7 +38,14 @@ class CoinOffers extends CI_Controller
 
 		for ($i = 0; $i < count($price); $i++) {
 			if (trim($price[$i]) != '' && trim($valid[$i]) != '' && trim($desc[$i]) != '' && trim($count[$i]) != '') {
-				$this->db->insert("coin_offers", array("price" => $price[$i], "valid_date" => strtotime($valid[$i]), "description" => $desc[$i], "count" => $count[$i], 'restaurant_id' => $id));
+				if ($this->session->userdata('user')['role'] == 'admin') {
+					$this->db->insert("coin_offers", array("price" => $price[$i],
+						"valid_date" => strtotime($valid[$i]), "description" => $desc[$i], "count" => $count[$i], 'restaurant_id' => $id, "status" => 2));
+				}
+				if ($this->session->userdata('user')['role'] == 'superAdmin') {
+					$this->db->insert("coin_offers", array("price" => $price[$i],
+						"valid_date" => strtotime($valid[$i]), "description" => $desc[$i], "count" => $count[$i], 'restaurant_id' => $id, "status" => 1));
+				}
 			}
 		}
 		redirect("admin/restaurants/coin-offers/$id");
@@ -91,6 +98,28 @@ class CoinOffers extends CI_Controller
 		$this->db->update('coin_offers', array("status" => $status), ['id' => $id]);
 		redirect("admin/restaurants/coin-offers/$data->restaurant_id");
 	}
+
+//	coin approve-------------------------------------------------------------------------------------------------------
+	public function approve_offer_index()
+	{
+		$data['user'] = $this->session->userdata('user');
+		$data['coins'] = $this->CoinOffer->select_pending_offer();
+		$data['title'] = "Approve Coin Offer";
+
+		$this->load->view('layouts/header.php', $data);
+		$this->load->view('all_offers/coin_offer_approve.php');
+		$this->load->view('layouts/footer.php');
+	}
+
+	public function approve($id)
+	{
+		$this->CoinOffer->approve_coin($id);
+
+		redirect('admin/coin-offers/approve');
+	}
+
+
+//	coin approve end --------------------------------------------------------------------------------------------------
 
 //	check admin type
 	private function check_admin_restaurant($res_id)

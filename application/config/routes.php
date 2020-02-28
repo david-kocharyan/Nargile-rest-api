@@ -225,6 +225,9 @@ $route["admin/restaurants/coin-offers/store/(:any)"] = 'CoinOffers/store/$1';
 $route["admin/restaurants/coin-offers/edit/(:any)"] = 'CoinOffers/edit/$1';
 $route["admin/restaurants/coin-offers/update/(:any)"] = 'CoinOffers/update/$1';
 $route["admin/restaurants/coin-offers/change-status/(:any)"] = 'CoinOffers/change_status/$1';
+$route["admin/coin-offers/approve"] = 'CoinOffers/approve_offer_index';
+$route["admin/coin-offers/approve-coin/(:any)"] = 'CoinOffers/approve/$1';
+
 
 //All Offers
 $route["admin/offers"] = 'Offers/index';
@@ -291,3 +294,7 @@ $route['admin/attach-card/change-status/(:any)'] = 'Attach_cards/change_status/$
 //plans
 $route['admin/plans'] = 'Plans';
 $route['admin/plan-check'] = 'console/PlanCrons/check_plan';
+
+$route['admin/send-message'] = 'Send_notification';
+$route['admin/send-message/send'] = 'Send_notification/send_message';
+

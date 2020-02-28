@@ -30,14 +30,26 @@
 		var sliders = '<?php echo json_encode($sliders); ?>';
 		sliders = JSON.parse(sliders)
 
-		var bg = ['bg-primary', 'bg-secondary', 'bg-success', 'bg-danger', 'bg-warning', 'bg-info',	'bg-dark'];
+		var bg = ['bg-primary', 'bg-secondary', 'bg-success', 'bg-danger', 'bg-warning', 'bg-info', 'bg-dark'];
 
 		var defaultEvents = [];
 		for (i = 0; i < sliders.length; i++) {
 			var back = bg[Math.floor(Math.random() * bg.length)];
 
+			if (sliders[i].first_name != null && sliders[i].last_name != null) {
+				var name = sliders[i].first_name + " " + sliders[i].last_name +",";
+			} else {
+				var name = "";
+			}
+
+			if (sliders[i].area_name != null && sliders[i].country_name != null && sliders[i].region_name != null) {
+				var text = sliders[i].area_name + " - " + sliders[i].country_name + " - " + sliders[i].region_name+"."
+			} else {
+				var text = "";
+			}
+
 			defaultEvents.push({
-				title: `${sliders[i].first_name} ${sliders[i].last_name},  ${sliders[i].area_name} - ${sliders[i].country_name} - ${sliders[i].region_name}. `,
+				title: `${name} ${text}`,
 				start: new Date(sliders[i].start),
 				end: new Date(sliders[i].end),
 				className: back,

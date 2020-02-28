@@ -11,19 +11,29 @@ class Offer extends CI_Model
 //	select
 	public function select_featured()
 	{
-		$this->db->select("featured_offers.*, restaurants.name");
-		$this->db->join("restaurants", 'restaurants.id = featured_offers.restaurant_id');
+		$this->db->select('featured_offers.*, restaurants.name');
+		$this->db->join('restaurants','restaurants.id = featured_offers.restaurant_id');
 		$this->db->order_by("featured_offers.id DESC");
-		$data = $this->db->get("featured_offers")->result();
+		$data =  $this->db->get_where("featured_offers", array("featured_offers.status" => 1))->result();
+		foreach ($data as $bin=>$key)
+		{
+			$this->db->select('count(id) as count');
+			$data[$bin]->quantity = $this->db->get_where("offers_click", array("offer_id" => $key->id))->row()->count ?? 0;
+		}
 		return $data;
 	}
 
 	public function select_hour()
 	{
-		$this->db->select("hour_offers.*, restaurants.name");
-		$this->db->join("restaurants", 'restaurants.id = hour_offers.restaurant_id');
+		$this->db->select('hour_offers.*, restaurants.name');
+		$this->db->join('restaurants','restaurants.id = hour_offers.restaurant_id');
 		$this->db->order_by("hour_offers.id DESC");
-		$data = $this->db->get("hour_offers")->result();
+		$data =$this->db->get_where("hour_offers", array("hour_offers.status" => 1))->result();
+		foreach ($data as $bin=>$key)
+		{
+			$this->db->select('count(id) as count');
+			$data[$bin]->quantity = $this->db->get_where("offers_click", array("offer_id" => $key->id))->row()->count ?? 0;
+		}
 		return $data;
 	}
 

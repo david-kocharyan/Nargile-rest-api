@@ -25,5 +25,19 @@ class CoinOffer extends CI_Model
 		$this->db->update($this->table, $data, ["id" => $id]);
 	}
 
+	public function select_pending_offer()
+	{
+		$this->db->select('coin_offers.*, restaurants.name');
+		$this->db->join('restaurants', 'restaurants.id = coin_offers.restaurant_id');
+		return $this->db->get_where($this->table, array('coin_offers.status' => 2))->result();
+	}
+
+	public function approve_coin($id)
+	{
+		$this->db->set('status', 1);
+		$this->db->where('id', $id);
+		$this->db->update($this->table);
+	}
+
 
 }

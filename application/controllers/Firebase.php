@@ -16,7 +16,7 @@ class Firebase
 
 //    send notification
 
-	public static function send($notif, $ids, $event = null, $id = null)
+	public static function send($notif, $ids, $event = null, $id = null, $title = "Notification")
 	{
 		$serviceAccount = ServiceAccount::fromJsonFile("./system/credentials/go-narguile-firebase-adminsdk-xojjl-5849f0c8a3.json");
 		$firebase = (new Factory)
@@ -25,7 +25,7 @@ class Firebase
 
 		$messaging = $firebase->getMessaging();
 		$data = array(
-			"title" => "notification",
+			"title" => $title,
 			"body" => $notif,
 			"click_action" => $event,
 			"action_id" => $id

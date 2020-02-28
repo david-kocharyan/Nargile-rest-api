@@ -11,6 +11,7 @@
 						<th>ID</th>
 						<th>Restaurant</th>
 						<th>Featured offer text</th>
+						<th>Click Quantity</th>
 						<th>Status</th>
 						<th>Options</th>
 					</tr>
@@ -21,6 +22,7 @@
 							<td><?= $key + 1 ?></td>
 							<td><?= $value->name; ?></td>
 							<td><?= $value->text; ?></td>
+							<td><?= $value->quantity; ?></td>
 							<td style = "
 									<?php if ($value->status == 0) {
 								echo 'color: red;';
@@ -70,6 +72,7 @@
 						<th>ID</th>
 						<th>Restaurant</th>
 						<th>Hour offer text</th>
+						<th>Click Quantity</th>
 						<th>Status</th>
 						<th>Options</th>
 					</tr>
@@ -80,6 +83,7 @@
 							<td><?= $key + 1 ?></td>
 							<td><?= $value->name; ?></td>
 							<td><?= $value->text; ?></td>
+							<td><?= $value->quantity; ?></td>
 							<td style = "
 									<?php if ($value->status == 0) {
 								echo 'color: red;';
@@ -188,7 +192,7 @@
 	$('#featured_table').DataTable({
 		"ordering": false,
 		initComplete: function () {
-			this.api().columns([1, 3]).every(function () {
+			this.api().columns([1, 4]).every(function () {
 				var column = this;
 				var select = $('<select style="margin-left: 5px;"><option value="">All</option></select>')
 					.appendTo($(column.header()))
@@ -236,7 +240,7 @@
 	$('#hour_table').DataTable({
 		"ordering": false,
 		initComplete: function () {
-			this.api().columns([1, 3]).every(function () {
+			this.api().columns([1, 4]).every(function () {
 				var column = this;
 				var select = $('<select style="margin-left: 5px;"><option value="">All</option></select>')
 					.appendTo($(column.header()))

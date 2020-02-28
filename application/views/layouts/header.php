@@ -157,6 +157,13 @@
 					<li><a href="<?= base_url('admin/badges') ?>" class="waves-effect"><i
 								class="mdi mdi-guitar-pick fa-fw"></i> <span class="hide-menu">Badges</span></a>
 					</li>
+					<li><a href="<?= base_url('admin/send-message') ?>" class="waves-effect"><i
+								class="mdi mdi-email-outline fa-fw"></i> <span class="hide-menu">Send Notification</span></a>
+					</li>
+
+					<li><a href="<?= base_url('admin/coin-offers/approve') ?>" class="waves-effect"><i
+								class="mdi mdi-access-point fa-fw"></i> <span class="hide-menu">Approve Coin Offers</span></a>
+					</li>
 
 				<?php } elseif ($user['role'] == "admin") { ?>
 

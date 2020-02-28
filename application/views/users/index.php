@@ -16,12 +16,12 @@
 						<th value="Date"></th>
 						<th value="Mobile Number"></th>
 						<th value="Email"></th>
-						<th value="Coins"></th>
-						<th value="Favorite"></th>
-						<th value="Rate"></th>
-						<th value="Review"></th>
-						<th value="Share"></th>
-						<th value="Friends"></th>
+						<th>Coins</th>
+						<th>Favorite</th>
+						<th>Rate</th>
+						<th>Review</th>
+						<th>Share</th>
+						<th>Friends</th>
 						<th value="Logged via Facebook"></th>
 						<th value="Notification status"></th>
 						<th value="Option">Option</th>
@@ -95,9 +95,21 @@
 				}
 			},
 		],
-		"ordering": false,
+		"ordering": true,
+		"columnDefs": [
+			{ "orderable": false, "targets": 1 },
+			{ "orderable": false, "targets": 2 },
+			{ "orderable": false, "targets": 3 },
+			{ "orderable": false, "targets": 4 },
+			{ "orderable": false, "targets": 5 },
+			{ "orderable": false, "targets": 6 },
+			{ "orderable": false, "targets": 7 },
+			{ "orderable": false, "targets": 14 },
+			{ "orderable": false, "targets": 15 },
+			{ "orderable": false, "targets": 16 }
+		],
 		initComplete: function () {
-			this.api().columns([2, 3, 4, 5, 6, 7,8,9,10,11, 12, 13, 14, 15]).every(function () {
+			this.api().columns([2, 3, 4, 5, 6, 7, 14, 15]).every(function () {
 				var column = this;
 				var eachHeader = $(column.header())[0];
 				var headingVal = eachHeader.getAttribute("value");

@@ -65,25 +65,46 @@
 							<td><?= date('Y-m-d', $value->valid_date); ?></td>
 							<td><?= $value->count; ?></td>
 							<td><?= $value->description; ?></td>
-							<td><?= $value->status; ?></td>
-							<td>
-								<a href="<?= base_url("admin/restaurants/coin-offers/edit/$value->id") ?>"
-								   data-toggle="tooltip"
-								   data-placement="top" title="Edit" class="btn btn-info btn-circle tooltip-info"> <i
-										class="fas fa-pencil-alt"></i> </a>
 
-								<?php if ($value->status == 1) { ?>
-									<a href="<?= base_url("admin/restaurants/coin-offers/change-status/$value->id") ?>"
+							<td style="
+									<?php if ($value->status == 0) {
+								echo 'color: red;';
+							} elseif ($value->status == 2) {
+								echo 'color: rgb(93,50,50,1);';
+							} else {
+								echo 'color: green;';
+							} ?>">
+								<?php if ($value->status == 0) {
+									echo "Inactive";
+								} elseif ($value->status == 2) {
+									echo "Pending";
+								} else {
+									echo "Active";
+								} ?>
+							</td>
+
+							<td>
+								<?php if ($user['role'] != 'admin' OR $value->status != 2) { ?>
+									<a href="<?= base_url("admin/restaurants/coin-offers/edit/$value->id") ?>"
 									   data-toggle="tooltip"
-									   data-placement="top" title="Deactivate"
-									   class="btn btn-danger btn-circle tooltip-danger"><i class="fa fa-power-off"></i></a>
-								<?php } else { ?>
-									<a href="<?= base_url("admin/restaurants/coin-offers/change-status/$value->id") ?>"
-									   data-toggle="tooltip"
-									   data-placement="top" title="Activate"
-									   class="btn btn-success btn-circle tooltip-success"><i
-											class="fa fa-power-off"></i></a>
-								<?php } ?>
+									   data-placement="top" title="Edit" class="btn btn-info btn-circle tooltip-info">
+										<i
+											class="fas fa-pencil-alt"></i> </a>
+
+									<?php if ($value->status == 1) { ?>
+										<a href="<?= base_url("admin/restaurants/coin-offers/change-status/$value->id") ?>"
+										   data-toggle="tooltip"
+										   data-placement="top" title="Deactivate"
+										   class="btn btn-danger btn-circle tooltip-danger"><i
+												class="fa fa-power-off"></i></a>
+									<?php } else { ?>
+										<a href="<?= base_url("admin/restaurants/coin-offers/change-status/$value->id") ?>"
+										   data-toggle="tooltip"
+										   data-placement="top" title="Activate"
+										   class="btn btn-success btn-circle tooltip-success"><i
+												class="fa fa-power-off"></i></a>
+									<?php }
+								} ?>
 							</td>
 
 						</tr>
@@ -97,21 +118,21 @@
 
 
 <script>
-    $(document).ready(function () {
-        var i = 1;
-        $('#add').click(function () {
-            i++;
-            $('#dynamic_field').append(`<tr id="row${i}"><td>
+	$(document).ready(function () {
+		var i = 1;
+		$('#add').click(function () {
+			i++;
+			$('#dynamic_field').append(`<tr id="row${i}"><td>
 			<input type="text" name="price[]" placeholder="Enter narguile price" class="form-control m-b-5" />
 			<input type="date" name="valid[]" placeholder="Enter date Y-m-d" class="form-control m-b-5"/>
 			<input type="text" name="desc[]" placeholder="Enter description" class="form-control m-b-5"/>
 			<input type="number" name="count[]" placeholder="Enter offers quantity" class="form-control m-b-5"/>
 			<td><button type="button" name="remove" id="${i}" class="btn btn-danger btn_remove">X</button></td></tr>`);
-        });
+		});
 
-        $(document).on('click', '.btn_remove', function () {
-            var button_id = $(this).attr("id");
-            $('#row' + button_id + '').remove();
-        });
-    });
+		$(document).on('click', '.btn_remove', function () {
+			var button_id = $(this).attr("id");
+			$('#row' + button_id + '').remove();
+		});
+	});
 </script>
