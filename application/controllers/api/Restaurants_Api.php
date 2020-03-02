@@ -280,7 +280,7 @@ class Restaurants_Api extends REST_Controller
 		}
 
 		if ($id == 0) {
-			$this->db->select("sliders.id, concat('/plugins/images/Slider/', sliders.image) as image, link");
+			$this->db->select("sliders.id, concat('/plugins/images/Slider/', sliders.image) as image, link, restaurant_id");
 			$this->db->where("status", 1);
 			$this->db->where("region_id is null");
 			$data = $this->db->get("sliders")->result();
@@ -299,7 +299,7 @@ class Restaurants_Api extends REST_Controller
 			$this->response($response, REST_Controller::HTTP_OK);
 			return;
 		} else {
-			$this->db->select("sliders.id, concat('/plugins/images/Slider/', sliders.image) as image, link");
+			$this->db->select("sliders.id, concat('/plugins/images/Slider/', sliders.image) as image, link, restaurant_id");
 			$this->db->where("DATE_FORMAT(CURRENT_DATE(), '%Y-%m-%d') BETWEEN DATE_FORMAT(start, '%Y-%m-%d')  AND DATE_FORMAT(end, '%Y-%m-%d')");
 			$this->db->where("region_id", $id);
 			$this->db->where("status", 1);

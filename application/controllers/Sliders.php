@@ -29,6 +29,7 @@ class Sliders extends CI_Controller
 		$data['user'] = $this->session->userdata('user');
 		$data['region'] = $this->Slider->get_regions();
 		$data['clients'] = $this->db->get_where('admins', array('role' => 'admin'))->result();
+		$data['restaurants'] = $this->db->get_where('restaurants', array('status' => 1))->result();
 		$data['area'] = $this->Slider->selectAllArea();
 		$data['title'] = "Image upload page";
 
@@ -45,6 +46,7 @@ class Sliders extends CI_Controller
 		$link = $this->input->post("link");
 		$start = $this->input->post("start");
 		$end = $this->input->post("end");
+		$restaurant = $this->input->post("restaurant");
 
 		if (!empty($_FILES['image']['name']) || null != $_FILES['image']['name']) {
 			$image = $this->uploadImage('image');
@@ -63,6 +65,7 @@ class Sliders extends CI_Controller
 		$data = array(
 			"region_id" => $region != NULL ? $region : NULL,
 			"client_id" => $client != NULL ? $client : NULL,
+			"restaurant_id" => $restaurant != NULL ? $restaurant : NULL,
 			"area_id" => $area != NULL ? $area : NULL,
 			"image" => $logo,
 			"link" => $link != NULL ? $link : NULL,
@@ -80,6 +83,7 @@ class Sliders extends CI_Controller
 		$data['region'] = $this->Slider->get_regions();
 		$data['slider'] = $this->Slider->selectById($id);
 		$data['clients'] = $this->db->get_where('admins', array('role' => 'admin'))->result();
+		$data['restaurants'] = $this->db->get_where('restaurants', array('status' => 1))->result();
 		$data['area'] = $this->Slider->selectAllArea();
 		$data['title'] = "Slider Edit page";
 
@@ -94,8 +98,10 @@ class Sliders extends CI_Controller
 		$client = $this->input->post("client");
 		$area = $this->input->post("area");
 		$link = $this->input->post("link");
+
 		$start = $this->input->post("start");
 		$end = $this->input->post("end");
+		$restaurant = $this->input->post("restaurant");
 
 		$slider = $this->Slider->selectById($id);
 
@@ -113,6 +119,7 @@ class Sliders extends CI_Controller
 		$data = array(
 			"region_id" => $region != NULL ? $region : NULL,
 			"client_id" => $client != NULL ? $client : NULL,
+			"restaurant_id" => $restaurant != NULL ? $restaurant : NULL,
 			"area_id" => $area != NULL ? $area : NULL,
 			"link" => $link != NULL ? $link : NULL,
 			"start" => $start != NULL ? $start : NULL,

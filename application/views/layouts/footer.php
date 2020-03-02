@@ -59,6 +59,11 @@
 			multiple: true,
 		});
 
+		$('.region_slide').select2();
+		$('.clients_slider').select2();
+		$('.area_slider').select2();
+		$('.restaurant_slider').select2();
+
         // data table
         $('#myTable').DataTable();
 

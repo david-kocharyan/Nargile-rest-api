@@ -14,6 +14,7 @@
 				<tr>
 					<th>ID</th>
 					<th>Image</th>
+					<th>Restaurant</th>
 					<th>Clients</th>
 					<th>City</th>
 					<th>Country</th>
@@ -31,13 +32,14 @@
 						<td><?= $key + 1 ?></td>
 						<td><img src="<?= base_url('plugins/images/Slider/') ?><?= $value->image; ?>" style="width: 100px; height: 100px">
 						</td>
-						<td><?= $value->first_name ." ". $value->last_name ?></td>
-						<td><?= $value->area_name ?></td>
-						<td><?= $value->country_name ?></td>
-						<td><?= $value->region_name ?></td>
-						<td><?= $value->link ?></td>
-						<td><?= $value->start ?></td>
-						<td><?= $value->end ?></td>
+						<td><?= $value->res_name ?? "Empty"; ?></td>
+						<td><?= $value->first_name !=NULL ? $value->first_name ." ". $value->last_name : "Empty"; ?></td>
+						<td><?= $value->area_name ?? "Empty"; ?></td>
+						<td><?= $value->country_name ?? "Empty"; ?></td>
+						<td><?= $value->region_name ?? "Empty"; ?></td>
+						<td><?= $value->link ?? "Empty"; ?></td>
+						<td><?= $value->start ?? "Empty"; ?></td>
+						<td><?= $value->end ?? "Empty"; ?></td>
 						<td style = "
 									<?php if ($value->status == 0) {
 							echo 'color: red;';
