@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Feb 28, 2020 at 09:43 AM
+-- Generation Time: Mar 02, 2020 at 10:09 AM
 -- Server version: 10.1.44-MariaDB-cll-lve
 -- PHP Version: 7.2.7
 
@@ -599,7 +599,12 @@ INSERT INTO `friends` (`id`, `from_id`, `to_id`, `status`) VALUES
 (80, 91, 35, 2),
 (81, 91, 36, 2),
 (82, 96, 54, 0),
-(83, 96, 54, 1);
+(83, 96, 54, 1),
+(84, NULL, NULL, NULL),
+(85, NULL, NULL, NULL),
+(86, NULL, NULL, NULL),
+(87, 31, 33, 2),
+(88, 31, 30, 2);
 
 -- --------------------------------------------------------
 
@@ -1106,7 +1111,16 @@ INSERT INTO `notification` (`id`, `user_id`, `body`, `click_action`, `coins`, `a
 (110, 36, 'test test Sent You Friend Request', 'friend_request', NULL, 91, 1, '2020-02-28 08:30:32'),
 (111, 54, 'David  is now your friend', 'friend_request', NULL, 96, 0, '2020-02-28 08:32:05'),
 (112, 96, 'test test Sent You 5 Coins', 'coin_request', 5, 54, 1, '2020-02-28 08:32:50'),
-(113, 54, 'David  is now your friend', 'friend_request', NULL, 96, 0, '2020-02-28 09:02:14');
+(113, 54, 'David  is now your friend', 'friend_request', NULL, 96, 0, '2020-02-28 09:02:14'),
+(114, 31, 'You have canceled the receipt of  coins from the  ', 'admin_request', 0, 0, 0, '2020-02-28 10:00:36'),
+(115, 31, 'You have canceled the receipt of  coins from the  ', 'admin_request', 0, 0, 0, '2020-02-28 10:01:27'),
+(116, 31, 'You have canceled the test ', 'friend_request', NULL, 54, 0, '2020-02-28 10:03:09'),
+(117, 31, 'You have canceled the test ', 'friend_request', NULL, 54, 0, '2020-02-28 10:04:49'),
+(118, 31, 'LALALALALALALALA', 'admin_request', NULL, 0, 1, '2020-02-28 10:08:49'),
+(119, 31, 'You have canceled the test ', 'friend_request', NULL, 54, 0, '2020-02-28 10:09:28'),
+(120, 31, 'Lorem ipsum dolor set a met', 'admin_request', NULL, 0, 1, '2020-02-28 10:10:08'),
+(121, 33, 'zara tunyan Sent You Friend Request', 'friend_request', NULL, 31, 1, '2020-02-29 12:52:17'),
+(122, 30, 'zara tunyan Sent You Friend Request', 'friend_request', NULL, 31, 1, '2020-02-29 12:52:21');
 
 -- --------------------------------------------------------
 
@@ -1406,7 +1420,68 @@ INSERT INTO `offers_click` (`id`, `user_id`, `restaurant_id`, `offer_id`, `type`
 (283, 54, 1, 1, 0),
 (284, 54, 1, 2, 0),
 (285, 54, 1, 2, 0),
-(286, 54, 1, 2, 0);
+(286, 54, 1, 2, 0),
+(289, 54, 1, 2, 0),
+(290, 31, 1, NULL, 0),
+(291, 54, 1, 2, 0),
+(292, 54, 1, 2, 0),
+(293, 54, 1, 2, 0),
+(294, 54, 1, 2, 0),
+(295, 54, 1, 2, 0),
+(296, 54, 1, 2, 0),
+(297, 54, 2, 2, 1),
+(298, 54, 1, 2, 0),
+(299, 54, 1, 2, 0),
+(300, 54, 1, 2, 0),
+(301, 54, 1, 2, 0),
+(302, 54, 1, 2, 0),
+(303, 54, 1, 2, 0),
+(304, 54, 1, 2, 0),
+(305, 54, 2, 1, 1),
+(306, 54, 2, 2, 1),
+(307, 54, 2, 2, 1),
+(308, 54, 1, 1, 0),
+(309, 54, 1, 2, 0),
+(310, 54, 2, 2, 1),
+(311, 54, 2, 1, 1),
+(312, 54, 1, 2, 0),
+(313, 54, 1, 2, 0),
+(314, 54, 2, 2, 1),
+(315, 54, 2, 2, 1),
+(316, 54, 1, 2, 0),
+(317, 54, 2, 2, 1),
+(318, 54, 2, 2, 1),
+(319, 54, 1, 2, 0),
+(320, 54, 2, 1, 1),
+(321, 54, 2, 2, 1),
+(322, 54, 2, 2, 1),
+(323, 54, 2, 2, 1),
+(324, 54, 2, 1, 1),
+(325, 54, 2, 1, 1),
+(326, 54, 2, 2, 1),
+(327, 54, 1, 2, 0),
+(328, 54, 2, 2, 1),
+(329, 54, 1, 2, 0),
+(330, 54, 1, 1, 0),
+(331, 54, 2, 1, 1),
+(332, 54, 2, 2, 1),
+(333, 54, 1, 2, 0),
+(334, 54, 2, 1, 1),
+(335, 54, 2, 2, 1),
+(336, 54, 1, 2, 0),
+(337, 54, 1, 2, 0),
+(338, 54, 1, 1, 0),
+(339, 54, 1, 2, 0),
+(340, 54, 1, 2, 0),
+(341, 54, 1, 1, 0),
+(342, 54, 2, 2, 1),
+(343, 54, 1, 1, 0),
+(344, 54, 2, 1, 1),
+(345, 54, 1, 1, 0),
+(346, 54, 2, 2, 1),
+(347, 54, 2, 2, 1),
+(348, 103, 1, 2, 0),
+(351, 31, 2, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -1696,7 +1771,9 @@ INSERT INTO `restaurant_click` (`id`, `restaurant_id`, `user_id`, `type`) VALUES
 (78, 1, 54, 2),
 (79, 1, 54, 2),
 (80, 2, 54, 2),
-(81, 12, 91, 2);
+(81, 12, 91, 2),
+(82, 12, 54, 1),
+(83, 12, 54, 2);
 
 -- --------------------------------------------------------
 
@@ -2004,6 +2081,7 @@ INSERT INTO `service` (`id`, `address`, `mobile_number`, `email`, `lat`, `lng`, 
 
 CREATE TABLE `sliders` (
   `id` int(11) NOT NULL,
+  `restaurant_id` int(255) DEFAULT NULL,
   `region_id` int(11) DEFAULT NULL,
   `client_id` int(255) DEFAULT NULL,
   `area_id` int(255) DEFAULT NULL,
@@ -2018,12 +2096,12 @@ CREATE TABLE `sliders` (
 -- Dumping data for table `sliders`
 --
 
-INSERT INTO `sliders` (`id`, `region_id`, `client_id`, `area_id`, `image`, `link`, `start`, `end`, `status`) VALUES
-(66, 1, 32, 24, 'Slider_1576670963_756685785.jpg', 'aimtech.am', '2020-02-10', '2020-02-25', 1),
-(67, 1, 33, 23, 'Slider_1576670988_616823962.jpg', 'aimtech.am', '2020-02-13', '2020-02-22', 1),
-(68, 1, 33, 27, 'Slider_1576671090_1545236810.jpg', 'aimtech.am', '2020-02-16', '2020-02-27', 1),
-(69, 1, 32, 23, 'Slider_1582210217_832769592.jpg', 'animevost.com', '2020-02-20', '2020-02-29', 1),
-(70, 1, 32, 24, 'Slider_1582213351_1714732382.jpg', 'animevost.com', '2020-12-12', '2020-12-20', 1);
+INSERT INTO `sliders` (`id`, `restaurant_id`, `region_id`, `client_id`, `area_id`, `image`, `link`, `start`, `end`, `status`) VALUES
+(66, 2, 1, 32, 24, 'Slider_1576670963_756685785.jpg', 'aimtech.am', '2020-02-10', '2020-02-25', 1),
+(67, NULL, NULL, 32, 23, 'Slider_1576670988_616823962.jpg', NULL, '2020-02-13', '2020-02-22', 1),
+(68, 1, NULL, 32, 27, 'Slider_1576671090_1545236810.jpg', 'aimtech.am', '2020-02-16', '2020-02-27', 1),
+(69, 5, 1, 32, 23, 'Slider_1582210217_832769592.jpg', 'animevost.com', '2020-02-20', '2020-02-29', 1),
+(70, 4, 1, 32, 24, 'Slider_1582213351_1714732382.jpg', 'animevost.com', '2020-12-12', '2020-12-20', 1);
 
 -- --------------------------------------------------------
 
@@ -2269,11 +2347,28 @@ INSERT INTO `tokens` (`id`, `token`, `time`, `user_id`, `refresh_token`, `os`, `
 (393, '', '', 54, '', NULL, NULL),
 (394, '', '', 54, '', NULL, NULL),
 (395, '', '', 54, '', NULL, NULL),
-(396, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNTYyM2JmZDdmN2Ei.9tJMFiQHUm-xIcQ9-kZ1HuMRsUCqexXjr8yJiM_tLy0', '1614239551', 54, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNTYyM2JmZDdmYzIi.14lGAI0xgRfNv_N3lpvrynDGn-R1r2BwwgWRK_cDxvg', 0, 'cGUp-u_Msf0:APA91bHV-zZ5hmH7SdPQdjb5iYHlHPqRI7NjlAzVV3WSmHtfNqfpN9vA_c4AL4n9ycD2ulSgBpoBhUOx6Nz_K60Sg7KrVXy6fKmTTXH7OtC0ChZr-z8ExOnWcVELXnv-zF7TOgEMGZ_I'),
+(396, '', '', 54, '', NULL, NULL),
 (397, '', '', 91, '', NULL, NULL),
-(398, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNTkxMmVmYzJjMmEi.B6ATtgX7I0IPvd9qCehXXFmiqRBtZdubXJdMB2ZHkj8', '1614431855', 31, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNTkxMmVmYzJjNWUi.mo2LfI2PMUqA45naDz8IhPpQmhHgWvDM44EnTjYMyfU', 1, 'ffLNcFG--SU:APA91bHJvtYDTnEEv2jQ4OZkSsOreBCFsDc7TmB-w0l-fIVSgNXFspNzyGVYbqpbfH1l4H8eM2R5efIl7Y2cfI8EK2ptN9rOaNgGO60IM2iM5yUwwGiW9nTjN5cIK12tmqPNPvuwuHbe'),
+(398, '', '', 31, '', NULL, NULL),
 (399, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNTkxNWU5ZTcwZjgi.xx_3rsOe2-luM99QKL-6H8mnffz9-ZheQxphpeOEod8', '1614432617', 91, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNTkxNWU5ZTcxMmEi.r2wjRbx4D1PGV2wZfpxXiCPAjOmPF0bOpOw9cixlOPw', 0, 'fvLoxkxTCW4:APA91bGT-FxYY_u6MCurjlIznWU8KoZVr40Tsdqo4v61bkDe3uqmiutd13Fb4tpQJqKOzcxf2vihzLb-EYkySZQBsEHo6BqrapEX1f07poxSQq4lGwA2wd4rBkOHVVVjqN-HPX9PTUtY'),
-(400, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNTkxNjNhZjI1MDEi.WjWVE2HB8dQcT1eh19vOdJe2yuYmkrKrCdFs3-9i520', '1614432698', 96, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNTkxNjNhZjI2NGIi.AuJ5glSrKykaelPlzBDa4t51asO_pjvV8c21tIQg_o4', 0, 'fvLoxkxTCW4:APA91bGT-FxYY_u6MCurjlIznWU8KoZVr40Tsdqo4v61bkDe3uqmiutd13Fb4tpQJqKOzcxf2vihzLb-EYkySZQBsEHo6BqrapEX1f07poxSQq4lGwA2wd4rBkOHVVVjqN-HPX9PTUtY');
+(400, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNTkxNjNhZjI1MDEi.WjWVE2HB8dQcT1eh19vOdJe2yuYmkrKrCdFs3-9i520', '1614432698', 96, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNTkxNjNhZjI2NGIi.AuJ5glSrKykaelPlzBDa4t51asO_pjvV8c21tIQg_o4', 0, 'fvLoxkxTCW4:APA91bGT-FxYY_u6MCurjlIznWU8KoZVr40Tsdqo4v61bkDe3uqmiutd13Fb4tpQJqKOzcxf2vihzLb-EYkySZQBsEHo6BqrapEX1f07poxSQq4lGwA2wd4rBkOHVVVjqN-HPX9PTUtY'),
+(401, '', '', 31, '', NULL, NULL),
+(402, '', '', 31, '', NULL, NULL),
+(403, '', '', 54, '', NULL, NULL),
+(404, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNTk2YzExM2Q0OWIi.F8Ri9KkCIGykudHNZfuoQq6mPj6IliYNvfqJ8MnKgcc', '1614454673', 54, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNTk2YzExM2Q0ZTMi.bNuo03-XIjdKCmOi9geY3AIgBHs5JE3G_5IgJ4jQ_Ww', 0, 'cGUp-u_Msf0:APA91bHV-zZ5hmH7SdPQdjb5iYHlHPqRI7NjlAzVV3WSmHtfNqfpN9vA_c4AL4n9ycD2ulSgBpoBhUOx6Nz_K60Sg7KrVXy6fKmTTXH7OtC0ChZr-z8ExOnWcVELXnv-zF7TOgEMGZ_I'),
+(405, '', '', 31, '', NULL, NULL),
+(406, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNWQxNDAzNTIyNDUi.Tpyu7KJ5hQXta5CglADOh35Dorwc4ZfLAf3aj1TQ0AQ', '1583244675', 103, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNWQxNDAzNTIyNjci.vBUno01BtDLhmBnh_5CvhOyzjX2lxOrU5iPDbirDPlU', 0, 'e-RgjkcwrMs:APA91bH04cLPsXtQR-nhdtekPsvwT-77B-6DVOcG9wgcpDeuFJ_zHNBUxZW2NqS4uxX_zFfGLZPYHrXMb9x2vRQQla5XZBqxGMt8mLFQ8gh-OpNpF1554UwMjb-cUfZXSkCavVc24xmv'),
+(407, '', '', 31, '', NULL, NULL),
+(408, '', '', 31, '', NULL, NULL),
+(409, '', '', 31, '', NULL, NULL),
+(410, '', '', 31, '', NULL, NULL),
+(411, '', '', 31, '', NULL, NULL),
+(412, '', '', 31, '', NULL, NULL),
+(413, '', '', 31, '', NULL, NULL),
+(414, '', '', 31, '', NULL, NULL),
+(415, '', '', 31, '', NULL, NULL),
+(416, '', '', 31, '', NULL, NULL),
+(417, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNWQxYzAyYTAxMGQi.863hapWwo8gkE87sFN1-hz1043QNvZah1RfENkjn_eA', '1614696322', 31, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNWQxYzAyYTAxNTci.rw64Qfya9WdIbPSUmdj4BvGC_FkaXPeJR2CqaZBfLsw', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -2572,7 +2667,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `username`, `first_name`, `last_name`, `gender`, `date_of_birth`, `mobile_number`, `email`, `password`, `uuid`, `image`, `coins`, `is_used_reference`, `created_at`, `updated_at`, `verify_code`, `verify`, `logged_via_fb`, `notification_status`) VALUES
 (30, 'super22', 'Super22', 'Admin22', 1, 1581335495, '+656565651466622', 'kakaka@gmail.com12222', 'c9cc24ffa63b25bb52b9d5fa288c2921a5190acd2ad461e2ece7b7d74af0fa53c86b783a066fc1ad3694313345702e69f57d70a597f7fbbf78dfc957d3bcdea9', '', 'User_default.png', 135, 0, '2019-10-01 03:14:51', '2019-10-01 03:14:51', '', 1, 0, 0),
-(31, 'zara', 'zara', 'tunyan', 0, 1581335495, '695', 'zara.tunyan@gmail.com', '62670d1e1eea06b6c975e12bc8a16131b278f6d7bcbe017b65f854c58476baba86c2082b259fd0c1310935b365dc40f609971b6810b065e528b0b60119e69f61', '', 'User_default.png', 217, 0, '2019-10-01 18:08:45', '2019-10-01 18:08:45', '', 1, 0, 1),
+(31, 'zara', 'zara', 'tunyan', 0, 1581335495, '695', 'zara.tunyan@gmail.com', '62670d1e1eea06b6c975e12bc8a16131b278f6d7bcbe017b65f854c58476baba86c2082b259fd0c1310935b365dc40f609971b6810b065e528b0b60119e69f61', '', 'User_default.png', 217, 0, '2019-10-01 18:08:45', '2019-10-01 18:08:45', '', 1, 0, 0),
 (33, 'adminSuper', 'Su', 'A', 1, 1550490695, '+656565651466622s', 'kakaka@gmail.com12222s', 'c7ad44cbad762a5da0a452f9e854fdc1e0e7a52a38015f23f3eab1d80b931dd472634dfac71cd34ebc35d16ab7fb8a90c81f975113d6c7538dc69dd8de9077ec', '', 'User_default.png', 115, 0, '2019-10-02 14:31:04', '2019-10-02 14:31:04', '', 1, 0, 1),
 (34, 'user', 'developer', 'develop', 0, 1581335495, '876767', 'test@mail.ru', 'ee26b0dd4af7e749aa1a8ee3c10ae9923f618980772e473f8819a5d4940e0db27ac185f8a0e1d5f84f88bc887fd67b143732c304cc5fa9ad8e6f57f50028a8ff', '', 'User_default.png', 531, 0, '2019-10-02 16:06:48', '2019-10-02 16:06:48', '', 1, 0, 1),
 (35, 'testuser', 'test', 'test', 1, 1550490695, '846464', 'testuser@mail.ru', 'ee26b0dd4af7e749aa1a8ee3c10ae9923f618980772e473f8819a5d4940e0db27ac185f8a0e1d5f84f88bc887fd67b143732c304cc5fa9ad8e6f57f50028a8ff', '', 'User_default.png', 0, 0, '2019-10-02 16:14:45', '2019-10-02 16:14:45', '', 1, 0, 1),
@@ -2955,7 +3050,7 @@ ALTER TABLE `featured_offers`
 -- AUTO_INCREMENT for table `friends`
 --
 ALTER TABLE `friends`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
 
 --
 -- AUTO_INCREMENT for table `hour_offers`
@@ -2991,13 +3086,13 @@ ALTER TABLE `more_infos`
 -- AUTO_INCREMENT for table `notification`
 --
 ALTER TABLE `notification`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=114;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=123;
 
 --
 -- AUTO_INCREMENT for table `offers_click`
 --
 ALTER TABLE `offers_click`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=287;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=352;
 
 --
 -- AUTO_INCREMENT for table `rates`
@@ -3033,7 +3128,7 @@ ALTER TABLE `restaurants_images`
 -- AUTO_INCREMENT for table `restaurant_click`
 --
 ALTER TABLE `restaurant_click`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
 
 --
 -- AUTO_INCREMENT for table `restaurant_weeks`
@@ -3069,7 +3164,7 @@ ALTER TABLE `sliders`
 -- AUTO_INCREMENT for table `tokens`
 --
 ALTER TABLE `tokens`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=401;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=418;
 
 --
 -- AUTO_INCREMENT for table `used_offers`

@@ -68,7 +68,7 @@ class Sliders extends CI_Controller
 			"restaurant_id" => $restaurant != NULL ? $restaurant : NULL,
 			"area_id" => $area != NULL ? $area : NULL,
 			"image" => $logo,
-			"link" => $link != NULL ? $link : NULL,
+			"link" => $link != NULL ?  "http://".$link : NULL,
 			"start" => $start != NULL ? $start : NULL,
 			"end" => $end != NULL ? $end : NULL,
 		);
@@ -114,6 +114,10 @@ class Sliders extends CI_Controller
 			}
 			$logo = isset($image['data']['file_name']) ? $image['data']['file_name'] : "";
 			unlink(FCPATH . "/plugins/images/Slider/" . $slider->image);
+		}
+
+		if (strpos($link, 'http://') === false) {
+			$link = "http://".$link;
 		}
 
 		$data = array(
