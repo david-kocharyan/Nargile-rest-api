@@ -139,9 +139,6 @@ $route['admin/settings/update/(:any)'] = 'Admins/update/$1';
 
 $route['admin/users-list'] = 'Users/users_list';
 $route['admin/users/show/(:any)'] = 'Users/show/$1';
-$route['admin/users-datatable'] = 'Users/getLists';
-
-
 
 $route['admin/owner-request'] = 'Admins/owner_request';
 $route['admin/owner/change-status/(:any)'] = 'Admins/change_status/$1';

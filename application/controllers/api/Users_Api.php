@@ -561,7 +561,7 @@ class Users_API extends REST_Controller
 			"token" => $this->generateToken(),
 			"refresh_token" => $this->generateToken()
 		);
-		$this->db->update('tokens', ['token' => $response_tokens['token'],'refresh_token' => $response_tokens['refresh_token'], 'time' => time() + 31536000], ['id' => $tokens['id']]);
+		$this->db->update('tokens', ['token' => $response_tokens['token'], 'refresh_token' => $response_tokens['refresh_token'], 'time' => time() + 31536000], ['id' => $tokens['id']]);
 		$data = array(
 			'success' => true,
 			'data' => $response_tokens,
@@ -1184,5 +1184,48 @@ class Users_API extends REST_Controller
 		}
 		return implode($pass); //turn the array into a string
 	}
+
+
+//	get user lat lng
+	public function user_location_post()
+	{
+		$res = $this->verify_get_request();
+		if (gettype($res) != 'string') {
+			$data = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => $res['msg']
+			);
+			$this->response($data, $res['status']);
+			return;
+		}
+
+		$lat = $this->db->post('lat');
+		$lng = $this->db->post('lng');
+
+		if ($lat == null OR $lng == null)
+		{
+			$data = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => "Please Send User Latitude and Longitude"
+			);
+			$this->response($data, self::HTTP_UNPROCESSABLE_ENTITY);
+			return;
+		}
+
+		$this->db->set('lat', $lat);
+		$this->db->set('lng', $lng);
+		$this->db->where('id', $res);
+		$this->db->update('users');
+
+		$data = array(
+			"success" => true,
+			"data" => array(),
+			"msg" => "User Location Seve Successfuly"
+		);
+		$this->response($data, self::HTTP_OK);
+	}
+
 }
 
