@@ -27,22 +27,21 @@ class Send_notification extends CI_Controller
 
 	public function send_message()
 	{
-		$users = $this->input->post('users[]');
+		$users = $this->input->post('users');
 		$title = $this->input->post('title');
 		$text = $this->input->post('text');
 
-		$this->form_validation->set_rules('users[]', 'Users', 'required');
-		$this->form_validation->set_rules('title', 'Title', 'required');
-		$this->form_validation->set_rules('text', 'Message', 'required');
+//		$this->form_validation->set_rules('users[]', 'Users', 'required');
+//		$this->form_validation->set_rules('title', 'Title', 'required');
+//		$this->form_validation->set_rules('text', 'Message', 'required');
 
-		if ($this->form_validation->run() == FALSE) {
-			$this->index();
-			return;
-		} else {
-			$this->send_notif($users, $title, $text);
-		}
-
-		return redirect('admin/send-message');
+//		if ($this->form_validation->run() == FALSE) {
+//			$this->index();
+//			return;
+//		} else {
+//			$this->send_notif($users, $title, $text);
+//		}
+		$this->send_notif($users, $title, $text);
 	}
 
 	private function send_notif($users, $title = 'Narguile App', $text = 'Text')

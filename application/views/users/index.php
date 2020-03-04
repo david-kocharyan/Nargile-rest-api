@@ -11,9 +11,8 @@
 					<thead>
 					<tr>
 						<th>
-							<button style="border: none; background: transparent; font-size: 14px;"
-									id="MyTableCheckAllButton"> Select all
-								<i class="far fa-square"></i>
+							<button style="border: none; background: transparent; font-size: 14px; width: 100%;"
+									id="MyTableCheckAllButton"><i class="far fa-square"></i>
 							</button>
 						</th>
 						<th>ID</th>
@@ -91,8 +90,8 @@
 				<h4 class="modal-title">Notification Content</h4>
 			</div>
 			<div class="modal-body">
-				<input type="text" name="title" placeholder="Title" class="form-control m-b-20">
-				<textarea name="text" id="" cols="30" rows="10" class="form-control">Text</textarea>
+				<input type="text" name="title" placeholder="Title" class="form-control m-b-20 title">
+				<textarea name="text" id="" cols="30" rows="10" class="form-control text">Text</textarea>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-success send_notif" data-dismiss="modal">Send</button>
@@ -203,8 +202,18 @@
 
 	$(".send_notif").click(function () {
 		var users = myTable.rows({selected: true}).data().pluck(1).toArray();
-		// var title =
-		// var users =
+		var title = $(".title").val();
+		var text = $(".text").val();
+
+		if (users != null || !empty())
+		$.ajax({
+			type: "POST",
+			url: "<?= base_url('admin/send-message/send')?>",
+			data: { users,	title,	text },
+			success: function(data){
+				location.reload();
+			}
+		});
 	})
 
 </script>

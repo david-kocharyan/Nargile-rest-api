@@ -71,6 +71,7 @@ $route['api/users/fcm-token'] = 'api/Users_Api/fcm_token';
 $route['api/users/loyalty'] = 'api/Users_Api/loyalty';
 $route['api/users/notification'] = 'api/Users_Api/notification';
 $route['api/users/forgot-password'] = 'api/Users_Api/forgot_password';
+$route['api/users/user-location'] = 'api/Users_Api/user_location';
 
 //facebook login Api
 $route['api/users/facebook/login'] = 'api/Facebook_Api/login';
