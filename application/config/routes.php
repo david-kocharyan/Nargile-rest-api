@@ -295,6 +295,15 @@ $route['admin/attach-card/change-status/(:any)'] = 'Attach_cards/change_status/$
 $route['admin/plans'] = 'Plans';
 $route['admin/plan-check'] = 'console/PlanCrons/check_plan';
 
-$route['admin/send-message'] = 'Send_notification';
+//$route['admin/send-message'] = 'Send_notification';
 $route['admin/send-message/send'] = 'Send_notification/send_message';
+
+
+//upload video
+$route['admin/video'] = 'Videos';
+$route['admin/video/create'] = 'Videos/create';
+$route['admin/video/store'] = 'Videos/store';
+$route['admin/video/edit/(:any)'] = 'Videos/edit/$1';
+$route['admin/video/update/(:any)'] = 'Videos/update/$1';
+$route["admin/video/change-status/(:any)"] = 'Videos/change_status/$1';
 
