@@ -29,7 +29,7 @@
 							<td><?= $key + 1 ?></td>
 							<td>
 								<?php
-								$mime = mime_content_type(FCPATH."plugins/images/Video/$value->video");
+								$mime = finfo_file(finfo_open(FILEINFO_MIME_TYPE), FCPATH."plugins/images/Video/$value->video");
 								$type =  explode("/", $mime);
 								if ($type[0] == 'image' ){ ?>
 									<img src="<?= base_url('plugins/images/Video/').$value->video; ?>" alt="<?= $value->video;?>" style="height: 200px; width: 200px;">
