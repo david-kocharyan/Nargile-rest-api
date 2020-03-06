@@ -19,7 +19,10 @@ class Users extends CI_Controller
 		$data['user'] = $this->session->userdata('user');
 		$data['title'] = "Users List";
 
-		$this->db->select('id, username, first_name, last_name, DATE_FORMAT(DATE_ADD(FROM_UNIXTIME(0), interval date_of_birth second),"%Y-%m-%d") as date_of_birth, mobile_number, email, coins, concat("/plugins/images/Logo/", image) as image, notification_status, logged_via_fb');
+		$this->db->select('users.id, username, first_name, last_name, DATE_FORMAT(DATE_ADD(FROM_UNIXTIME(0), 
+		interval date_of_birth second),"%Y-%m-%d") as date_of_birth, mobile_number, 
+		email, coins, concat("/plugins/images/Logo/", image) as image, notification_status, logged_via_fb, country, regions.name as reg_name');
+		$this->db->join('regions', 'regions.id = users.region_id', 'left');
 		$data['users'] = $this->db->get_where('users', array('verify' => 1))->result();
 
 		foreach ($data['users'] as $bin => $key) {

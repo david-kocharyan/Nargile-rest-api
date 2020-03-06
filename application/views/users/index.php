@@ -17,6 +17,8 @@
 						</th>
 						<th>ID</th>
 						<th>Image</th>
+						<th value="Country"></th>
+						<th value="Region"></th>
 						<th value="Username"></th>
 						<th value="First Name"></th>
 						<th value="Last Name"></th>
@@ -42,6 +44,19 @@
 							<td>
 								<img src="<?= base_url('') . $value->image; ?>"
 									 style="border-radius: 50%; height: 80px; width: 80px; ">
+							</td>
+							<td>
+								<?php if ($value->country == null) {
+									echo "Empty";
+								} else {
+									echo $value->country;
+								} ?>
+							<td>
+								<?php if ($value->reg_name == null) {
+									echo "Empty";
+								} else {
+									echo $value->reg_name;
+								} ?>
 							</td>
 							<td><?= $value->username; ?></td>
 							<td><?= $value->first_name; ?></td>
@@ -148,14 +163,14 @@
 					'selectRow': false
 				}
 			},
-			{"orderable": false, "targets": [1,0,2,3,4,5,6,7,8,15,16,17]},
+			{"orderable": false, "targets": [1,0,2,3,4,5,6,7,8,9,10,17,18,19]},
 		],
 		select: {
 			style: 'multi',
 			selector: 'td:first-child'
 		},
 		initComplete: function () {
-			this.api().columns([3, 4, 5, 6, 7, 8, 15, 16]).every(function () {
+			this.api().columns([3, 4, 5, 6, 7, 8, 9, 10, 17, 18]).every(function () {
 				var column = this;
 				var eachHeader = $(column.header())[0];
 				var headingVal = eachHeader.getAttribute("value");

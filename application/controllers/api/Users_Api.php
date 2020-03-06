@@ -1189,19 +1189,19 @@ class Users_API extends REST_Controller
 //	get user lat lng
 	public function user_location_post()
 	{
-		$res = $this->verify_get_request();
-		if (gettype($res) != 'string') {
-			$data = array(
-				"success" => false,
-				"data" => array(),
-				"msg" => $res['msg']
-			);
-			$this->response($data, $res['status']);
-			return;
-		}
+//		$res = $this->verify_get_request();
+//		if (gettype($res) != 'string') {
+//			$data = array(
+//				"success" => false,
+//				"data" => array(),
+//				"msg" => $res['msg']
+//			);
+//			$this->response($data, $res['status']);
+//			return;
+//		}
 
-		$lat = $this->db->post('lat');
-		$lng = $this->db->post('lng');
+		$lat = $this->input->post('lat');
+		$lng = $this->input->post('lng');
 
 		if ($lat == null OR $lng == null)
 		{
@@ -1225,10 +1225,30 @@ class Users_API extends REST_Controller
 			}
 		};
 
+		$regions = $this->db->get_where('regions', array("regions.status" => 1))->result();
+		$arr = array();
+		$point = array("lat" => $lat, "lng" => $lng);
+
+		foreach ($regions as $bin => $key) {
+			$this->db->select("regions_coordinates.lat, regions_coordinates.lng");
+			$data = $this->db->get_where("regions_coordinates", array("region_id" => $key->id))->result();
+			$arr[$bin]["reg"] = $data;
+			$arr[$bin]["reg_id"] = $key->id;
+		}
+		$id = null;
+		foreach ($arr as $key) {
+			$in = $this->inside($point, $key["reg"]);
+			if ($in == "true") {
+				$id = $key["reg_id"];
+				break;
+			}
+		}
+
 		$this->db->set('lat', $lat);
 		$this->db->set('lng', $lng);
 		$this->db->set('country', $country);
-		$this->db->where('id', $res);
+		$this->db->set('region_id', $id);
+		$this->db->where('id', 30);
 		$this->db->update('users');
 
 		$data = array(
@@ -1237,6 +1257,26 @@ class Users_API extends REST_Controller
 			"msg" => "User Location Save Successfuly"
 		);
 		$this->response($data, self::HTTP_OK);
+	}
+
+	private function inside($point, $fenceArea)
+	{
+		$x = $point['lat'];
+		$y = $point['lng'];
+
+		$inside = false;
+		for ($i = 0, $j = count($fenceArea) - 1; $i < count($fenceArea); $j = $i++) {
+			$xi = $fenceArea[$i]->lat;
+			$yi = $fenceArea[$i]->lat;
+			$xj = $fenceArea[$j]->lng;
+			$yj = $fenceArea[$j]->lng;
+
+			$intersect = (($yi > $y) != ($yj > $y))
+				&& ($x < ($xj - $xi) * ($y - $yi) / ($yj - $yi) + $xi);
+			if ($intersect) $inside = !$inside;
+		}
+
+		return $inside;
 	}
 
 }
