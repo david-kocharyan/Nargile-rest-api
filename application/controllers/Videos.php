@@ -76,14 +76,18 @@ class Videos extends CI_Controller
 				return;
 			}
 
+			$mime = finfo_file(finfo_open(FILEINFO_MIME_TYPE), FCPATH."plugins/images/Video/$video");
+			$type =  explode("/", $mime);
+
 			$data = array(
 				'restaurant_id' => $restaurant,
 				'region_id' => $region,
-				'country_id' => $country,
+				'country' => $country,
 				'valid_date' => $valid_date,
 				'show_count' => $show,
 				'link' => "http://".$link,
 				'video' => $video,
+				'type' => $type[0],
 			);
 
 		}
@@ -151,12 +155,18 @@ class Videos extends CI_Controller
 		$data = array(
 			'restaurant_id' => $restaurant,
 			'region_id' => $region,
-			'country_id' => $country,
+			'country' => $country,
 			'valid_date' => $valid_date,
 			'show_count' => $show,
 			'link' => $link,
 		);
-		if (isset($video)) $data['video'] = $video;
+		if (isset($video)){
+			$data['video'] = $video;
+
+			$mime = finfo_file(finfo_open(FILEINFO_MIME_TYPE), FCPATH."plugins/images/Video/$video");
+			$type =  explode("/", $mime);
+			$data['video'] = $type[0];
+		}
 
 		$this->Video->update($data, $id);
 		redirect('admin/video');

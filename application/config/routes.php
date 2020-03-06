@@ -126,6 +126,11 @@ $route['api/notification'] = 'api/Notification_Api';
 $route['api/notification/add-friend'] = 'api/Notification_Api/add_friend';
 $route['api/notification/coin-confirm'] = 'api/Notification_Api/coin_confirm';
 
+
+//$banner video
+
+$route["api/video-get"] = 'api/Video_Api';
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //admin panel
 $route['admin'] = 'Admins';
@@ -306,4 +311,3 @@ $route['admin/video/store'] = 'Videos/store';
 $route['admin/video/edit/(:any)'] = 'Videos/edit/$1';
 $route['admin/video/update/(:any)'] = 'Videos/update/$1';
 $route["admin/video/change-status/(:any)"] = 'Videos/change_status/$1';
-

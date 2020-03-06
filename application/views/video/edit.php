@@ -45,10 +45,10 @@
 				<?php } ?>
 				<div class="input-group col-md-12">
 					<select class="form-control area_slider" id="country" name="country">
-						<option value="" selected>Choose Area</option>
+						<option value="" selected>Choose Country</option>
 						<?php foreach ($country as $key) { ?>
 							<option
-								value="<?= $key->id ?>" <?php if ($key->id == $video->country_id) echo "selected"; ?>>
+								value="<?= $key->name ?>" <?php if ($key->name == $video->country) echo "selected"; ?>>
 								<?= $key->name ?>
 							</option>
 						<?php } ?>

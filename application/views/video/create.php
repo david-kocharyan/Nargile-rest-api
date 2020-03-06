@@ -44,9 +44,9 @@
 				<?php } ?>
 				<div class="input-group col-md-12">
 					<select class="form-control area_slider" id="country" name="country">
-						<option value="" selected>Choose Area</option>
+						<option value="" selected>Choose Country</option>
 						<?php foreach ($country as $key) { ?>
-							<option value="<?= $key->id ?>">
+							<option value="<?= $key->name ?>">
 								<?= $key->name ?>
 							</option>
 						<?php } ?>

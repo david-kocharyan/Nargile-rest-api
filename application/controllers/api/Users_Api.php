@@ -1189,16 +1189,16 @@ class Users_API extends REST_Controller
 //	get user lat lng
 	public function user_location_post()
 	{
-//		$res = $this->verify_get_request();
-//		if (gettype($res) != 'string') {
-//			$data = array(
-//				"success" => false,
-//				"data" => array(),
-//				"msg" => $res['msg']
-//			);
-//			$this->response($data, $res['status']);
-//			return;
-//		}
+		$res = $this->verify_get_request();
+		if (gettype($res) != 'string') {
+			$data = array(
+				"success" => false,
+				"data" => array(),
+				"msg" => $res['msg']
+			);
+			$this->response($data, $res['status']);
+			return;
+		}
 
 		$lat = $this->input->post('lat');
 		$lng = $this->input->post('lng');

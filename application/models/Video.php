@@ -15,7 +15,7 @@ class Video extends CI_Model
 		$this->db->select('video.*, restaurants.name as res_name, countries.name as country_name, regions.name as region_name');
 		$this->db->join('restaurants', 'video.restaurant_id = restaurants.id');
 		$this->db->join('regions', 'video.region_id = regions.id');
-		$this->db->join('countries', 'video.country_id = countries.id');
+		$this->db->join('countries', 'video.country = countries.name');
 		return $this->db->get('video')->result();
 	}
 
