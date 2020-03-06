@@ -287,7 +287,8 @@ class Restaurant_Profile_Api extends REST_Controller
 	private function reviews_were($res)
 	{
 		if ($this->input->get('type') == "my") $this->db->where(array("restaurant_id" => $this->input->get("id"), "user_id" => $res));
-		if ($this->input->get('type') == "all") $this->db->where(array("restaurant_id" => $this->input->get("id"), "user_id  !=" => $res));
+		if ($this->input->get('type') == "all") $this->db->where(array("restaurant_id" => $this->input->get("id")));
+//		, "user_id  !=" => $res
 	}
 
 	private function reviews_page($res)
