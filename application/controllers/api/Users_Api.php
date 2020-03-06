@@ -1214,15 +1214,27 @@ class Users_API extends REST_Controller
 			return;
 		}
 
+		$url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$lng&key=AIzaSyDsz2KPO5FSf6PDx2YwCTtB1HBt2DkXFrY";
+		$data = file_get_contents($url);
+		$jsondata = json_decode($data, true);
+		if ($jsondata["status"] == "OK") {
+			foreach($jsondata["results"][0]["address_components"] as $value) {
+				if (in_array('country', $value["types"])) {
+					$country = $value["long_name"];
+				}
+			}
+		};
+
 		$this->db->set('lat', $lat);
 		$this->db->set('lng', $lng);
+		$this->db->set('country', $country);
 		$this->db->where('id', $res);
 		$this->db->update('users');
 
 		$data = array(
 			"success" => true,
 			"data" => array(),
-			"msg" => "User Location Seve Successfuly"
+			"msg" => "User Location Save Successfuly"
 		);
 		$this->response($data, self::HTTP_OK);
 	}
