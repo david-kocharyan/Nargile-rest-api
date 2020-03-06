@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Mar 06, 2020 at 04:33 AM
+-- Generation Time: Mar 06, 2020 at 09:40 AM
 -- Server version: 10.1.44-MariaDB-cll-lve
 -- PHP Version: 7.2.7
 
@@ -1556,7 +1556,17 @@ INSERT INTO `offers_click` (`id`, `user_id`, `restaurant_id`, `offer_id`, `type`
 (423, 57, 1, NULL, 0),
 (424, 54, 1, 2, 0),
 (425, 54, 2, 2, 1),
-(426, 54, 1, 2, 0);
+(426, 54, 1, 2, 0),
+(427, 54, 1, 1, 0),
+(428, 54, 2, 1, 1),
+(429, 54, 2, 1, 1),
+(430, 54, 2, 1, 1),
+(431, 91, 1, 1, 0),
+(432, 91, 1, 2, 0),
+(433, 31, 2, 0, 0),
+(434, 31, 2, 0, 0),
+(435, 54, 1, 2, 0),
+(436, 54, 1, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -1613,7 +1623,8 @@ INSERT INTO `rates` (`id`, `user_id`, `restaurant_id`, `overall`, `taste`, `char
 (53, 37, 1, 4, 5, 4, 2, 5, 2),
 (54, 37, 12, 4, 4, 2, 5, 4, 3),
 (55, 54, 2, 3, 4, 4, 2, 4, 3),
-(56, 57, 1, 1, 1, 1, 1, 1, 1);
+(56, 57, 1, 1, 1, 1, 1, 1, 1),
+(57, 54, 2, 4, 4, 2, 4, 5, 4);
 
 -- --------------------------------------------------------
 
@@ -1711,7 +1722,7 @@ CREATE TABLE `restaurants` (
 
 INSERT INTO `restaurants` (`id`, `name`, `area_id`, `logo`, `phone_number`, `type`, `address`, `lat`, `lng`, `status`, `rate`, `admin_id`) VALUES
 (1, 'Cafe Em Nazih', 23, 'Logo_1569932559_1320868044.jpg', '9611745442', 'Cafe', 'Saifi Urban Gardens, Pasteur Street', '33.896025', '35.516406', 1, '3.5714285714286', 32),
-(2, 'Abo Waseem', 23, 'Logo_1569932569_1241077901.jpg', '9611745442', 'Resto-Cafe', 'Main Street, Hamra', '33.896189', '35.477883', 1, '3.6666666666667', 32),
+(2, 'Abo Waseem', 23, 'Logo_1569932569_1241077901.jpg', '9611745442', 'Resto-Cafe', 'Main Street, Hamra', '33.896189', '35.477883', 1, '3.75', 32),
 (3, 'Toot Beirut', 23, 'Logo_1569932577_1638295637.jpg', '9611756166', 'Restaurant', 'Makdessi Street, Facing Liban Post', '33.896447', '35.482184', 1, '0', NULL),
 (4, 'Barjees Cafe', 23, 'Logo_1569932588_1476692797.jpg', '9611745356', 'Cafe', 'Main Street, Hamra', '33.896320', '35.477650', 1, '0', NULL),
 (5, 'Dar Al Sultani', 23, 'Logo_1569932610_1500670266.jpg', '9611741466', 'Restaurant', 'Sadat Street', '33.896430', '35.477017', 1, '0', 32),
@@ -1870,7 +1881,9 @@ INSERT INTO `restaurant_click` (`id`, `restaurant_id`, `user_id`, `type`) VALUES
 (101, 1, 96, 0),
 (102, 10, 54, 2),
 (103, 10, 54, 1),
-(104, 12, 54, 2);
+(104, 12, 54, 2),
+(105, 1, 54, 2),
+(106, 2, 54, 2);
 
 -- --------------------------------------------------------
 
@@ -2146,7 +2159,8 @@ INSERT INTO `reviews` (`id`, `user_id`, `restaurant_id`, `review`, `created_at`)
 (39, 37, 1, 'Avg', '2020-02-22 11:54:42'),
 (40, 37, 12, 'Good', '2020-02-22 11:58:30'),
 (41, 54, 2, 'Good ', '2020-02-24 10:21:56'),
-(42, 57, 1, 'review11111', '2020-03-05 15:23:03');
+(42, 57, 1, 'review11111', '2020-03-05 15:23:03'),
+(43, 54, 2, 'New review', '2020-03-06 09:59:35');
 
 -- --------------------------------------------------------
 
@@ -2476,8 +2490,11 @@ INSERT INTO `tokens` (`id`, `token`, `time`, `user_id`, `refresh_token`, `os`, `
 (424, '', '', 91, '', NULL, NULL),
 (425, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNjBhMWRiMDA4MDMi.Lx5blXaeaXAmuB4Gj8NCS-NIWPXSB5v76907oZ9Noo8', '1614927195', 91, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNjBhMWRiMDA4NDYi.Wy_KEzJmF4SGx7kZCJOvdQynEgy5cpOpdYONSo01uUA', 0, 'fgv2LEEWS_c:APA91bFBtqCONl8ySPv_PUN56Faz3yDGr5Lt-FNEg4qDN7wFe8-1DkbX-hA1nyySk8yCN5QT9_RC2EbS0-4OWE_r9enEpScytV_CqmwQNqWF4CtEjqt0OYVmyKr7OO1RfwFjs3QdYHsI'),
 (426, '', '', 54, '', NULL, NULL),
-(427, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNjBiYmVkNzg5YmUi.ftdEae6PnKv5MqM_zUQb7yPPfGHs1J968qwnggntpE8', '1614933869', 54, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNjBiYmVkNzg5ZmMi.RqZvxWzAQCp41dp8Wf1SdWaIjhkyG99Quj_JmdxFbY0', 0, 'eMNiWfQtxP8:APA91bHMT9BF0sTXs4zzVxu2qnarPppKv8DimkFhJ4mKDhowvD52g00Kr7uH9ravlp10JP69YQmgKSLIDPcWe-8kjvTN3eniICha-XiOYFDnZpcmFVTtmtNtX77dO8mV7SnwrmGfroP6'),
-(428, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNjFmYTQzNDMxMDci.wrdD_8Qx6vrPS0XmxR4EgkB2xe9QOuw3WVKGyfEwADA', '1615015363', 31, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNjFmYTQzNDMxM2Ui.P_hPdYOgr2mhOh2XcyFgmjYKLUSnR9R4CX5P3oEcd34', NULL, NULL);
+(427, '', '', 54, '', NULL, NULL),
+(428, '', '', 31, '', NULL, NULL),
+(429, '', '', 54, '', NULL, NULL),
+(430, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNjI0MDgzM2I3ZDYi.it21ki_qCSRywAdK2kBQxbCazQ05vM4a6RCpfYqnTTE', '1615033347', 31, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNjI0MDgzM2I4MGEi.q4xcKz2XourSbandbrwSwSLLXY_bOC5PsKosEpx3CRg', 1, 'eGkIAlcaZhI:APA91bHOAQtzmKrg9JlmNVGJY2HVpYOpoh5o1Pf1qqIvGYyHHZIpgxp2zqOGGVTeoz3Q3iXyyAMW651pWjd9wIWnMgK2GdPEv2lizf3Qp2U7Vn9N1tPLIy14qzornSOOFprwnn1MPAeZ'),
+(431, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNjI0M2MyZTY4Yjci.3iLQ_AwkPp_KQcWsutNPSJsDgc0it3RFGbFj-9c9-Js', '1615034178', 54, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNjI0M2MyZTY4ZmMi.cennaHkcJjD5CXf5zDZPL8vezxAht56LGUJW3jDidqY', 0, 'eMNiWfQtxP8:APA91bHMT9BF0sTXs4zzVxu2qnarPppKv8DimkFhJ4mKDhowvD52g00Kr7uH9ravlp10JP69YQmgKSLIDPcWe-8kjvTN3eniICha-XiOYFDnZpcmFVTtmtNtX77dO8mV7SnwrmGfroP6');
 
 -- --------------------------------------------------------
 
@@ -2779,7 +2796,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `first_name`, `last_name`, `gender`, `date_of_birth`, `mobile_number`, `email`, `password`, `uuid`, `image`, `coins`, `is_used_reference`, `created_at`, `updated_at`, `verify_code`, `verify`, `logged_via_fb`, `notification_status`, `lat`, `lng`, `country`, `region_id`) VALUES
-(30, 'super22', 'Super22', 'Admin22', 1, 1581335495, '+656565651466622', 'kakaka@gmail.com12222', 'c9cc24ffa63b25bb52b9d5fa288c2921a5190acd2ad461e2ece7b7d74af0fa53c86b783a066fc1ad3694313345702e69f57d70a597f7fbbf78dfc957d3bcdea9', '', 'User_default.png', 135, 0, '2019-10-01 03:14:51', '2019-10-01 03:14:51', '', 1, 0, 0, NULL, NULL, NULL, NULL),
+(30, 'super22', 'Super22', 'Admin22', 1, 1581335495, '+656565651466622', 'kakaka@gmail.com12222', 'c9cc24ffa63b25bb52b9d5fa288c2921a5190acd2ad461e2ece7b7d74af0fa53c86b783a066fc1ad3694313345702e69f57d70a597f7fbbf78dfc957d3bcdea9', '', 'User_default.png', 135, 0, '2019-10-01 03:14:51', '2019-10-01 03:14:51', '', 1, 0, 0, 37.785834, -122.406417, 'United States', NULL),
 (31, 'zara', 'zara', 'tunyan', 0, 1581335495, '695', 'zara.tunyan@gmail.com', '62670d1e1eea06b6c975e12bc8a16131b278f6d7bcbe017b65f854c58476baba86c2082b259fd0c1310935b365dc40f609971b6810b065e528b0b60119e69f61', '', 'User_default.png', 217, 0, '2019-10-01 18:08:45', '2019-10-01 18:08:45', '', 1, 0, 0, NULL, NULL, NULL, NULL),
 (33, 'adminSuper', 'Su', 'A', 1, 1550490695, '+656565651466622s', 'kakaka@gmail.com12222s', 'c7ad44cbad762a5da0a452f9e854fdc1e0e7a52a38015f23f3eab1d80b931dd472634dfac71cd34ebc35d16ab7fb8a90c81f975113d6c7538dc69dd8de9077ec', '', 'User_default.png', 115, 0, '2019-10-02 14:31:04', '2019-10-02 14:31:04', '', 1, 0, 1, NULL, NULL, NULL, NULL),
 (34, 'user', 'developer', 'develop', 0, 1581335495, '876767', 'test@mail.ru', 'ee26b0dd4af7e749aa1a8ee3c10ae9923f618980772e473f8819a5d4940e0db27ac185f8a0e1d5f84f88bc887fd67b143732c304cc5fa9ad8e6f57f50028a8ff', '', 'User_default.png', 531, 0, '2019-10-02 16:06:48', '2019-10-02 16:06:48', '', 1, 0, 1, NULL, NULL, NULL, NULL),
@@ -2798,7 +2815,7 @@ INSERT INTO `users` (`id`, `username`, `first_name`, `last_name`, `gender`, `dat
 (51, 'test data', 'test', 'test', 1, 1550490695, '745638745683', 'rrriiiii@mail.ru', 'ee26b0dd4af7e749aa1a8ee3c10ae9923f618980772e473f8819a5d4940e0db27ac185f8a0e1d5f84f88bc887fd67b143732c304cc5fa9ad8e6f57f50028a8ff', '', 'User_default.png', 8, 0, '2019-10-30 11:30:19', '2019-10-30 11:30:19', '', 0, 0, 1, NULL, NULL, NULL, NULL),
 (52, 'miled', 'miled', 'aoun', 1, 1550490695, '111111999999', 'miled@miled.miled', 'ba3253876aed6bc22d4a6ff53d8406c6ad864195ed144ab5c87621b6c233b548baeae6956df346ec8c17f5ea10f35ee3cbc514797ed7ddd3145464e2a0bab413', '', 'User_default.png', 0, 0, '2019-10-30 11:47:14', '2019-10-30 11:47:14', '', 0, 0, 1, NULL, NULL, NULL, NULL),
 (53, 'testt', 'ttttt', 'fffff', 1, 1572292800, '2222', 'ffffff@mail.ru', 'ee26b0dd4af7e749aa1a8ee3c10ae9923f618980772e473f8819a5d4940e0db27ac185f8a0e1d5f84f88bc887fd67b143732c304cc5fa9ad8e6f57f50028a8ff', '', 'User_default.png', 0, 0, '2019-10-30 12:09:52', '2019-10-30 12:09:52', '', 0, 0, 1, NULL, NULL, NULL, NULL),
-(54, 'test1', 'test', 'test', 1, 1581508295, '+35884848494', 'vsbsbsj@mail.ru', '125d6d03b32c84d492747f79cf0bf6e179d287f341384eb5d6d3197525ad6be8e6df0116032935698f99a09e265073d1d6c32c274591bf1d0a20ad67cba921bc', '170144-c190b2', 'User_default.png', 82787, 0, '2019-10-30 12:16:38', '2019-10-30 12:16:38', '0', 1, 1, 1, NULL, NULL, NULL, NULL),
+(54, 'test1', 'test', 'test', 1, 1581508295, '+35884848494', 'vsbsbsj@mail.ru', '125d6d03b32c84d492747f79cf0bf6e179d287f341384eb5d6d3197525ad6be8e6df0116032935698f99a09e265073d1d6c32c274591bf1d0a20ad67cba921bc', '170144-c190b2', 'User_default.png', 82791, 0, '2019-10-30 12:16:38', '2019-10-30 12:16:38', '0', 1, 1, 1, NULL, NULL, NULL, NULL),
 (55, 'aaa', 'aaa', 'aaa', 1, 1581508295, '000', 'ckymarra@gmail.com', 'd6f644b19812e97b5d871658d6d3400ecd4787faeb9b8990c1e7608288664be77257104a58d033bcf1a0e0945ff06468ebe53e2dff36e248424c7273117dac09', '', 'User_default.png', 0, 0, '2019-10-30 15:56:20', '2019-10-30 15:56:20', '', 0, 0, 1, NULL, NULL, NULL, NULL),
 (57, 'VaskenBakkalian15733258621951140152', 'Vasken', 'Bakkalian', 1, 1581508295, '', 'engerochvasken@hotmail.com', '1573325862?1717654752', '', 'User_default.png', 4, 0, '2019-11-09 18:57:42', '2019-11-09 18:57:42', '', 0, 0, 1, NULL, NULL, NULL, NULL),
 (58, 'AliMansour15742581181230913061', 'Ali', 'Mansour', 1, 1581508295, '', 'suprenoo@hotmail.com', '1574258118?1299941546', '', 'User_default.png', 0, 0, '2019-11-20 13:55:18', '2019-11-20 13:55:18', '', 0, 0, 1, NULL, NULL, NULL, NULL),
@@ -2847,11 +2864,12 @@ CREATE TABLE `video` (
   `id` int(255) NOT NULL,
   `restaurant_id` int(255) NOT NULL,
   `region_id` int(255) NOT NULL,
-  `country_id` int(255) NOT NULL,
+  `country` varchar(255) NOT NULL,
   `valid_date` date NOT NULL,
   `show_count` int(255) NOT NULL,
   `link` varchar(150) CHARACTER SET utf8 DEFAULT NULL,
   `video` varchar(255) NOT NULL,
+  `type` varchar(255) NOT NULL,
   `status` int(255) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -2859,9 +2877,9 @@ CREATE TABLE `video` (
 -- Dumping data for table `video`
 --
 
-INSERT INTO `video` (`id`, `restaurant_id`, `region_id`, `country_id`, `valid_date`, `show_count`, `link`, `video`, `status`) VALUES
-(4, 1, 1, 18, '2020-03-31', 1, 'http://aimtech.am', 'Video_1583414741_1715558195.mp4', 1),
-(5, 2, 1, 18, '2020-03-27', 1, 'http://aimtech.am', 'Video_1583414759_929348691.jpg', 1);
+INSERT INTO `video` (`id`, `restaurant_id`, `region_id`, `country`, `valid_date`, `show_count`, `link`, `video`, `type`, `status`) VALUES
+(4, 1, 1, 'Lebanon', '2020-03-31', 1, 'http://aimtech.am', 'Video_1583414741_1715558195.mp4', 'video', 1),
+(5, 2, 1, 'Lebanon', '2020-03-27', 1, '', 'Video_1583414759_929348691.jpg', 'image', 1);
 
 -- --------------------------------------------------------
 
@@ -3237,13 +3255,13 @@ ALTER TABLE `notification`
 -- AUTO_INCREMENT for table `offers_click`
 --
 ALTER TABLE `offers_click`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=427;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=437;
 
 --
 -- AUTO_INCREMENT for table `rates`
 --
 ALTER TABLE `rates`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
 -- AUTO_INCREMENT for table `regions`
@@ -3273,7 +3291,7 @@ ALTER TABLE `restaurants_images`
 -- AUTO_INCREMENT for table `restaurant_click`
 --
 ALTER TABLE `restaurant_click`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=105;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=107;
 
 --
 -- AUTO_INCREMENT for table `restaurant_weeks`
@@ -3291,7 +3309,7 @@ ALTER TABLE `res_plans`
 -- AUTO_INCREMENT for table `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT for table `service`
@@ -3309,7 +3327,7 @@ ALTER TABLE `sliders`
 -- AUTO_INCREMENT for table `tokens`
 --
 ALTER TABLE `tokens`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=429;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=432;
 
 --
 -- AUTO_INCREMENT for table `used_offers`
