@@ -148,7 +148,7 @@ class Videos extends CI_Controller
 			unlink(FCPATH . "/plugins/images/Video/" . $old_video->video);
 		}
 
-		if (strpos($link, 'http://') === false) {
+		if ($link != null && strpos($link, 'http://') === false) {
 			$link = "http://".$link;
 		}
 
