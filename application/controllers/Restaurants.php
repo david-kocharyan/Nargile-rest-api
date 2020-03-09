@@ -256,8 +256,10 @@ class Restaurants extends CI_Controller
 			$this->edit($id);
 		} else {
 			if (!empty($_FILES['logo']['name']) || null != $_FILES['logo']['name']) {
-				unlink(FCPATH . "/plugins/images/Restaurants/" . $user->logo);
-				unlink(FCPATH . "/plugins/thumb_images/Restaurants/Thumb_" . $user->logo);
+				try {
+					unlink(FCPATH . "/plugins/images/Restaurants/" . $user->logo);
+					unlink(FCPATH . "/plugins/thumb_images/Restaurants/Thumb_" . $user->logo);
+				}catch (Exception $exception){}
 
 				$image = $this->uploadImage('logo');
 				if (isset($image['error'])) {

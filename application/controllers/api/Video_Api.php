@@ -16,30 +16,41 @@ class Video_Api extends REST_Controller
 
 	public function index_get()
 	{
-		$res = $this->verify_get_request();
-		if (gettype($res) != 'string') {
+//		$res = $this->verify_get_request();
+//		if (gettype($res) != 'string') {
+//			$data = array(
+//				"success" => false,
+//				"data" => array(),
+//				"msg" => $res['msg']
+//			);
+//			$this->response($data, $res['status']);
+//			return;
+//		}
+		$res = 30;
+		$time = $this->input->get('time');
+
+		if ($time == null) {
 			$data = array(
 				"success" => false,
 				"data" => array(),
-				"msg" => $res['msg']
+				"msg" => "Please Send Correct Time"
 			);
-			$this->response($data, $res['status']);
-			return;
+			$this->response($data, self::HTTP_UNPROCESSABLE_ENTITY);
 		}
 
-		$user = $this->db->get_where('users', array('id' => $res))->row();
+		$user = $this->get_show_count($time, $res);
 
-		if ($user->region_id != NULL){
+		if ($user->region_id != NULL) {
 			$this->db->select('show_count, link, concat("/plugins/images/Video/", video) as media, type');
 			$this->db->where("valid_date >= CURDATE()");
+			$this->db->where("show > 0");
 			$video = $this->db->get_where('video', array('region_id' => $user->region_id, 'status' => 1))->result();
-		}
-		else{
-			$this->db->select('show_count, link, concat("/plugins/images/Video/", video) as media, type');
+		} else {
+			$this->db->select("5-4 as show, link, concat('/plugins/images/Video/', video) as media, type");
 			$this->db->where("valid_date >= CURDATE()");
+//			$this->db->where("show > 0");
 			$video = $this->db->get_where('video', array('country' => $user->country, 'status' => 1))->result();
 		}
-
 
 		$data = array(
 			"success" => true,
@@ -48,4 +59,32 @@ class Video_Api extends REST_Controller
 		);
 		$this->response($data, self::HTTP_OK);
 	}
+
+	private function get_show_count($time, $res)
+	{
+		$update_date = date('Y-m-d', $time);
+		$user = $this->db->get_where('users', array('id' => $res))->row();
+
+		if ($user->banner_update == null) {
+			$this->db->set('banner_update', $update_date);
+			$this->db->set('banner_show', $user->banner_show + 1);
+			$this->db->where('id', $res);
+			$this->db->update('users');
+
+		} elseif ($user->banner_update == $update_date) {
+			$this->db->set('banner_update', $update_date);
+			$this->db->set('banner_show', $user->banner_show + 1);
+			$this->db->where('id', $user->id);
+			$this->db->update('users');
+
+		} else {
+			$this->db->set('banner_update', null);
+			$this->db->set('banner_show', null);
+			$this->db->where('id', $user->id);
+			$this->db->update('users');
+		}
+
+		return $user = $this->db->get_where('users', array('id' => $res))->row();
+	}
+
 }
