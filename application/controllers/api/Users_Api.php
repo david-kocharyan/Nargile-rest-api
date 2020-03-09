@@ -1248,13 +1248,13 @@ class Users_API extends REST_Controller
 		$this->db->set('lng', $lng);
 		$this->db->set('country', $country);
 		$this->db->set('region_id', $id);
-		$this->db->where('id', 30);
+		$this->db->where('id', $res);
 		$this->db->update('users');
 
 		$data = array(
 			"success" => true,
 			"data" => array(),
-			"msg" => "User Location Save Successfuly"
+			"msg" => "User Location Save Successfully"
 		);
 		$this->response($data, self::HTTP_OK);
 	}
