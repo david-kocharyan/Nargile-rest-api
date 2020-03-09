@@ -142,10 +142,6 @@ class Videos extends CI_Controller
 			}
 			$video = isset($image['data']['file_name']) ? $image['data']['file_name'] : "";
 			unlink(FCPATH . "/plugins/images/Video/" . $old_video->video);
-		} else {
-			$this->session->set_flashdata('error', 'Image was required');
-			$this->create();
-			return;
 		}
 
 		if (strpos($link, 'http://') === false) {
