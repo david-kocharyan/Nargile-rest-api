@@ -76,6 +76,10 @@ class Videos extends CI_Controller
 				return;
 			}
 
+			if ($link != null) {
+				$link = "http://".$link;
+			}
+
 			$mime = finfo_file(finfo_open(FILEINFO_MIME_TYPE), FCPATH."plugins/images/Video/$video");
 			$type =  explode("/", $mime);
 
@@ -85,7 +89,7 @@ class Videos extends CI_Controller
 				'country' => $country,
 				'valid_date' => $valid_date,
 				'show_count' => $show,
-				'link' => "http://".$link,
+				'link' => $link,
 				'video' => $video,
 				'type' => $type[0],
 			);
