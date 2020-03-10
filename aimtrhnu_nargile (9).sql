@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Mar 09, 2020 at 12:05 PM
+-- Generation Time: Mar 10, 2020 at 10:04 AM
 -- Server version: 10.1.44-MariaDB-cll-lve
 -- PHP Version: 7.2.7
 
@@ -1577,7 +1577,28 @@ INSERT INTO `offers_click` (`id`, `user_id`, `restaurant_id`, `offer_id`, `type`
 (443, 103, 1, 2, 0),
 (444, 103, 1, 1, 0),
 (445, 103, 1, 2, 0),
-(446, 54, 1, 2, 0);
+(446, 54, 1, 2, 0),
+(447, 57, 2, NULL, 1),
+(448, 57, 2, NULL, 1),
+(449, 57, 1, NULL, 0),
+(450, 57, 1, NULL, 0),
+(451, 54, 1, 2, 0),
+(452, 54, 1, 2, 0),
+(453, 57, 2, NULL, 1),
+(454, 57, 2, NULL, 1),
+(455, 57, 11, NULL, 0),
+(456, 57, 11, NULL, 0),
+(457, 57, 23, NULL, 0),
+(458, 57, 23, NULL, 0),
+(459, 54, 1, 2, 0),
+(460, 54, 1, 1, 0),
+(461, 54, 1, 2, 0),
+(462, 54, 1, 2, 0),
+(463, 54, 1, 2, 0),
+(464, 54, 1, 1, 0),
+(465, 54, 2, 2, 1),
+(466, 31, 3, 0, 0),
+(467, 31, 3, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -1589,12 +1610,12 @@ CREATE TABLE `rates` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `restaurant_id` int(11) NOT NULL,
-  `overall` int(11) DEFAULT NULL,
-  `taste` int(11) DEFAULT NULL,
-  `charcoal` int(11) DEFAULT NULL,
-  `cleanliness` int(11) DEFAULT NULL,
-  `staff` int(11) DEFAULT NULL,
-  `value_for_money` int(11) DEFAULT NULL
+  `overall` double DEFAULT NULL,
+  `taste` double DEFAULT NULL,
+  `charcoal` double DEFAULT NULL,
+  `cleanliness` double DEFAULT NULL,
+  `staff` double DEFAULT NULL,
+  `value_for_money` double DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -1636,7 +1657,14 @@ INSERT INTO `rates` (`id`, `user_id`, `restaurant_id`, `overall`, `taste`, `char
 (55, 54, 2, 3, 4, 4, 2, 4, 3),
 (56, 57, 1, 1, 1, 1, 1, 1, 1),
 (57, 54, 2, 4, 4, 2, 4, 5, 4),
-(58, 31, 1, 3, 4, 4, 4, 2, 4);
+(58, 31, 1, 3, 4, 4, 4, 2, 4),
+(59, 57, 1, 3, 3, 2, 4, 3, 5),
+(60, 57, 2, 3, 5, 1, 5, 1, 5),
+(61, 57, 12, 3, 1, 4, 2, 3, 4),
+(62, 57, 11, 4, 2, 2, 5, 5, 5),
+(63, 57, 23, 4.2, 2, 4, 5, 5, 5),
+(64, 54, 1, 4, 2, 4, 5, 5, 5),
+(65, 54, 23, 3.8, 2, 3, 4, 5, 5);
 
 -- --------------------------------------------------------
 
@@ -1733,8 +1761,8 @@ CREATE TABLE `restaurants` (
 --
 
 INSERT INTO `restaurants` (`id`, `name`, `area_id`, `logo`, `phone_number`, `type`, `address`, `lat`, `lng`, `status`, `rate`, `admin_id`) VALUES
-(1, 'Cafe Em Nazih', 23, '', '9611745442', 'Cafe', 'Saifi Urban Gardens, Pasteur Street', '33.896025', '35.516406', 1, '3.5', 32),
-(2, 'Abo Waseem', 23, 'Logo_1569932569_1241077901.jpg', '9611745442', 'Resto-Cafe', 'Main Street, Hamra', '33.896189', '35.477883', 1, '3.75', 32),
+(1, 'Cafe Em Nazih', 23, 'Logo_1583842564_1783338064.jpg', '9611745442', 'Cafe', 'Saifi Urban Gardens, Pasteur Street', '33.896025', '35.516406', 1, '3.5', 32),
+(2, 'Abo Waseem', 23, 'Logo_1569932569_1241077901.jpg', '9611745442', 'Resto-Cafe', 'Main Street, Hamra', '33.896189', '35.477883', 1, '3.6', 32),
 (3, 'Toot Beirut', 23, 'Logo_1569932577_1638295637.jpg', '9611756166', 'Restaurant', 'Makdessi Street, Facing Liban Post', '33.896447', '35.482184', 1, '0', NULL),
 (4, 'Barjees Cafe', 23, 'Logo_1569932588_1476692797.jpg', '9611745356', 'Cafe', 'Main Street, Hamra', '33.896320', '35.477650', 1, '0', NULL),
 (5, 'Dar Al Sultani', 23, 'Logo_1569932610_1500670266.jpg', '9611741466', 'Restaurant', 'Sadat Street', '33.896430', '35.477017', 1, '0', 32),
@@ -1743,19 +1771,19 @@ INSERT INTO `restaurants` (`id`, `name`, `area_id`, `logo`, `phone_number`, `typ
 (8, 'Work Lounge', 23, 'Logo_1569932644_1813063138.jpg', '9611742428', 'Resto-Cafe', 'Badr Plaza, Leon Street, Next to the Lebanese American University', '33.894041', '35.478446', 1, '0', NULL),
 (9, 'Abu Naim', 23, 'Logo_1569932651_345754676.jpg', '9611750480', 'Restaurant', 'Picadelly Street', '33.895294', '35.483217', 1, '0', NULL),
 (10, 'Duke Eatery & Cafe', 24, 'Logo_1569932668_1705152190.jpg', '9611745442747', 'Cafe', 'Main Street', '33.895419', '35.484382', 1, '0', NULL),
-(11, 'Al Nard', 24, 'Logo_1569932713_1126625444.jpg', '9611746067', 'Cafe', 'Gems Aparthotel, Makdessi Street', '33.896832', '35.478723', 1, '0', NULL),
-(12, 'Good 2 Go', 24, 'Logo_1569932727_1817381857.jpg', '9611355883', 'Cafe', 'Makdessi Street, Next to GS', '33.896021', '35.485053', 1, '3.5', NULL),
+(11, 'Al Nard', 24, 'Logo_1569932713_1126625444.jpg', '9611746067', 'Cafe', 'Gems Aparthotel, Makdessi Street', '33.896832', '35.478723', 1, '4', NULL),
+(12, 'Good 2 Go', 24, 'Logo_1569932727_1817381857.jpg', '9611355883', 'Cafe', 'Makdessi Street, Next to GS', '33.896021', '35.485053', 1, '3.3', NULL),
 (13, 'Afandina', 24, 'Logo_1569932735_451691935.jpg', '9611351510', 'Restaurant', 'Makdesi Street, Liban Post Building', '33.881608', '35.496292', 1, '0', NULL),
 (14, 'Kaza Meza', 23, 'Logo_1569932748_590022535.jpg', '9611348016', 'Resto-Caf', 'Mahatma Ghandi Street', '33.898285', '35.478734', 1, '0', NULL),
 (15, 'Wimpy', 23, 'Logo_1569932755_2011446988.jpg', '9611345641', 'cafe', 'Picadelly Street', '33.895280', '35.483274', 1, '0', NULL),
 (16, 'Lavender Cafe', 23, 'Logo_1569932763_250838888.jpg', '9611751251', 'Cafe', 'Baalbak Street', '33.895122', '35.480656', 1, '0', NULL),
-(17, 'Hashtag Resto Cafe', 23, 'Logo_1569932776_1470398627.jpg', '9611745442', 'Resto-Cafe', 'Yamout Street', '33.897402', '35.478095', 1, '2.8333333333333', NULL),
+(17, 'Hashtag Resto Cafe', 23, 'Logo_1569932776_1470398627.jpg', '9611745442', 'Resto-Cafe', 'Yamout Street', '33.897402', '35.478095', 1, '2.8', NULL),
 (18, 'El Denye Hek', 31, 'Logo_1569932793_236142029.jpg', '9611567191', 'Restaurant', 'Armenia Street', '33.896925', '35.525611', 1, '0', NULL),
 (19, 'El Brimo', 31, 'Logo_1569932802_473601840.jpg', '9611444199', 'cafe', 'Geitawi', '33.894107', '35.529946', 1, '0', NULL),
 (20, 'Caf Badaro', 31, 'Logo_1569932813_208496841.jpg', '9611380693', 'Cafe', 'Main Street, Near Bank Audi', '33.872769', '35.515837', 1, '0', NULL),
 (21, 'Alturki', 23, 'Logo_1569932833_1460047395.jpg', '9611302702', 'Restaurant', 'Main Street, Facing Abdel Naser Mosque', '33.878730', '35.499654', 1, '0', NULL),
 (22, 'Alturki', 30, 'Logo_1569932841_749480922.jpg', '9611558532', 'Restaurant', 'Sayid Hadi Highway, Msharrafiyeh', '33.858113', '35.512272', 1, '0', NULL),
-(23, 'Alturki', 30, 'Logo_1569932856_665822247.jpg', '9617730693', 'Restaurant', 'Highway, Near Bank Audi, Saida', '33.560220', '35.379585', 1, '0', NULL),
+(23, 'Alturki', 30, 'Logo_1569932856_665822247.jpg', '9617730693', 'Restaurant', 'Highway, Near Bank Audi, Saida', '33.560220', '35.379585', 1, '4', NULL),
 (24, 'Ator12', 23, 'Logo_1581090422_1255317095.jpg', '990999099', 'cafe', '5 Nikoghayos Adonts St, Yerevan 0014, Armenia', '40.1857118209043', '40.1857118209043', 1, '0', 32),
 (25, 'Lebanon Shaurma', 23, 'Logo_1582642875_938556821.jpg', '990999099', 'cafe', '5 Nikoghayos Adonts St, Yerevan 0014, Armenia', '40.177711693025564', '40.1857118209043', 1, '0', 32);
 
@@ -1895,7 +1923,10 @@ INSERT INTO `restaurant_click` (`id`, `restaurant_id`, `user_id`, `type`) VALUES
 (103, 10, 54, 1),
 (104, 12, 54, 2),
 (105, 1, 54, 2),
-(106, 2, 54, 2);
+(106, 2, 54, 2),
+(107, 1, 54, 1),
+(108, 1, 54, 2),
+(109, 1, 54, 1);
 
 -- --------------------------------------------------------
 
@@ -2173,7 +2204,13 @@ INSERT INTO `reviews` (`id`, `user_id`, `restaurant_id`, `review`, `created_at`)
 (41, 54, 2, 'Good ', '2020-02-24 10:21:56'),
 (42, 57, 1, 'review11111', '2020-03-05 15:23:03'),
 (43, 54, 2, 'New review', '2020-03-06 09:59:35'),
-(44, 31, 1, 'Hello world\n', '2020-03-06 14:54:48');
+(44, 31, 1, 'Hello world\n', '2020-03-06 14:54:48'),
+(45, 57, 1, 'nicccce', '2020-03-09 16:25:10'),
+(46, 57, 2, 'nnnnice', '2020-03-09 16:44:26'),
+(47, 57, 12, 'aa', '2020-03-10 06:22:02'),
+(48, 57, 11, '19', '2020-03-10 06:25:00'),
+(49, 57, 23, '21', '2020-03-10 06:25:47'),
+(50, 54, 1, '21\n', '2020-03-10 06:26:52');
 
 -- --------------------------------------------------------
 
@@ -2222,7 +2259,7 @@ CREATE TABLE `sliders` (
 --
 
 INSERT INTO `sliders` (`id`, `restaurant_id`, `region_id`, `client_id`, `area_id`, `image`, `link`, `start`, `end`, `status`) VALUES
-(66, 2, 1, 32, 24, 'Slider_1576670963_756685785.jpg', 'aimtech.am', '2020-02-10', '2020-02-25', 1),
+(66, 1, 1, 32, 24, 'Slider_1576670963_756685785.jpg', 'http://aimtech.am', '2020-02-10', '2020-03-31', 1),
 (67, 3, NULL, 32, 23, 'Slider_1576670988_616823962.jpg', NULL, '2020-02-13', '2020-02-22', 1),
 (68, NULL, NULL, 32, 27, 'Slider_1576671090_1545236810.jpg', 'http://aimtech.am', '2020-02-16', '2020-02-27', 1),
 (69, 5, 1, 32, 23, 'Slider_1582210217_832769592.jpg', 'animevost.com', '2020-02-20', '2020-02-29', 1),
@@ -2508,11 +2545,14 @@ INSERT INTO `tokens` (`id`, `token`, `time`, `user_id`, `refresh_token`, `os`, `
 (429, '', '', 54, '', NULL, NULL),
 (430, '', '', 31, '', NULL, NULL),
 (431, '', '', 54, '', NULL, NULL),
-(432, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNjI2NDA0NDk1YWQi.ApCe8QE20vAM3IaVYoQkrj9_g2VZy_Ym1nwjZ_E5PFo', '1615042436', 31, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNjI2NDA0NDk1ZTci.mp1NyA2R8wsRYf-K6kQTiScTv8DRa1FusPT6Sre6Www', 1, 'ffLNcFG--SU:APA91bHJvtYDTnEEv2jQ4OZkSsOreBCFsDc7TmB-w0l-fIVSgNXFspNzyGVYbqpbfH1l4H8eM2R5efIl7Y2cfI8EK2ptN9rOaNgGO60IM2iM5yUwwGiW9nTjN5cIK12tmqPNPvuwuHbe'),
+(432, '', '', 31, '', NULL, NULL),
 (433, '', '', 54, '', NULL, NULL),
 (434, '', '', 54, '', NULL, NULL),
 (435, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNjVlZmZlM2NiY2Ei.JN9Ie8OUvh621QYjra29FmKSQB8elcJsO5q3HvmcfwU', '1583825278', 103, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNjVlZmZlM2NiZWYi.q_WiuQvsbNYTnJJiDz55XEurbvS3IoxuPErttaj5zYo', 0, 'eMNiWfQtxP8:APA91bHMT9BF0sTXs4zzVxu2qnarPppKv8DimkFhJ4mKDhowvD52g00Kr7uH9ravlp10JP69YQmgKSLIDPcWe-8kjvTN3eniICha-XiOYFDnZpcmFVTtmtNtX77dO8mV7SnwrmGfroP6'),
-(436, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNjY1MGQyOTUyODIi.12PLiQtbmGeGZzYxmS9mPoUnR9YPqpRtfZegpaNhWPA', '1615299666', 54, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNjY1MGQyOTUyYjgi.xbCCPfKqewnO86hAwTuVVxCDIjzKclcpvREAwhBhux0', 0, 'fzNiYkdZAFY:APA91bFp-Iigw2Hj3pdzcjvb5Ube15OBp0Sd3Ei2J_5URsZUnqKXoZ9NZ4l-kQH4ea7X33rq4jhcU3TyykW2aa-RKKRaCewUImyB7sXfaABOsag2XpGR-mnxlPPXZJkYIs9gypCErAvJ');
+(436, '', '', 54, '', NULL, NULL),
+(437, '', '', 54, '', NULL, NULL),
+(438, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNjc4YWMxYzljMGMi.XE5z0UaJ2FS4tzbaBLDxnNa7sWt8q13z_T4e19q2hIc', '1615380033', 31, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNjc4YWMxYzljNDMi.A7kKYUv3HF7lRkd7-zg295_FpYC7oBIl-0v605ntJKU', 1, 'dvJ0n6DCGYo:APA91bFPuqsR98TIA42cEAFoIpSFl7AtMtLl-Z4RQT3JqAVmfcXtK7GR7fh8dK-K60drIfFwQZHehbyimgRvtYc1Ov1y5bakdZbsawW6e4nWF6wcqXo1HjJpXZhW96bMtRbdvJn0XGjg'),
+(439, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNjc5Njg5ZTRkMmMi.0LWcK3zPzLsy_UlhcDVKP04gNMHlNs7V2SxLmhKVO_w', '1615383049', 54, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNjc5Njg5ZTRkNjki.A7-rzIOE72DcH4LsgWoY5HZ9g-SWm57rssW5JhYNlq4', 0, 'crWDfL3r90Y:APA91bF0yI3m2c42l51YOESsa4htYTlWyo7ZrP0Ya6v6MEsvdNYi45QgX4T5utYMqXCzcJu5lj4ELMHL-MXO4j0eua2OJn8lX0BsU-v06-q0czgpSd7RAUjrBiWdamkrpbS51dhAOahB');
 
 -- --------------------------------------------------------
 
@@ -2817,7 +2857,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `username`, `first_name`, `last_name`, `gender`, `date_of_birth`, `mobile_number`, `email`, `password`, `uuid`, `image`, `coins`, `is_used_reference`, `created_at`, `updated_at`, `verify_code`, `verify`, `logged_via_fb`, `notification_status`, `lat`, `lng`, `country`, `region_id`, `banner_update`, `banner_show`) VALUES
 (30, 'super22', 'Super22', 'Admin22', 1, 1581335495, '+656565651466622', 'kakaka@gmail.com12222', 'c9cc24ffa63b25bb52b9d5fa288c2921a5190acd2ad461e2ece7b7d74af0fa53c86b783a066fc1ad3694313345702e69f57d70a597f7fbbf78dfc957d3bcdea9', '', 'User_default.png', 135, 0, '2019-10-01 03:14:51', '2019-10-01 03:14:51', '', 1, 0, 0, 40.199623323271744, 44.49112586272669, 'Armenia', NULL, NULL, NULL),
-(31, 'zara', 'zara', 'tunyan', 0, 1581335495, '695', 'zara.tunyan@gmail.com', '62670d1e1eea06b6c975e12bc8a16131b278f6d7bcbe017b65f854c58476baba86c2082b259fd0c1310935b365dc40f609971b6810b065e528b0b60119e69f61', '', 'User_default.png', 221, 0, '2019-10-01 18:08:45', '2019-10-01 18:08:45', '', 1, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL),
+(31, 'zara', 'zara', 'tunyan', 0, 1581335495, '695', 'zara.tunyan@gmail.com', '62670d1e1eea06b6c975e12bc8a16131b278f6d7bcbe017b65f854c58476baba86c2082b259fd0c1310935b365dc40f609971b6810b065e528b0b60119e69f61', '', 'User_default.png', 221, 0, '2019-10-01 18:08:45', '2019-10-01 18:08:45', '', 1, 0, 1, 33.8892171, 35.4867727, 'Lebanon', 1, '1969-12-31', 2),
 (33, 'adminSuper', 'Su', 'A', 1, 1550490695, '+656565651466622s', 'kakaka@gmail.com12222s', 'c7ad44cbad762a5da0a452f9e854fdc1e0e7a52a38015f23f3eab1d80b931dd472634dfac71cd34ebc35d16ab7fb8a90c81f975113d6c7538dc69dd8de9077ec', '', 'User_default.png', 115, 0, '2019-10-02 14:31:04', '2019-10-02 14:31:04', '', 1, 0, 1, NULL, NULL, NULL, NULL, NULL, NULL),
 (34, 'user', 'developer', 'develop', 0, 1581335495, '876767', 'test@mail.ru', 'ee26b0dd4af7e749aa1a8ee3c10ae9923f618980772e473f8819a5d4940e0db27ac185f8a0e1d5f84f88bc887fd67b143732c304cc5fa9ad8e6f57f50028a8ff', '', 'User_default.png', 531, 0, '2019-10-02 16:06:48', '2019-10-02 16:06:48', '', 1, 0, 1, NULL, NULL, NULL, NULL, NULL, NULL),
 (35, 'testuser', 'test', 'test', 1, 1550490695, '846464', 'testuser@mail.ru', 'ee26b0dd4af7e749aa1a8ee3c10ae9923f618980772e473f8819a5d4940e0db27ac185f8a0e1d5f84f88bc887fd67b143732c304cc5fa9ad8e6f57f50028a8ff', '', 'User_default.png', 0, 0, '2019-10-02 16:14:45', '2019-10-02 16:14:45', '', 1, 0, 1, NULL, NULL, NULL, NULL, NULL, NULL),
@@ -2835,11 +2875,11 @@ INSERT INTO `users` (`id`, `username`, `first_name`, `last_name`, `gender`, `dat
 (51, 'test data', 'test', 'test', 1, 1550490695, '745638745683', 'rrriiiii@mail.ru', 'ee26b0dd4af7e749aa1a8ee3c10ae9923f618980772e473f8819a5d4940e0db27ac185f8a0e1d5f84f88bc887fd67b143732c304cc5fa9ad8e6f57f50028a8ff', '', 'User_default.png', 8, 0, '2019-10-30 11:30:19', '2019-10-30 11:30:19', '', 0, 0, 1, NULL, NULL, NULL, NULL, NULL, NULL),
 (52, 'miled', 'miled', 'aoun', 1, 1550490695, '111111999999', 'miled@miled.miled', 'ba3253876aed6bc22d4a6ff53d8406c6ad864195ed144ab5c87621b6c233b548baeae6956df346ec8c17f5ea10f35ee3cbc514797ed7ddd3145464e2a0bab413', '', 'User_default.png', 0, 0, '2019-10-30 11:47:14', '2019-10-30 11:47:14', '', 0, 0, 1, NULL, NULL, NULL, NULL, NULL, NULL),
 (53, 'testt', 'ttttt', 'fffff', 1, 1572292800, '2222', 'ffffff@mail.ru', 'ee26b0dd4af7e749aa1a8ee3c10ae9923f618980772e473f8819a5d4940e0db27ac185f8a0e1d5f84f88bc887fd67b143732c304cc5fa9ad8e6f57f50028a8ff', '', 'User_default.png', 0, 0, '2019-10-30 12:09:52', '2019-10-30 12:09:52', '', 0, 0, 1, NULL, NULL, NULL, NULL, NULL, NULL),
-(54, 'test1', 'test', 'test', 1, 1581508295, '+35884848494', 'vsbsbsj@mail.ru', '125d6d03b32c84d492747f79cf0bf6e179d287f341384eb5d6d3197525ad6be8e6df0116032935698f99a09e265073d1d6c32c274591bf1d0a20ad67cba921bc', '170144-c190b2', 'User_default.png', 82791, 0, '2019-10-30 12:16:38', '2019-10-30 12:16:38', '0', 1, 1, 1, 40.1921046741139, 44.505096336225776, 'Armenia', NULL, NULL, NULL),
+(54, 'test1', 'test', 'test', 1, 1581508295, '+35884848494', 'vsbsbsj@mail.ru', '125d6d03b32c84d492747f79cf0bf6e179d287f341384eb5d6d3197525ad6be8e6df0116032935698f99a09e265073d1d6c32c274591bf1d0a20ad67cba921bc', '170144-c190b2', 'User_default.png', 82796, 0, '2019-10-30 12:16:38', '2019-10-30 12:16:38', '0', 1, 1, 1, 40.19975446168352, 44.49112049308092, 'Armenia', NULL, NULL, NULL),
 (55, 'aaa', 'aaa', 'aaa', 1, 1581508295, '000', 'ckymarra@gmail.com', 'd6f644b19812e97b5d871658d6d3400ecd4787faeb9b8990c1e7608288664be77257104a58d033bcf1a0e0945ff06468ebe53e2dff36e248424c7273117dac09', '', 'User_default.png', 0, 0, '2019-10-30 15:56:20', '2019-10-30 15:56:20', '', 0, 0, 1, NULL, NULL, NULL, NULL, NULL, NULL),
-(57, 'VaskenBakkalian15733258621951140152', 'Vasken', 'Bakkalian', 1, 1581508295, '', 'engerochvasken@hotmail.com', '1573325862?1717654752', '', 'User_default.png', 4, 0, '2019-11-09 18:57:42', '2019-11-09 18:57:42', '', 0, 0, 1, NULL, NULL, NULL, NULL, NULL, NULL),
+(57, 'VaskenBakkalian15733258621951140152', 'Vasken', 'Bakkalian', 1, 1581508295, '', 'engerochvasken@hotmail.com', '1573325862?1717654752', '', 'User_default.png', 24, 0, '2019-11-09 18:57:42', '2019-11-09 18:57:42', '', 0, 0, 1, NULL, NULL, NULL, NULL, NULL, NULL),
 (58, 'AliMansour15742581181230913061', 'Ali', 'Mansour', 1, 1581508295, '', 'suprenoo@hotmail.com', '1574258118?1299941546', '', 'User_default.png', 0, 0, '2019-11-20 13:55:18', '2019-11-20 13:55:18', '', 0, 0, 1, NULL, NULL, NULL, NULL, NULL, NULL),
-(91, 'test2', 'test', 'test', 1, 1550490695, '+37495616200', 'gggg@mail.ru', '125d6d03b32c84d492747f79cf0bf6e179d287f341384eb5d6d3197525ad6be8e6df0116032935698f99a09e265073d1d6c32c274591bf1d0a20ad67cba921bc', '16ead1-2f0de6', 'User_default.png', 4, 0, '2019-11-27 13:35:30', '2019-11-27 13:35:30', '0', 1, 0, 1, NULL, NULL, NULL, NULL, NULL, NULL),
+(91, 'test2', 'test', 'test', 1, 1550490695, '+37495616200', 'gggg@mail.ru', '125d6d03b32c84d492747f79cf0bf6e179d287f341384eb5d6d3197525ad6be8e6df0116032935698f99a09e265073d1d6c32c274591bf1d0a20ad67cba921bc', '16ead1-2f0de6', 'User_default.png', 4, 0, '2019-11-27 13:35:30', '2019-11-27 13:35:30', '0', 1, 0, 1, 37.785834, -122.406417, 'United States', NULL, NULL, NULL),
 (92, 'davidd', 'd', 'a', 1, 1550490695, '+37499099248', 'Jindx@gmail.com', 'c7ad44cbad762a5da0a452f9e854fdc1e0e7a52a38015f23f3eab1d80b931dd472634dfac71cd34ebc35d16ab7fb8a90c81f975113d6c7538dc69dd8de9077ec', '16f0e8-5a7759', 'User_default.png', 0, 0, '2019-12-16 09:58:52', '2019-12-16 09:58:52', '300544', 0, 0, 1, NULL, NULL, NULL, NULL, NULL, NULL),
 (93, 'davidd', 'd', 'a', 1, 587898, '+37499099248', 'Jindx@gmail.com', 'c7ad44cbad762a5da0a452f9e854fdc1e0e7a52a38015f23f3eab1d80b931dd472634dfac71cd34ebc35d16ab7fb8a90c81f975113d6c7538dc69dd8de9077ec', '16f0e8-409261', 'User_default.png', 0, 0, '2019-12-16 11:42:11', '2019-12-16 11:42:11', '148511', 0, 0, 1, NULL, NULL, NULL, NULL, NULL, NULL),
 (94, 'davidd', 'd', 'a', 1, 587898, '+37499099248', 'Jindx@gmail.com', 'c7ad44cbad762a5da0a452f9e854fdc1e0e7a52a38015f23f3eab1d80b931dd472634dfac71cd34ebc35d16ab7fb8a90c81f975113d6c7538dc69dd8de9077ec', '16f0e8-4edd9c', 'User_default.png', 0, 0, '2019-12-16 11:43:10', '2019-12-16 11:43:10', '880529', 0, 0, 1, NULL, NULL, NULL, NULL, NULL, NULL),
@@ -2898,8 +2938,12 @@ CREATE TABLE `video` (
 --
 
 INSERT INTO `video` (`id`, `restaurant_id`, `region_id`, `country`, `valid_date`, `show_count`, `link`, `video`, `type`, `status`) VALUES
-(4, 1, 1, 'Armenia', '2020-03-31', 1, 'http://aimtech.am', 'Video_1583414741_1715558195.mp4', 'video', 1),
-(5, 2, 1, 'Armenia', '2020-03-27', 2, '', 'Video_1583414759_929348691.jpg', 'image', 1);
+(4, 1, 1, 'Armenia', '2020-03-31', 100, 'http://aimtech.am', 'Video_1583414741_1715558195.mp4', 'video', 1),
+(5, 2, 1, 'Armenia', '2020-03-27', 200, '', 'Video_1583414759_929348691.jpg', 'image', 1),
+(6, 1, 2, 'Armenia', '2020-03-31', 200, '', 'Video_1583825314_2141207743.mp4', 'video', 1),
+(7, 3, 1, 'Armenia', '2020-03-31', 150, 'http://http://aimtech.am', 'Video_1583825401_2114838880.mp4', 'video', 1),
+(8, 1, 1, 'Armenia', '2020-03-31', 14, 'http://http://aimtech.am', 'Video_1583825568_1223267631.jpg', 'image', 1),
+(9, 1, 1, 'Armenia', '2020-03-31', 500, 'http://animevost.com', 'Video_1583825761_672373706.jpg', 'image', 1);
 
 -- --------------------------------------------------------
 
@@ -3275,13 +3319,13 @@ ALTER TABLE `notification`
 -- AUTO_INCREMENT for table `offers_click`
 --
 ALTER TABLE `offers_click`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=447;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=468;
 
 --
 -- AUTO_INCREMENT for table `rates`
 --
 ALTER TABLE `rates`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 
 --
 -- AUTO_INCREMENT for table `regions`
@@ -3311,7 +3355,7 @@ ALTER TABLE `restaurants_images`
 -- AUTO_INCREMENT for table `restaurant_click`
 --
 ALTER TABLE `restaurant_click`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=107;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=110;
 
 --
 -- AUTO_INCREMENT for table `restaurant_weeks`
@@ -3329,7 +3373,7 @@ ALTER TABLE `res_plans`
 -- AUTO_INCREMENT for table `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT for table `service`
@@ -3347,7 +3391,7 @@ ALTER TABLE `sliders`
 -- AUTO_INCREMENT for table `tokens`
 --
 ALTER TABLE `tokens`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=437;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=440;
 
 --
 -- AUTO_INCREMENT for table `used_offers`
@@ -3371,7 +3415,7 @@ ALTER TABLE `user_loyalty_card`
 -- AUTO_INCREMENT for table `video`
 --
 ALTER TABLE `video`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `weeks`

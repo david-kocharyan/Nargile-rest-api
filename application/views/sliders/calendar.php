@@ -36,6 +36,10 @@
 		for (i = 0; i < sliders.length; i++) {
 			var back = bg[Math.floor(Math.random() * bg.length)];
 
+			if(sliders[i].res_name != null){
+				var restaurant = sliders[i].res_name + ",";
+			}
+
 			if (sliders[i].first_name != null && sliders[i].last_name != null) {
 				var name = sliders[i].first_name + " " + sliders[i].last_name +",";
 			} else {
@@ -49,7 +53,7 @@
 			}
 
 			defaultEvents.push({
-				title: `${name} ${text}`,
+				title: `${restaurant} ${name} ${text}`,
 				start: new Date(sliders[i].start),
 				end: new Date(sliders[i].end),
 				className: back,

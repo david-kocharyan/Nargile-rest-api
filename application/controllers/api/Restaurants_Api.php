@@ -287,7 +287,7 @@ class Restaurants_Api extends REST_Controller
 
 			foreach ($data as $key) {
 				if ($key->link == null) $key->link = "";
-				if ($key->restaurant_id == null) $key->restaurant_id = 0;
+				if ($key->restaurant_id == null) $key->restaurant_id = "0";
 			}
 
 			$response = array(
@@ -308,7 +308,7 @@ class Restaurants_Api extends REST_Controller
 
 			foreach ($data as $key) {
 				if ($key->link == null) $key->link = "";
-				if ($key->restaurant_id == null) $key->restaurant_id  = 0;
+				if ($key->restaurant_id == null) $key->restaurant_id  = "0";
 			}
 
 			$response = array(
