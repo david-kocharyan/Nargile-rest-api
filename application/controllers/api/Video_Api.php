@@ -40,12 +40,12 @@ class Video_Api extends REST_Controller
 		$user = $this->get_show_count($time, $res);
 
 		if ($user->region_id != NULL) {
-			$this->db->select('show_count, link, concat("/plugins/images/Video/", video) as media, type');
+			$this->db->select('show_count, link, concat("/plugins/images/Video/", video) as media, type, restaurant_id');
 			$this->db->where("valid_date >= CURDATE()");
 			$this->db->where("(show_count-$user->banner_show) > 0");
 			$video = $this->db->get_where('video', array('region_id' => $user->region_id, 'status' => 1))->result();
 		} else {
-			$this->db->select("show_count, link, concat('/plugins/images/Video/', video) as media, type");
+			$this->db->select("show_count, link, concat('/plugins/images/Video/', video) as media, type, restaurant_id");
 			$this->db->where("valid_date >= CURDATE()");
 			$this->db->where("(show_count-$user->banner_show) > 0");
 			$video = $this->db->get_where('video', array('country' => $user->country, 'status' => 1))->result();
