@@ -69,8 +69,8 @@ class Location_Api extends REST_Controller
 			"success" => true,
 			"data" => array(
 				"geolocation" => array(
-					"city" => isset($address['city']) ? $address['city'] : 'null',
-					"country" => isset($address['country']) ? $address['country'] : 'null',
+					"city" => isset($address['city']) ? $address['city'] : 'Beirut',
+					"country" => isset($address['country']) ? $address['country'] : 'Lebanon',
 				),
 			),
 			"msg" => "",
@@ -89,16 +89,16 @@ class Location_Api extends REST_Controller
 
 			if (!$this->check_status($jsondata)) return array();
 
-			if ($this->google_getCity($jsondata) == null){
-				$city = $jsondata['results'][0]['address_components'][1]['long_name'];
-			}
-			else{
-				$city = $this->google_getCity($jsondata);
-			}
+//			if ($this->google_getCity($jsondata) == null){
+//				$city = $jsondata['results'][0]['address_components'][1]['long_name'];
+//			}
+//			else{
+//				$city = $this->google_getCity($jsondata);
+//			}
 
 			$address = array(
 				'country' => $this->google_getCountry($jsondata),
-				'city' => $city,
+				'city' => $jsondata['results'][0]['address_components'][1]['long_name'],
 			);
 
 			return $address;
