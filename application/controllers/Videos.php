@@ -51,8 +51,8 @@ class Videos extends CI_Controller
 		$show = $this->input->post('show');
 		$valid_date = $this->input->post('date');
 
-		$this->form_validation->set_rules('region', 'Region', 'required|trim');
-		$this->form_validation->set_rules('country', 'Country', 'required|trim');
+//		$this->form_validation->set_rules('region', 'Region', 'required|trim');
+//		$this->form_validation->set_rules('country', 'Country', 'required|trim');
 		$this->form_validation->set_rules('restaurant', 'Restaurant', 'required|trim');
 		$this->form_validation->set_rules('show', 'Show', 'required|trim');
 		$this->form_validation->set_rules('date', 'Valid date', 'required|trim');
@@ -123,8 +123,8 @@ class Videos extends CI_Controller
 		$show = $this->input->post('show');
 		$valid_date = $this->input->post('date');
 
-		$this->form_validation->set_rules('region', 'Region', 'required|trim');
-		$this->form_validation->set_rules('country', 'Country', 'required|trim');
+//		$this->form_validation->set_rules('region', 'Region', 'required|trim');
+//		$this->form_validation->set_rules('country', 'Country', 'required|trim');
 		$this->form_validation->set_rules('restaurant', 'Restaurant', 'required|trim');
 		$this->form_validation->set_rules('show', 'Show', 'required|trim');
 		$this->form_validation->set_rules('date', 'Valid date', 'required|trim');
