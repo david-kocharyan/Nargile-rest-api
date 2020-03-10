@@ -61,7 +61,6 @@ class Location_Api extends REST_Controller
 			return;
 		}
 
-
 		$lat = $this->input->post("lat");
 		$lng = $this->input->post("lng");
 		$address = $this->getaddress($lat, $lng);
@@ -90,9 +89,16 @@ class Location_Api extends REST_Controller
 
 			if (!$this->check_status($jsondata)) return array();
 
+			if ($this->google_getCity($jsondata) == null){
+				$city = $jsondata['results'][0]['address_components'][1]['long_name'];
+			}
+			else{
+				$city = $this->google_getCity($jsondata);
+			}
+
 			$address = array(
 				'country' => $this->google_getCountry($jsondata),
-				'city' => $this->google_getCity($jsondata),
+				'city' => $city,
 			);
 
 			return $address;
