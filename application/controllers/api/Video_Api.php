@@ -61,7 +61,7 @@ class Video_Api extends REST_Controller
 
 	private function get_show_count($time, $res)
 	{
-		$update_date = date('Y-m-d', $time/1000);
+		$update_date = date('Y-m-d', intval($time/1000));
 		$user = $this->db->get_where('users', array('id' => $res))->row();
 
 		if ($user->banner_update == null) {
