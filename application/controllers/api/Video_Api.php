@@ -16,16 +16,17 @@ class Video_Api extends REST_Controller
 
 	public function index_get()
 	{
-		$res = $this->verify_get_request();
-		if (gettype($res) != 'string') {
-			$data = array(
-				"success" => false,
-				"data" => array(),
-				"msg" => $res['msg']
-			);
-			$this->response($data, $res['status']);
-			return;
-		}
+//		$res = $this->verify_get_request();
+//		if (gettype($res) != 'string') {
+//			$data = array(
+//				"success" => false,
+//				"data" => array(),
+//				"msg" => $res['msg']
+//			);
+//			$this->response($data, $res['status']);
+//			return;
+//		}
+		$res = 30;
 		$time = $this->input->get('time');
 
 		if ($time == null) {
@@ -61,7 +62,7 @@ class Video_Api extends REST_Controller
 
 	private function get_show_count($time, $res)
 	{
-		$update_date = date('Y-m-d', $time);
+		$update_date = date('Y-m-d', $time/1000);
 		$user = $this->db->get_where('users', array('id' => $res))->row();
 
 		if ($user->banner_update == null) {
