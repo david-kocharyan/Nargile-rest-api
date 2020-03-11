@@ -75,12 +75,12 @@ class Videos extends CI_Controller
 				return;
 			}
 
-			if ($link != null) {
-				$link = "http://".$link;
+			if ($link != null && strpos($link, 'http://') === false) {
+				$link = "http://" . $link;
 			}
 
-			$mime = finfo_file(finfo_open(FILEINFO_MIME_TYPE), FCPATH."plugins/images/Video/$video");
-			$type =  explode("/", $mime);
+			$mime = finfo_file(finfo_open(FILEINFO_MIME_TYPE), FCPATH . "plugins/images/Video/$video");
+			$type = explode("/", $mime);
 
 			$data = array(
 				'restaurant_id' => $restaurant,
@@ -148,7 +148,7 @@ class Videos extends CI_Controller
 		}
 
 		if ($link != null && strpos($link, 'http://') === false) {
-			$link = "http://".$link;
+			$link = "http://" . $link;
 		}
 
 		$data = array(
@@ -159,11 +159,11 @@ class Videos extends CI_Controller
 			'show_count' => $show,
 			'link' => $link,
 		);
-		if (isset($video)){
+		if (isset($video)) {
 			$data['video'] = $video;
 
-			$mime = finfo_file(finfo_open(FILEINFO_MIME_TYPE), FCPATH."plugins/images/Video/$video");
-			$type =  explode("/", $mime);
+			$mime = finfo_file(finfo_open(FILEINFO_MIME_TYPE), FCPATH . "plugins/images/Video/$video");
+			$type = explode("/", $mime);
 			$data['video'] = $type[0];
 		}
 
@@ -188,7 +188,7 @@ class Videos extends CI_Controller
 		$config['upload_path'] = $path;
 		$config['file_name'] = 'Video_' . time() . '_' . rand();
 		$config['allowed_types'] = 'jpg|png|jpeg|mp4';
-		$config['max_size'] = 100000;
+		$config['max_size'] = 5000;
 		$this->load->library('upload', $config);
 
 		if (!$this->upload->do_upload($image)) {
@@ -197,9 +197,35 @@ class Videos extends CI_Controller
 			return $error;
 		} else {
 			$uploadedImage = $this->upload->data();
+			$type = explode("/", $uploadedImage['file_type']);
+			if ($type[0] == 'image') {
+				$this->resizeImage($uploadedImage['file_name'], $config['upload_path']);
+			}
 			$data = array('data' => $uploadedImage);
 			return $data;
 		}
+	}
+
+	private function resizeImage($filename, $path)
+	{
+		$source_path = $path . "/" . $filename;
+		$target_path = $path . "/" . $filename;
+		$config_manip = array(
+			'image_library' => 'gd2',
+			'source_image' => $source_path,
+			'new_image' => $target_path,
+			'maintain_ratio' => TRUE,
+			'create_thumb' => FALSE,
+			'width' => 1000,
+			'height' => 1000,
+		);
+		$this->load->library('image_lib');
+		$this->image_lib->initialize($config_manip);
+
+		if (!$this->image_lib->resize()) {
+			echo $this->image_lib->display_errors();
+		}
+		$this->image_lib->clear();
 	}
 
 
