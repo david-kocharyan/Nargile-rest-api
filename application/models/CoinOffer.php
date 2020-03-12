@@ -12,6 +12,8 @@ class CoinOffer extends CI_Model
 
 	public function selectAll($id)
 	{
+		$this->db->select('coin_offers.*, regions.name as reg_name');
+		$this->db->join('regions', 'regions.id = coin_offers.region');
 		return $this->db->get_where($this->table, array('restaurant_id' => $id))->result();
 	}
 

@@ -103,6 +103,8 @@
 						<th>Valid date</th>
 						<th>Count</th>
 						<th>Description</th>
+						<th>Country</th>
+						<th>Region</th>
 						<th>Status</th>
 						<th>Options</th>
 					</tr>
@@ -115,6 +117,8 @@
 							<td><?= date('Y-m-d', $value->valid_date); ?></td>
 							<td><?= $value->count; ?></td>
 							<td><?= $value->description; ?></td>
+							<td><?= $value->country; ?></td>
+							<td><?= $value->reg_name; ?></td>
 
 							<td style="
 									<?php if ($value->status == 0) {
