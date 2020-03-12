@@ -130,7 +130,7 @@ class Community_Api extends REST_Controller
 
 		if ($user->region_id != NULL) {
 			$this->db->where("coin_offers.region = $user->region_id");
-		} elseif($user->country != NULL) {
+		} else{
 			$this->db->where("coin_offers.country = $user->country");
 		}
 
@@ -194,7 +194,7 @@ class Community_Api extends REST_Controller
 
 		if ($user->region_id != NULL) {
 			$this->db->where("coin_offers.region = $user->region_id");
-		} elseif($user->country != NULL) {
+		} else{
 			$this->db->where("coin_offers.country = $user->country");
 		}
 
