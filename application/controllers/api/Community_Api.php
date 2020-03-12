@@ -120,8 +120,7 @@ class Community_Api extends REST_Controller
 
 		$this->db->select("concat('/plugins/images/Restaurants/', restaurants.logo) as logo,
          restaurants.id as id, restaurants.name as name, restaurants.address as address, ROUND(restaurants.rate, 1) as rate,
-          coin_offers.id as coin_id, concat('Nargile for ' , coin_offers.price, ' coins') as info, coin_offers.price as price, description,
-          countries.name");
+          coin_offers.id as coin_id, concat('Nargile for ' , coin_offers.price, ' coins') as info, coin_offers.price as price, description");
 		$this->limits();
 		$this->db->join("restaurants", "restaurants.id = coin_offers.restaurant_id");
 		$this->join();
@@ -132,7 +131,7 @@ class Community_Api extends REST_Controller
 		if ($user->region_id != NULL) {
 			$this->db->where("coin_offers.region = $user->region_id");
 		} elseif($user->country != NULL) {
-			$this->db->where("countries.name = $user->country");
+			$this->db->where("coin_offers.country = $user->country");
 		}
 
 		$this->db->where("DATE(FROM_UNIXTIME(coin_offers.valid_date)) >= CURDATE()");
@@ -186,7 +185,7 @@ class Community_Api extends REST_Controller
 		$this->db->select('region_id, country');
 		$user = $this->db->get_where('users', array('id' => $res))->row();
 
-		$this->db->select("count(restaurant_id) as pages, countries.name");
+		$this->db->select("count(restaurant_id) as pages");
 		$this->db->join("restaurants", "restaurants.id = coin_offers.restaurant_id");
 		$this->join();
 		$this->db->join("claimed_offers", "claimed_offers.coin_offer_id = coin_offers.id AND `claimed_offers`.`user_id` = $res", "left");
@@ -196,7 +195,7 @@ class Community_Api extends REST_Controller
 		if ($user->region_id != NULL) {
 			$this->db->where("coin_offers.region = $user->region_id");
 		} elseif($user->country != NULL) {
-			$this->db->where("countries.name = $user->country");
+			$this->db->where("coin_offers.country = $user->country");
 		}
 
 		$this->db->where("DATE(FROM_UNIXTIME(coin_offers.valid_date)) >= CURDATE()");
@@ -243,7 +242,7 @@ class Community_Api extends REST_Controller
 	private function join()
 	{
 		$this->db->join("area", "area.id = restaurants.area_id");
-		$this->db->join("countries", "countries.id = coin_offers.country", "left");
+		$this->db->join("countries", "countries.id = area.country_id");
 	}
 
 	public function get_friends_get()
