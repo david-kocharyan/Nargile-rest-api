@@ -65,7 +65,7 @@
 							<label for="country" class="control-label">Country</label>
 							<select name="country" id="coin_country" class="form-control">
 								<?php foreach ($country as $key){?>
-									<option value="<?= $key->name ?>"><?= $key->name?></option>
+									<option value="<?= $key->id?>"><?= $key->name?></option>
 								<?php }?>
 							</select>
 						</div>
