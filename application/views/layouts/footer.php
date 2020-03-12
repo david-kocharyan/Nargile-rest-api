@@ -64,7 +64,11 @@
 		$('.area_slider').select2();
 		$('.restaurant_slider').select2();
 
-        // data table
+		// coin offers part
+		$('#coin_country').select2();
+		$('#coin_region').select2();
+
+		// data table
         $('#myTable').DataTable();
 
         // Basic

@@ -1,3 +1,6 @@
+<!-- Date picker plugins css -->
+<link href="<?= base_url('/public/')?>plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
+
 <!--page content-->
 <div class="row">
 	<div class="col-sm-12">
@@ -13,22 +16,69 @@
 					  action="<?php echo base_url() ?>admin/restaurants/coin-offers/store/<?= $id ?>"
 					  method="post">
 					<div class="table-responsive">
-						<table class="table table-bordered" id="dynamic_field">
-							<tr>
-								<td>
-									<input type="text" name="price[]" placeholder="Enter price"
-										   class="form-control name_list m-b-5"/>
-									<input type="date" name="valid[]" placeholder="Enter date Y-m-d"
-										   class="form-control m-b-5"/>
-									<input type="text" name="desc[]" placeholder="Enter description"
-										   class="form-control m-b-5"/>
-									<input type="number" name="count[]" placeholder="Enter offers quantity"
-										   class="form-control m-b-5"/>
-								<td>
-									<button type="button" name="add" id="add" class="btn btn-success">Add More</button>
-								</td>
-							</tr>
-						</table>
+
+						<div class="form-group">
+							<label for="price" class="control-label">Price</label>
+							<input type="text" name="price" placeholder="Enter price"
+								   class="form-control"/>
+							<?php if (!empty(form_error('price'))) { ?>
+								<div class="help-block with-errors text-danger">
+									<?= form_error('price'); ?>
+								</div>
+							<?php } ?>
+						</div>
+
+						<div class="form-group">
+							<label for="valid" class="control-label">Valid Date</label>
+							<input type="text" name="valid" id="valid" placeholder="Enter date Y-m-d"
+								   class="form-control"/>
+							<?php if (!empty(form_error('valid'))) { ?>
+								<div class="help-block with-errors text-danger">
+									<?= form_error('valid'); ?>
+								</div>
+							<?php } ?>
+						</div>
+
+						<div class="form-group">
+							<label for="desc" class="control-label">Description</label>
+							<input type="text" name="desc" placeholder="Enter description"
+								   class="form-control"/>
+							<?php if (!empty(form_error('desc'))) { ?>
+								<div class="help-block with-errors text-danger">
+									<?= form_error('desc'); ?>
+								</div>
+							<?php } ?>
+						</div>
+
+						<div class="form-group">
+							<label for="count" class="control-label">Offers quantity</label>
+							<input type="number" name="count" placeholder="Offers quantity"
+								   class="form-control"/>
+							<?php if (!empty(form_error('count'))) { ?>
+								<div class="help-block with-errors text-danger">
+									<?= form_error('count'); ?>
+								</div>
+							<?php } ?>
+						</div>
+
+						<div class="form-group">
+							<label for="country" class="control-label">Country</label>
+							<select name="country" id="coin_country" class="form-control">
+								<?php foreach ($country as $key){?>
+									<option value="<?= $key->id?>"><?= $key->name?></option>
+								<?php }?>
+							</select>
+						</div>
+
+						<div class="form-group">
+							<label for="region" class="control-label">Region</label>
+							<select name="region" id="coin_region" class="form-control">
+								<?php foreach ($region as $key){?>
+									<option value="<?= $key->id?>"><?= $key->name?></option>
+								<?php }?>
+							</select>
+						</div>
+
 						<input type="submit" name="submit" id="submit" class="btn btn-info" value="Submit"/>
 						<a href="<?= base_url("admin/restaurants/show/") . $id ?>">
 							<button type="button" class="btn btn-basic">Return</button>
@@ -117,22 +167,13 @@
 </div>
 
 
-<script>
-	$(document).ready(function () {
-		var i = 1;
-		$('#add').click(function () {
-			i++;
-			$('#dynamic_field').append(`<tr id="row${i}"><td>
-			<input type="text" name="price[]" placeholder="Enter narguile price" class="form-control m-b-5" />
-			<input type="date" name="valid[]" placeholder="Enter date Y-m-d" class="form-control m-b-5"/>
-			<input type="text" name="desc[]" placeholder="Enter description" class="form-control m-b-5"/>
-			<input type="number" name="count[]" placeholder="Enter offers quantity" class="form-control m-b-5"/>
-			<td><button type="button" name="remove" id="${i}" class="btn btn-danger btn_remove">X</button></td></tr>`);
-		});
 
-		$(document).on('click', '.btn_remove', function () {
-			var button_id = $(this).attr("id");
-			$('#row' + button_id + '').remove();
-		});
+<!-- Date Picker Plugin JavaScript -->
+<script src="<?= base_url('/public/')?>plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+<script>
+	$('#valid').datepicker({
+		format: 'yyyy-mm-dd',
+		autoclose: true,
 	});
 </script>
+

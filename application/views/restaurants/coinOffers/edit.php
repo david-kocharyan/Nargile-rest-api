@@ -54,7 +54,23 @@
 					<?php } ?>
 				</div>
 
+				<div class="form-group">
+					<label for="country" class="control-label">Country</label>
+					<select name="country" id="coin_country" class="form-control">
+						<?php foreach ($country as $key){?>
+							<option value="<?= $key->id?>" <?php if ($coins->country == $key->id) echo "selected"; ?>><?= $key->name?></option>
+						<?php }?>
+					</select>
+				</div>
 
+				<div class="form-group">
+					<label for="region" class="control-label">Region</label>
+					<select name="region" id="coin_region" class="form-control">
+						<?php foreach ($region as $key){?>
+							<option value="<?= $key->id?>" <?php if ($coins->region == $key->id) echo "selected"; ?>><?= $key->name?></option>
+						<?php }?>
+					</select>
+				</div>
 
 				<div class="form-group">
 					<button type="submit" class="btn btn-primary">Submit</button>

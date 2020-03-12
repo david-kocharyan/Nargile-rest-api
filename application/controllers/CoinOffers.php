@@ -21,6 +21,9 @@ class CoinOffers extends CI_Controller
 		$data['title'] = "Coin Offers";
 		$data['coins'] = $this->CoinOffer->selectAll($id);
 		$data['id'] = $id;
+		$data['country'] = $this->db->get_where('countries', array('status' => 1))->result();
+		$data['region'] = $this->db->get_where('regions', array('status' => 1))->result();
+
 
 		$this->load->view('layouts/header.php', $data);
 		$this->load->view('restaurants/coinOffers/index.php');
@@ -35,19 +38,39 @@ class CoinOffers extends CI_Controller
 		$valid = $this->input->post('valid');
 		$desc = $this->input->post('desc');
 		$count = $this->input->post('count');
+		$country = $this->input->post('country');
+		$region = $this->input->post('region');
 
-		for ($i = 0; $i < count($price); $i++) {
-			if (trim($price[$i]) != '' && trim($valid[$i]) != '' && trim($desc[$i]) != '' && trim($count[$i]) != '') {
-				if ($this->session->userdata('user')['role'] == 'admin') {
-					$this->db->insert("coin_offers", array("price" => $price[$i],
-						"valid_date" => strtotime($valid[$i]), "description" => $desc[$i], "count" => $count[$i], 'restaurant_id' => $id, "status" => 2));
-				}
-				if ($this->session->userdata('user')['role'] == 'superAdmin') {
-					$this->db->insert("coin_offers", array("price" => $price[$i],
-						"valid_date" => strtotime($valid[$i]), "description" => $desc[$i], "count" => $count[$i], 'restaurant_id' => $id, "status" => 1));
-				}
-			}
+		$this->form_validation->set_rules('price', 'Price', 'required|trim');
+		$this->form_validation->set_rules('valid', 'Valid Date', 'required|trim');
+		$this->form_validation->set_rules('desc', 'Description', 'required|trim');
+		$this->form_validation->set_rules('count', 'Offers Quantity', 'required|trim');
+
+		if ($this->form_validation->run() == FALSE) {
+			$this->index($id);
+			return;
 		}
+
+		if ($this->session->userdata('user')['role'] == 'admin') {
+			$status = 2;
+		}
+		if ($this->session->userdata('user')['role'] == 'superAdmin') {
+			$status = 1;
+		}
+
+		$data = array(
+			"price" => $price,
+			"valid_date" => strtotime($valid),
+			"description" => $desc,
+			"count" => $count,
+			'restaurant_id' => $id,
+			'country' => $country,
+			'region' => $region,
+			"status" => $status,
+		);
+
+		$this->db->insert("coin_offers", $data);
+
 		redirect("admin/restaurants/coin-offers/$id");
 	}
 
@@ -57,6 +80,9 @@ class CoinOffers extends CI_Controller
 		$data['title'] = "Coin Offer Edit";
 		$data['coins'] = $this->CoinOffer->select($id);
 		$type = $this->check_admin_restaurant($data['coins']->restaurant_id);
+
+		$data['country'] = $this->db->get_where('countries', array('status' => 1))->result();
+		$data['region'] = $this->db->get_where('regions', array('status' => 1))->result();
 
 		$this->load->view('layouts/header.php', $data);
 		$this->load->view('restaurants/coinOffers/edit.php');
@@ -72,17 +98,23 @@ class CoinOffers extends CI_Controller
 		$date = $this->input->post('date');
 		$desc = $this->input->post('desc');
 		$count = $this->input->post('count');
+		$country = $this->input->post('country');
+		$region = $this->input->post('region');
+
 
 		$this->form_validation->set_rules('price', 'Price', 'required');
 		$this->form_validation->set_rules('date', 'Date', 'required');
 		$this->form_validation->set_rules('desc', 'Description', 'required');
 		$this->form_validation->set_rules('count', 'Quantity ', 'required');
+		$this->form_validation->set_rules('country', 'Country ', 'required');
+		$this->form_validation->set_rules('region', 'Region ', 'required');
 
 		if ($this->form_validation->run() == FALSE) {
 			$this->edit($id);
 			return;
 		}
-		$this->CoinOffer->update($id, array("price" => $price, "valid_date" => strtotime($date), "description" => $desc, "count" => $count));
+		$this->CoinOffer->update($id, array("price" => $price, "valid_date" => strtotime($date), "description" => $desc, "count" => $count,
+			'country' => $country, 'region' => $region));
 		$this->session->set_flashdata('success', 'You have change the offer successfully');
 		redirect("admin/restaurants/coin-offers/$res");
 	}
