@@ -242,7 +242,7 @@ class Community_Api extends REST_Controller
 	private function join()
 	{
 		$this->db->join("area", "area.id = restaurants.area_id");
-		$this->db->join("countries", "countries.id = coin_offers.country");
+		$this->db->join("countries", "countries.id = coin_offers.country", "left");
 	}
 
 	public function get_friends_get()
