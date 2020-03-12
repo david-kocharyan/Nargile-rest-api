@@ -14,6 +14,8 @@
 						<th>Valid date</th>
 						<th>Price</th>
 						<th>Count</th>
+						<th>Country</th>
+						<th>Region</th>
 						<th>Status</th>
 						<th>Options</th>
 					</tr>
@@ -27,6 +29,15 @@
 							<td><?= date("Y-m-d", $value->valid_date); ?></td>
 							<td><?= $value->price; ?></td>
 							<td><?= $value->count; ?></td>
+							<td><?= $value->country; ?></td>
+							<td>
+								<?php if ($value->reg_name) {
+									echo $value->reg_name;
+								} else {
+									echo "Empty";
+								} ?>
+							</td>
+
 							<td style="
 									<?php if ($value->status == 0) {
 								echo 'color: red;';
@@ -65,7 +76,7 @@
 	$('#coin_table').DataTable({
 		"ordering": false,
 		initComplete: function () {
-			this.api().columns([1, 3, 4, 5, 6]).every(function () {
+			this.api().columns([1, 3, 4, 5, 6, 7, 8]).every(function () {
 				var column = this;
 				var select = $('<select style="margin-left: 5px;"><option value="">All</option></select>')
 					.appendTo($(column.header()))

@@ -13,7 +13,7 @@ class CoinOffer extends CI_Model
 	public function selectAll($id)
 	{
 		$this->db->select('coin_offers.*, regions.name as reg_name');
-		$this->db->join('regions', 'regions.id = coin_offers.region');
+		$this->db->join('regions', 'regions.id = coin_offers.region', 'left');
 		return $this->db->get_where($this->table, array('restaurant_id' => $id))->result();
 	}
 
@@ -29,8 +29,9 @@ class CoinOffer extends CI_Model
 
 	public function select_pending_offer()
 	{
-		$this->db->select('coin_offers.*, restaurants.name');
+		$this->db->select('coin_offers.*, restaurants.name, regions.name as reg_name');
 		$this->db->join('restaurants', 'restaurants.id = coin_offers.restaurant_id');
+		$this->db->join('regions', 'regions.id = coin_offers.region', 'left');
 		return $this->db->get_where($this->table, array('coin_offers.status' => 2))->result();
 	}
 

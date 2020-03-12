@@ -95,7 +95,7 @@
 	<div class="col-sm-12">
 		<div class="white-box">
 			<div class="table-responsive">
-				<table id="myTable" class="table table-striped">
+				<table id="coin_table" class="table table-striped">
 					<thead>
 					<tr>
 						<th>ID</th>
@@ -118,7 +118,13 @@
 							<td><?= $value->count; ?></td>
 							<td><?= $value->description; ?></td>
 							<td><?= $value->country; ?></td>
-							<td><?= $value->reg_name; ?></td>
+							<td>
+								<?php if ($value->reg_name) {
+									echo $value->reg_name;
+								} else {
+									echo "Empty";
+								} ?>
+							</td>git
 
 							<td style="
 									<?php if ($value->status == 0) {
@@ -178,6 +184,30 @@
 	$('#valid').datepicker({
 		format: 'yyyy-mm-dd',
 		autoclose: true,
+	});
+
+	$('#coin_table').DataTable({
+		"ordering": false,
+		initComplete: function () {
+			this.api().columns([5,6,7]).every(function () {
+				var column = this;
+				var select = $('<select style="margin-left: 5px;"><option value="">All</option></select>')
+					.appendTo($(column.header()))
+					.on('change', function () {
+						var val = $.fn.dataTable.util.escapeRegex(
+							$(this).val()
+						);
+
+						column
+							.search(val ? '^' + val + '$' : '', true, false)
+							.draw();
+					});
+
+				column.data().unique().sort().each(function (d, j) {
+					select.append('<option value="' + d + '">' + d + '</option>')
+				});
+			});
+		},
 	});
 </script>
 

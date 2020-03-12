@@ -39,8 +39,9 @@ class Offer extends CI_Model
 
 	public function select_coins()
 	{
-		$this->db->select("coin_offers.*, restaurants.name");
+		$this->db->select("coin_offers.*, restaurants.name, regions.name as reg_name");
 		$this->db->join("restaurants", 'restaurants.id = coin_offers.restaurant_id');
+		$this->db->join('regions', 'regions.id = coin_offers.region', 'left');
 		$this->db->order_by("coin_offers.id DESC");
 		$data = $this->db->get("coin_offers")->result();
 		return $data;
