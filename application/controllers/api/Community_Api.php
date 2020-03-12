@@ -129,9 +129,9 @@ class Community_Api extends REST_Controller
 		$this->db->where("coin_offers.count > 0");
 
 		if ($user->region_id != NULL) {
-			$this->db->where("coin_offers.region = $user->region_id");
-		} else{
-			$this->db->where("coin_offers.country = $user->country");
+			$this->db->where(array('coin_offers.region' => $user->region_id));
+		} elseif($user->country != NULL){
+			$this->db->where(array('coin_offers.country' => $user->country));
 		}
 
 		$this->db->where("DATE(FROM_UNIXTIME(coin_offers.valid_date)) >= CURDATE()");
@@ -193,9 +193,9 @@ class Community_Api extends REST_Controller
 		$this->db->where("coin_offers.count > 0");
 
 		if ($user->region_id != NULL) {
-			$this->db->where("coin_offers.region = $user->region_id");
-		} else{
-			$this->db->where("coin_offers.country = $user->country");
+			$this->db->where(array('coin_offers.region' => $user->region_id));
+		} elseif($user->country != NULL){
+			$this->db->where(array('coin_offers.country' => $user->country));
 		}
 
 		$this->db->where("DATE(FROM_UNIXTIME(coin_offers.valid_date)) >= CURDATE()");
