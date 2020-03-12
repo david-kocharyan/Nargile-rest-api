@@ -120,7 +120,8 @@ class Community_Api extends REST_Controller
 
 		$this->db->select("concat('/plugins/images/Restaurants/', restaurants.logo) as logo,
          restaurants.id as id, restaurants.name as name, restaurants.address as address, ROUND(restaurants.rate, 1) as rate,
-          coin_offers.id as coin_id, concat('Nargile for ' , coin_offers.price, ' coins') as info, coin_offers.price as price, description");
+          coin_offers.id as coin_id, concat('Nargile for ' , coin_offers.price, ' coins') as info, coin_offers.price as price, description,
+          countries.name");
 		$this->limits();
 		$this->db->join("restaurants", "restaurants.id = coin_offers.restaurant_id");
 		$this->join();
@@ -185,7 +186,7 @@ class Community_Api extends REST_Controller
 		$this->db->select('region_id, country');
 		$user = $this->db->get_where('users', array('id' => $res))->row();
 
-		$this->db->select("count(restaurant_id) as pages");
+		$this->db->select("count(restaurant_id) as pages, countries.name");
 		$this->db->join("restaurants", "restaurants.id = coin_offers.restaurant_id");
 		$this->join();
 		$this->db->join("claimed_offers", "claimed_offers.coin_offer_id = coin_offers.id AND `claimed_offers`.`user_id` = $res", "left");
