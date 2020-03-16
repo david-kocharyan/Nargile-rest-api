@@ -12,6 +12,8 @@
 						<th>Restaurant</th>
 						<th>Featured offer text</th>
 						<th>Click Quantity</th>
+						<th>Country</th>
+						<th>Region</th>
 						<th>Status</th>
 						<th>Options</th>
 					</tr>
@@ -23,6 +25,21 @@
 							<td><?= $value->name; ?></td>
 							<td><?= $value->text; ?></td>
 							<td><?= $value->quantity; ?></td>
+							<td>
+								<?php if ($value->country) {
+									echo $value->country;
+								} else {
+									echo "Empty";
+								} ?>
+							</td>
+
+							<td>
+								<?php if ($value->reg_name) {
+									echo $value->reg_name;
+								} else {
+									echo "Empty";
+								} ?>
+							</td>
 							<td style = "
 									<?php if ($value->status == 0) {
 								echo 'color: red;';
@@ -73,6 +90,8 @@
 						<th>Restaurant</th>
 						<th>Hour offer text</th>
 						<th>Click Quantity</th>
+						<th>Country</th>
+						<th>Region</th>
 						<th>Status</th>
 						<th>Options</th>
 					</tr>
@@ -84,6 +103,21 @@
 							<td><?= $value->name; ?></td>
 							<td><?= $value->text; ?></td>
 							<td><?= $value->quantity; ?></td>
+							<td>
+								<?php if ($value->country) {
+									echo $value->country;
+								} else {
+									echo "Empty";
+								} ?>
+							</td>
+							<td>
+								<?php if ($value->reg_name) {
+									echo $value->reg_name;
+								} else {
+									echo "Empty";
+								} ?>
+							</td>
+
 							<td style = "
 									<?php if ($value->status == 0) {
 								echo 'color: red;';
@@ -152,7 +186,15 @@
 							<td><?= date( "Y-m-d", $value->valid_date ); ?></td>
 							<td><?= $value->price; ?></td>
 							<td><?= $value->count; ?></td>
-							<td><?= $value->country; ?></td>
+
+							<td>
+								<?php if ($value->country) {
+									echo $value->country;
+								} else {
+									echo "Empty";
+								} ?>
+							</td>
+
 							<td>
 								<?php if ($value->reg_name) {
 									echo $value->reg_name;
@@ -200,9 +242,11 @@
 <script>
 	// offers table
 	$('#featured_table').DataTable({
-		"ordering": false,
+		columnDefs: [
+			{"orderable": false, "targets": [1,2,4,5,6,7]},
+		],
 		initComplete: function () {
-			this.api().columns([1, 4]).every(function () {
+			this.api().columns([1, 4,5,6]).every(function () {
 				var column = this;
 				var select = $('<select style="margin-left: 5px;"><option value="">All</option></select>')
 					.appendTo($(column.header()))
@@ -224,9 +268,11 @@
 	});
 
 	$('#coin_table').DataTable({
-		"ordering": false,
+		columnDefs: [
+			{"orderable": false, "targets": [1,2,3,6,7,8,9]},
+		],
 		initComplete: function () {
-			this.api().columns([1, 3,4,5,6, 7, 8]).every(function () {
+			this.api().columns([1,3,6,7,8]).every(function () {
 				var column = this;
 				var select = $('<select style="margin-left: 5px;"><option value="">All</option></select>')
 					.appendTo($(column.header()))
@@ -248,9 +294,11 @@
 	});
 
 	$('#hour_table').DataTable({
-		"ordering": false,
+		columnDefs: [
+			{"orderable": false, "targets": [1,2,4,5,6,7]},
+		],
 		initComplete: function () {
-			this.api().columns([1, 4]).every(function () {
+			this.api().columns([1, 4, 5, 6]).every(function () {
 				var column = this;
 				var select = $('<select style="margin-left: 5px;"><option value="">All</option></select>')
 					.appendTo($(column.header()))

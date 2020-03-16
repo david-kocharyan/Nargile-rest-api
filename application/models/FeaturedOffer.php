@@ -12,12 +12,16 @@ class FeaturedOffer extends CI_Model
 
 	public function selectAll($id)
 	{
+		$this->db->select('featured_offers.*, regions.name as reg_name');
+		$this->db->join('regions','regions.id = featured_offers.region', 'left');
 		return $this->db->get_where($this->table, array('restaurant_id' => $id))->result();
 	}
 
 	public function select($id)
 	{
-		return $this->db->get_where($this->table, array('id' => $id))->row();
+		$this->db->select('featured_offers.*, regions.name as reg_name');
+		$this->db->join('regions','regions.id = featured_offers.region', 'left');
+		return $this->db->get_where($this->table, array('featured_offers.id' => $id))->row();
 	}
 
 	public function update($id, $data)

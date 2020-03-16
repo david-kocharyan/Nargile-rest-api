@@ -11,8 +11,9 @@ class Offer extends CI_Model
 //	select
 	public function select_featured()
 	{
-		$this->db->select('featured_offers.*, restaurants.name');
+		$this->db->select('featured_offers.*, restaurants.name, regions.name as reg_name');
 		$this->db->join('restaurants','restaurants.id = featured_offers.restaurant_id');
+		$this->db->join('regions', 'regions.id = featured_offers.region', 'left');
 		$this->db->order_by("featured_offers.id DESC");
 		$data =  $this->db->get_where("featured_offers", array("featured_offers.status" => 1))->result();
 		foreach ($data as $bin=>$key)
@@ -25,8 +26,9 @@ class Offer extends CI_Model
 
 	public function select_hour()
 	{
-		$this->db->select('hour_offers.*, restaurants.name');
+		$this->db->select('hour_offers.*, restaurants.name, regions.name as reg_name');
 		$this->db->join('restaurants','restaurants.id = hour_offers.restaurant_id');
+		$this->db->join('regions', 'regions.id = hour_offers.region', 'left');
 		$this->db->order_by("hour_offers.id DESC");
 		$data =$this->db->get_where("hour_offers", array("hour_offers.status" => 1))->result();
 		foreach ($data as $bin=>$key)

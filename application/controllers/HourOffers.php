@@ -22,6 +22,9 @@ class HourOffers extends CI_Controller
 		$data['offers'] = $this->HourOffer->selectAll($id);
 		$data['id'] = $id;
 
+		$data['country'] = $this->db->get_where('countries', array('status' => 1))->result();
+		$data['region'] = $this->db->get_where('regions', array('status' => 1))->result();
+
 		$this->load->view('layouts/header.php', $data);
 		$this->load->view('restaurants/hourOffers/index.php');
 		$this->load->view('layouts/footer.php');
@@ -31,12 +34,26 @@ class HourOffers extends CI_Controller
 	{
 		$type = $this->check_admin_restaurant($id);
 
-		$info = $_POST["name"];
-		foreach ($info as $key) {
-			if (trim($key) != '') {
-				$this->db->insert("hour_offers", array("text" => $key, 'restaurant_id' => $id));
-			}
+		$info = $this->input->post('name');
+		$country = $this->input->post('country');
+		$region = $this->input->post('region');
+
+		$this->form_validation->set_rules('name', 'Name', 'required|trim');
+
+		if ($this->form_validation->run() == FALSE) {
+			$this->index($id);
+			return;
 		}
+		$data = array(
+			'text' => $info,
+			'restaurant_id' => $id,
+			'country' => $country,
+			'region' => $region,
+			'status' => 1,
+		);
+
+		$this->db->insert("hour_offers", $data);
+
 		redirect("admin/restaurants/hour-offers/$id");
 	}
 
@@ -46,6 +63,9 @@ class HourOffers extends CI_Controller
 		$data['title'] = "Featured Offer Edit";
 		$data['offers'] = $this->HourOffer->select($id);
 		$type = $this->check_admin_restaurant($data['offers']->restaurant_id);
+
+		$data['country'] = $this->db->get_where('countries', array('status' => 1))->result();
+		$data['region'] = $this->db->get_where('regions', array('status' => 1))->result();
 
 		$this->load->view('layouts/header.php', $data);
 		$this->load->view('restaurants/hourOffers/edit.php');
@@ -57,13 +77,27 @@ class HourOffers extends CI_Controller
 		$res = $this->HourOffer->select($id)->restaurant_id;
 		$type = $this->check_admin_restaurant($res);
 
+		$country = $this->input->post('country');
+		$region = $this->input->post('region');
 		$name = $this->input->post('name');
+
+		$this->form_validation->set_rules('name', 'Text', 'required');
+		$this->form_validation->set_rules('region', 'Region', 'required');
+		$this->form_validation->set_rules('country', 'Country', 'required');
+
 		$this->form_validation->set_rules('name', 'Text', 'required');
 		if ($this->form_validation->run() == FALSE) {
 			$this->edit($id);
 			return;
 		}
-		$this->HourOffer->update($id, array("text" => $name));
+
+		$data = array(
+			'text' => $name,
+			'country' => $country,
+			'region' => $region,
+		);
+
+		$this->HourOffer->update($id, $data);
 		$this->session->set_flashdata('success', 'You have change the offer successfully');
 		redirect("admin/restaurants/hour-offers/$res");
 	}
