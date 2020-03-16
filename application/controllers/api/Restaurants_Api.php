@@ -27,11 +27,14 @@ class Restaurants_Api extends REST_Controller
 			return;
 		}
 
+		$this->db->select('region_id, country');
+		$user = $this->db->get_where('users', array('id' => $res))->row();
+
 		$limit = (null !== $this->input->get('limit') && is_numeric($this->input->get("limit"))) ? intval($this->input->get('limit')) : 10;
 		$offset = (null !== $this->input->get('offset') && is_numeric($this->input->get("offset"))) ? $this->input->get('offset') * $limit : 0;
 
-		$featured_offers = $this->get_featured_offers();
-		$hour_offers = $this->get_hour_offers();
+		$featured_offers = $this->get_featured_offers($user);
+		$hour_offers = $this->get_hour_offers($user);
 		$nearest = $this->get_nearest();
 		$top_rated = $this->get_top_rated();
 
@@ -40,12 +43,12 @@ class Restaurants_Api extends REST_Controller
 		} else if ($this->input->get("action") == "nearest") {
 			$count_data = $this->get_pages("nearest");
 		} else if ($this->input->get("action") == "featured_offers") {
-			$count_data = $this->get_offers_pages("featured_offers");
+			$count_data = $this->get_offers_pages("featured_offers", $user);
 		} else if ($this->input->get("action") == "hour_offers") {
-			$count_data = $this->get_offers_pages("hour_offers");
+			$count_data = $this->get_offers_pages("hour_offers", $user);
 		} else {
-			$count_featured_offers = $this->get_offers_pages("featured_offers");
-			$count_hour_offers = $this->get_offers_pages("hour_offers");
+			$count_featured_offers = $this->get_offers_pages("featured_offers", $user);
+			$count_hour_offers = $this->get_offers_pages("hour_offers", $user);
 			$count_nearest = $this->get_pages("nearest");
 			$count_top = $this->get_pages("top");
 		}
@@ -160,7 +163,7 @@ class Restaurants_Api extends REST_Controller
 	}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	private function get_featured_offers()
+	private function get_featured_offers($user)
 	{
 		$this->db->select("concat('/plugins/images/Restaurants/', restaurants.logo) as logo,
         restaurants.id as id, featured_offers.id as offer_id, featured_offers.text");
@@ -169,13 +172,19 @@ class Restaurants_Api extends REST_Controller
 		$this->join();
 		$this->where();
 
+		if ($user->region_id != NULL) {
+			$this->db->where(array('featured_offers.region' => $user->region_id));
+		} else{
+			$this->db->where(array('featured_offers.country' => $user->country));
+		}
+
 		$this->db->order_by("featured_offers.id DESC");
 
 		$data = $this->db->get_where("featured_offers", array("featured_offers.status" => 1))->result();
 		return $data != null ? $data : array();
 	}
 
-	private function get_hour_offers()
+	private function get_hour_offers($user)
 	{
 		$this->db->select("concat('/plugins/images/Restaurants/', restaurants.logo) as logo,
          restaurants.id as id, hour_offers.id as offer_id, hour_offers.text");
@@ -184,16 +193,29 @@ class Restaurants_Api extends REST_Controller
 		$this->join();
 		$this->where();
 
+		if ($user->region_id != NULL) {
+			$this->db->where(array('hour_offers.region' => $user->region_id));
+		} else{
+			$this->db->where(array('hour_offers.country' => $user->country));
+		}
+
 		$this->db->order_by("hour_offers.id DESC");
 
 		$data = $this->db->get_where("hour_offers", array("hour_offers.status" => 1))->result();
 		return $data != null ? $data : array();
 	}
 
-	private function get_offers_pages($table)
+	private function get_offers_pages($table, $user)
 	{
 		$this->db->select("count(restaurant_id) as pages");
 		$this->where();
+
+		if ($user->region_id != NULL) {
+			$this->db->where(array("$table.region" => $user->region_id));
+		} else{
+			$this->db->where(array("$table.country" => $user->country));
+		}
+
 		$this->db->join("restaurants", "restaurants.id = $table.restaurant_id");
 		$this->join();
 		$data = $this->db->get_where($table, array("$table.status" => 1))->row();
