@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Mar 12, 2020 at 10:17 AM
+-- Generation Time: Mar 16, 2020 at 08:01 AM
 -- Server version: 10.1.44-MariaDB-cll-lve
 -- PHP Version: 7.2.7
 
@@ -509,6 +509,8 @@ CREATE TABLE `featured_offers` (
   `restaurant_id` int(11) NOT NULL,
   `text` varchar(255) NOT NULL,
   `status` varchar(255) DEFAULT '1',
+  `country` varchar(255) NOT NULL,
+  `region` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -516,9 +518,11 @@ CREATE TABLE `featured_offers` (
 -- Dumping data for table `featured_offers`
 --
 
-INSERT INTO `featured_offers` (`id`, `restaurant_id`, `text`, `status`, `created_at`) VALUES
-(1, 1, 'Nargile for 3000 LBP Tuesdays - Wednesdays Thurdays Ladies ONLY', '1', '2019-12-19 07:16:20'),
-(2, 1, 'Free Nargile From 13:00 PM Till 16:00PM Mon-Fri', '1', '2019-12-19 07:16:20');
+INSERT INTO `featured_offers` (`id`, `restaurant_id`, `text`, `status`, `country`, `region`, `created_at`) VALUES
+(1, 1, 'Nargile for 3000 LBP Tuesdays - Wednesdays Thurdays Ladies ONLY', '1', 'Lebanon', 3, '2019-12-19 07:16:20'),
+(2, 1, 'Free Nargile From 13:00 PM Till 16:00PM Mon-Fri', '1', 'Lebanon', 3, '2019-12-19 07:16:20'),
+(3, 1, 'Lorem ipsum dolor set a met', '1', 'Lebanon', 1, '2020-02-28 11:14:31'),
+(5, 1, 'Basketball aksmd', '1', 'Lebanon', 1, '2020-03-16 09:18:04');
 
 -- --------------------------------------------------------
 
@@ -621,6 +625,8 @@ CREATE TABLE `hour_offers` (
   `id` int(11) NOT NULL,
   `restaurant_id` int(11) NOT NULL,
   `text` varchar(255) NOT NULL,
+  `country` varchar(255) NOT NULL,
+  `region` int(11) NOT NULL,
   `status` int(11) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -628,9 +634,11 @@ CREATE TABLE `hour_offers` (
 -- Dumping data for table `hour_offers`
 --
 
-INSERT INTO `hour_offers` (`id`, `restaurant_id`, `text`, `status`) VALUES
-(1, 2, 'Nargile for 3000 LBP Tuesdays - Wednesdays Thurdays Ladies ONLY', 1),
-(2, 2, 'Free Nargile From 13:00 PM Till 16:00PM Mon-Fri', 1);
+INSERT INTO `hour_offers` (`id`, `restaurant_id`, `text`, `country`, `region`, `status`) VALUES
+(1, 2, 'Nargile for 3000 LBP Tuesdays - Wednesdays Thurdays Ladies ONLY', 'Lebanon', 3, 1),
+(2, 2, 'Free Nargile From 13:00 PM Till 16:00PM Mon-Fri', 'Lebanon', 3, 1),
+(3, 1, 'Lorem ipsum dolor set a met', 'Lebanon', 3, 1),
+(4, 1, 'Lorem', 'Lebanon', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -2589,18 +2597,21 @@ INSERT INTO `tokens` (`id`, `token`, `time`, `user_id`, `refresh_token`, `os`, `
 (438, '', '', 31, '', NULL, NULL),
 (439, '', '', 54, '', NULL, NULL),
 (440, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNjdhZjI2YzQyYmYi.JTtHtUKvtKP6ZuPiB9fZNnCQ9_XeRdYFD2k4Ickod8s', '1583939750', 37, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNjdhZjI2YzQyZWMi.5YxHGij2Argr44tY6--0ljplo6BfYBcFME5YbrthWIQ', 0, 'cFaB0TS9nNE:APA91bHacRtnT9UKPHsCuuT2GRjmk287--4oUC9PpYg34OOAsWXkmF3Xj4jwaUtTIooYtmjAPArwweveip3Mg6O-Vx0_vM0SWWB13tpp8y3XXLwm5lvC-ktc6SguKSuJp8swMsdAAUmh'),
-(441, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNjdhZmY2OWY4NDgi.kwUfg0y-Ybj0BIfAer-VqRIoRhvL_tuf1wMNMwP-wKg', '1615389558', 54, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNjdhZmY2OWY4N2Ei.z4wMGrj9j5xc5Qra7N0Sq9-oDPwZiM6MwA3xHFSsgGg', 0, 'fv1rn9IRPuY:APA91bF3aP4Y_nu7-x2vZJSdB3A2KVwKmxitziLEMNSCg4O_Em5QLYRXk4ddPBDNgQ7R62M7QgGK7ZICL-8o9YzvLohP4SXDuvvgJ_tsCGgiSSmqq-pT2tOacmR9IwAc3xZ-JWJ4d8AH'),
+(441, '', '', 54, '', NULL, NULL),
 (442, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNjdjNjFmZTlhNGMi.D-liwzsBOstsvCh-z-L-wxtseYGY-UMfgdr2-uOLDIs', '1615395231', 52, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNjdjNjFmZTlhOGIi.Laf9EubEQ_swulCWi4XZ1zQs6_l0lI4_QpPaelyoNlw', 1, 'e_jv_MeR9dk:APA91bHVuiOy-km4F6WyNrSEVf9tg9azT2oIlZ8MXTnMuwj29CMuZFeZqvB_I54npWT9ruzh6jT3-jFhWRryY8f8VxGrbxQi_oPmC1zS2OurCZSbCyZULdF_wsaY1AYN6VylzO5Gd4kq'),
 (443, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNjhhMzc2ODk0YWIi.acgremyarFG3dXQReSvEZRJtJFG6GdPLCH6lc9pDLEo', '1584002294', 103, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNjhhMzc2ODk0ZDUi.Oap1HsASttUgOV_NJ3BIESDaZMifcWX3b3pCnVDSgrk', 0, 'cUae93jBGHo:APA91bEPr2KQfLg1_dl1w1THus1jaP0-fxf8JLUph5m0vM6iivUUXqM3-k9yqW1TrsR_Nd2ptbk7lAfMi1WmWGTlZvz61z12-vU33XqtS08ZS_dTdicf4EhgySsaqGIMW2xPZBs4ZrRq'),
 (444, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNjhhNGI4NDg4MmYi.nGGbIcbVEiNDJ54UzT6cYP_H8XT-ZCihdG2KMvYswLU', '1584002616', 103, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNjhhNGI4NDg4NTki.rhbGsIliiNMwWmISOvNX-EBDoe7jAYWd6QEHxvqyiyw', 0, 'cfnsirwilVM:APA91bGXPv6urEZwS43G3ZQGlxW7vKs_-riDWx_KkX8jkj28LMkH_8XM_hzvcMOLKZYawiDaB8X20qJVNsGjQWR-SHZaU9D6ai3W5oeVnkmHYQsUPqZXmJFr_YeEybvlB8731zAKXld3'),
 (445, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNjhhNjRlYmZkYjYi.grtUfg5UV-r7B8QztyJQSJ3sV-RdO_NvQ4hQ9miIz28', '1584003022', 103, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNjhhNjRlYmZkZTEi.iD3d9bZ-y3mmxFNsM4tyyeKua6o3uJ-DClcQFm2Ie-g', 0, 'cS-xWftGt0k:APA91bEDW-r1nBLhB1haCm9QSN8biF2P8XeXpcjF-yr7MVWlS4r3yZqU9Ky9bu4Jfnxqha5NnFnV6IbG6F8zFq_M_teuSSSenX3Ig3DCbEN9G1wyXU9rz8uQPMp5R2MV1rKnxD4MzlTV'),
 (446, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNjhjZmRkMjZhYTci.2JJSfqHgYfPkETl2hKeX-F4QpkATaKSqf_e23JG4imY', '1584013661', 103, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNjhjZmRkMjZhZGMi.K5on2NsAJ-AOemSwNAXgcSB7-F3YUr_tHj1Ero_Vhz4', 0, 'eAQteoXTyAY:APA91bFalD_BuufqUwzXMPkcvwTHKbDsazZjGW1uzIPyVkCwwHdcYI1WmODN-KE46BlGWd9kmHMLniOqCWqMrXEP4ZuhGtng2EO6G3-hj9IatU7zheSNSkREg8cCJoPPkun87WQom33_'),
 (447, '', '', 31, '', NULL, NULL),
-(448, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNjhlZTc3YTBjYTQi.ttVteGrO6LeCj8RrXiZIKu5sLf48kZXaUSw5J-zXwhs', '1584021495', 103, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNjhlZTc3YTBjY2Yi.T_cpetkX_6Kfw-4GeEYdj1k9H_MbBN6WH0SxYqDFXVs', 0, 'dd9s9ot63Do:APA91bEDvQT69dFmIy4lW9xHsPeGaNsthZ_BJG6VFqI2Mn0NAquciVDuPSgBTamNayxrjuYqF-9770Ef_E5RQDdU7RWcEVk4VNim7LwHJDbQCjlz5Hed7P5uWi2TemQfKgQNbXX07vls'),
+(448, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNmE0YmRjMmIzMDUi.f78vy9j1aD0_5ZS8U2NuPshpToY2S5OSVhldmKKwnus', '1615560540', 103, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNmE0YmRjMmIzNzAi.knNFicnswY-TSbOugBjPf-3JNyyxs7I-7r83qeXe9m4', 0, 'dd9s9ot63Do:APA91bEDvQT69dFmIy4lW9xHsPeGaNsthZ_BJG6VFqI2Mn0NAquciVDuPSgBTamNayxrjuYqF-9770Ef_E5RQDdU7RWcEVk4VNim7LwHJDbQCjlz5Hed7P5uWi2TemQfKgQNbXX07vls'),
 (449, '', '', 31, '', NULL, NULL),
 (450, '', '', 31, '', NULL, NULL),
 (451, '', '', 31, '', NULL, NULL),
-(452, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNmEzNDI4YTEyNWEi.UklN4Ce72ud7K6poogeSLR7SjKhTRXjLWpkKvYBCJYs', '1615554472', 31, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNmEzNDI4YTEyOTQi.mseDXN4zoORTSHJz1kSseNe1MwFsiUM3kJLzUVs9AxY', NULL, NULL);
+(452, '', '', 31, '', NULL, NULL),
+(453, '', '', 31, '', NULL, NULL),
+(454, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNmI5MDgzM2FjNzMi.Zwh5IKg41oQWH5PWFISs872WraotP6DPIfK-OR-OLLg', '1615643651', 31, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNmI5MDgzM2FjYTYi.lLb_S0_RLiZKJDlbVAMKONcMxQVc2FQi-y31tXVeMQQ', 1, 'ffLNcFG--SU:APA91bHJvtYDTnEEv2jQ4OZkSsOreBCFsDc7TmB-w0l-fIVSgNXFspNzyGVYbqpbfH1l4H8eM2R5efIl7Y2cfI8EK2ptN9rOaNgGO60IM2iM5yUwwGiW9nTjN5cIK12tmqPNPvuwuHbe'),
+(455, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNmI5MDlkZDQ0OGUi.dvSrktegYMihyZIUDxItigISVwSh_BFatn8ilO06ZGI', '1615643677', 54, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNmI5MDlkZDQ0ZGMi.6JEFqrlvHZQyYXhqgUJYBmaxJuPg2_hWRrKo8uVMhkk', 0, 'dd9s9ot63Do:APA91bEDvQT69dFmIy4lW9xHsPeGaNsthZ_BJG6VFqI2Mn0NAquciVDuPSgBTamNayxrjuYqF-9770Ef_E5RQDdU7RWcEVk4VNim7LwHJDbQCjlz5Hed7P5uWi2TemQfKgQNbXX07vls');
 
 -- --------------------------------------------------------
 
@@ -2905,7 +2916,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `username`, `first_name`, `last_name`, `gender`, `date_of_birth`, `mobile_number`, `email`, `password`, `uuid`, `image`, `coins`, `is_used_reference`, `created_at`, `updated_at`, `verify_code`, `verify`, `logged_via_fb`, `notification_status`, `lat`, `lng`, `country`, `region_id`, `banner_update`, `banner_show`) VALUES
 (30, 'super22', 'Super22', 'Admin22', 1, 1581335495, '+656565651466622', 'kakaka@gmail.com12222', 'c9cc24ffa63b25bb52b9d5fa288c2921a5190acd2ad461e2ece7b7d74af0fa53c86b783a066fc1ad3694313345702e69f57d70a597f7fbbf78dfc957d3bcdea9', '', 'User_default.png', 135, 0, '2019-10-01 03:14:51', '2019-10-01 03:14:51', '', 1, 0, 0, 40.199623323271744, 44.49112586272669, 'Armenia', NULL, NULL, NULL),
-(31, 'zara', 'zara', 'tunyan', 0, 1581335495, '695', 'zara.tunyan@gmail.com', '62670d1e1eea06b6c975e12bc8a16131b278f6d7bcbe017b65f854c58476baba86c2082b259fd0c1310935b365dc40f609971b6810b065e528b0b60119e69f61', '', 'User_default.png', 221, 0, '2019-10-01 18:08:45', '2019-10-01 18:08:45', '', 1, 0, 1, 40.199845489828945, 44.4903905438405, 'Armenia', NULL, '2020-03-12', 50),
+(31, 'zara', 'zara', 'tunyan', 0, 1581335495, '695', 'zara.tunyan@gmail.com', '62670d1e1eea06b6c975e12bc8a16131b278f6d7bcbe017b65f854c58476baba86c2082b259fd0c1310935b365dc40f609971b6810b065e528b0b60119e69f61', '', 'User_default.png', 221, 0, '2019-10-01 18:08:45', '2019-10-01 18:08:45', '', 1, 0, 1, 40.199813988270975, 44.49110008492164, 'Armenia', NULL, '2020-03-16', 1),
 (33, 'adminSuper', 'Su', 'A', 1, 1550490695, '+656565651466622s', 'kakaka@gmail.com12222s', 'c7ad44cbad762a5da0a452f9e854fdc1e0e7a52a38015f23f3eab1d80b931dd472634dfac71cd34ebc35d16ab7fb8a90c81f975113d6c7538dc69dd8de9077ec', '', 'User_default.png', 115, 0, '2019-10-02 14:31:04', '2019-10-02 14:31:04', '', 1, 0, 1, NULL, NULL, NULL, NULL, NULL, NULL),
 (34, 'user', 'developer', 'develop', 0, 1581335495, '876767', 'test@mail.ru', 'ee26b0dd4af7e749aa1a8ee3c10ae9923f618980772e473f8819a5d4940e0db27ac185f8a0e1d5f84f88bc887fd67b143732c304cc5fa9ad8e6f57f50028a8ff', '', 'User_default.png', 531, 0, '2019-10-02 16:06:48', '2019-10-02 16:06:48', '', 1, 0, 1, NULL, NULL, NULL, NULL, NULL, NULL),
 (35, 'testuser', 'test', 'test', 1, 1550490695, '846464', 'testuser@mail.ru', 'ee26b0dd4af7e749aa1a8ee3c10ae9923f618980772e473f8819a5d4940e0db27ac185f8a0e1d5f84f88bc887fd67b143732c304cc5fa9ad8e6f57f50028a8ff', '', 'User_default.png', 0, 0, '2019-10-02 16:14:45', '2019-10-02 16:14:45', '', 1, 0, 1, NULL, NULL, NULL, NULL, NULL, NULL),
@@ -2923,7 +2934,7 @@ INSERT INTO `users` (`id`, `username`, `first_name`, `last_name`, `gender`, `dat
 (51, 'test data', 'test', 'test', 1, 1550490695, '745638745683', 'rrriiiii@mail.ru', 'ee26b0dd4af7e749aa1a8ee3c10ae9923f618980772e473f8819a5d4940e0db27ac185f8a0e1d5f84f88bc887fd67b143732c304cc5fa9ad8e6f57f50028a8ff', '', 'User_default.png', 8, 0, '2019-10-30 11:30:19', '2019-10-30 11:30:19', '', 0, 0, 1, NULL, NULL, NULL, NULL, NULL, NULL),
 (52, 'miled', 'miled', 'aoun', 1, 1583859188504, '+96171576202', 'miled@nova4lb.com', '0dd3e512642c97ca3f747f9a76e374fbda73f9292823c0313be9d78add7cdd8f72235af0c553dd26797e78e1854edee0ae002f8aba074b066dfce1af114e32f8', '170c55-dbdd2e', 'User_default.png', 0, 0, '2019-10-30 11:47:14', '2019-10-30 11:47:14', '0', 1, 0, 1, 33.8892171, 35.4867727, 'Lebanon', 1, NULL, NULL),
 (53, 'testt', 'ttttt', 'fffff', 1, 1572292800, '2222', 'ffffff@mail.ru', 'ee26b0dd4af7e749aa1a8ee3c10ae9923f618980772e473f8819a5d4940e0db27ac185f8a0e1d5f84f88bc887fd67b143732c304cc5fa9ad8e6f57f50028a8ff', '', 'User_default.png', 0, 0, '2019-10-30 12:09:52', '2019-10-30 12:09:52', '', 0, 0, 1, NULL, NULL, NULL, NULL, NULL, NULL),
-(54, 'test1', 'test', 'test', 1, 1581508295, '+35884848494', 'vsbsbsj@mail.ru', '125d6d03b32c84d492747f79cf0bf6e179d287f341384eb5d6d3197525ad6be8e6df0116032935698f99a09e265073d1d6c32c274591bf1d0a20ad67cba921bc', '170144-c190b2', 'User_default.png', 82796, 0, '2019-10-30 12:16:38', '2019-10-30 12:16:38', '0', 1, 1, 1, 40.19978176393731, 44.49128151491822, 'Armenia', NULL, '2020-03-11', 33),
+(54, 'test1', 'test', 'test', 1, 1581508295, '+35884848494', 'vsbsbsj@mail.ru', '125d6d03b32c84d492747f79cf0bf6e179d287f341384eb5d6d3197525ad6be8e6df0116032935698f99a09e265073d1d6c32c274591bf1d0a20ad67cba921bc', '170144-c190b2', 'User_default.png', 82796, 0, '2019-10-30 12:16:38', '2019-10-30 12:16:38', '0', 1, 1, 1, 40.19989869584651, 44.49134216938233, 'Armenia', NULL, '2020-03-13', 2),
 (55, 'aaa', 'aaa', 'aaa', 1, 1581508295, '000', 'ckymarra@gmail.com', 'd6f644b19812e97b5d871658d6d3400ecd4787faeb9b8990c1e7608288664be77257104a58d033bcf1a0e0945ff06468ebe53e2dff36e248424c7273117dac09', '', 'User_default.png', 0, 0, '2019-10-30 15:56:20', '2019-10-30 15:56:20', '', 0, 0, 1, NULL, NULL, NULL, NULL, NULL, NULL),
 (57, 'VaskenBakkalian15733258621951140152', 'Vasken', 'Bakkalian', 1, 1581508295, '', 'engerochvasken@hotmail.com', '1573325862?1717654752', '', 'User_default.png', 24, 0, '2019-11-09 18:57:42', '2019-11-09 18:57:42', '', 0, 0, 1, NULL, NULL, NULL, NULL, NULL, NULL),
 (58, 'AliMansour15742581181230913061', 'Ali', 'Mansour', 1, 1581508295, '', 'suprenoo@hotmail.com', '1574258118?1299941546', '', 'User_default.png', 0, 0, '2019-11-20 13:55:18', '2019-11-20 13:55:18', '', 0, 0, 1, NULL, NULL, NULL, NULL, NULL, NULL),
@@ -2938,7 +2949,7 @@ INSERT INTO `users` (`id`, `username`, `first_name`, `last_name`, `gender`, `dat
 (100, 'dummy', 'dummy', 'dummy', 0, 918158400, '+358345345345', 'sdasdadas@mail.ru', '125d6d03b32c84d492747f79cf0bf6e179d287f341384eb5d6d3197525ad6be8e6df0116032935698f99a09e265073d1d6c32c274591bf1d0a20ad67cba921bc', '17015a-b57995', 'User_default.png', 0, 0, '2020-02-05 14:05:15', '2020-02-05 14:05:15', '0', 1, 0, 1, NULL, NULL, NULL, NULL, NULL, NULL),
 (101, 'zzzzz', 'hdnd', 'hsnd', 0, 1580985851489, '+376899556', 'zzz@zzz.zz', 'b0412597dcea813655574dc54a5b74967cf85317f0332a2591be7953a016f8de56200eb37d5ba593b1e4aa27cea5ca27100f94dccd5b04bae5cadd4454dba67d', '1701a1-a3a808', 'User_default.png', 0, 0, '2020-02-06 10:44:51', '2020-02-06 10:44:51', '0', 1, 0, 1, NULL, NULL, NULL, NULL, NULL, NULL),
 (102, 'Kay', 'Kau', 'Sirb', 1, 1580997062982, '+9613037672', 'hello@khalilsarabey.com', 'ba3253876aed6bc22d4a6ff53d8406c6ad864195ed144ab5c87621b6c233b548baeae6956df346ec8c17f5ea10f35ee3cbc514797ed7ddd3145464e2a0bab413', '1701ac-5f180e', 'User_default.png', 0, 0, '2020-02-06 13:51:51', '2020-02-06 13:51:51', '0', 1, 0, 1, NULL, NULL, NULL, NULL, NULL, NULL),
-(103, 'ԱրմենուհիՄկրտչյան8721', 'Արմենուհի', 'Մկրտչյան', 0, 0, '', 'mkrtchyanarmenuhi89@gmail.com', '1581062068?226222550', '1701ea-49903a', 'User_default.png', 0, 0, '2020-02-07 07:54:28', '2020-02-07 07:54:28', '', 1, 1, 1, 40.19973786778895, 44.49122722732607, 'Armenia', NULL, '2020-03-12', 11),
+(103, 'ԱրմենուհիՄկրտչյան8721', 'Արմենուհի', 'Մկրտչյան', 0, 0, '', 'mkrtchyanarmenuhi89@gmail.com', '1581062068?226222550', '1701ea-49903a', 'User_default.png', 0, 0, '2020-02-07 07:54:28', '2020-02-07 07:54:28', '', 1, 1, 1, 40.199885237000395, 44.49138636589082, 'Armenia', NULL, '2020-03-13', 5),
 (104, 'zz', 'bdb', 'jdh', 1, 1581278400, '+12688784', 'hpro252@gmail.com', '4ce9792f2871988864761ef032ce09646333c81667d5d3360a82d7c47411c0b46846437ac5e304880fb5d7510d0af3d7af5a666a1f0459df1e04d1a8683bbe13', '1702ef-e90416', 'User_default.png', 0, 0, '2020-02-10 12:06:39', '2020-02-10 12:06:39', '2001', 0, 0, 1, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
@@ -3315,7 +3326,7 @@ ALTER TABLE `favorites`
 -- AUTO_INCREMENT for table `featured_offers`
 --
 ALTER TABLE `featured_offers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `friends`
@@ -3327,7 +3338,7 @@ ALTER TABLE `friends`
 -- AUTO_INCREMENT for table `hour_offers`
 --
 ALTER TABLE `hour_offers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `loyalty_card`
@@ -3435,7 +3446,7 @@ ALTER TABLE `sliders`
 -- AUTO_INCREMENT for table `tokens`
 --
 ALTER TABLE `tokens`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=453;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=456;
 
 --
 -- AUTO_INCREMENT for table `used_offers`
