@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Mar 16, 2020 at 08:01 AM
--- Server version: 10.1.44-MariaDB-cll-lve
+-- Generation Time: Mar 19, 2020 at 09:53 AM
+-- Server version: 10.3.22-MariaDB-log-cll-lve
 -- PHP Version: 7.2.7
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -39,8 +39,8 @@ CREATE TABLE `admins` (
   `password` varchar(255) DEFAULT NULL,
   `active` varchar(255) DEFAULT NULL,
   `logo` varchar(255) DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -91,7 +91,7 @@ CREATE TABLE `badges` (
   `count` int(11) DEFAULT NULL,
   `type` varchar(255) DEFAULT NULL,
   `info` varchar(255) DEFAULT NULL,
-  `status` int(11) DEFAULT '1'
+  `status` int(11) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -115,7 +115,7 @@ CREATE TABLE `claimed_offers` (
   `user_id` int(11) NOT NULL,
   `coin_offer_id` int(11) NOT NULL,
   `time` int(11) DEFAULT NULL,
-  `status` int(1) DEFAULT '1'
+  `status` int(1) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -394,8 +394,8 @@ CREATE TABLE `claim_your_business` (
   `via_whatsapp` int(2) DEFAULT NULL,
   `via_email` int(2) DEFAULT NULL,
   `report` varchar(255) DEFAULT NULL,
-  `status` int(2) DEFAULT '1',
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
+  `status` int(2) DEFAULT 1,
+  `created_at` timestamp NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -417,12 +417,12 @@ CREATE TABLE `coin_offers` (
   `id` int(11) NOT NULL,
   `restaurant_id` int(11) NOT NULL,
   `price` int(11) DEFAULT NULL,
-  `valid_date` int(11) DEFAULT '0',
+  `valid_date` int(11) DEFAULT 0,
   `description` varchar(255) DEFAULT '',
-  `count` int(11) NOT NULL DEFAULT '1',
+  `count` int(11) NOT NULL DEFAULT 1,
   `country` varchar(255) NOT NULL,
   `region` int(11) NOT NULL,
-  `status` int(11) DEFAULT '1'
+  `status` int(11) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -482,7 +482,7 @@ CREATE TABLE `favorites` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `restaurant_id` int(11) NOT NULL,
-  `status` int(11) NOT NULL DEFAULT '1'
+  `status` int(11) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -511,7 +511,7 @@ CREATE TABLE `featured_offers` (
   `status` varchar(255) DEFAULT '1',
   `country` varchar(255) NOT NULL,
   `region` int(11) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -534,7 +534,7 @@ CREATE TABLE `friends` (
   `id` int(11) NOT NULL,
   `from_id` int(11) DEFAULT NULL,
   `to_id` int(11) DEFAULT NULL,
-  `status` int(11) DEFAULT '1'
+  `status` int(11) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -613,7 +613,8 @@ INSERT INTO `friends` (`id`, `from_id`, `to_id`, `status`) VALUES
 (86, NULL, NULL, NULL),
 (87, 31, 33, 2),
 (88, 31, 30, 2),
-(89, 52, 37, 1);
+(89, 52, 37, 1),
+(90, 31, 103, 1);
 
 -- --------------------------------------------------------
 
@@ -627,7 +628,7 @@ CREATE TABLE `hour_offers` (
   `text` varchar(255) NOT NULL,
   `country` varchar(255) NOT NULL,
   `region` int(11) NOT NULL,
-  `status` int(11) NOT NULL DEFAULT '1'
+  `status` int(11) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -653,7 +654,7 @@ CREATE TABLE `loyalty_card` (
   `valid_date` int(11) NOT NULL,
   `percent` int(11) NOT NULL,
   `qr` varchar(255) NOT NULL,
-  `status` int(1) NOT NULL DEFAULT '1'
+  `status` int(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
 --
@@ -675,7 +676,7 @@ CREATE TABLE `menus` (
   `restaurant_id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `price` float NOT NULL,
-  `status` int(11) DEFAULT '1'
+  `status` int(11) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -809,7 +810,7 @@ CREATE TABLE `menu_images` (
   `id` int(11) NOT NULL,
   `restaurant_id` int(114) NOT NULL,
   `image` varchar(255) DEFAULT NULL,
-  `status` int(2) DEFAULT '1'
+  `status` int(2) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -1017,8 +1018,8 @@ CREATE TABLE `notification` (
   `click_action` varchar(255) CHARACTER SET utf8 NOT NULL,
   `coins` int(255) DEFAULT NULL,
   `action_id` int(11) NOT NULL,
-  `status` int(1) NOT NULL DEFAULT '1',
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `status` int(1) NOT NULL DEFAULT 1,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -1134,7 +1135,33 @@ INSERT INTO `notification` (`id`, `user_id`, `body`, `click_action`, `coins`, `a
 (120, 31, 'Lorem ipsum dolor set a met', 'admin_request', NULL, 0, 1, '2020-02-28 10:10:08'),
 (121, 33, 'zara tunyan Sent You Friend Request', 'friend_request', NULL, 31, 1, '2020-02-29 12:52:17'),
 (122, 30, 'zara tunyan Sent You Friend Request', 'friend_request', NULL, 31, 1, '2020-02-29 12:52:21'),
-(123, 37, 'miled  is now your friend', 'friend_request', NULL, 52, 0, '2020-03-10 12:57:50');
+(123, 37, 'miled  is now your friend', 'friend_request', NULL, 52, 0, '2020-03-10 12:57:50'),
+(124, 103, 'zara  is now your friend', 'friend_request', NULL, 31, 0, '2020-03-19 04:21:22'),
+(125, 103, 'zara tunyan Sent You 5 Coins', 'coin_request', 5, 31, 1, '2020-03-19 04:24:47'),
+(126, 103, 'zara tunyan Sent You 5 Coins', 'coin_request', 5, 31, 1, '2020-03-19 04:25:19'),
+(127, 103, 'zara tunyan Sent You 5 Coins', 'coin_request', 5, 31, 1, '2020-03-19 04:25:24'),
+(128, 103, 'zara tunyan Sent You 5 Coins', 'coin_request', 5, 31, 1, '2020-03-19 04:25:26'),
+(129, 103, 'zara tunyan Sent You 5 Coins', 'coin_request', 5, 31, 1, '2020-03-19 04:25:28'),
+(130, 103, 'zara tunyan Sent You 5 Coins', 'coin_request', 5, 31, 1, '2020-03-19 04:25:31'),
+(131, 103, 'zara tunyan Sent You 5 Coins', 'coin_request', 5, 31, 1, '2020-03-19 04:25:34'),
+(132, 103, 'zara tunyan Sent You 5 Coins', 'coin_request', 5, 31, 1, '2020-03-19 04:25:36'),
+(133, 103, 'zara tunyan Sent You 5 Coins', 'coin_request', 5, 31, 1, '2020-03-19 04:25:38'),
+(134, 103, 'You have canceled the receipt of 5 coins from the zara ', 'coin_request', 0, 31, 0, '2020-03-19 04:25:39'),
+(135, 103, 'You have canceled the receipt of 5 coins from the zara ', 'coin_request', 0, 31, 0, '2020-03-19 04:25:39'),
+(136, 103, 'You have canceled the receipt of 5 coins from the zara ', 'coin_request', 0, 31, 0, '2020-03-19 04:25:40'),
+(137, 103, 'You have canceled the receipt of 5 coins from the zara ', 'coin_request', 0, 31, 0, '2020-03-19 04:25:43'),
+(138, 103, 'You have canceled the receipt of 5 coins from the zara ', 'coin_request', 0, 31, 0, '2020-03-19 04:25:44'),
+(139, 103, 'You have canceled the receipt of 5 coins from the zara ', 'coin_request', 0, 31, 0, '2020-03-19 04:25:46'),
+(140, 103, 'You have canceled the receipt of 5 coins from the zara ', 'coin_request', 0, 31, 0, '2020-03-19 04:25:47'),
+(141, 103, 'You have canceled the receipt of 5 coins from the zara ', 'coin_request', 0, 31, 0, '2020-03-19 04:25:48'),
+(142, 103, 'You have canceled the receipt of 5 coins from the zara ', 'coin_request', 0, 31, 0, '2020-03-19 04:25:50'),
+(143, 103, 'You have canceled the receipt of 5 coins from the zara ', 'coin_request', 0, 31, 0, '2020-03-19 04:25:52'),
+(144, 31, 'You have confirmed receipt of 5 coins from the Արմենուհի ', 'coin_request', 0, 103, 0, '2020-03-19 04:27:16'),
+(145, 91, 'Արմենուհի Մկրտչյան Sent You 5 Coins', 'coin_request', 5, 103, 1, '2020-03-19 04:27:38'),
+(146, 31, 'You have canceled the receipt of 5 coins from the Արմենուհի ', 'coin_request', 0, 103, 0, '2020-03-19 04:28:11'),
+(147, 31, 'You have canceled the receipt of 10 coins from the Արմենուհի ', 'coin_request', 0, 103, 0, '2020-03-19 04:30:32'),
+(148, 31, 'You have confirmed receipt of 1 coins from the Արմենուհի ', 'coin_request', 0, 103, 0, '2020-03-19 04:32:03'),
+(149, 31, 'You have confirmed receipt of 1 coins from the Արմենուհի ', 'coin_request', 0, 103, 0, '2020-03-19 04:32:36');
 
 -- --------------------------------------------------------
 
@@ -1631,7 +1658,11 @@ INSERT INTO `offers_click` (`id`, `user_id`, `restaurant_id`, `offer_id`, `type`
 (484, 31, 1, 2, 0),
 (485, 31, 4, 0, 0),
 (486, 31, 4, 0, 0),
-(487, 103, 1, 2, 0);
+(487, 103, 1, 2, 0),
+(488, 31, 4, 0, 0),
+(489, 103, 1, 4, 1),
+(490, 103, 1, 3, 0),
+(491, 103, 1, 5, 0);
 
 -- --------------------------------------------------------
 
@@ -1708,7 +1739,7 @@ INSERT INTO `rates` (`id`, `user_id`, `restaurant_id`, `overall`, `taste`, `char
 CREATE TABLE `regions` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `status` int(11) NOT NULL DEFAULT '1'
+  `status` int(11) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -1789,7 +1820,7 @@ CREATE TABLE `restaurants` (
   `address` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '',
   `lat` varchar(255) NOT NULL DEFAULT '',
   `lng` varchar(255) NOT NULL DEFAULT '',
-  `status` int(10) DEFAULT '1',
+  `status` int(10) DEFAULT 1,
   `rate` varchar(255) DEFAULT '0',
   `admin_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -1835,7 +1866,7 @@ CREATE TABLE `restaurants_images` (
   `id` int(11) NOT NULL,
   `restaurant_id` int(11) NOT NULL,
   `image` varchar(255) NOT NULL,
-  `status` int(2) NOT NULL DEFAULT '1'
+  `status` int(2) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -1969,7 +2000,16 @@ INSERT INTO `restaurant_click` (`id`, `restaurant_id`, `user_id`, `type`) VALUES
 (111, 11, 37, 2),
 (112, 1, 52, 2),
 (113, 1, 52, 2),
-(114, 3, 103, 3);
+(114, 3, 103, 3),
+(115, 11, 52, 0),
+(116, 11, 52, 2),
+(117, 21, 52, 0),
+(118, 21, 52, 0),
+(119, 21, 52, 1),
+(120, 21, 52, 2),
+(121, 3, 52, 0),
+(122, 3, 52, 1),
+(123, 1, 103, 1);
 
 -- --------------------------------------------------------
 
@@ -1984,7 +2024,7 @@ CREATE TABLE `restaurant_weeks` (
   `type` int(11) DEFAULT NULL,
   `open` varchar(255) DEFAULT NULL,
   `close` varchar(255) DEFAULT NULL,
-  `status` int(11) DEFAULT '1'
+  `status` int(11) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -2214,7 +2254,7 @@ CREATE TABLE `reviews` (
   `user_id` int(11) NOT NULL,
   `restaurant_id` int(11) NOT NULL,
   `review` varchar(255) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -2268,7 +2308,7 @@ CREATE TABLE `service` (
   `email` varchar(255) DEFAULT NULL,
   `lat` float DEFAULT NULL,
   `lng` float DEFAULT NULL,
-  `status` int(11) DEFAULT '1'
+  `status` int(11) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -2289,24 +2329,24 @@ CREATE TABLE `sliders` (
   `restaurant_id` int(255) DEFAULT NULL,
   `region_id` int(11) DEFAULT NULL,
   `client_id` int(255) DEFAULT NULL,
-  `area_id` int(255) DEFAULT NULL,
+  `country` varchar(255) DEFAULT NULL,
   `image` varchar(255) CHARACTER SET utf8 NOT NULL,
   `link` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
   `start` date DEFAULT NULL,
   `end` date DEFAULT NULL,
-  `status` int(11) NOT NULL DEFAULT '1'
+  `status` int(11) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `sliders`
 --
 
-INSERT INTO `sliders` (`id`, `restaurant_id`, `region_id`, `client_id`, `area_id`, `image`, `link`, `start`, `end`, `status`) VALUES
-(66, 1, 1, 32, 24, 'Slider_1576670963_756685785.jpg', 'http://aimtech.am', '2020-02-10', '2020-03-31', 1),
-(67, 3, NULL, 32, 23, 'Slider_1576670988_616823962.jpg', NULL, '2020-02-13', '2020-02-22', 1),
-(68, NULL, NULL, 32, 27, 'Slider_1576671090_1545236810.jpg', 'http://aimtech.am', '2020-02-16', '2020-02-27', 1),
-(69, 5, 1, 32, 23, 'Slider_1582210217_832769592.jpg', 'animevost.com', '2020-02-20', '2020-02-29', 1),
-(70, 4, 1, 32, 24, 'Slider_1582213351_1714732382.jpg', 'animevost.com', '2020-12-12', '2020-12-20', 1);
+INSERT INTO `sliders` (`id`, `restaurant_id`, `region_id`, `client_id`, `country`, `image`, `link`, `start`, `end`, `status`) VALUES
+(66, 1, 3, 32, 'Lebanon', 'Slider_1576670963_756685785.jpg', 'http://aimtech.am', '2020-02-10', '2020-03-31', 1),
+(67, NULL, NULL, 32, 'Lebanon', 'Slider_1576670988_616823962.jpg', NULL, '2020-02-13', '2020-03-27', 1),
+(68, NULL, NULL, 32, 'Armenia', 'Slider_1576671090_1545236810.jpg', 'http://aimtech.am', '2020-02-16', '2020-02-27', 1),
+(69, 1, 1, 32, 'Lebanon', 'Slider_1582210217_832769592.jpg', 'http://animevost.com', '2020-02-20', '2020-04-16', 1),
+(70, 1, 1, 32, 'Lebanon', 'Slider_1582213351_1714732382.jpg', 'http://animevost.com', '2020-01-12', '2020-12-20', 1);
 
 -- --------------------------------------------------------
 
@@ -2353,7 +2393,7 @@ INSERT INTO `tokens` (`id`, `token`, `time`, `user_id`, `refresh_token`, `os`, `
 (149, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkYjk3Mjk0ZWM2NWMi.qZIyPXbfobss11whs09dpZY356sEEIeMHQFK9nJrHRM', '1572520980', 49, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkYjk3Mjk0ZWM2Yzci.t9Dy7LMW18C7A_Ju85c4IlkXj27_a-sC9znAMMaoIL8', NULL, NULL),
 (150, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkYjk3MmRhMTdmYTIi.WaP6FBn6TwF-W8PnmbZrICDPwecxq7BkWOBajSiuaSM', '1572521050', 50, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkYjk3MmRhMTgwMmMi.lZ9sUEuAVYFjYR-JNHINetgSOY2AtfkKWXcMzBWaJjk', NULL, NULL),
 (151, '', '', 51, '', NULL, NULL),
-(152, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkYjk3ODQyNTVlZmIi.3FaROodGKMn3Qi9xLXllpIq1LgB07htE6iK-bHEGDZ0', '1572522434', 52, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkYjk3ODQyNTVmNzMi.Vf4av_TPQe9QRvSWoRtQdxmQ0LuXdW4FxKZpcCCLfNw', NULL, NULL),
+(152, '', '', 52, '', NULL, NULL),
 (153, '', '', 53, '', NULL, NULL),
 (154, '', '', 46, '', NULL, NULL),
 (155, '', '', 46, '', NULL, NULL),
@@ -2398,8 +2438,8 @@ INSERT INTO `tokens` (`id`, `token`, `time`, `user_id`, `refresh_token`, `os`, `
 (198, '', '', 54, '', NULL, NULL),
 (199, '', '', 54, '', NULL, NULL),
 (201, '', '', 54, '', NULL, NULL),
-(202, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZDUwNzYwOWUzNDMi.4uoFDmR5RTnPf27gIs7VyTJp-KCAejfNVtUZdE06PUM', '1574328544', 52, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZDUwNzYwOWUzYzci.tdT0AgRRjRl6upuwYL8AHAjgFt8FPlExorOzRcQPBJc', NULL, NULL),
-(203, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZDUyM2VjNWE1ODIi.abNkqZ6_0MPCD-MW3fWd3NXs42a4XiojbysYkl0CQOM', '1574335852', 52, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVkZDUyM2VjNWE1ZjYi.yeip0RWoaKzcuWdTh14jY2RIIru_P97hh-oGW6eyOv0', NULL, NULL),
+(202, '', '', 52, '', NULL, NULL),
+(203, '', '', 52, '', NULL, NULL),
 (204, '', '', 54, '', NULL, NULL),
 (205, '', '', 54, '', NULL, NULL),
 (206, '', '', 58, '', NULL, NULL),
@@ -2596,9 +2636,9 @@ INSERT INTO `tokens` (`id`, `token`, `time`, `user_id`, `refresh_token`, `os`, `
 (437, '', '', 54, '', NULL, NULL),
 (438, '', '', 31, '', NULL, NULL),
 (439, '', '', 54, '', NULL, NULL),
-(440, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNjdhZjI2YzQyYmYi.JTtHtUKvtKP6ZuPiB9fZNnCQ9_XeRdYFD2k4Ickod8s', '1583939750', 37, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNjdhZjI2YzQyZWMi.5YxHGij2Argr44tY6--0ljplo6BfYBcFME5YbrthWIQ', 0, 'cFaB0TS9nNE:APA91bHacRtnT9UKPHsCuuT2GRjmk287--4oUC9PpYg34OOAsWXkmF3Xj4jwaUtTIooYtmjAPArwweveip3Mg6O-Vx0_vM0SWWB13tpp8y3XXLwm5lvC-ktc6SguKSuJp8swMsdAAUmh'),
+(440, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNzBlYjgwMzAzYzYi.kDDStgaeJOWEFdVuXuHJRldUvv8_dAtB1KVdoMDnlYo', '1615994624', 37, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNzBlYjgwMzA0MTQi.ldL58fVbMCwtLPsXfbBJxfu2zQ7gLppdjqftMLJInHM', 0, 'cFaB0TS9nNE:APA91bHacRtnT9UKPHsCuuT2GRjmk287--4oUC9PpYg34OOAsWXkmF3Xj4jwaUtTIooYtmjAPArwweveip3Mg6O-Vx0_vM0SWWB13tpp8y3XXLwm5lvC-ktc6SguKSuJp8swMsdAAUmh'),
 (441, '', '', 54, '', NULL, NULL),
-(442, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNjdjNjFmZTlhNGMi.D-liwzsBOstsvCh-z-L-wxtseYGY-UMfgdr2-uOLDIs', '1615395231', 52, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNjdjNjFmZTlhOGIi.Laf9EubEQ_swulCWi4XZ1zQs6_l0lI4_QpPaelyoNlw', 1, 'e_jv_MeR9dk:APA91bHVuiOy-km4F6WyNrSEVf9tg9azT2oIlZ8MXTnMuwj29CMuZFeZqvB_I54npWT9ruzh6jT3-jFhWRryY8f8VxGrbxQi_oPmC1zS2OurCZSbCyZULdF_wsaY1AYN6VylzO5Gd4kq'),
+(442, '', '', 52, '', NULL, NULL),
 (443, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNjhhMzc2ODk0YWIi.acgremyarFG3dXQReSvEZRJtJFG6GdPLCH6lc9pDLEo', '1584002294', 103, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNjhhMzc2ODk0ZDUi.Oap1HsASttUgOV_NJ3BIESDaZMifcWX3b3pCnVDSgrk', 0, 'cUae93jBGHo:APA91bEPr2KQfLg1_dl1w1THus1jaP0-fxf8JLUph5m0vM6iivUUXqM3-k9yqW1TrsR_Nd2ptbk7lAfMi1WmWGTlZvz61z12-vU33XqtS08ZS_dTdicf4EhgySsaqGIMW2xPZBs4ZrRq'),
 (444, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNjhhNGI4NDg4MmYi.nGGbIcbVEiNDJ54UzT6cYP_H8XT-ZCihdG2KMvYswLU', '1584002616', 103, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNjhhNGI4NDg4NTki.rhbGsIliiNMwWmISOvNX-EBDoe7jAYWd6QEHxvqyiyw', 0, 'cfnsirwilVM:APA91bGXPv6urEZwS43G3ZQGlxW7vKs_-riDWx_KkX8jkj28LMkH_8XM_hzvcMOLKZYawiDaB8X20qJVNsGjQWR-SHZaU9D6ai3W5oeVnkmHYQsUPqZXmJFr_YeEybvlB8731zAKXld3'),
 (445, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNjhhNjRlYmZkYjYi.grtUfg5UV-r7B8QztyJQSJ3sV-RdO_NvQ4hQ9miIz28', '1584003022', 103, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNjhhNjRlYmZkZTEi.iD3d9bZ-y3mmxFNsM4tyyeKua6o3uJ-DClcQFm2Ie-g', 0, 'cS-xWftGt0k:APA91bEDW-r1nBLhB1haCm9QSN8biF2P8XeXpcjF-yr7MVWlS4r3yZqU9Ky9bu4Jfnxqha5NnFnV6IbG6F8zFq_M_teuSSSenX3Ig3DCbEN9G1wyXU9rz8uQPMp5R2MV1rKnxD4MzlTV'),
@@ -2610,8 +2650,15 @@ INSERT INTO `tokens` (`id`, `token`, `time`, `user_id`, `refresh_token`, `os`, `
 (451, '', '', 31, '', NULL, NULL),
 (452, '', '', 31, '', NULL, NULL),
 (453, '', '', 31, '', NULL, NULL),
-(454, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNmI5MDgzM2FjNzMi.Zwh5IKg41oQWH5PWFISs872WraotP6DPIfK-OR-OLLg', '1615643651', 31, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNmI5MDgzM2FjYTYi.lLb_S0_RLiZKJDlbVAMKONcMxQVc2FQi-y31tXVeMQQ', 1, 'ffLNcFG--SU:APA91bHJvtYDTnEEv2jQ4OZkSsOreBCFsDc7TmB-w0l-fIVSgNXFspNzyGVYbqpbfH1l4H8eM2R5efIl7Y2cfI8EK2ptN9rOaNgGO60IM2iM5yUwwGiW9nTjN5cIK12tmqPNPvuwuHbe'),
-(455, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNmI5MDlkZDQ0OGUi.dvSrktegYMihyZIUDxItigISVwSh_BFatn8ilO06ZGI', '1615643677', 54, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNmI5MDlkZDQ0ZGMi.6JEFqrlvHZQyYXhqgUJYBmaxJuPg2_hWRrKo8uVMhkk', 0, 'dd9s9ot63Do:APA91bEDvQT69dFmIy4lW9xHsPeGaNsthZ_BJG6VFqI2Mn0NAquciVDuPSgBTamNayxrjuYqF-9770Ef_E5RQDdU7RWcEVk4VNim7LwHJDbQCjlz5Hed7P5uWi2TemQfKgQNbXX07vls');
+(454, '', '', 31, '', NULL, NULL),
+(455, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNmI5MDlkZDQ0OGUi.dvSrktegYMihyZIUDxItigISVwSh_BFatn8ilO06ZGI', '1615643677', 54, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNmI5MDlkZDQ0ZGMi.6JEFqrlvHZQyYXhqgUJYBmaxJuPg2_hWRrKo8uVMhkk', 0, 'dd9s9ot63Do:APA91bEDvQT69dFmIy4lW9xHsPeGaNsthZ_BJG6VFqI2Mn0NAquciVDuPSgBTamNayxrjuYqF-9770Ef_E5RQDdU7RWcEVk4VNim7LwHJDbQCjlz5Hed7P5uWi2TemQfKgQNbXX07vls'),
+(456, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNzBlYjkxODg5OGEi.5Fzjzfi3lMQg0mExzYyN9AaIWTiSsH_Amee9QEjRpc8', '1615994641', 52, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNzBlYjkxODg5Y2Ii.StaXqkpi0pcjHK5oW8uH9M2OfDPi3m0rSnFBSU7CXbo', 0, 'cFaB0TS9nNE:APA91bHacRtnT9UKPHsCuuT2GRjmk287--4oUC9PpYg34OOAsWXkmF3Xj4jwaUtTIooYtmjAPArwweveip3Mg6O-Vx0_vM0SWWB13tpp8y3XXLwm5lvC-ktc6SguKSuJp8swMsdAAUmh'),
+(457, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNzMyYmU4N2RlZmEi.7H4eFyt-RV81Lr9C21VlJCD24bf3mSBnDYZluNcdEqE', '1584692584', 103, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNzMyYmU4N2RmMzgi.xEmSPl8GMrqyStcx6h9a4-jsc4vjOxuLB5qVrUoyxh0', 0, 'dhGK-LGPDqE:APA91bE4Q-xwEedDYhyHR4gvTmwomHcJOijF-1Ofy09_P1fFuBUPfYRfrXgrIKTgNIgasOec9-cOl4wqleoMF692Oi67yJuKmacUVYEAk0D_m1MJwF_Xcof6HFw638z3YPOi9vaSIJMo'),
+(458, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNzM2MGI4MzM2MDMi.0kPhChHLsJSDClsRvk_jaxhw57HxqURslP1qUacCCPc', '1584706104', 103, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNzM2MGI4MzM2MmIi.4IuAPCLnXqoFThZ6HeK8imp4Ay-mDIUeDRmwXMNzLq8', 0, 'cqXdGCkYefA:APA91bE3YIja5g1A6-elMPWsohDQQK7X6udy7ZbIYLI-Rtp5tVbbn9oaFJVQRGstMT8cUKreulXGdDqfsVCgDcEui1_A4HKrZm4mhin_FSfqjp-FUy9X8rfQHd0w7Bu3fnryVzBw295y'),
+(459, '', '', 31, '', NULL, NULL),
+(460, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNzM2OWFjMDUxM2Ei.0_oVXNJCY-j1Ekb6E1DVYMN5vytmV6DLWTnZUv183PA', '1584708396', 103, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNzM2OWFjMDUxNzAi.QpBjHwCwL632zXnXH-Xjx1xIk6sP8YQgnIaScLGYDX8', 0, 'cqXdGCkYefA:APA91bE3YIja5g1A6-elMPWsohDQQK7X6udy7ZbIYLI-Rtp5tVbbn9oaFJVQRGstMT8cUKreulXGdDqfsVCgDcEui1_A4HKrZm4mhin_FSfqjp-FUy9X8rfQHd0w7Bu3fnryVzBw295y'),
+(461, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNzM2YTYwMjcyNDEi.g5CfWk-gC9OosUBNhyHIkyKsHEwXJaTiSLmXjjlc-70', '1616158176', 31, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNzM2YTYwMjcyNzgi.ZBobLfNep1GD7tA2yTWUI1PC_UFhKWL7DuoWW_GqB50', 1, 'ckvVkbq9BGg:APA91bF8BQiNTkxQWlgpMbJNoEWV8eE0O4mp_cK4uL4Vj5V3H7yKoZ6Tyn6FxVPiHT4yKPb5lVPnFb2HOyW9h4wPyXf5Q8QfpnNnl7LagSGgYjMkq6FtXTqDvz_SciIDdY57hDl7iesQ'),
+(462, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNzM2ZTM0ZTE1Yjgi.5VyfE-W06gyFSFuR8YaTQloooPZw5VWSOdm14dAedVI', '1584709556', 103, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNzM2ZTM0ZTE1ZGMi.VmHV4n4w7bmS_NeMqas7lvzg4Hh4IEEnLpzI79C_8DU', 0, 'eN3vWRjeT2c:APA91bHcaQQUv-G6q4mM3fhzDh8wwXyqh3EZwIuZmZS1rsXSaz42Peb-aaEMmQdF2krC81HZoy7PpEN9fNlbbXnt4G0KX_kJWzVZTMVHKiB0BndYVGe84YOvTntYd5olmafa_P8scutx');
 
 -- --------------------------------------------------------
 
@@ -2624,7 +2671,7 @@ CREATE TABLE `used_offers` (
   `user_id` int(11) NOT NULL,
   `coin_offer_id` int(11) DEFAULT NULL,
   `time` int(11) DEFAULT NULL,
-  `status` int(1) DEFAULT '1'
+  `status` int(1) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -2887,21 +2934,21 @@ CREATE TABLE `users` (
   `username` varchar(255) CHARACTER SET utf8 NOT NULL,
   `first_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `last_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `gender` int(11) NOT NULL DEFAULT '1',
+  `gender` int(11) NOT NULL DEFAULT 1,
   `date_of_birth` bigint(20) DEFAULT NULL,
   `mobile_number` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `uuid` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `image` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `coins` int(11) DEFAULT '0',
-  `is_used_reference` int(1) NOT NULL DEFAULT '0',
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `coins` int(11) DEFAULT 0,
+  `is_used_reference` int(1) NOT NULL DEFAULT 0,
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT current_timestamp(),
   `verify_code` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `verify` int(1) NOT NULL DEFAULT '0',
-  `logged_via_fb` int(1) NOT NULL DEFAULT '0',
-  `notification_status` int(1) DEFAULT '1',
+  `verify` int(1) NOT NULL DEFAULT 0,
+  `logged_via_fb` int(1) NOT NULL DEFAULT 0,
+  `notification_status` int(1) DEFAULT 1,
   `lat` double DEFAULT NULL,
   `lng` double DEFAULT NULL,
   `country` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -2916,7 +2963,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `username`, `first_name`, `last_name`, `gender`, `date_of_birth`, `mobile_number`, `email`, `password`, `uuid`, `image`, `coins`, `is_used_reference`, `created_at`, `updated_at`, `verify_code`, `verify`, `logged_via_fb`, `notification_status`, `lat`, `lng`, `country`, `region_id`, `banner_update`, `banner_show`) VALUES
 (30, 'super22', 'Super22', 'Admin22', 1, 1581335495, '+656565651466622', 'kakaka@gmail.com12222', 'c9cc24ffa63b25bb52b9d5fa288c2921a5190acd2ad461e2ece7b7d74af0fa53c86b783a066fc1ad3694313345702e69f57d70a597f7fbbf78dfc957d3bcdea9', '', 'User_default.png', 135, 0, '2019-10-01 03:14:51', '2019-10-01 03:14:51', '', 1, 0, 0, 40.199623323271744, 44.49112586272669, 'Armenia', NULL, NULL, NULL),
-(31, 'zara', 'zara', 'tunyan', 0, 1581335495, '695', 'zara.tunyan@gmail.com', '62670d1e1eea06b6c975e12bc8a16131b278f6d7bcbe017b65f854c58476baba86c2082b259fd0c1310935b365dc40f609971b6810b065e528b0b60119e69f61', '', 'User_default.png', 221, 0, '2019-10-01 18:08:45', '2019-10-01 18:08:45', '', 1, 0, 1, 40.199813988270975, 44.49110008492164, 'Armenia', NULL, '2020-03-16', 1),
+(31, 'zara', 'zara', 'tunyan', 0, 1581335495, '695', 'zara.tunyan@gmail.com', '62670d1e1eea06b6c975e12bc8a16131b278f6d7bcbe017b65f854c58476baba86c2082b259fd0c1310935b365dc40f609971b6810b065e528b0b60119e69f61', '', 'User_default.png', 183, 0, '2019-10-01 18:08:45', '2019-10-01 18:08:45', '', 1, 0, 1, 37.421998333333335, -122.08400000000002, 'United States', NULL, '2020-03-19', 25),
 (33, 'adminSuper', 'Su', 'A', 1, 1550490695, '+656565651466622s', 'kakaka@gmail.com12222s', 'c7ad44cbad762a5da0a452f9e854fdc1e0e7a52a38015f23f3eab1d80b931dd472634dfac71cd34ebc35d16ab7fb8a90c81f975113d6c7538dc69dd8de9077ec', '', 'User_default.png', 115, 0, '2019-10-02 14:31:04', '2019-10-02 14:31:04', '', 1, 0, 1, NULL, NULL, NULL, NULL, NULL, NULL),
 (34, 'user', 'developer', 'develop', 0, 1581335495, '876767', 'test@mail.ru', 'ee26b0dd4af7e749aa1a8ee3c10ae9923f618980772e473f8819a5d4940e0db27ac185f8a0e1d5f84f88bc887fd67b143732c304cc5fa9ad8e6f57f50028a8ff', '', 'User_default.png', 531, 0, '2019-10-02 16:06:48', '2019-10-02 16:06:48', '', 1, 0, 1, NULL, NULL, NULL, NULL, NULL, NULL),
 (35, 'testuser', 'test', 'test', 1, 1550490695, '846464', 'testuser@mail.ru', 'ee26b0dd4af7e749aa1a8ee3c10ae9923f618980772e473f8819a5d4940e0db27ac185f8a0e1d5f84f88bc887fd67b143732c304cc5fa9ad8e6f57f50028a8ff', '', 'User_default.png', 0, 0, '2019-10-02 16:14:45', '2019-10-02 16:14:45', '', 1, 0, 1, NULL, NULL, NULL, NULL, NULL, NULL),
@@ -2932,7 +2979,7 @@ INSERT INTO `users` (`id`, `username`, `first_name`, `last_name`, `gender`, `dat
 (49, 'adminSuperas', 'Super22as', 'Admin22asd', 1, 1581508295, '+656565651466622sas', 'kakaka@gmail.com12222sas', 'c7ad44cbad762a5da0a452f9e854fdc1e0e7a52a38015f23f3eab1d80b931dd472634dfac71cd34ebc35d16ab7fb8a90c81f975113d6c7538dc69dd8de9077ec', '', 'User_default.png', 0, 0, '2019-10-30 11:23:00', '2019-10-30 11:23:00', '', 0, 0, 1, NULL, NULL, NULL, NULL, NULL, NULL),
 (50, 'adminSuperasas', 'Super22asas', 'Admin22asd', 1, 1550490695, '+656565651466622sasas', 'kakaka@gmail.com12222sasas', 'c7ad44cbad762a5da0a452f9e854fdc1e0e7a52a38015f23f3eab1d80b931dd472634dfac71cd34ebc35d16ab7fb8a90c81f975113d6c7538dc69dd8de9077ec', '', 'User_default.png', 0, 0, '2019-10-30 11:24:10', '2019-10-30 11:24:10', '', 0, 0, 1, NULL, NULL, NULL, NULL, NULL, NULL),
 (51, 'test data', 'test', 'test', 1, 1550490695, '745638745683', 'rrriiiii@mail.ru', 'ee26b0dd4af7e749aa1a8ee3c10ae9923f618980772e473f8819a5d4940e0db27ac185f8a0e1d5f84f88bc887fd67b143732c304cc5fa9ad8e6f57f50028a8ff', '', 'User_default.png', 8, 0, '2019-10-30 11:30:19', '2019-10-30 11:30:19', '', 0, 0, 1, NULL, NULL, NULL, NULL, NULL, NULL),
-(52, 'miled', 'miled', 'aoun', 1, 1583859188504, '+96171576202', 'miled@nova4lb.com', '0dd3e512642c97ca3f747f9a76e374fbda73f9292823c0313be9d78add7cdd8f72235af0c553dd26797e78e1854edee0ae002f8aba074b066dfce1af114e32f8', '170c55-dbdd2e', 'User_default.png', 0, 0, '2019-10-30 11:47:14', '2019-10-30 11:47:14', '0', 1, 0, 1, 33.8892171, 35.4867727, 'Lebanon', 1, NULL, NULL),
+(52, 'miled', 'miled', 'aoun', 1, 1583859188504, '+96171576202', 'miled@nova4lb.com', '0dd3e512642c97ca3f747f9a76e374fbda73f9292823c0313be9d78add7cdd8f72235af0c553dd26797e78e1854edee0ae002f8aba074b066dfce1af114e32f8', '170c55-dbdd2e', 'User_default.png', 0, 0, '2019-10-30 11:47:14', '2019-10-30 11:47:14', '0', 1, 0, 1, 33.89910964988693, 35.584232630201626, 'Lebanon', NULL, '2020-03-17', 7),
 (53, 'testt', 'ttttt', 'fffff', 1, 1572292800, '2222', 'ffffff@mail.ru', 'ee26b0dd4af7e749aa1a8ee3c10ae9923f618980772e473f8819a5d4940e0db27ac185f8a0e1d5f84f88bc887fd67b143732c304cc5fa9ad8e6f57f50028a8ff', '', 'User_default.png', 0, 0, '2019-10-30 12:09:52', '2019-10-30 12:09:52', '', 0, 0, 1, NULL, NULL, NULL, NULL, NULL, NULL),
 (54, 'test1', 'test', 'test', 1, 1581508295, '+35884848494', 'vsbsbsj@mail.ru', '125d6d03b32c84d492747f79cf0bf6e179d287f341384eb5d6d3197525ad6be8e6df0116032935698f99a09e265073d1d6c32c274591bf1d0a20ad67cba921bc', '170144-c190b2', 'User_default.png', 82796, 0, '2019-10-30 12:16:38', '2019-10-30 12:16:38', '0', 1, 1, 1, 40.19989869584651, 44.49134216938233, 'Armenia', NULL, '2020-03-13', 2),
 (55, 'aaa', 'aaa', 'aaa', 1, 1581508295, '000', 'ckymarra@gmail.com', 'd6f644b19812e97b5d871658d6d3400ecd4787faeb9b8990c1e7608288664be77257104a58d033bcf1a0e0945ff06468ebe53e2dff36e248424c7273117dac09', '', 'User_default.png', 0, 0, '2019-10-30 15:56:20', '2019-10-30 15:56:20', '', 0, 0, 1, NULL, NULL, NULL, NULL, NULL, NULL),
@@ -2949,7 +2996,7 @@ INSERT INTO `users` (`id`, `username`, `first_name`, `last_name`, `gender`, `dat
 (100, 'dummy', 'dummy', 'dummy', 0, 918158400, '+358345345345', 'sdasdadas@mail.ru', '125d6d03b32c84d492747f79cf0bf6e179d287f341384eb5d6d3197525ad6be8e6df0116032935698f99a09e265073d1d6c32c274591bf1d0a20ad67cba921bc', '17015a-b57995', 'User_default.png', 0, 0, '2020-02-05 14:05:15', '2020-02-05 14:05:15', '0', 1, 0, 1, NULL, NULL, NULL, NULL, NULL, NULL),
 (101, 'zzzzz', 'hdnd', 'hsnd', 0, 1580985851489, '+376899556', 'zzz@zzz.zz', 'b0412597dcea813655574dc54a5b74967cf85317f0332a2591be7953a016f8de56200eb37d5ba593b1e4aa27cea5ca27100f94dccd5b04bae5cadd4454dba67d', '1701a1-a3a808', 'User_default.png', 0, 0, '2020-02-06 10:44:51', '2020-02-06 10:44:51', '0', 1, 0, 1, NULL, NULL, NULL, NULL, NULL, NULL),
 (102, 'Kay', 'Kau', 'Sirb', 1, 1580997062982, '+9613037672', 'hello@khalilsarabey.com', 'ba3253876aed6bc22d4a6ff53d8406c6ad864195ed144ab5c87621b6c233b548baeae6956df346ec8c17f5ea10f35ee3cbc514797ed7ddd3145464e2a0bab413', '1701ac-5f180e', 'User_default.png', 0, 0, '2020-02-06 13:51:51', '2020-02-06 13:51:51', '0', 1, 0, 1, NULL, NULL, NULL, NULL, NULL, NULL),
-(103, 'ԱրմենուհիՄկրտչյան8721', 'Արմենուհի', 'Մկրտչյան', 0, 0, '', 'mkrtchyanarmenuhi89@gmail.com', '1581062068?226222550', '1701ea-49903a', 'User_default.png', 0, 0, '2020-02-07 07:54:28', '2020-02-07 07:54:28', '', 1, 1, 1, 40.199885237000395, 44.49138636589082, 'Armenia', NULL, '2020-03-13', 5),
+(103, 'ԱրմենուհիՄկրտչյան8721', 'Արմենուհի', 'Մկրտչյան', 0, 0, '', 'mkrtchyanarmenuhi89@gmail.com', '1581062068?226222550', '1701ea-49903a', 'User_default.png', 488, 0, '2020-02-07 07:54:28', '2020-02-07 07:54:28', '', 1, 1, 1, 40.19968587161529, 44.49118698539162, 'Armenia', NULL, '2020-03-19', 72),
 (104, 'zz', 'bdb', 'jdh', 1, 1581278400, '+12688784', 'hpro252@gmail.com', '4ce9792f2871988864761ef032ce09646333c81667d5d3360a82d7c47411c0b46846437ac5e304880fb5d7510d0af3d7af5a666a1f0459df1e04d1a8683bbe13', '1702ef-e90416', 'User_default.png', 0, 0, '2020-02-10 12:06:39', '2020-02-10 12:06:39', '2001', 0, 0, 1, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
@@ -2962,7 +3009,7 @@ CREATE TABLE `user_loyalty_card` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `card_id` int(11) NOT NULL,
-  `status` int(1) NOT NULL DEFAULT '1'
+  `status` int(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
 --
@@ -2989,7 +3036,7 @@ CREATE TABLE `video` (
   `link` varchar(150) CHARACTER SET utf8 DEFAULT NULL,
   `video` varchar(255) NOT NULL,
   `type` varchar(255) NOT NULL,
-  `status` int(255) NOT NULL DEFAULT '1'
+  `status` int(255) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -3332,7 +3379,7 @@ ALTER TABLE `featured_offers`
 -- AUTO_INCREMENT for table `friends`
 --
 ALTER TABLE `friends`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=91;
 
 --
 -- AUTO_INCREMENT for table `hour_offers`
@@ -3368,13 +3415,13 @@ ALTER TABLE `more_infos`
 -- AUTO_INCREMENT for table `notification`
 --
 ALTER TABLE `notification`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=124;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=150;
 
 --
 -- AUTO_INCREMENT for table `offers_click`
 --
 ALTER TABLE `offers_click`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=488;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=492;
 
 --
 -- AUTO_INCREMENT for table `rates`
@@ -3410,7 +3457,7 @@ ALTER TABLE `restaurants_images`
 -- AUTO_INCREMENT for table `restaurant_click`
 --
 ALTER TABLE `restaurant_click`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=115;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=124;
 
 --
 -- AUTO_INCREMENT for table `restaurant_weeks`
@@ -3446,7 +3493,7 @@ ALTER TABLE `sliders`
 -- AUTO_INCREMENT for table `tokens`
 --
 ALTER TABLE `tokens`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=456;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=463;
 
 --
 -- AUTO_INCREMENT for table `used_offers`
