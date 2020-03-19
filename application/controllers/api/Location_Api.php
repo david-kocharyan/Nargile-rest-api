@@ -37,6 +37,9 @@ class Location_Api extends REST_Controller
 				if ($key->id == $item->country_id) {
 					$data["country"][$bin]->areas[] = $item;
 				}
+				else{
+					$data["country"][$bin]->areas = array();
+				}
 			}
 		}
 
@@ -89,10 +92,9 @@ class Location_Api extends REST_Controller
 
 			if (!$this->check_status($jsondata)) return array();
 
-			if ($this->google_getCity($jsondata) == null){
+			if ($this->google_getCity($jsondata) == null) {
 				$city = $jsondata['results'][0]['address_components'][1]['long_name'];
-			}
-			else{
+			} else {
 				$city = $this->google_getCity($jsondata);
 			}
 
@@ -121,8 +123,9 @@ class Location_Api extends REST_Controller
 		return $this->find_Long_Name_Given_Type("locality", $jsondata["results"][0]["address_components"]);
 	}
 
-	private function find_Long_Name_Given_Type($type, $array, $short_name = false) {
-		foreach($array as $value) {
+	private function find_Long_Name_Given_Type($type, $array, $short_name = false)
+	{
+		foreach ($array as $value) {
 			if (in_array($type, $value["types"])) {
 				if ($short_name)
 					return $value["short_name"];

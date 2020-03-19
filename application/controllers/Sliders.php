@@ -30,7 +30,7 @@ class Sliders extends CI_Controller
 		$data['region'] = $this->Slider->get_regions();
 		$data['clients'] = $this->db->get_where('admins', array('role' => 'admin'))->result();
 		$data['restaurants'] = $this->db->get_where('restaurants', array('status' => 1))->result();
-		$data['area'] = $this->Slider->selectAllArea();
+		$data['country'] = $this->db->get_where('countries', array('status' => 1))->result();
 		$data['title'] = "Image upload page";
 
 		$this->load->view('layouts/header.php', $data);
@@ -42,7 +42,7 @@ class Sliders extends CI_Controller
 	{
 		$region = $this->input->post("region");
 		$client = $this->input->post("client");
-		$area = $this->input->post("area");
+		$country = $this->input->post("country");
 		$link = $this->input->post("link");
 		$start = $this->input->post("start");
 		$end = $this->input->post("end");
@@ -62,13 +62,17 @@ class Sliders extends CI_Controller
 			return;
 		}
 
+		if ($link != null && strpos($link, 'http://') === false) {
+			$link = "http://" . $link;
+		}
+
 		$data = array(
 			"region_id" => $region != NULL ? $region : NULL,
 			"client_id" => $client != NULL ? $client : NULL,
 			"restaurant_id" => $restaurant != NULL ? $restaurant : NULL,
-			"area_id" => $area != NULL ? $area : NULL,
+			"country" => $country != NULL ? $country : NULL,
 			"image" => $logo,
-			"link" => $link != NULL ?  "http://".$link : NULL,
+			"link" => $link ?? NULL,
 			"start" => $start != NULL ? $start : NULL,
 			"end" => $end != NULL ? $end : NULL,
 		);
@@ -84,7 +88,7 @@ class Sliders extends CI_Controller
 		$data['slider'] = $this->Slider->selectById($id);
 		$data['clients'] = $this->db->get_where('admins', array('role' => 'admin'))->result();
 		$data['restaurants'] = $this->db->get_where('restaurants', array('status' => 1))->result();
-		$data['area'] = $this->Slider->selectAllArea();
+		$data['country'] = $this->db->get_where('countries', array('status' => 1))->result();
 		$data['title'] = "Slider Edit page";
 
 		$this->load->view('layouts/header.php', $data);
@@ -96,7 +100,7 @@ class Sliders extends CI_Controller
 	{
 		$region = $this->input->post("region");
 		$client = $this->input->post("client");
-		$area = $this->input->post("area");
+		$country = $this->input->post("country");
 		$link = $this->input->post("link");
 
 		$start = $this->input->post("start");
@@ -116,15 +120,15 @@ class Sliders extends CI_Controller
 			unlink(FCPATH . "/plugins/images/Slider/" . $slider->image);
 		}
 
-		if (strpos($link, 'http://') === false) {
-			$link = "http://".$link;
+		if ($link != null && strpos($link, 'http://') === false) {
+			$link = "http://" . $link;
 		}
 
 		$data = array(
 			"region_id" => $region != NULL ? $region : NULL,
 			"client_id" => $client != NULL ? $client : NULL,
 			"restaurant_id" => $restaurant != NULL ? $restaurant : NULL,
-			"area_id" => $area != NULL ? $area : NULL,
+			"country" => $country != NULL ? $country : NULL,
 			"link" => $link != NULL ? $link : NULL,
 			"start" => $start != NULL ? $start : NULL,
 			"end" => $end != NULL ? $end : NULL,

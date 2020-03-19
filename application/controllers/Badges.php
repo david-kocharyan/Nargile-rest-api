@@ -102,7 +102,9 @@ class Badges extends CI_Controller
 			$this->edit($id);
 		} else {
 			if (!empty($_FILES['image']['name']) || null != $_FILES['image']['name']) {
-				unlink(FCPATH . "/plugins/images/Badge/" . $badge->image);
+				try {
+					unlink(FCPATH . "/plugins/images/Badge/" . $badge->image);
+				}catch (Exception $e){}
 
 				$image = $this->uploadImage('image');
 				if (isset($image['error'])) {
@@ -118,7 +120,7 @@ class Badges extends CI_Controller
 				'count' => $count,
 				'type' => $type,
 			);
-			if (isset($badge_image)) $badge['image'] = $badge_image;
+			if (isset($badge_image)) $badges['image'] = $badge_image;
 
 			$this->Badge->update($badges, $id);
 			redirect("admin/badges");

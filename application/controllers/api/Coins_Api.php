@@ -96,7 +96,7 @@ class Coins_Api extends REST_Controller
 		$sent_from_user = $this->db->get_where("users", array("id" => $sent_from_id))->row();
 
 		if (null != $sent_to_user) {
-			$body = $sent_from_user->first_name . " " . $sent_from_user->last_name . " Sent You $coins Coins";
+			$body = $sent_from_user->first_name . " " . $sent_from_user->last_name . "Requested To Send You $coins Coins";
 
 //			add to database
 			$data = array(

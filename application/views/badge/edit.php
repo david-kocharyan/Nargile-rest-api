@@ -11,7 +11,7 @@
 
 		<div class="row">
 			<div class="col-sm-12 col-xs-12">
-				<form action="<?= base_url("admin/badges/update/$badge->id") ?>" method="post">
+				<form action="<?= base_url("admin/badges/update/$badge->id") ?>" method="post" enctype="multipart/form-data">
 
 					<div class="form-group">
 						<label for="count">Count</label>

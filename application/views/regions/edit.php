@@ -42,10 +42,10 @@
 		var coordinates = <?php echo json_encode($coordinates); ?>;
 
 		// Map Center
-		var myLatLng = new google.maps.LatLng(33.89, 35.50);
+		var myLatLng = new google.maps.LatLng(coordinates[0].lat, coordinates[0].lng);
 		// General Options
 		var mapOptions = {
-			zoom: 14,
+			zoom: 13,
 			center: myLatLng,
 			mapTypeId: google.maps.MapTypeId.RoadMap
 		};

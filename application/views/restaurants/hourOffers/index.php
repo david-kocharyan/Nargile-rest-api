@@ -85,28 +85,34 @@
 							} ?>">
 								<?php if ($value->status == 0) {
 									echo "Inactive";
+								} elseif ($value->status == 2) {
+									echo "Pending";
 								} else {
 									echo "Active";
 								} ?>
 							</td>
 							<td>
-								<a href="<?= base_url("admin/restaurants/hour-offers/edit/$value->id") ?>"
-								   data-toggle="tooltip"
-								   data-placement="top" title="Edit" class="btn btn-info btn-circle tooltip-info"> <i
-										class="fas fa-pencil-alt"></i> </a>
+								<?php if ($user['role'] != 'admin' OR $value->status != 2) { ?>
+									<a href="<?= base_url("admin/restaurants/hour-offers/edit/$value->id") ?>"
+									   data-toggle="tooltip"
+									   data-placement="top" title="Edit" class="btn btn-info btn-circle tooltip-info">
+										<i
+											class="fas fa-pencil-alt"></i> </a>
 
-								<?php if ($value->status == 1) { ?>
-									<a href="<?= base_url("admin/restaurants/hour-offers/change-status/$value->id") ?>"
-									   data-toggle="tooltip"
-									   data-placement="top" title="Deactivate"
-									   class="btn btn-danger btn-circle tooltip-danger"><i class="fa fa-power-off"></i></a>
-								<?php } else { ?>
-									<a href="<?= base_url("admin/restaurants/hour-offers/change-status/$value->id") ?>"
-									   data-toggle="tooltip"
-									   data-placement="top" title="Activate"
-									   class="btn btn-success btn-circle tooltip-success"><i
-											class="fa fa-power-off"></i></a>
-								<?php } ?>
+									<?php if ($value->status == 1) { ?>
+										<a href="<?= base_url("admin/restaurants/hour-offers/change-status/$value->id") ?>"
+										   data-toggle="tooltip"
+										   data-placement="top" title="Deactivate"
+										   class="btn btn-danger btn-circle tooltip-danger"><i
+												class="fa fa-power-off"></i></a>
+									<?php } else { ?>
+										<a href="<?= base_url("admin/restaurants/hour-offers/change-status/$value->id") ?>"
+										   data-toggle="tooltip"
+										   data-placement="top" title="Activate"
+										   class="btn btn-success btn-circle tooltip-success"><i
+												class="fa fa-power-off"></i></a>
+									<?php }
+								} ?>
 							</td>
 
 						</tr>
@@ -123,7 +129,7 @@
 	$('#hour_table').DataTable({
 		"ordering": false,
 		initComplete: function () {
-			this.api().columns([2,3,4]).every(function () {
+			this.api().columns([2, 3, 4]).every(function () {
 				var column = this;
 				var select = $('<select style="margin-left: 5px;"><option value="">All</option></select>')
 					.appendTo($(column.header()))

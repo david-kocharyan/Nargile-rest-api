@@ -231,6 +231,8 @@ $route["admin/restaurants/coin-offers/update/(:any)"] = 'CoinOffers/update/$1';
 $route["admin/restaurants/coin-offers/change-status/(:any)"] = 'CoinOffers/change_status/$1';
 $route["admin/coin-offers/approve"] = 'CoinOffers/approve_offer_index';
 $route["admin/coin-offers/approve-coin/(:any)"] = 'CoinOffers/approve/$1';
+$route["admin/coin-offers/approve-featured/(:any)"] = 'CoinOffers/approve_featured/$1';
+$route["admin/coin-offers/approve-hour/(:any)"] = 'CoinOffers/approve_hour/$1';
 
 
 //All Offers

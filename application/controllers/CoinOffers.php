@@ -7,7 +7,7 @@ class CoinOffers extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		if (($this->session->userdata('user') == NULL OR !$this->session->userdata('user'))) {
+		if (($this->session->userdata('user') == NULL OR !$this->session->userdata('user')) OR $this->session->userdata('user')['role'] != "superAdmin") {
 			redirect('/admin/login');
 		}
 		$this->load->model("CoinOffer");
@@ -113,8 +113,16 @@ class CoinOffers extends CI_Controller
 			$this->edit($id);
 			return;
 		}
+
+		if ($this->session->userdata('user')['role'] == 'admin') {
+			$status = 2;
+		}
+		if ($this->session->userdata('user')['role'] == 'superAdmin') {
+			$status = 1;
+		}
+
 		$this->CoinOffer->update($id, array("price" => $price, "valid_date" => strtotime($date), "description" => $desc, "count" => $count,
-			'country' => $country, 'region' => $region));
+			'country' => $country, 'region' => $region,'status' => $status));
 		$this->session->set_flashdata('success', 'You have change the offer successfully');
 		redirect("admin/restaurants/coin-offers/$res");
 	}
@@ -136,7 +144,9 @@ class CoinOffers extends CI_Controller
 	{
 		$data['user'] = $this->session->userdata('user');
 		$data['coins'] = $this->CoinOffer->select_pending_offer();
-		$data['title'] = "Approve Coin Offer";
+		$data['featured'] = $this->CoinOffer->select_featured();
+		$data['hour'] = $this->CoinOffer->select_hour();
+		$data['title'] = "Approve Offers";
 
 		$this->load->view('layouts/header.php', $data);
 		$this->load->view('all_offers/coin_offer_approve.php');
@@ -146,10 +156,20 @@ class CoinOffers extends CI_Controller
 	public function approve($id)
 	{
 		$this->CoinOffer->approve_coin($id);
-
 		redirect('admin/coin-offers/approve');
 	}
 
+	public function approve_featured($id)
+	{
+		$this->CoinOffer->approve_featured($id);
+		redirect('admin/coin-offers/approve');
+	}
+
+	public function approve_hour($id)
+	{
+		$this->CoinOffer->approve_hour($id);
+		redirect('admin/coin-offers/approve');
+	}
 
 //	coin approve end --------------------------------------------------------------------------------------------------
 

@@ -16,7 +16,6 @@
 					<th>Image</th>
 					<th>Restaurant</th>
 					<th>Clients</th>
-					<th>City</th>
 					<th>Country</th>
 					<th>Region</th>
 					<th>Link</th>
@@ -34,8 +33,7 @@
 						</td>
 						<td><?= $value->res_name ?? "Empty"; ?></td>
 						<td><?= $value->first_name !=NULL ? $value->first_name ." ". $value->last_name : "Empty"; ?></td>
-						<td><?= $value->area_name ?? "Empty"; ?></td>
-						<td><?= $value->country_name ?? "Empty"; ?></td>
+						<td><?= $value->country ?? "Empty"; ?></td>
 						<td><?= $value->region_name ?? "Empty"; ?></td>
 						<td><?= $value->link ?? "Empty"; ?></td>
 						<td><?= $value->start ?? "Empty"; ?></td>
@@ -83,7 +81,7 @@
 	$('#slider_table').DataTable({
 		"ordering": false,
 		initComplete: function () {
-			this.api().columns([2, 3, 4, 5, 6]).every(function () {
+			this.api().columns([2, 3, 4, 5, 7, 8, 9]).every(function () {
 				var column = this;
 				var select = $('<select style="margin-left: 5px;"><option value="">All</option></select>')
 					.appendTo($(column.header()))

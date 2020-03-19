@@ -42,12 +42,20 @@ class FeaturedOffers extends CI_Controller
 			$this->index($id);
 			return;
 		}
+
+		if ($this->session->userdata('user')['role'] == 'admin') {
+			$status = 2;
+		}
+		if ($this->session->userdata('user')['role'] == 'superAdmin') {
+			$status = 1;
+		}
+
 		$data = array(
 			'text' => $info,
 			'restaurant_id' => $id,
 			'country' => $country,
 			'region' => $region,
-			'status' => 1,
+			'status' => $status,
 		);
 
 		$this->db->insert("featured_offers", $data);
@@ -88,10 +96,18 @@ class FeaturedOffers extends CI_Controller
 			return;
 		}
 
+		if ($this->session->userdata('user')['role'] == 'admin') {
+			$status = 2;
+		}
+		if ($this->session->userdata('user')['role'] == 'superAdmin') {
+			$status = 1;
+		}
+
 		$data = array(
 			'text' => $name,
 			'country' => $country,
 			'region' => $region,
+			'status' => $status,
 		);
 		$this->FeaturedOffer->update($id, $data);
 		$this->session->set_flashdata('success', 'You have change the offer successfully');

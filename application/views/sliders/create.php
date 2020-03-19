@@ -45,13 +45,13 @@
 			</div>
 
 			<div class="form-group">
-				<label for="area">Area</label>
+				<label for="country">Country</label>
 				<div class="input-group col-md-12">
-					<select class="form-control area_slider" id="area" name="area">
-						<option value="" selected>Choose Area</option>
-						<?php foreach ($area as $key) { ?>
-							<option value="<?= $key->id ?>">
-								<?= $key->area_name ?>
+					<select class="form-control area_slider" id="country" name="country">
+						<option value="" selected>Choose Country</option>
+						<?php foreach ($country as $key) { ?>
+							<option value="<?= $key->name ?>">
+								<?= $key->name ?>
 							</option>
 						<?php } ?>
 					</select>

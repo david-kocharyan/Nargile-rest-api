@@ -154,7 +154,6 @@
 	</div>
 </div>
 
-
 <!--Coins offer-->
 <div class="row">
 	<div class="col-sm-12">

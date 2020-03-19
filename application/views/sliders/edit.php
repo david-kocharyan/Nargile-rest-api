@@ -48,13 +48,13 @@
 			</div>
 
 			<div class="form-group">
-				<label for="area">Area</label>
+				<label for="country">Country</label>
 				<div class="input-group col-md-12">
-					<select class="form-control select_2_example" id="area" name="area">
-						<option value="" selected>Choose Area</option>
-						<?php foreach ($area as $key) { ?>
-							<option value="<?= $key->id ?>" <?php if ($key->id == $slider->area_id) echo "selected"; ?>>
-								<?= $key->area_name ?>
+					<select class="form-control select_2_example" id="country" name="country">
+						<option value="" selected>Choose Country</option>
+						<?php foreach ($country as $key) { ?>
+							<option value="<?= $key->name ?>" <?php if ($key->name == $slider->country) echo "selected"; ?>>
+								<?= $key->name ?>
 							</option>
 						<?php } ?>
 					</select>
