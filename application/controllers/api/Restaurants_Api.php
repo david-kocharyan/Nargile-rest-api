@@ -351,8 +351,7 @@ class Restaurants_Api extends REST_Controller
 		}
 	}
 
-	private
-	function inside($point, $fenceArea)
+	private function inside($point, $fenceArea)
 	{
 		$x = $point['lat'];
 		$y = $point['lng'];
@@ -373,8 +372,7 @@ class Restaurants_Api extends REST_Controller
 	}
 
 // Calculate radius for location-------------------------------------------
-	private
-	function boundingBox($latitudeInDegrees, $longitudeInDegrees)
+	private function boundingBox($latitudeInDegrees, $longitudeInDegrees)
 	{
 		$lat = deg2rad($latitudeInDegrees);
 		$lon = deg2rad($longitudeInDegrees);
@@ -390,8 +388,7 @@ class Restaurants_Api extends REST_Controller
 		return array("latMin" => rad2deg($latMin), "lngMin" => rad2deg($lonMin), "latMax" => rad2deg($latMax), "lngMax" => rad2deg($lonMax));
 	}
 
-	private
-	function WGS84EarthRadius($lat)
+	private function WGS84EarthRadius($lat)
 	{
 		$WGS84_a = 6378137.0;
 		$WGS84_b = 6356752.3;
