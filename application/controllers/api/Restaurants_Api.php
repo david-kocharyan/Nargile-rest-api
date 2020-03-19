@@ -280,7 +280,9 @@ class Restaurants_Api extends REST_Controller
 //			return;
 //		}
 
+
 		$user = $this->db->get_where('users', array('id' => $res))->row();
+
 		if ($user->region_id != NULL) {
 			$this->db->select("sliders.id, concat('/plugins/images/Slider/', sliders.image) as image, link, restaurant_id");
 			$this->db->where("DATE_FORMAT(CURRENT_DATE(), '%Y-%m-%d') BETWEEN DATE_FORMAT(start, '%Y-%m-%d')  AND DATE_FORMAT(end, '%Y-%m-%d')");
@@ -302,32 +304,34 @@ class Restaurants_Api extends REST_Controller
 			);
 			$this->response($response, REST_Controller::HTTP_OK);
 			return;
-		} elseif ($user->country != NULL AND $user->region_id == NULL) {
-			$this->db->select("sliders.id, concat('/plugins/images/Slider/', sliders.image) as image, link, restaurant_id");
-			$this->db->where("DATE_FORMAT(CURRENT_DATE(), '%Y-%m-%d') BETWEEN DATE_FORMAT(start, '%Y-%m-%d')  AND DATE_FORMAT(end, '%Y-%m-%d')");
-			$this->db->where("country", $user->country);
-			$this->db->where("status", 1);
-			$data = $this->db->get("sliders")->result();
-
-			foreach ($data as $key) {
-				if ($key->link == null) $key->link = "";
-				if ($key->restaurant_id == null) $key->restaurant_id = "0";
-			}
-
-			$response = array(
-				"success" => true,
-				"data" => array(
-					"list" => isset($data) ? $data : array(),
-				),
-				"msg" => ""
-			);
-			$this->response($response, REST_Controller::HTTP_OK);
-			return;
-		} else {
+		}
+// elseif ($user->country != NULL) {
+//			$this->db->select("sliders.id, concat('/plugins/images/Slider/', sliders.image) as image, link, restaurant_id");
+//			$this->db->where("DATE_FORMAT(CURRENT_DATE(), '%Y-%m-%d') BETWEEN DATE_FORMAT(start, '%Y-%m-%d')  AND DATE_FORMAT(end, '%Y-%m-%d')");
+//			$this->db->where("country", $user->country);
+//			$this->db->where("status", 1);
+//			$data = $this->db->get("sliders")->result();
+//
+//			foreach ($data as $key) {
+//				if ($key->link == null) $key->link = "";
+//				if ($key->restaurant_id == null) $key->restaurant_id = "0";
+//			}
+//
+//			$response = array(
+//				"success" => true,
+//				"data" => array(
+//					"list" => isset($data) ? $data : array(),
+//				),
+//				"msg" => ""
+//			);
+//			$this->response($response, REST_Controller::HTTP_OK);
+//			return;
+//		}
+		else {
 			$this->db->select("sliders.id, concat('/plugins/images/Slider/', sliders.image) as image, link, restaurant_id");
 			$this->db->where("status", 1);
 			$this->db->where("region_id is null");
-			$this->db->where("country is null");
+//			$this->db->where("country is null");
 			$data = $this->db->get("sliders")->result();
 
 			foreach ($data as $key) {
@@ -345,122 +349,57 @@ class Restaurants_Api extends REST_Controller
 			$this->response($response, REST_Controller::HTTP_OK);
 			return;
 		}
-//
-//
-//
-//
-//
-////		$point["lat"] = $this->input->get("lat");
-////		$point["lng"] = $this->input->get("lng");
-////
-////		$regions = $this->db->get_where('regions', array("regions.status" => 1))->result();
-////		$arr = array();
-////		foreach ($regions as $bin => $key) {
-////			$this->db->select("regions_coordinates.lat, regions_coordinates.lng");
-////			$data = $this->db->get_where("regions_coordinates", array("region_id" => $key->id))->result();
-////			$arr[$bin]["reg"] = $data;
-////			$arr[$bin]["reg_id"] = $key->id;
-////		}
-////
-////		$id = 0;
-////		foreach ($arr as $key) {
-////			$in = $this->inside($point, $key["reg"]);
-////			if ($in == "true") {
-////				$id = $key["reg_id"];
-////				break;
-////			}
-////		}
-////
-////		if ($id == 0) {
-////			$this->db->select("sliders.id, concat('/plugins/images/Slider/', sliders.image) as image, link, restaurant_id");
-////			$this->db->where("status", 1);
-////			$this->db->where("region_id is null");
-////			$data = $this->db->get("sliders")->result();
-////
-////			foreach ($data as $key) {
-////				if ($key->link == null) $key->link = "";
-////				if ($key->restaurant_id == null) $key->restaurant_id = "0";
-////			}
-////
-////			$response = array(
-////				"success" => true,
-////				"data" => array(
-////					"list" => isset($data) ? $data : array(),
-////				),
-////				"msg" => ""
-////			);
-////			$this->response($response, REST_Controller::HTTP_OK);
-////			return;
-////		} else {
-//			$this->db->select("sliders.id, concat('/plugins/images/Slider/', sliders.image) as image, link, restaurant_id");
-//			$this->db->where("DATE_FORMAT(CURRENT_DATE(), '%Y-%m-%d') BETWEEN DATE_FORMAT(start, '%Y-%m-%d')  AND DATE_FORMAT(end, '%Y-%m-%d')");
-//			$this->db->where("region_id", $id);
-//			$this->db->where("status", 1);
-//			$data = $this->db->get("sliders")->result();
-//
-//			foreach ($data as $key) {
-//				if ($key->link == null) $key->link = "";
-//				if ($key->restaurant_id == null) $key->restaurant_id  = "0";
-//			}
-//
-//			$response = array(
-//				"success" => true,
-//				"data" => array(
-//					"list" => isset($data) ? $data : array(),
-//				),
-//				"msg" => ""
-//			);
-//			$this->response($response, REST_Controller::HTTP_OK);
-//			return;
-//		}
 	}
 
-//	private function inside($point, $fenceArea)
-//	{
-//		$x = $point['lat'];
-//		$y = $point['lng'];
-//
-//		$inside = false;
-//		for ($i = 0, $j = count($fenceArea) - 1; $i < count($fenceArea); $j = $i++) {
-//			$xi = $fenceArea[$i]->lat;
-//			$yi = $fenceArea[$i]->lat;
-//			$xj = $fenceArea[$j]->lng;
-//			$yj = $fenceArea[$j]->lng;
-//
-//			$intersect = (($yi > $y) != ($yj > $y))
-//				&& ($x < ($xj - $xi) * ($y - $yi) / ($yj - $yi) + $xi);
-//			if ($intersect) $inside = !$inside;
-//		}
-//
-//		return $inside;
-//	}
-//
-//	// Calculate radius for location-------------------------------------------
-//	private function boundingBox($latitudeInDegrees, $longitudeInDegrees)
-//	{
-//		$lat = deg2rad($latitudeInDegrees);
-//		$lon = deg2rad($longitudeInDegrees);
-//		$halfSide = 1000 * 2;
-//		# Radius of Earth at given latitude
-//		$radius = $this->WGS84EarthRadius($lat);
-//		# Radius of the parallel at given latitude
-//		$pradius = $radius * cos($lat);
-//		$latMin = $lat - $halfSide / $radius;
-//		$latMax = $lat + $halfSide / $radius;
-//		$lonMin = $lon - $halfSide / $pradius;
-//		$lonMax = $lon + $halfSide / $pradius;
-//		return array("latMin" => rad2deg($latMin), "lngMin" => rad2deg($lonMin), "latMax" => rad2deg($latMax), "lngMax" => rad2deg($lonMax));
-//	}
-//
-//	private function WGS84EarthRadius($lat)
-//	{
-//		$WGS84_a = 6378137.0;
-//		$WGS84_b = 6356752.3;
-//		$an = $WGS84_a * $WGS84_a * cos($lat);
-//		$bn = $WGS84_b * $WGS84_b * sin($lat);
-//		$ad = $WGS84_a * cos($lat);
-//		$bd = $WGS84_b * sin($lat);
-//		return sqrt(($an * $an + $bn * $bn) / ($ad * $ad + $bd * $bd));
-//	}
+	private
+	function inside($point, $fenceArea)
+	{
+		$x = $point['lat'];
+		$y = $point['lng'];
+
+		$inside = false;
+		for ($i = 0, $j = count($fenceArea) - 1; $i < count($fenceArea); $j = $i++) {
+			$xi = $fenceArea[$i]->lat;
+			$yi = $fenceArea[$i]->lat;
+			$xj = $fenceArea[$j]->lng;
+			$yj = $fenceArea[$j]->lng;
+
+			$intersect = (($yi > $y) != ($yj > $y))
+				&& ($x < ($xj - $xi) * ($y - $yi) / ($yj - $yi) + $xi);
+			if ($intersect) $inside = !$inside;
+		}
+
+		return $inside;
+	}
+
+// Calculate radius for location-------------------------------------------
+	private
+	function boundingBox($latitudeInDegrees, $longitudeInDegrees)
+	{
+		$lat = deg2rad($latitudeInDegrees);
+		$lon = deg2rad($longitudeInDegrees);
+		$halfSide = 1000 * 2;
+		# Radius of Earth at given latitude
+		$radius = $this->WGS84EarthRadius($lat);
+		# Radius of the parallel at given latitude
+		$pradius = $radius * cos($lat);
+		$latMin = $lat - $halfSide / $radius;
+		$latMax = $lat + $halfSide / $radius;
+		$lonMin = $lon - $halfSide / $pradius;
+		$lonMax = $lon + $halfSide / $pradius;
+		return array("latMin" => rad2deg($latMin), "lngMin" => rad2deg($lonMin), "latMax" => rad2deg($latMax), "lngMax" => rad2deg($lonMax));
+	}
+
+	private
+	function WGS84EarthRadius($lat)
+	{
+		$WGS84_a = 6378137.0;
+		$WGS84_b = 6356752.3;
+		$an = $WGS84_a * $WGS84_a * cos($lat);
+		$bn = $WGS84_b * $WGS84_b * sin($lat);
+		$ad = $WGS84_a * cos($lat);
+		$bd = $WGS84_b * sin($lat);
+		return sqrt(($an * $an + $bn * $bn) / ($ad * $ad + $bd * $bd));
+	}
 }
 
