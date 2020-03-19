@@ -304,34 +304,33 @@ class Restaurants_Api extends REST_Controller
 			);
 			$this->response($response, REST_Controller::HTTP_OK);
 			return;
+		} elseif ($user->country != NULL) {
+			$this->db->select("sliders.id, concat('/plugins/images/Slider/', sliders.image) as image, link, restaurant_id");
+			$this->db->where("DATE_FORMAT(CURRENT_DATE(), '%Y-%m-%d') BETWEEN DATE_FORMAT(start, '%Y-%m-%d')  AND DATE_FORMAT(end, '%Y-%m-%d')");
+			$this->db->where("country", $user->country);
+			$this->db->where("status", 1);
+			$data = $this->db->get("sliders")->result();
+
+			foreach ($data as $key) {
+				if ($key->link == null) $key->link = "";
+				if ($key->restaurant_id == null) $key->restaurant_id = "0";
+			}
+
+			$response = array(
+				"success" => true,
+				"data" => array(
+					"list" => isset($data) ? $data : array(),
+				),
+				"msg" => ""
+			);
+			$this->response($response, REST_Controller::HTTP_OK);
+			return;
 		}
-// elseif ($user->country != NULL) {
-//			$this->db->select("sliders.id, concat('/plugins/images/Slider/', sliders.image) as image, link, restaurant_id");
-//			$this->db->where("DATE_FORMAT(CURRENT_DATE(), '%Y-%m-%d') BETWEEN DATE_FORMAT(start, '%Y-%m-%d')  AND DATE_FORMAT(end, '%Y-%m-%d')");
-//			$this->db->where("country", $user->country);
-//			$this->db->where("status", 1);
-//			$data = $this->db->get("sliders")->result();
-//
-//			foreach ($data as $key) {
-//				if ($key->link == null) $key->link = "";
-//				if ($key->restaurant_id == null) $key->restaurant_id = "0";
-//			}
-//
-//			$response = array(
-//				"success" => true,
-//				"data" => array(
-//					"list" => isset($data) ? $data : array(),
-//				),
-//				"msg" => ""
-//			);
-//			$this->response($response, REST_Controller::HTTP_OK);
-//			return;
-//		}
 		else {
 			$this->db->select("sliders.id, concat('/plugins/images/Slider/', sliders.image) as image, link, restaurant_id");
 			$this->db->where("status", 1);
 			$this->db->where("region_id is null");
-//			$this->db->where("country is null");
+			$this->db->where("country is null");
 			$data = $this->db->get("sliders")->result();
 
 			foreach ($data as $key) {
