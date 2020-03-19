@@ -599,4 +599,32 @@ class Restaurants extends CI_Controller
 
 		return $inside;
 	}
+
+	public function statistics($id)
+	{
+		$data['user'] = $this->session->userdata('user');
+		$data['title'] = "Statistics";
+
+		$this->load->model("Statistic");
+
+		$res_data = (object) array();
+		$res_data->favorite = $this->Statistic->favorite($id)->favorite;
+		$res_data->share = $this->Statistic->share($id)->share;
+		$res_data->rate_count = $this->Statistic->rate($id)->rate_count;
+		$res_data->review_count = $this->Statistic->reviews($id)->review;
+		$res_data->rate = $this->Statistic->restaurant_rate($id);
+		$res_data->review_by_gender = $this->Statistic->review_by_gender($id);
+		$res_data->rate_by_age = $this->Statistic->rate_by_age($id);
+		$res_data->rate_by_gender = $this->Statistic->rate_by_gender($id);
+		$res_data->offers = $this->Statistic->first_page($id);
+		$res_data->res_click = $this->Statistic->res_click($id);
+		$res_data->all_users = $this->Statistic->users_count()->count;
+		$res_data->gender_all = $this->Statistic->gender_all();
+
+		$data['res'] = $res_data;
+
+		$this->load->view('layouts/header.php', $data);
+		$this->load->view('restaurants/statistics/index.php');
+		$this->load->view('layouts/footer.php');
+	}
 }

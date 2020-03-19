@@ -312,3 +312,8 @@ $route['admin/video/store'] = 'Videos/store';
 $route['admin/video/edit/(:any)'] = 'Videos/edit/$1';
 $route['admin/video/update/(:any)'] = 'Videos/update/$1';
 $route["admin/video/change-status/(:any)"] = 'Videos/change_status/$1';
+
+//
+////restaurant statistics
+$route['admin/restaurants/statistics/(:any)'] = 'Restaurants/statistics/$1';
+

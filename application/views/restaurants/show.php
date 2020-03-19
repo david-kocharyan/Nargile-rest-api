@@ -2,7 +2,7 @@
 <div class="row">
 	<div class="col-sm-12">
 		<div class="white-box">
-			<a href="<?= base_url("admin/restaurants/edit/$restaurant->restaurant_id") ?>" class="btn btn-info">
+			<a href="<?= base_url("admin/restaurants/edit/$restaurant->restaurant_id") ?>" class="btn btn-info m-l-5">
 				<span class="btn-label">
 					<i class="fas fa-pencil-alt"></i>
 				</span>
@@ -10,7 +10,7 @@
 			</a>
 
 			<a href="<?= base_url("admin/restaurants/menu/$restaurant->restaurant_id") ?>"
-			   class="btn btn-success">
+			   class="btn btn-success m-l-5">
 				<span class="btn-label">
 					<i class="fas fas fa-book"></i>
 				</span>
@@ -18,7 +18,7 @@
 			</a>
 
 			<a href="<?= base_url("admin/restaurants/info/$restaurant->restaurant_id") ?>"
-			   class="btn btn-primary">
+			   class="btn btn-primary m-l-5">
 				<span class="btn-label">
 					<i class="fas fa-info"></i>
 				</span>
@@ -26,7 +26,7 @@
 			</a>
 
 			<a href="<?= base_url("admin/restaurants/featured-offers/$restaurant->restaurant_id") ?>"
-			   class="btn btn-warning">
+			   class="btn btn-warning m-l-5">
 				<span class="btn-label">
 					<i class="fas fa-tags"></i>
 				</span>
@@ -34,7 +34,7 @@
 			</a>
 
 			<a href="<?= base_url("admin/restaurants/hour-offers/$restaurant->restaurant_id") ?>"
-			   class="btn btn-danger">
+			   class="btn btn-danger m-l-5">
 				<span class="btn-label">
 					<i class="fas fa-hourglass-half"></i>
 				</span>
@@ -42,7 +42,7 @@
 			</a>
 
 			<a href="<?= base_url("admin/restaurants/weeks/$restaurant->restaurant_id") ?>"
-			   class="btn btn-basic">
+			   class="btn btn-basic m-l-5">
 				<span class="btn-label">
 					<i class="fas fa-calendar-alt"></i>
 				</span>
@@ -50,12 +50,23 @@
 			</a>
 
 			<a href="<?= base_url("admin/restaurants/coin-offers/$restaurant->restaurant_id") ?>"
-			   class="btn btn-basic">
+			   class="btn btn-success m-l-5">
 				<span class="btn-label">
 					<i class="fab fa-bitcoin"></i>
 				</span>
 				Add Coin Offers
 			</a>
+
+			<?php if ($this->session->userdata('user')['role'] == "superAdmin"){ ?>
+				<a href="<?= base_url("admin/restaurants/statistics//$restaurant->restaurant_id") ?>"
+				   class="btn btn-warning m-l-5">
+				<span class="btn-label">
+					<i class="fas fa-chart-bar"></i>
+				</span>
+					Statistics
+				</a>
+			<?php }?>
+
 		</div>
 	</div>
 </div>

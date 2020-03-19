@@ -162,7 +162,7 @@
 					</li>
 
 					<li><a href="<?= base_url('admin/coin-offers/approve') ?>" class="waves-effect"><i
-								class="mdi mdi-access-point fa-fw"></i> <span class="hide-menu">Approve Coin Offers</span></a>
+								class="mdi mdi-access-point fa-fw"></i> <span class="hide-menu">Approve Offers</span></a>
 					</li>
 
 				<?php } elseif ($user['role'] == "admin") { ?>
