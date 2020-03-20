@@ -124,7 +124,7 @@
 								} else {
 									echo "Empty";
 								} ?>
-							</td>git
+							</td>
 
 							<td style="
 									<?php if ($value->status == 0) {

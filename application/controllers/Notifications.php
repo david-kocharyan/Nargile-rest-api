@@ -17,6 +17,7 @@ class Notifications extends CI_Controller
 		$data['title'] = "Notification";
 
 
+		$this->db->order_by('id DESC');
 		$data['notification'] = $this->db->get_where('approve_notification', array('admin_id' => $data['user']['user_id']))->result();
 
 		$this->load->view('layouts/header.php', $data);

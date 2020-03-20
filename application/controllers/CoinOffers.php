@@ -7,7 +7,7 @@ class CoinOffers extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		if (($this->session->userdata('user') == NULL OR !$this->session->userdata('user')) OR $this->session->userdata('user')['role'] != "superAdmin") {
+		if ($this->session->userdata('user') == NULL OR !$this->session->userdata('user')) {
 			redirect('/admin/login');
 		}
 		$this->load->model("CoinOffer");
@@ -155,7 +155,17 @@ class CoinOffers extends CI_Controller
 
 	public function approve($id)
 	{
-//		TODO
+		$this->db->select('coin_offers.*, restaurants.admin_id');
+		$this->db->join('restaurants', 'restaurants.id = coin_offers.restaurant_id');
+		$offer = $this->db->get_where('coin_offers', array('coin_offers.id' => $id))->row();
+
+		$data = array(
+			'admin_id' => $offer->admin_id,
+			'message' => "Super admin approve your Coin offer` '$offer->description' ",
+			'date' => date("Y-m-d"),
+		);
+
+		$this->db->insert('approve_notification', $data);
 
 		$this->CoinOffer->approve_coin($id);
 		redirect('admin/coin-offers/approve');
@@ -163,7 +173,17 @@ class CoinOffers extends CI_Controller
 
 	public function approve_featured($id)
 	{
-		//		TODO
+		$this->db->select('featured_offers.*, restaurants.admin_id');
+		$this->db->join('restaurants', 'restaurants.id = featured_offers.restaurant_id');
+		$offer = $this->db->get_where('featured_offers', array('featured_offers.id' => $id))->row();
+
+		$data = array(
+			'admin_id' => $offer->admin_id,
+			'message' => "Super admin approve your Featured offer` '$offer->text' ",
+			'date' => date("Y-m-d"),
+		);
+
+		$this->db->insert('approve_notification', $data);
 
 		$this->CoinOffer->approve_featured($id);
 		redirect('admin/coin-offers/approve');
@@ -171,7 +191,17 @@ class CoinOffers extends CI_Controller
 
 	public function approve_hour($id)
 	{
-		//		TODO
+		$this->db->select('hour_offers.*, restaurants.admin_id');
+		$this->db->join('restaurants', 'restaurants.id = hour_offers.restaurant_id');
+		$offer = $this->db->get_where('hour_offers', array('hour_offers.id' => $id))->row();
+
+		$data = array(
+			'admin_id' => $offer->admin_id,
+			'message' => "Super admin approve your Hour offer` '$offer->text' ",
+			'date' => date("Y-m-d"),
+		);
+
+		$this->db->insert('approve_notification', $data);
 
 		$this->CoinOffer->approve_hour($id);
 		redirect('admin/coin-offers/approve');

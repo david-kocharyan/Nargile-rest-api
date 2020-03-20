@@ -5,7 +5,7 @@
 			<h3 class="box-title m-b-0">Notification</h3>
 
 			<div class="table-responsive">
-				<table id="notification table_table" class="table table-striped">
+				<table id="notification" class="table table-striped">
 					<thead>
 					<tr>
 						<th>Date</th>
@@ -15,7 +15,7 @@
 					<tbody>
 					<?php foreach ($notification as $key => $value) { ?>
 						<tr>
-							<td><?= $key->date ?></td>
+							<td><?= $value->date ?></td>
 							<td><?= $value->message ?></td>
 						</tr>
 					<?php } ?>
@@ -26,3 +26,10 @@
 	</div>
 </div>
 
+<script>
+	$('#notification').DataTable({
+		columnDefs: [
+			{"orderable": false, "targets": [1]},
+		],
+	});
+</script>
