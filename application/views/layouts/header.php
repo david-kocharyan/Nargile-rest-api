@@ -182,6 +182,10 @@
 					<li><a href="<?= base_url('admin/attach-card') ?>" class="waves-effect"><i
 								class="mdi mdi-wallet-giftcard fa-fw"></i> <span class="hide-menu">Loyalty card attach to user</span></a>
 					</li>
+
+					<li><a href="<?= base_url('admin/approve-notification') ?>" class="waves-effect"><i
+								class="mdi mdi-notification-clear-all fa-fw"></i> <span class="hide-menu">Notification</span></a>
+					</li>
 				<?php } ?>
 			</ul>
 		</div>

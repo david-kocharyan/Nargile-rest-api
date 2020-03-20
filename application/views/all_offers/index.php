@@ -5,7 +5,7 @@
 			<h3 class="box-title m-b-0">Featured Offers</h3>
 
 			<div class="table-responsive">
-				<table id="featured_table" class="table table-striped">
+				<table id="featured_table" class="table table-striped text-nowrap">
 					<thead>
 					<tr>
 						<th>ID</th>
@@ -83,7 +83,7 @@
 			<h3 class="box-title m-b-0">Hour Offers</h3>
 
 			<div class="table-responsive">
-				<table id="hour_table" class="table table-striped">
+				<table id="hour_table" class="table table-striped text-nowrap">
 					<thead>
 					<tr>
 						<th>ID</th>
@@ -161,7 +161,7 @@
 			<h3 class="box-title m-b-0">Coin Offers</h3>
 
 			<div class="table-responsive">
-				<table id="coin_table" class="table table-striped">
+				<table id="coin_table" class="table table-striped text-nowrap">
 					<thead>
 					<tr>
 						<th>ID</th>
@@ -268,10 +268,10 @@
 
 	$('#coin_table').DataTable({
 		columnDefs: [
-			{"orderable": false, "targets": [1,2,3,6,7,8,9]},
+			{"orderable": false, "targets": [1,2,6,7,8,9]},
 		],
 		initComplete: function () {
-			this.api().columns([1,3,6,7,8]).every(function () {
+			this.api().columns([1,6,7,8]).every(function () {
 				var column = this;
 				var select = $('<select style="margin-left: 5px;"><option value="">All</option></select>')
 					.appendTo($(column.header()))

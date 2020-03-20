@@ -9,7 +9,7 @@
 				href="<?= base_url("admin/sliders-calendar") ?>" class="text-primary">Calendar</a></p>
 
 		<div class="table-responsive">
-			<table id="slider_table" class="table table-striped">
+			<table id="slider_table" class="table table-striped text-nowrap">
 				<thead>
 				<tr>
 					<th>ID</th>
@@ -79,9 +79,11 @@
 
 <script>
 	$('#slider_table').DataTable({
-		"ordering": false,
+		columnDefs: [
+			{"orderable": false, "targets": [1, 2, 3, 4, 5, 9]},
+		],
 		initComplete: function () {
-			this.api().columns([2, 3, 4, 5, 7, 8, 9]).every(function () {
+			this.api().columns([2, 3, 4, 5, 9]).every(function () {
 				var column = this;
 				var select = $('<select style="margin-left: 5px;"><option value="">All</option></select>')
 					.appendTo($(column.header()))

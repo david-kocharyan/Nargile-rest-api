@@ -12,16 +12,53 @@ class Restaurants extends CI_Controller
 		}
 		$this->load->model("Restaurant");
 		$this->load->model("Statistic");
+		$this->load->library("pagination");
 	}
 
 	public function index()
 	{
 		$data['user'] = $this->session->userdata('user');
 		$type = $this->check_admin();
+
+
+		$config = array();
+		$config["base_url"] = base_url() . "admin/restaurants/";
+		$config["total_rows"] = $this->Restaurant->get_count();
+		$config["per_page"] = 10;
+		$config["uri_segment"] = 3;
+
+		$config['full_tag_open'] = "<ul class='pagination'>";
+		$config['full_tag_close'] = '</ul>';
+		$config['num_tag_open'] = '<li>';
+		$config['num_tag_close'] = '</li>';
+		$config['cur_tag_open'] = '<li class="active"><a href="#">';
+		$config['cur_tag_close'] = '</a></li>';
+		$config['prev_tag_open'] = '<li>';
+		$config['prev_tag_close'] = '</li>';
+		$config['first_tag_open'] = '<li>';
+		$config['first_tag_close'] = '</li>';
+		$config['last_tag_open'] = '<li>';
+		$config['last_tag_close'] = '</li>';
+
+		$config['prev_link'] = '<i class="fa fa-long-arrow-left"></i>Previous Page';
+		$config['prev_tag_open'] = '<li>';
+		$config['prev_tag_close'] = '</li>';
+
+		$config['next_link'] = 'Next Page<i class="fa fa-long-arrow-right"></i>';
+		$config['next_tag_open'] = '<li>';
+		$config['next_tag_close'] = '</li>';
+
+		$this->pagination->initialize($config);
+
+
+
+		$page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+		$data["links"] = $this->pagination->create_links();
+
 		if ($type == 2) {
-			$data['restaurants'] = $this->Restaurant->selectResForAdmin($data['user']['user_id']);
+			$data['restaurants'] = $this->Restaurant->selectResForAdmin($config["per_page"], $page, $data['user']['user_id']);
 		} else {
-			$data['restaurants'] = $this->Restaurant->selectAll();
+			$data['restaurants'] = $this->Restaurant->selectAll($config["per_page"], $page);
 		}
 
 		foreach ($data['restaurants'] as $bin => $key) {

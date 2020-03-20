@@ -187,7 +187,9 @@
 	});
 
 	$('#coin_table').DataTable({
-		"ordering": false,
+		columnDefs: [
+			{"orderable": false, "targets": [4,5,6,7,8]},
+		],
 		initComplete: function () {
 			this.api().columns([5,6,7]).every(function () {
 				var column = this;

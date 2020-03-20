@@ -155,18 +155,24 @@ class CoinOffers extends CI_Controller
 
 	public function approve($id)
 	{
+//		TODO
+
 		$this->CoinOffer->approve_coin($id);
 		redirect('admin/coin-offers/approve');
 	}
 
 	public function approve_featured($id)
 	{
+		//		TODO
+
 		$this->CoinOffer->approve_featured($id);
 		redirect('admin/coin-offers/approve');
 	}
 
 	public function approve_hour($id)
 	{
+		//		TODO
+
 		$this->CoinOffer->approve_hour($id);
 		redirect('admin/coin-offers/approve');
 	}

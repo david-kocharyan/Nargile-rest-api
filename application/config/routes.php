@@ -192,6 +192,7 @@ $route["admin/regions/change-status/(:any)"] = 'Regions/change_status/$1';
 
 //Restaurants
 $route['admin/restaurants'] = 'Restaurants';
+$route['admin/restaurants/(:num)'] = 'Restaurants';
 $route["admin/restaurants/create"] = 'Restaurants/create';
 $route["admin/restaurants/store"] = 'Restaurants/store';
 $route["admin/restaurants/show/(:any)"] = 'Restaurants/show/$1';
@@ -313,7 +314,9 @@ $route['admin/video/edit/(:any)'] = 'Videos/edit/$1';
 $route['admin/video/update/(:any)'] = 'Videos/update/$1';
 $route["admin/video/change-status/(:any)"] = 'Videos/change_status/$1';
 
-//
-////restaurant statistics
+
+//restaurant statistics
 $route['admin/restaurants/statistics/(:any)'] = 'Restaurants/statistics/$1';
 
+//restaurant admin notification
+$route['admin/approve-notification'] = 'Notifications';

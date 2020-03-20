@@ -24,20 +24,27 @@ class Restaurant extends CI_Model
 		return $insert_id;
 	}
 
-	public function selectAll()
+	public function selectAll($limit, $start)
 	{
 		$this->db->select("restaurants.*, area.name as area_name, countries.name as country_name ");
 		$this->db->join("area", "area.id = restaurants.area_id", "left");
 		$this->db->join("countries", "countries.id = area.country_id", "left");
+		$this->db->limit($limit, $start);
 		$data = $this->db->get_where($this->table, array('area.status' => 1, 'countries.status' => 1))->result();
 		return $data;
 	}
 
-	public function selectResForAdmin($id)
+	public function get_count() {
+		$data = $this->db->count_all($this->table, array('area.status' => 1, 'countries.status' => 1));
+		return $data;
+	}
+
+	public function selectResForAdmin($limit, $start, $id)
 	{
 		$this->db->select("restaurants.*, area.name as area_name, countries.name as country_name ");
 		$this->db->join("area", "area.id = restaurants.area_id", "left");
 		$this->db->join("countries", "countries.id = area.country_id", "left");
+		$this->db->limit($limit, $start);
 		$data = $this->db->get_where($this->table, array('area.status' => 1, 'countries.status' => 1, 'restaurants.admin_id' => $id))->result();
 		return $data;
 	}

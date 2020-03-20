@@ -7,7 +7,7 @@
 			<button class="btn btn-primary" data-toggle="modal" data-target="#myModal">Send Notification</button>
 
 			<div class="table-responsive">
-				<table id="user_table" class="table">
+				<table id="user_table" class="table text-nowrap">
 					<thead>
 					<tr>
 						<th>
@@ -22,7 +22,7 @@
 						<th value="Username"></th>
 						<th value="First Name"></th>
 						<th value="Last Name"></th>
-						<th value="Date"></th>
+						<th>Date</th>
 						<th value="Mobile Number"></th>
 						<th value="Email"></th>
 						<th>Coin</th>
@@ -163,14 +163,14 @@
 					'selectRow': false
 				}
 			},
-			{"orderable": false, "targets": [1,0,2,3,4,5,6,7,8,9,10,17,18,19]},
+			{"orderable": false, "targets": [1,0,2,3,4,5,6,7,9,10,17,18,19]},
 		],
 		select: {
 			style: 'multi',
 			selector: 'td:first-child'
 		},
 		initComplete: function () {
-			this.api().columns([3, 4, 5, 6, 7, 8, 9, 10, 17, 18]).every(function () {
+			this.api().columns([3, 4, 5, 6, 7, 9, 10, 17, 18]).every(function () {
 				var column = this;
 				var eachHeader = $(column.header())[0];
 				var headingVal = eachHeader.getAttribute("value");

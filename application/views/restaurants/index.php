@@ -132,6 +132,7 @@
 					<?php } ?>
 					</tbody>
 				</table>
+				<p><?php echo $links; ?></p>
 			</div>
 		</div>
 	</div>
@@ -150,6 +151,7 @@
 <script>
 	$('#res_table').DataTable({
 		dom: 'Bfirtlp',
+		paging: false,
 		buttons: [
 			{
 				extend: 'excel',

@@ -5,7 +5,7 @@
 			<h3 class="box-title m-b-0">ALL RESTAURANT PLANS</h3>
 
 			<div class="table-responsive">
-				<table id="plans_table" class="table table-striped">
+				<table id="plans_table" class="table table-striped text-nowrap">
 					<thead>
 					<tr>
 						<th>ID</th>
@@ -49,7 +49,7 @@
 			<h3 class="box-title m-b-0">ALL RESTAURANT PLANS History</h3>
 
 			<div class="table-responsive">
-				<table id="all_plans_table" class="table table-striped">
+				<table id="all_plans_table" class="table table-striped text-nowrap">
 					<thead>
 					<tr>
 						<th>ID</th>
@@ -103,9 +103,11 @@
 
 <script>
 	var all_plans = $('#all_plans_table').DataTable({
-		"ordering": false,
+		columnDefs: [
+			{"orderable": false, "targets": [1, 2, 5]},
+		],
 		initComplete: function () {
-			this.api().columns([1, 2, 3, 4,5]).every(function () {
+			this.api().columns([1, 2, 5]).every(function () {
 				var column = this;
 				var select = $('<select style="margin-left: 5px;"><option value="">All</option></select>')
 					.appendTo($(column.header()))
@@ -127,9 +129,11 @@
 	});
 
 	$('#plans_table').DataTable({
-		"ordering": false,
+		columnDefs: [
+			{"orderable": false, "targets": [1,2]},
+		],
 		initComplete: function () {
-			this.api().columns([1, 2, 3, 4]).every(function () {
+			this.api().columns([1, 2]).every(function () {
 				var column = this;
 				var select = $('<select style="margin-left: 5px;"><option value="">All</option></select>')
 					.appendTo($(column.header()))
