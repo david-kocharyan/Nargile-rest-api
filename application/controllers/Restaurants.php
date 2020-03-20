@@ -20,10 +20,15 @@ class Restaurants extends CI_Controller
 		$data['user'] = $this->session->userdata('user');
 		$type = $this->check_admin();
 
-
 		$config = array();
 		$config["base_url"] = base_url() . "admin/restaurants/";
-		$config["total_rows"] = $this->Restaurant->get_count();
+
+		if ($type == 2) {
+			$config["total_rows"] = $this->Restaurant->get_countForRes($data['user']['user_id']);
+		} else {
+			$config["total_rows"] = $this->Restaurant->get_count();
+		}
+
 		$config["per_page"] = 10;
 		$config["uri_segment"] = 3;
 
@@ -49,8 +54,6 @@ class Restaurants extends CI_Controller
 		$config['next_tag_close'] = '</li>';
 
 		$this->pagination->initialize($config);
-
-
 
 		$page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
 		$data["links"] = $this->pagination->create_links();
@@ -296,7 +299,8 @@ class Restaurants extends CI_Controller
 				try {
 					unlink(FCPATH . "/plugins/images/Restaurants/" . $user->logo);
 					unlink(FCPATH . "/plugins/thumb_images/Restaurants/Thumb_" . $user->logo);
-				}catch (Exception $exception){}
+				} catch (Exception $exception) {
+				}
 
 				$image = $this->uploadImage('logo');
 				if (isset($image['error'])) {
@@ -644,7 +648,7 @@ class Restaurants extends CI_Controller
 
 		$this->load->model("Statistic");
 
-		$res_data = (object) array();
+		$res_data = (object)array();
 		$res_data->favorite = $this->Statistic->favorite($id)->favorite;
 		$res_data->share = $this->Statistic->share($id)->share;
 		$res_data->rate_count = $this->Statistic->rate($id)->rate_count;

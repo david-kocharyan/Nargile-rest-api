@@ -35,8 +35,19 @@ class Restaurant extends CI_Model
 	}
 
 	public function get_count() {
-		$data = $this->db->count_all($this->table, array('area.status' => 1, 'countries.status' => 1));
-		return $data;
+		$this->db->select('count(restaurants.id) as count');
+		$this->db->join("area", "area.id = restaurants.area_id", "left");
+		$this->db->join("countries", "countries.id = area.country_id", "left");
+		$data = $this->db->get_where($this->table, array('area.status' => 1, 'countries.status' => 1))->row();
+		return $data->count;
+	}
+
+	public function get_countForRes($id) {
+		$this->db->select('count(restaurants.id) as count');
+		$this->db->join("area", "area.id = restaurants.area_id", "left");
+		$this->db->join("countries", "countries.id = area.country_id", "left");
+		$data = $this->db->get_where($this->table, array('area.status' => 1, 'countries.status' => 1, 'restaurants.admin_id' => $id))->row();
+		return $data->count;
 	}
 
 	public function selectResForAdmin($limit, $start, $id)
