@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Mar 20, 2020 at 09:55 AM
+-- Generation Time: Mar 23, 2020 at 05:52 AM
 -- Server version: 10.3.22-MariaDB-log-cll-lve
 -- PHP Version: 7.2.7
 
@@ -972,7 +972,13 @@ INSERT INTO `notification` (`id`, `user_id`, `body`, `click_action`, `coins`, `a
 (151, 96, 'test  is now your friend', 'friend_request', NULL, 54, 0, '2020-03-20 06:30:36'),
 (152, 54, 'David Kocharyan SHARED Al Nard RESTAURANT!', 'share_request', NULL, 11, 1, '2020-03-20 06:31:24'),
 (153, 54, 'David Kocharyan SHARED Al Nard RESTAURANT!', 'share_request', NULL, 11, 1, '2020-03-20 06:31:28'),
-(154, 54, 'David Kocharyan SHARED Alturki RESTAURANT!', 'share_request', NULL, 23, 1, '2020-03-20 06:35:57');
+(154, 54, 'David Kocharyan SHARED Alturki RESTAURANT!', 'share_request', NULL, 23, 1, '2020-03-20 06:35:57'),
+(155, 96, 'test test SHARED Good 2 Go RESTAURANT!', 'share_request', NULL, 12, 1, '2020-03-20 11:01:35'),
+(156, 96, 'test test SHARED Good 2 Go RESTAURANT!', 'share_request', NULL, 12, 1, '2020-03-20 11:01:48'),
+(157, 96, 'test test SHARED Abo Waseem RESTAURANT!', 'share_request', NULL, 2, 1, '2020-03-20 15:39:31'),
+(158, 96, 'test test SHARED Abo Waseem RESTAURANT!', 'share_request', NULL, 2, 1, '2020-03-20 15:39:35'),
+(159, 96, 'test test SHARED Abo Waseem RESTAURANT!', 'share_request', NULL, 2, 1, '2020-03-20 15:39:35'),
+(160, 96, 'test test SHARED Abo Waseem RESTAURANT!', 'share_request', NULL, 2, 1, '2020-03-20 15:39:36');
 
 -- --------------------------------------------------------
 
@@ -1773,7 +1779,13 @@ INSERT INTO `restaurant_click` (`id`, `restaurant_id`, `user_id`, `type`) VALUES
 (122, 3, 52, 1),
 (123, 1, 103, 1),
 (124, 11, 103, 1),
-(125, 11, 103, 2);
+(125, 11, 103, 2),
+(126, 2, 54, 1),
+(127, 2, 54, 2),
+(128, 2, 54, 0),
+(129, 2, 54, 1),
+(130, 23, 96, 1),
+(131, 23, 96, 0);
 
 -- --------------------------------------------------------
 
@@ -2342,8 +2354,9 @@ INSERT INTO `tokens` (`id`, `token`, `time`, `user_id`, `refresh_token`, `os`, `
 (468, '', '', 96, '', NULL, NULL),
 (469, '', '', 54, '', NULL, NULL),
 (470, '', '', 96, '', NULL, NULL),
-(471, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNzQ5Y2U3MmNiODci.eVP2TgJji64_tqUQxuxbFFKIirWPfEYr_qJXZSq9Kjo', '1616236647', 96, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNzQ5Y2U3MmNiY2Yi.lKNTU8t3nUzZc8iu2ukCWQB7uSu7vrWB8e5GTCx0EaQ', 0, 'fJgeadId-Fs:APA91bFz7MD2fQme94CRwCw3mxbFvKXwsAwzPHQaW06TH1JguCgB2t09LaAMzxtH3m1jfT12o_UOpwKibNjQ9KZWS3CqdDyU1u9mpAJM9ewKsj9LZsHGvgVIOyi17Tqg2hu84QsX-_FK'),
-(472, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNzRhNzE2NDg4MWYi.XJjc0VPK2c2ASw-C0s0KLcLR_dglPmCDMiIsNrh91EY', '1616239254', 54, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNzRhNzE2NDg4NjAi.jLslkFiwej4mjaA4qFVCsCDJPuJ-ftachE1AYyqZoBQ', 0, 'fJgeadId-Fs:APA91bFz7MD2fQme94CRwCw3mxbFvKXwsAwzPHQaW06TH1JguCgB2t09LaAMzxtH3m1jfT12o_UOpwKibNjQ9KZWS3CqdDyU1u9mpAJM9ewKsj9LZsHGvgVIOyi17Tqg2hu84QsX-_FK');
+(471, '', '', 96, '', NULL, NULL),
+(472, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNzRhNzE2NDg4MWYi.XJjc0VPK2c2ASw-C0s0KLcLR_dglPmCDMiIsNrh91EY', '1616239254', 54, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNzRhNzE2NDg4NjAi.jLslkFiwej4mjaA4qFVCsCDJPuJ-ftachE1AYyqZoBQ', 0, 'fJgeadId-Fs:APA91bFz7MD2fQme94CRwCw3mxbFvKXwsAwzPHQaW06TH1JguCgB2t09LaAMzxtH3m1jfT12o_UOpwKibNjQ9KZWS3CqdDyU1u9mpAJM9ewKsj9LZsHGvgVIOyi17Tqg2hu84QsX-_FK'),
+(473, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNzUxYzU4MzdjYzgi.lfddNKtEJLMSyHYvVV0WbLjMRWt-XCwDBnMv066qwvc', '1616269272', 96, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IjVlNzUxYzU4MzdkMDQi.GsM_up0tsOAf9Oh0W8VpfdYip36SoSPeYg2iQCWR2u0', 0, 'fJgeadId-Fs:APA91bFz7MD2fQme94CRwCw3mxbFvKXwsAwzPHQaW06TH1JguCgB2t09LaAMzxtH3m1jfT12o_UOpwKibNjQ9KZWS3CqdDyU1u9mpAJM9ewKsj9LZsHGvgVIOyi17Tqg2hu84QsX-_FK');
 
 -- --------------------------------------------------------
 
@@ -2640,7 +2653,7 @@ CREATE TABLE `users` (
   `country` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `region_id` int(11) DEFAULT NULL,
   `banner_update` date DEFAULT NULL,
-  `banner_show` int(11) DEFAULT NULL
+  `banner_show` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC;
 
 --
@@ -2650,9 +2663,9 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `username`, `first_name`, `last_name`, `gender`, `date_of_birth`, `mobile_number`, `email`, `password`, `uuid`, `image`, `coins`, `is_used_reference`, `created_at`, `updated_at`, `verify_code`, `verify`, `logged_via_fb`, `notification_status`, `lat`, `lng`, `country`, `region_id`, `banner_update`, `banner_show`) VALUES
 (31, 'zara', 'zara', 'tunyan', 0, 1581335495, '695', 'zara.tunyan@gmail.com', '62670d1e1eea06b6c975e12bc8a16131b278f6d7bcbe017b65f854c58476baba86c2082b259fd0c1310935b365dc40f609971b6810b065e528b0b60119e69f61', '', 'User_default.png', 213, 0, '2019-10-01 18:08:45', '2019-10-01 18:08:45', '', 1, 0, 1, 37.421998333333335, -122.08400000000002, 'United States', NULL, '2020-03-19', 25),
 (37, 'MiledAoun15700188621825521286', 'Miled', 'Aoun', 1, 1581335495, '', 'miled.ha21@gmail.com', '1570018862?1518581949', '', 'Logo_1582372420_902699736.jpeg', 2, 0, '2019-10-02 17:21:02', '2019-10-02 17:21:02', '', 1, 0, 1, 33.843735840574986, 35.53379400427483, 'Lebanon', NULL, NULL, NULL),
-(54, 'test1', 'test', 'test', 1, 1581508295, '+35884848494', 'vsbsbsj@mail.ru', '125d6d03b32c84d492747f79cf0bf6e179d287f341384eb5d6d3197525ad6be8e6df0116032935698f99a09e265073d1d6c32c274591bf1d0a20ad67cba921bc', '170144-c190b2', 'User_default.png', 82796, 0, '2019-10-30 12:16:38', '2019-10-30 12:16:38', '0', 1, 1, 1, 40.19974333446872, 44.49120629988302, 'Armenia', NULL, '2020-03-20', 10),
+(54, 'test1', 'test', 'test', 1, 1581508295, '+35884848494', 'vsbsbsj@mail.ru', '125d6d03b32c84d492747f79cf0bf6e179d287f341384eb5d6d3197525ad6be8e6df0116032935698f99a09e265073d1d6c32c274591bf1d0a20ad67cba921bc', '170144-c190b2', 'User_default.png', 82796, 0, '2019-10-30 12:16:38', '2019-10-30 12:16:38', '0', 1, 1, 1, 40.80140346948673, 43.8454943546067, 'Armenia', NULL, '2020-03-20', 14),
 (91, 'test2', 'test', 'test', 1, 1550490695, '+37495616200', 'gggg@mail.ru', '125d6d03b32c84d492747f79cf0bf6e179d287f341384eb5d6d3197525ad6be8e6df0116032935698f99a09e265073d1d6c32c274591bf1d0a20ad67cba921bc', '16ead1-2f0de6', 'User_default.png', 4, 0, '2019-11-27 13:35:30', '2019-11-27 13:35:30', '0', 1, 0, 1, 37.785834, -122.406417, 'United States', NULL, NULL, NULL),
-(96, 'David', 'David', 'Kocharyan', 1, 760395600, '+358erterterte', 'david@mail.ru', '125d6d03b32c84d492747f79cf0bf6e179d287f341384eb5d6d3197525ad6be8e6df0116032935698f99a09e265073d1d6c32c274591bf1d0a20ad67cba921bc', '170143-8a7546', 'User_default.png', 0, 0, '2020-02-05 07:20:22', '2020-02-05 07:20:22', '0', 1, 0, 1, 40.19975290682474, 44.49120058601556, 'Armenia', NULL, '2020-03-20', 8),
+(96, 'David', 'David', 'Kocharyan', 1, 760395600, '+358erterterte', 'david@mail.ru', '125d6d03b32c84d492747f79cf0bf6e179d287f341384eb5d6d3197525ad6be8e6df0116032935698f99a09e265073d1d6c32c274591bf1d0a20ad67cba921bc', '170143-8a7546', 'User_default.png', 0, 0, '2020-02-05 07:20:22', '2020-02-05 07:20:22', '0', 1, 0, 1, 40.80141700283234, 43.84554255591261, 'Armenia', NULL, '2020-03-21', 1),
 (103, 'ԱրմենուհիՄկրտչյան8721', 'Արմենուհի', 'Մկրտչյան', 0, 0, '', 'mkrtchyanarmenuhi89@gmail.com', '1581062068?226222550', '1701ea-49903a', 'User_default.png', 498, 0, '2020-02-07 07:54:28', '2020-02-07 07:54:28', '', 1, 1, 1, 40.17070128092157, 44.522109124393324, 'Armenia', NULL, '2020-03-19', 105);
 
 -- --------------------------------------------------------
@@ -3083,7 +3096,7 @@ ALTER TABLE `more_infos`
 -- AUTO_INCREMENT for table `notification`
 --
 ALTER TABLE `notification`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=155;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=161;
 
 --
 -- AUTO_INCREMENT for table `offers_click`
@@ -3125,7 +3138,7 @@ ALTER TABLE `restaurants_images`
 -- AUTO_INCREMENT for table `restaurant_click`
 --
 ALTER TABLE `restaurant_click`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=126;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=132;
 
 --
 -- AUTO_INCREMENT for table `restaurant_weeks`
@@ -3161,7 +3174,7 @@ ALTER TABLE `sliders`
 -- AUTO_INCREMENT for table `tokens`
 --
 ALTER TABLE `tokens`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=473;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=474;
 
 --
 -- AUTO_INCREMENT for table `used_offers`

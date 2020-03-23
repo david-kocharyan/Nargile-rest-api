@@ -78,7 +78,7 @@ class Video_Api extends REST_Controller
 
 		} else {
 			$this->db->set('banner_update', null);
-			$this->db->set('banner_show', null);
+			$this->db->set('banner_show', 0);
 			$this->db->where('id', $user->id);
 			$this->db->update('users');
 		}
