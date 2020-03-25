@@ -72,7 +72,14 @@
 								$diff = date_diff(date_create($dateOfBirth), date_create($today));
 								echo $diff->format('%y'); ?>
 							</td>
-							<td><?= $value->gender; ?></td>
+							<td>
+								<?php if( $value->gender == 0 ){
+									echo "Female";
+								}else{
+									echo "Male";
+								}
+								?>
+							</td>
 							<td><?= $value->badges; ?></td>
 
 							<td><?= $value->mobile_number; ?></td>
