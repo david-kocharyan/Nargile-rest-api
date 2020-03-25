@@ -97,7 +97,7 @@ class Notification_Api extends REST_Controller
 			$this->db->trans_start();
 
 			$this->db->set("status", 0);
-			$this->db->set("body", "You have canceled the $name $surname");
+			$this->db->set("body", "You have canceled the $name $surname friend request");
 			$this->db->where(array("user_id" => $res, 'action_id' => $action_id, "status" => 1));
 			$this->db->update('notification');
 
