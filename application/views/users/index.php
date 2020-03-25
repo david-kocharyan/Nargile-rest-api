@@ -23,6 +23,9 @@
 						<th value="First Name"></th>
 						<th value="Last Name"></th>
 						<th>Date</th>
+						<th>Age</th>
+						<th>Gender</th>
+						<th>Badges</th>
 						<th value="Mobile Number"></th>
 						<th value="Email"></th>
 						<th>Coin</th>
@@ -62,6 +65,16 @@
 							<td><?= $value->first_name; ?></td>
 							<td><?= $value->last_name; ?></td>
 							<td><?= $value->date_of_birth; ?></td>
+
+							<td><?php
+								$dateOfBirth = $value->date_of_birth;;
+								$today = date("Y-m-d");
+								$diff = date_diff(date_create($dateOfBirth), date_create($today));
+								echo $diff->format('%y'); ?>
+							</td>
+							<td><?= $value->gender; ?></td>
+							<td><?= $value->badges; ?></td>
+
 							<td><?= $value->mobile_number; ?></td>
 							<td><?= $value->email; ?></td>
 							<td><?= $value->coins; ?></td>
@@ -163,14 +176,14 @@
 					'selectRow': false
 				}
 			},
-			{"orderable": false, "targets": [1,0,2,3,4,5,6,7,9,10,17,18,19]},
+			{"orderable": false, "targets": [0,1,2,3,4,5,6,7,12,13,20,21]},
 		],
 		select: {
 			style: 'multi',
 			selector: 'td:first-child'
 		},
 		initComplete: function () {
-			this.api().columns([3, 4, 5, 6, 7, 9, 10, 17, 18]).every(function () {
+			this.api().columns([3, 4, 5, 6, 7, 12,13, 20,21]).every(function () {
 				var column = this;
 				var eachHeader = $(column.header())[0];
 				var headingVal = eachHeader.getAttribute("value");
