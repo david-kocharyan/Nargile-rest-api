@@ -36,9 +36,9 @@
 						<?php } ?>
 						<div class="input-group">
 							<select name="type" id="type" class="form-control">
-								<option value="explorer">Explorer</option>
-								<option value="famous">The famous</option>
-								<option value="accurate">The accurate</option>
+								<option value="Explorer">Explorer</option>
+								<option value="Famous">The famous</option>
+								<option value="Accurate">The accurate</option>
 							</select>
 							<div class="input-group-addon"><i class="ti-fullscreen"></i></div>
 						</div>
